@@ -1,0 +1,96 @@
+import React from "react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+const TabsQuestions = () => {
+  return (
+    <Tabs defaultValue="umum" className="w-1/2 mx-auto">
+      <TabsList className="grid w-full grid-cols-3">
+        <TabsTrigger value="umum">Umum</TabsTrigger>
+        <TabsTrigger value="pemodal">Pemodal</TabsTrigger>
+        <TabsTrigger value="penerbit">Penerbit</TabsTrigger>
+      </TabsList>
+      <TabsContent value="umum">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1" className="my-4">
+            <AccordionTrigger>Apa itu Fulusme?</AccordionTrigger>
+            <AccordionContent>
+              Fulusme penyedia layanan Securities Crowd Funding (Layanan Urun
+              Dana ), yaitu tempat bertemunya Pemodal dan Penerbit dalam 1
+              marketplace (platform)..
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It comes with default styles that matches the other
+              components&apos; aesthetic.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It&apos;s animated by default, but you can disable it if you
+              prefer.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </TabsContent>
+      <TabsContent value="pemodal">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It comes with default styles that matches the other
+              components&apos; aesthetic.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It&apos;s animated by default, but you can disable it if you
+              prefer.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </TabsContent>
+      <TabsContent value="penerbit">
+        <Accordion type="single" collapsible className="w-full">
+          <AccordionItem value="item-1">
+            <AccordionTrigger>Is it accessible?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It adheres to the WAI-ARIA design pattern.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-2">
+            <AccordionTrigger>Is it styled?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It comes with default styles that matches the other
+              components&apos; aesthetic.
+            </AccordionContent>
+          </AccordionItem>
+          <AccordionItem value="item-3">
+            <AccordionTrigger>Is it animated?</AccordionTrigger>
+            <AccordionContent>
+              Yes. It&apos;s animated by default, but you can disable it if you
+              prefer.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </TabsContent>
+    </Tabs>
+  );
+};
+
+export default TabsQuestions;
