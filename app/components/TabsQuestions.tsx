@@ -9,7 +9,7 @@ import {
 
 const TabsQuestions = () => {
   return (
-    <Tabs defaultValue="umum" className="w-1/2 mx-auto">
+    <Tabs defaultValue="umum" className="w-3/5 mx-auto">
       <TabsList className="grid w-full grid-cols-3">
         <TabsTrigger value="umum">Umum</TabsTrigger>
         <TabsTrigger value="pemodal">Pemodal</TabsTrigger>

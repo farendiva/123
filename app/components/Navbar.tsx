@@ -13,9 +13,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="relative flex justify-between items-center mx-auto w-full my-8 font-semibold">
+    <nav className="w-11/12 relative flex justify-between items-center mx-auto my-8 font-semibold">
       <div className="flex">
-        <img src="fulusme.svg" alt="" />
+        <img src="/icons/fulusme.svg" alt="" />
       </div>
       <button
         className="block lg:hidden focus:outline-none"
