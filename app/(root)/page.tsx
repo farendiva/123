@@ -1,89 +1,116 @@
-import BusinessCard from "./components/BusinessCard";
-import TabsQuestions from "./components/TabsQuestions";
-import Tabs from "./components/TabsQuestions";
+import BusinessCard from "../components/BusinessCard";
+import TabsQuestions from "../components/TabsQuestions";
 
 export default async function Home() {
   return (
     <main className="w-full">
-      <section className="w-11/12 mx-auto flex justify-between items-center">
-        <section className="w-3/4 text-sky flex flex-col gap-6">
-          <h1 className="text-5xl font-bold">Selamat Datang di Fulusme</h1>
-          <p className="text-xl font-normal leading-loose">
+      <section className="w-4/5 lg:w-11/12 mx-auto py-8 md:py-16 xl:py-28 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
+        <section className="w-full lg:w-3/5 text-sky flex flex-col gap-6">
+          <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">
+            Selamat Datang di Fulusme
+          </h1>
+          <p className="text-xl text-justify lg:text-left font-normal leading-relaxed lg:leading-loose">
             Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
             menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
             dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
           </p>
-          <section className="flex gap-4">
-            <button className="py-4 px-6 bg-emerald rounded-3xl text-white font-semibold ">
+          <section className="flex flex-col sm:flex-row gap-4 text-sm lg:text-base">
+            <button className="py-3 px-3 lg:py-4 lg:px-6 bg-emerald rounded-3xl text-white font-semibold ">
               Daftar Sebagai Penerbit
             </button>
-            <button className="py-4 px-6 bg-sky rounded-3xl text-white font-semibold ">
+            <button className="py-3 px-3 lg:py-4 lg:px-6 bg-sky rounded-3xl text-white font-semibold ">
               Daftar Sebagai Pemodal
             </button>
           </section>
         </section>
-        <section>
-          <img src="/icons/hero.svg" alt="" />
+        <section className="w-full lg:w-2/5 flex justify-center gap-4 sm:gap-0 sm:justify-around lg:grid lg:grid-cols-2">
+          <section>
+            <h2 className="text-sm text-sky my-2">Berizin dan Diawasi Oleh</h2>
+            <img src="/images/ojk2.png" alt="Otoritas Jasa Keuangan Logo" />
+          </section>
+          <section>
+            <h2 className="text-sm text-sky my-2">Keamanan Data</h2>
+            <img
+              src="/images/iso-badge.png"
+              alt="InfoSec Management ISO 2013 Badge"
+            />
+          </section>
         </section>
       </section>
-      <section className="w-4/5 lg:w-full bg-gradient-to-r from-emerald to-sky py-12 mt-40 mb-16 text-white font-semibold flex flex-col md:flex-row justify-around items-center">
+      <section className="w-full bg-gradient-to-r from-emerald to-sky py-12 mt-12 md:mt-16 lg:mt-28 xl:mt-40 mb-16 text-white font-semibold flex justify-around items-center">
         <section>
           <h5 className="text-xs lg:text-xl font-normal">Total Pemodal</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl">525 Investor</h3>
+          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
+            525 Investor
+          </h3>
         </section>
         <section>
           <h5 className="text-xs lg:text-xl font-normal">Total Pendanaan</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl">Rp 2.520.586.000</h3>
+          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
+            Rp 2.520.586.000
+          </h3>
         </section>
         <section>
           <h5 className="text-xs lg:text-xl font-normal">Pengembalian Dana</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl">Rp 1.305.595.000</h3>
+          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
+            Rp 1.305.595.000
+          </h3>
         </section>
       </section>
       <section className="space-y-4 text-center">
-        <section className="w-1/2 mx-auto ">
-          <h4 className="text-3xl font-bold">
+        <section className="w-11/12 lg:w-1/2 mx-auto ">
+          <h4 className="text-xl lg:text-3xl font-bold">
             Investasi Proyek Yang Sedang Berjalan
           </h4>
-          <p className="text-xl mx-auto my-4">
+          <p className="text-base lg:text-xl mx-auto my-4">
             Lihat daftar investasi bisnis terbaru yang sedang berlangsung dan
             temukan peluang untuk berinvestasi hari ini.
           </p>
         </section>
       </section>
-      <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 my-8">
+      <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-0 my-8">
         <BusinessCard />
         <BusinessCard />
         <BusinessCard />
         <BusinessCard />
       </section>
       <section className="flex justify-center items-center mx-auto my-16">
-        <button className="bg-sky text-xl font-bold px-6 py-2 text-white rounded-4xl">
+        <button className="bg-sky text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
           Lihat Proyek Selengkapnya
         </button>
       </section>
-      <section className="w-4/5 lg:w-11/12 mx-auto my-24 flex flex-col lg:flex-row justify-around gap-4 lg:gap-28">
-        <h1 className="w-3/4 mx-auto lg:w-1/3 text-xl md:text-2xl lg:text-4xl font-bold text-center lg:text-right">
+      <section className="w-4/5 lg:w-11/12 mx-auto my-24 flex flex-col lg:flex-row justify-around gap-8 lg:gap-28">
+        <h1 className="w-3/4 mx-auto lg:w-1/3 text-2xl lg:text-4xl font-bold text-center lg:text-right">
           Apa itu Securities <span className="text-emerald-light">Crowd</span>{" "}
           <span className="text-sky">Funding?</span>
         </h1>
-        <p className="w-full lg:w-2/3 text-sm lg:text-xl text-[#767676] ">
+        <p className="w-full lg:w-2/3 text-base lg:text-xl text-[#767676] ">
           <span className="font-bold">Securities Crowd Funding</span> merupakan
           langkah mudah bagi Pemodal untuk memiliki bisnis dengan cara cepat dan
           di jalankan oleh praktisi yang berpengalaman di bidangnya, tanpa harus
           repot membangun bisnis baru.
         </p>
       </section>
-      <section className="w-3/4 h-96 mx-auto flex justify-center">
-        <section>
-          <h1>Kemudahan Investasi Dalam Genggaman</h1>
-          <img src="/icons/app_store.svg" alt="App store Download Link" />
-          <img src="/icons/play_store.svg" alt="Play Store Download Link" />
+      <section className="w-4/5 lg:w-3/4 mx-auto mt-20 mb-8 lg:mb-0 lg:mt-32 flex gap-4 lg:gap-0 flex-col-reverse lg:flex-row justify-center items-center">
+        <section className="space-y-4 lg:space-y-16">
+          <h1 className="w-4/5 text-2xl lg:text-3xl xl:text-4xl text-center mx-auto leading-normal">
+            Kemudahan Investasi Dalam{" "}
+            <span className="text-emerald-light">Genggaman</span>
+          </h1>
+          <section className="flex flex-row scale-50 md:scale-75 lg:scale-100 lg:flex-col xl:flex-row justify-center items-center gap-4">
+            <img src="/icons/app_store.svg" alt="App store Download Link" />
+            <img src="/icons/play_store.svg" alt="Play Store Download Link" />
+          </section>
         </section>
         <img
           src="/images/phone.png"
-          alt="Aplikasi Preview"
-          className="h-auto object-top"
+          alt="Fulusme Aplikasi Preview"
+          className="h-full block lg:hidden"
+        />
+        <img
+          src="/images/phone2.png"
+          alt="Fulusme Aplikasi Preview"
+          className="h-full hidden lg:block"
         />
       </section>
       <section className="w-full bg-[#f8f8ff]">
@@ -111,13 +138,19 @@ export default async function Home() {
             <h2 className="text-xl md:text-2xl font-bold">
               BERIZIN DAN DIAWASI OLEH
             </h2>
-            <img src="/images/ojk.png" alt="" />
+            <img src="/images/ojk.png" alt="Otoritas Jasa Keuangan Logo" />
           </section>
         </section>
       </section>
       <TabsQuestions />
+      <section className="flex justify-center items-center mx-auto my-16 ">
+        <button className="bg-emerald-light text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
+          Baca Lebih Lanjut
+        </button>
+      </section>
+      <div className="bg-[#d3d3d3] h-[1px]"></div>
       <section className="w-4/5 lg:w-3/4 mx-auto my-16">
-        <h4 className="text-2xl font-bold mx-auto mt-12 mb-16 text-center">
+        <h4 className="text-xl lg:text-2xl font-bold mx-auto mt-12 mb-16 text-center">
           Hal yang perlu Diperhatikan
         </h4>
         <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-scroll">

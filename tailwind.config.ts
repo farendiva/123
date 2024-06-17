@@ -18,6 +18,9 @@ const config = {
       },
     },
     extend: {
+      boxShadow: {
+        accordion: "0px 6px 16px 0px #4A3AFF30",
+      },
       height: {
         "128": "32rem",
       },
@@ -35,7 +38,10 @@ const config = {
           DEFAULT: "#28a745",
           light: "#3da834",
         },
-        sky: "#322783",
+        sky: {
+          DEFAULT: "#322783",
+          dark: "#1D174F",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",

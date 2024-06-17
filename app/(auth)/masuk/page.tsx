@@ -1,4 +1,4 @@
-import { InputOTPForm } from "../components/InputOTPForm";
+import { InputOTPForm } from "../../components/InputOTPForm";
 
 export default async function Masuk() {
   return (

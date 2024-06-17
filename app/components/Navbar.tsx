@@ -15,7 +15,7 @@ const Navbar = () => {
   return (
     <nav className="w-11/12 relative flex justify-between items-center mx-auto my-8 font-semibold">
       <div className="flex">
-        <img src="/icons/fulusme.svg" alt="" />
+        <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
       </div>
       <button
         className="block lg:hidden focus:outline-none"
@@ -48,7 +48,7 @@ const Navbar = () => {
         ))}
       </ul>
       {isOpen && (
-        <ul className="absolute top-16 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
+        <ul className="absolute top-24 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
           {menuItems.map(({ href, label }) => (
             <li key={href}>
               <Link
