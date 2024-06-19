@@ -1,8 +1,11 @@
+// "use client";
+
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import { usePathname } from "next/navigation";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -15,6 +18,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // const pathname = usePathname();
+  // ${
+  //   pathname === "/tentang" && "bg-sky"
+  // }
   return (
     <html lang="en">
       <body className={`${openSans.className} w-full mx-auto`}>

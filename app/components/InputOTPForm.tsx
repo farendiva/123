@@ -48,21 +48,25 @@ export function InputOTPForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full mx-auto my-16 text-sky space-y-6"
+      >
         <FormField
           control={form.control}
           name="pin"
           render={({ field }) => (
-            <FormItem>
-              <h1 className="text-3xl text-sky-900 font-bold">
+            <FormItem className="space-y-4">
+              <h1 className="text-2xl lg:text-4xl font-bold">
                 Masukkan Kode OTP
               </h1>
-              <p className="text-sky-900">
-                Kode OTP telah dikirimkan ke nomor +6123456789
+              <p className="text-base lg:text-xl">
+                Kode OTP telah dikirimkan ke nomor{" "}
+                <span className="font-bold">+6123456789</span>
               </p>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
-                  <InputOTPGroup className="bg-gray-100">
+                  <InputOTPGroup className="bg-[#f0f2ff]">
                     <InputOTPSlot index={0} className="w-16 h-16" />
                     <InputOTPSlot index={1} className="w-16 h-16" />
                     <InputOTPSlot index={2} className="w-16 h-16" />
@@ -72,8 +76,10 @@ export function InputOTPForm() {
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription>00:35, tidak mendapatkan kode?</FormDescription>
-              <FormDescription className="font-bold text-sky-900">
+              <FormDescription className="text-sky">
+                00:35, tidak mendapatkan kode?
+              </FormDescription>
+              <FormDescription className="font-bold text-sky ">
                 Kirim ulang kode OTP
               </FormDescription>
               <FormMessage />

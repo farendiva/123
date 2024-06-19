@@ -8,6 +8,8 @@ import { FormDataSchema } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { InputOTPForm } from "./InputOTPForm";
+import Link from "next/link";
+import { ChevronLeft } from "lucide-react";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
@@ -84,27 +86,37 @@ export default function Form() {
   };
 
   return (
-    <section className="absolute inset-0 mx-auto flex w-1/2 flex-col justify-between p-24">
+    <section className="mx-auto flex w-full flex-col my-2">
       {/* Form */}
-      <form className="mt-12 py-12" onSubmit={handleSubmit(processForm)}>
+      <form
+        className={`my-6 ${currentStep === 3 ? "lg:my-4" : "lg:my-12"}  `}
+        onSubmit={handleSubmit(processForm)}
+      >
         {currentStep === 0 && (
           <motion.div
+            className="w-4/5 lg:w-2/5 mx-auto text-sky"
             initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <h2 className="text-3xl leading-7 text-sky-900">
-              Selamat Datang{" "}
-              <span className="text-sky-900 font-bold">di Fulusme,</span>
+            <div className="flex justify-between items-center my-8 lg:my-0">
+              <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+              <Link href="/" className="flex font-bold">
+                <ChevronLeft />
+                Kembali Ke Beranda
+              </Link>
+            </div>
+            <h2 className="text-2xl lg:text-[40px] leading-relaxed">
+              Selamat Datang <span className="font-bold">di Fulusme,</span>
             </h2>
-            <p className="mt-1 w-2/3 text-lg leading-6 text-sky-900">
+            <p className="mt-1 w-full lg:w-2/3 text-lg lg:text-2xl leading-relaxed">
               Silahkan berinvestasi dengan Daftar diri anda terlebih dahulu
             </p>
-            <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+            <div className="mt-10 grid grid-cols-1 gap-x-3 gap-y-4 lg:gap-x-6 lg:gap-y-8 sm:grid-cols-8">
               <div className="sm:col-span-4">
                 <label
                   htmlFor="firstName"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   First name
                 </label>
@@ -114,7 +126,7 @@ export default function Form() {
                     id="firstName"
                     {...register("firstName")}
                     autoComplete="given-name"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.firstName?.message && (
@@ -129,7 +141,7 @@ export default function Form() {
               <div className="sm:col-span-4">
                 <label
                   htmlFor="lastName"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   Last name
                 </label>
@@ -139,7 +151,7 @@ export default function Form() {
                     id="lastName"
                     {...register("lastName")}
                     autoComplete="family-name"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.lastName?.message && (
@@ -154,7 +166,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   Email
                 </label>
@@ -164,7 +176,7 @@ export default function Form() {
                     type="email"
                     {...register("email")}
                     autoComplete="email"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.email?.message && (
@@ -179,7 +191,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   Nomor Handphone
                 </label>
@@ -189,7 +201,7 @@ export default function Form() {
                     type="tel"
                     {...register("phone")}
                     autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.phone?.message && (
@@ -206,30 +218,46 @@ export default function Form() {
 
         {currentStep === 1 && (
           <motion.div
+            className="w-4/5 lg:w-2/5 mx-auto text-sky"
             initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
+            <div className="flex justify-between items-center my-8 lg:my-0">
+              <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+              <Link href="/" className="flex font-bold">
+                <ChevronLeft />
+                Kembali Ke Beranda
+              </Link>
+            </div>
             <InputOTPForm />
           </motion.div>
         )}
         {currentStep === 2 && (
           <motion.div
+            className="w-4/5 lg:w-2/5 mx-auto text-sky space-y-6"
             initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <h2 className="text-3xl leading-7 font-bold text-sky-900">
+            <div className="flex justify-between items-center my-8 lg:my-0">
+              <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+              <Link href="/" className="flex font-bold">
+                <ChevronLeft />
+                Kembali Ke Beranda
+              </Link>
+            </div>
+            <h2 className="text-2xl lg:text-[40px] leading-7 font-bold">
               Buat Kata Sandi
             </h2>
-            <p className="mt-1 w-full text-lg leading-6 text-sky-900">
+            <p className="mt-1 w-full text-lg lg:text-2xl leading-6">
               Gunakan kombinasi huruf, angka, huruf kapital dan karakter spesial
             </p>
             <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   Kata Sandi
                 </label>
@@ -239,7 +267,7 @@ export default function Form() {
                     type="password"
                     {...register("password")}
                     autoComplete="password"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.password?.message && (
@@ -254,7 +282,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6 text-gray-900"
+                  className="block text-sm font-medium leading-6"
                 >
                   Ulangi Kata Sandi
                 </label>
@@ -264,7 +292,7 @@ export default function Form() {
                     type="password"
                     {...register("password")}
                     autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 text-gray-900 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
                     {errors.password?.message && (
@@ -281,56 +309,86 @@ export default function Form() {
 
         {currentStep === 3 && (
           <motion.div
+            className="w-4/5 lg:w-3/5 mx-auto text-sky space-y-6"
             initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="flex flex-col items-center p-4">
-              <h1 className="text-2xl font-bold mb-4">Terms and Conditions</h1>
+            <div className="flex items-center my-8 gap-2 lg:gap-4 lg:my-0">
+              <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+              <h1 className="text-2xl lg:text-[40px]">
+                Syarat dan Ketentuan <span className="font-bold">Fulusme</span>
+              </h1>
+            </div>
+            <div className="flex flex-col items-center">
               <div
                 id="terms"
                 onScroll={handleScroll}
-                className="h-80 overflow-y-scroll bg-gray-100 border border-gray-300 p-4 mb-4 w-full"
+                className="h-128 overflow-y-scroll bg-[#f7f7ff] rounded-xl p-4 mb-4 w-full"
               >
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Vivamus lacinia odio vitae vestibulum vestibulum. Cras
-                  venenatis euismod malesuada. Curabitur volutpat velit eu
-                  lectus posuere, a dictum ligula facilisis. Fusce dapibus, nunc
-                  at efficitur mollis, libero ex consequat elit, id lobortis
-                  libero orci a ex. Nulla facilisi. Suspendisse potenti. Etiam
-                  nec congue nisl. Nullam eu libero a dui gravida luctus vel ac
-                  libero. Donec finibus lacus in ex vulputate, a fringilla justo
-                  volutpat.
-                </p>
-                <p>
-                  Donec feugiat eros at neque viverra, sed dignissim sapien
-                  efficitur. Maecenas bibendum ipsum libero, a tempor mi
-                  scelerisque vel. Sed volutpat, quam a tincidunt sollicitudin,
-                  dolor libero ornare massa, eget vestibulum magna dui ut urna.
-                  Nam varius dui id urna tincidunt tristique. Vestibulum gravida
-                  convallis mauris ac fermentum. Duis vestibulum tincidunt
-                  ultricies. Quisque condimentum magna a malesuada gravida. Sed
-                  scelerisque ante et lorem ultricies convallis. Donec commodo,
-                  ipsum ut finibus tempor, justo quam venenatis leo, sit amet
-                  ullamcorper eros lacus sit amet turpis. Ut lacinia justo vitae
-                  eros fermentum fermentum. Sed bibendum eros eget dolor
-                  posuere, a dictum libero dapibus. Integer euismod, erat ac
-                  varius ullamcorper, urna eros scelerisque lacus, in tristique
-                  est urna eu augue.
-                </p>
-                <p>
-                  Praesent in libero a eros euismod pellentesque. Suspendisse
-                  potenti. Phasellus non purus at orci malesuada varius. Etiam
-                  feugiat ligula et ex tempor, eget scelerisque elit dignissim.
-                  Curabitur in diam odio. Nulla facilisi. Aenean quis est eu
-                  justo pharetra gravida. Quisque ac dapibus arcu. Duis in eros
-                  vel eros consequat tempor. Integer elementum lacinia nisl, sed
-                  elementum dolor euismod in. Sed convallis, nulla sit amet
-                  aliquet vehicula, arcu erat pulvinar dolor, nec gravida tortor
-                  arcu eget velit. Phasellus condimentum ex euismod orci
-                  scelerisque, ut tempor neque fringilla.
-                </p>
+                <h4>Syarat dan Ketentuan Umum</h4>
+                <ul className="">
+                  <li>1. Kata Pengantar</li>
+                  <li>
+                    2. Syarat dan Ketentuan Umum ini mengatur hak dan kewajiban
+                    yang mengikat secara hukum terhadap Pengguna untuk
+                    mengakses, menggunakan dan mengunjungi setiap dan seluruh
+                    laman situs (website) dan layanan yang terdapat pada situs
+                    www.Fulusme.id (“Situs Fulusme“). Situs Fulusme merupakan
+                    situs milik dari PT. Fulusme (atau dikenal dengan nama
+                    “Fulusme” atau “Penyelenggara”) yang merupakan penyelenggara
+                    penawaran efek melalui layanan urun dana berbasis teknologi
+                    informasi (Securities Crowdfunding) berdasarkan Peraturan
+                    Otoritas Jasa Keuangan No.57 Tahun 2020 (selanjutnya disebut
+                    “POJK”) yang telah memperoleh izin dari Otoritas Jasa
+                    Keuangan Republik Indonesia (selanjutnya disebut OJK RI)
+                    berdasarkan Surat Keputusan No: KEP-38/D.04/2021 tentang
+                    Pemberian Izin Usaha Penyelenggara Penawaran Efek Melalui
+                    Layanan Urun Dana Berbasis Teknologi Informasi (Securities
+                    Crowdfunding) PT. Fulusme.
+                  </li>
+                  <li>
+                    3. Situs Fulusme merupakan Penawaran Efek melalui Layanan
+                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
+                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
+                    penawaran efek yang dilakukan oleh penerbit untuk menjual
+                    efek secara langsung kepada pemodal melalui jaringan sistem
+                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
+                    dan Penerbit yang menawarkan efeknya melalui Fulusme
+                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
+                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
+                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
+                    umum di bawah ini secara keseluruhan.
+                  </li>
+                  <li>
+                    {" "}
+                    4. Situs Fulusme merupakan Penawaran Efek melalui Layanan
+                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
+                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
+                    penawaran efek yang dilakukan oleh penerbit untuk menjual
+                    efek secara langsung kepada pemodal melalui jaringan sistem
+                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
+                    dan Penerbit yang menawarkan efeknya melalui Fulusme
+                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
+                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
+                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
+                    umum di bawah ini secara keseluruhan.
+                  </li>
+                  <li>
+                    {" "}
+                    5. Situs Fulusme merupakan Penawaran Efek melalui Layanan
+                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
+                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
+                    penawaran efek yang dilakukan oleh penerbit untuk menjual
+                    efek secara langsung kepada pemodal melalui jaringan sistem
+                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
+                    dan Penerbit yang menawarkan efeknya melalui Fulusme
+                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
+                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
+                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
+                    umum di bawah ini secara keseluruhan.
+                  </li>
+                </ul>
               </div>
             </div>
           </motion.div>
@@ -338,19 +396,21 @@ export default function Form() {
 
         {currentStep === 4 && (
           <motion.div
+            className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
             initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
           >
-            <div className="w-4/5 text-sky-900 text-center">
-              <h2 className="text-lg leading-7">
+            <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+            <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
+              <h2 className="leading-7">
                 Silahkan cek email anda untuk aktivasi akun anda, dan tekan
                 tombol
-                <span className="font-semibold"> aktifkan akun.</span>
+                <span className="font-bold"> aktifkan akun.</span>
               </h2>
               <p className="mt-1 text-sm leading-6 ">
                 Tidak menerima Email?{" "}
-                <span className="text-green-700 font-semibold">
+                <span className="text-emerald font-semibold hover:underline underline-offset-2 decoration-emerald-light">
                   Kirim Ulang
                 </span>
               </p>
@@ -361,7 +421,9 @@ export default function Form() {
 
       {/* Navigation */}
       <div
-        className={`mt-8 pt-5 flex ${
+        className={`flex w-4/5 ${
+          currentStep === 3 ? "lg:w-3/5" : "lg:w-2/5"
+        } mx-auto ${
           currentStep === 1 || currentStep === 3
             ? "justify-start"
             : "justify-end"
@@ -376,7 +438,7 @@ export default function Form() {
           }
           className={`${
             currentStep === 4 && "hidden"
-          } bg-green-600 px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50`}
+          } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50`}
         >
           Lanjutkan
         </button>

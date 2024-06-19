@@ -13,7 +13,9 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="w-11/12 relative flex justify-between items-center mx-auto my-8 font-semibold">
+    <nav
+      className={`navbar-sticky w-11/12 relative flex justify-between items-center mx-auto my-8 font-semibold`}
+    >
       <div className="flex">
         <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
       </div>
@@ -33,7 +35,11 @@ const Navbar = () => {
             <Link
               href={href}
               className={`hover:text-emerald-light font-bold ${
-                pathname === href ? "text-emerald-light" : "text-sky"
+                pathname === href
+                  ? "text-emerald-light"
+                  : pathname === "/tentang"
+                  ? "text-sky"
+                  : "text-sky"
               }`}
             >
               {label === "Masuk" ? (

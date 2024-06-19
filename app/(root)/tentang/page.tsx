@@ -3,7 +3,7 @@ import ProfileCard from "@/app/components/ProfileCard";
 export default async function Tentang() {
   return (
     <main className="bg-sky text-white">
-      <section className="w-10/12 mx-auto py-28 flex justify-between items-center gap-24 text-justify">
+      <section className="w-10/12 mx-auto py-28 flex justify-between items-center gap-20 text-justify">
         <section className="space-y-8">
           <section className="space-y-2">
             <h1 className="text-xl text-emerald-light font-bold">FULUSME</h1>
@@ -14,8 +14,8 @@ export default async function Tentang() {
               Anda.
             </p>
           </section>
-          <section className="flex justify-between items-center leading-relaxed">
-            <section className="space-y-2">
+          <section className="flex justify-between items-center leading-relaxed gap-2">
+            <section className="space-y-1">
               <img src="/images/ojk2.png" alt="Otoritas Jasa Keuangan Logo" />
               <p>
                 Fulusme telah Berizin dan Diawasi Oleh{" "}
@@ -144,18 +144,18 @@ export default async function Tentang() {
             description="Berpengalaman lebih dari 20 tahun sebagai praktisi, konsultan dan Auditor IT. Beberapa kali menjadi pembicara dan moderator untuk event IT nasional. Pengalamannya menjadi dasar bagi pengembangan finansial berbasis teknologi saat ini dengan membangun platform Securities Crowd Funding, utamanya utk memenuhi kebutuhan akan Pendanaan dan Pemodalan yang tepat sasaran dan memberikan kontribusi bagi seluruh lapisan masyarakat tanpa dibatasi oleh ruang dan waktu"
           />
           <ProfileCard
-            name="Chris Agustono W"
-            position="Comissioner"
+            name="Nandana Pawitra"
+            position="Chief Operation Officer"
             description="Memiliki pengalaman yang panjang dalam dunia telekomunikasi dan pernah berdinas di perusahaan operator selular terkemuka di Indonesia selama beberapa tahun. Saat ini masih menjabat sebagai komisaris di beberapa perusahaan. Dengan adanya beliau, memungkinkan FuLusme untuk memiliki pengawas yang handal untuk lebih berkembang kedalam bisnis Securities Crowdfunding."
           />
           <ProfileCard
-            name="Chris Agustono W"
-            position="Comissioner"
+            name="Rumaida"
+            position="Chief Finance Officer"
             description="Saat ini masih menjabat sebagai komisaris dan direktur di beberapa perusahaan. Dengan pengalaman multi talenta dan multi industri, menjadikannya matang sebagai pengawas di FuLusme . Selain berpengalaman sebagai teknokrat, juga berpengalaman dalam bisnis praktis dan enterpreneur. Di sela kesibukannya, masih sempat mengajar sebagai dosen di Universitas Bina Nusantara."
           />
           <ProfileCard
-            name="Chris Agustono W"
-            position="Comissioner"
+            name="Andi Chesyah M"
+            position="Chief Technology Officer"
             description="Berpengalaman selama bertahun – tahun di dunia keuangan dan asuransi. Saat ini masih menjabat sebagai direktur dan komisaris di beberapa perusahaan serta menjadi pengajar untuk pelatihan dan pengembangan manajemen dan SDM. Karena pengalaman di bidang bisnis dan keuangan inilah menjadikan beliau sebagai pengawas di FuLusme."
           />
         </section>
