@@ -59,13 +59,13 @@ const steps = [
 
 const KYCPenerbitPage = (props: Props) => {
   const router = useRouter();
+  const token = useAuthToken();
 
   useEffect(() => {
-    const token = useAuthToken();
     if (!token) {
       router.push("/masuk");
     }
-  }, [router]);
+  }, [router, token]);
 
   return (
     <main className="mx-auto">
