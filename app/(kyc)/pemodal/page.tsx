@@ -14,7 +14,7 @@ import PersonalInfoForm, {
 } from "@/app/components/form/PersonalInforForm";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import useAuthToken from "@/hooks/useAuthToken";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 type Props = {};
 
