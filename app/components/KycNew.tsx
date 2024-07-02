@@ -1,6 +1,6 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Suspense, useState } from "react";
 import { motion } from "framer-motion";
 import { z } from "zod";
 import { KycPemodalFormSchema } from "../../lib/schema";
@@ -201,19 +201,21 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
           animate={{ x: 0, opacity: 1 }}
           transition={{ duration: 0.3, ease: "easeInOut" }}
         >
-          <StepComponent
-            register={register}
-            control={control}
-            setValue={setValue}
-            watch={watch}
-            trigger={trigger}
-            errors={errors}
-            faceImage={faceImage}
-            ktpImage={ktpImage}
-            onCaptured={
-              currentStep === 0 ? handleFaceCaptured : handleKtpCaptured
-            }
-          />
+          <Suspense fallback={<>Loading...</>}>
+            <StepComponent
+              register={register}
+              control={control}
+              setValue={setValue}
+              watch={watch}
+              trigger={trigger}
+              errors={errors}
+              faceImage={faceImage}
+              ktpImage={ktpImage}
+              onCaptured={
+                currentStep === 0 ? handleFaceCaptured : handleKtpCaptured
+              }
+            />
+          </Suspense>
         </motion.div>
       </form>
       <div
