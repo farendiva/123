@@ -1,4 +1,4 @@
-import useAuthToken from "@/hooks/useAuthToken";
+import { useAuthToken } from "@/hooks/useAuthToken";
 
 const fetchProtectedData = async (url: string) => {
   const token = useAuthToken();
