@@ -1,3 +1,5 @@
+"use client";
+
 import React, { ChangeEvent, FC, useState } from "react";
 import {
   UseFormRegister,
