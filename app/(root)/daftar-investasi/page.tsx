@@ -89,9 +89,12 @@ const ProductDetailPage = (props: Props) => {
           <h3 className="text-[#677AB9]">Total Saham yang Dibagikan</h3>
           <h3>80 %</h3>
         </section>
-        <section className="flex justify-between gap-4 text-sm text-[#5b5b5b]">
+        <section className="flex justify-between gap-1 text-sm text-[#5b5b5b]">
           <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
             Simulasi
+          </button>
+          <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
+            Bagikan
           </button>
           <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
             Dokumen

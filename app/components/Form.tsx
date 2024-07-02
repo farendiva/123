@@ -2,22 +2,21 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-
+import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { FormDataSchema } from "../../lib/schema";
+import { RegistrationDataSchema } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
-import { InputOTPForm } from "./InputOTPForm";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 
-type Inputs = z.infer<typeof FormDataSchema>;
+type Inputs = z.infer<typeof RegistrationDataSchema>;
 
 const steps = [
   {
     id: "Step 1",
     name: "Personal Information",
-    fields: ["firstName", "lastName", "email", "phone"],
+    fields: ["namaDepan", "namaBelakang", "email", "phone"],
   },
   {
     id: "Step 2",
@@ -27,7 +26,7 @@ const steps = [
   {
     id: "Step 3",
     name: "Password",
-    fields: ["password"],
+    fields: ["password", "passwordConfirmation"],
   },
   { id: "Step 4", name: "Terms and Conditions" },
   { id: "Step 5", name: "Complete" },
@@ -37,15 +36,9 @@ export default function Form() {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const handleScroll = (event: any) => {
-    const { scrollTop, clientHeight, scrollHeight } = event.target;
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
-      setIsScrolledToBottom(true);
-    } else {
-      setIsScrolledToBottom(false);
-    }
-  };
+  const client_id = uuidv4(); // Generate a new UUID for the client_id
   const delta = currentStep - previousStep;
 
   const {
@@ -56,27 +49,67 @@ export default function Form() {
     trigger,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(FormDataSchema),
+    resolver: zodResolver(RegistrationDataSchema),
   });
 
-  const processForm: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-    reset();
+  const processForm: SubmitHandler<Inputs> = async (data) => {
+    setLoading(true);
+    try {
+      const response = await fetch(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: `${data.namaDepan} ${data.namaBelakang}`,
+            email: data.email,
+            password: data.password,
+            client_id: client_id,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        reset();
+        // Handle success (e.g., navigate to a different page or show a success message)
+      } else {
+        const errorData = await response.json();
+        console.error("Error:", errorData);
+        // Handle error (e.g., show an error message)
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Handle network error
+    } finally {
+      setLoading(false); // Set loading to false setelah selesai mengirim data
+    }
   };
 
   type FieldName = keyof Inputs;
 
-  const next = async () => {
-    if (currentStep === 3 && !isScrolledToBottom) {
-      return;
+  const handleScroll = (event: any) => {
+    const { scrollTop, clientHeight, scrollHeight } = event.target;
+    if (scrollTop + clientHeight >= scrollHeight - 1) {
+      setIsScrolledToBottom(true);
+    } else {
+      setIsScrolledToBottom(false);
     }
+  };
+
+  const next = async () => {
+    if (loading) return; // Jika dalam keadaan loading, jangan lanjutkan
 
     const fields = steps[currentStep].fields;
-    const output = await trigger(fields as FieldName[], { shouldFocus: true });
+    let output = true;
+    if (fields) {
+      output = await trigger(fields as FieldName[], { shouldFocus: true });
+    }
 
-    if (!output) return;
-
-    if (currentStep < steps.length - 1) {
+    if (output && currentStep < steps.length - 1) {
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
       }
@@ -115,23 +148,23 @@ export default function Form() {
             <div className="mt-10 grid grid-cols-1 gap-x-3 gap-y-4 lg:gap-x-6 lg:gap-y-8 sm:grid-cols-8">
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="firstName"
-                  className="block text-sm font-medium leading-6"
+                  htmlFor="namaDepan"
+                  className="block text-sm font-bold leading-6"
                 >
-                  First name
+                  Nama Depan
                 </label>
                 <div className="">
                   <input
                     type="text"
-                    id="firstName"
-                    {...register("firstName")}
+                    id="namaDepan"
+                    {...register("namaDepan")}
                     autoComplete="given-name"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
-                    {errors.firstName?.message && (
+                    {errors.namaDepan?.message && (
                       <p className="text-sm text-red-400">
-                        {errors.firstName.message}
+                        {errors.namaDepan.message}
                       </p>
                     )}
                   </div>
@@ -140,23 +173,23 @@ export default function Form() {
 
               <div className="sm:col-span-4">
                 <label
-                  htmlFor="lastName"
-                  className="block text-sm font-medium leading-6"
+                  htmlFor="namaBelakang"
+                  className="block text-sm font-bold leading-6"
                 >
-                  Last name
+                  Nama Belakang
                 </label>
                 <div className="">
                   <input
                     type="text"
-                    id="lastName"
-                    {...register("lastName")}
+                    id="namaBelakang"
+                    {...register("namaBelakang")}
                     autoComplete="family-name"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
-                    {errors.lastName?.message && (
+                    {errors.namaBelakang?.message && (
                       <p className="text-sm text-red-400">
-                        {errors.lastName.message}
+                        {errors.namaBelakang.message}
                       </p>
                     )}
                   </div>
@@ -166,7 +199,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="email"
-                  className="block text-sm font-medium leading-6"
+                  className="block text-sm font-bold leading-6"
                 >
                   Email
                 </label>
@@ -191,7 +224,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="phone"
-                  className="block text-sm font-medium leading-6"
+                  className="block text-sm font-bold leading-6"
                 >
                   Nomor Handphone
                 </label>
@@ -230,7 +263,112 @@ export default function Form() {
                 Kembali Ke Beranda
               </Link>
             </div>
-            <InputOTPForm />
+
+            <section className="w-full mx-auto my-16">
+              <p className="text-base lg:text-xl">
+                Kode OTP telah dikirimkan ke nomor{" "}
+                <span className="font-bold">+6123456789</span>
+              </p>
+              <div className="flex my-4 space-x-2 rtl:space-x-reverse">
+                <div>
+                  <label htmlFor="code-1" className="sr-only">
+                    First code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-next="code-2"
+                    id="code-1"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="code-2" className="sr-only">
+                    Second code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-prev="code-1"
+                    data-focus-input-next="code-3"
+                    id="code-2"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="code-3" className="sr-only">
+                    Third code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-prev="code-2"
+                    data-focus-input-next="code-4"
+                    id="code-3"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="code-4" className="sr-only">
+                    Fourth code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-prev="code-3"
+                    data-focus-input-next="code-5"
+                    id="code-4"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="code-5" className="sr-only">
+                    Fifth code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-prev="code-4"
+                    data-focus-input-next="code-6"
+                    id="code-5"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+                <div>
+                  <label htmlFor="code-6" className="sr-only">
+                    Sixth code
+                  </label>
+                  <input
+                    type="text"
+                    max="1"
+                    data-focus-input-init
+                    data-focus-input-prev="code-5"
+                    id="code-6"
+                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                    required
+                  />
+                </div>
+              </div>
+              <p
+                id="helper-text-explanation"
+                className="mt-2 text-base text-sky"
+              >
+                00:35, tidak mendapatkan kode?
+              </p>
+              <p className="font-bold text-base text-sky">
+                kirim ulang kode OTP
+              </p>
+            </section>
           </motion.div>
         )}
         {currentStep === 2 && (
@@ -257,7 +395,7 @@ export default function Form() {
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="password"
-                  className="block text-sm font-medium leading-6"
+                  className="block text-sm font-bold leading-6"
                 >
                   Kata Sandi
                 </label>
@@ -266,7 +404,7 @@ export default function Form() {
                     id="password"
                     type="password"
                     {...register("password")}
-                    autoComplete="password"
+                    autoComplete="new-password"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
@@ -281,23 +419,23 @@ export default function Form() {
 
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
-                  htmlFor="password"
-                  className="block text-sm font-medium leading-6"
+                  htmlFor="passwordConfirmation"
+                  className="block text-sm font-bold leading-6"
                 >
                   Ulangi Kata Sandi
                 </label>
                 <div className="">
                   <input
-                    id="password"
+                    id="passwordConfirmation"
                     type="password"
-                    {...register("password")}
-                    autoComplete="tel"
+                    {...register("passwordConfirmation")}
+                    autoComplete="new-password"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
                   <div className="mt-1 h-1">
-                    {errors.password?.message && (
+                    {errors.passwordConfirmation?.message && (
                       <p className="text-sm text-red-400">
-                        {errors.password.message}
+                        {errors.passwordConfirmation.message}
                       </p>
                     )}
                   </div>
@@ -433,6 +571,7 @@ export default function Form() {
           type="button"
           onClick={next}
           disabled={
+            loading || // Disable tombol saat loading
             currentStep === steps.length - 1 ||
             (currentStep === 3 && !isScrolledToBottom)
           }
@@ -440,7 +579,7 @@ export default function Form() {
             currentStep === 4 && "hidden"
           } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50`}
         >
-          Lanjutkan
+          {loading ? "Loading..." : "Lanjutkan"}
         </button>
       </div>
     </section>

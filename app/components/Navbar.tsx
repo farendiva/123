@@ -14,11 +14,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`navbar-sticky w-11/12 relative flex justify-between items-center mx-auto my-8 font-semibold`}
+      className={`z-50  w-11/12 relative flex justify-between items-center mx-auto py-8 font-semibold`}
     >
-      <div className="flex">
-        <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
-      </div>
+      <Link href="/" className="flex">
+        {pathname === "/" || pathname === "/tentang" ? (
+          <img src="/images/fulusme-white.png" alt="Fulusme Icon" />
+        ) : (
+          <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+        )}
+      </Link>
       <button
         className="block lg:hidden focus:outline-none"
         onClick={toggleMenu}
@@ -35,11 +39,14 @@ const Navbar = () => {
             <Link
               href={href}
               className={`hover:text-emerald-light font-bold ${
-                pathname === href
+                (pathname === "/" && href === "/") ||
+                (pathname === "/tentang" && href === "/tentang")
                   ? "text-emerald-light"
-                  : pathname === "/tentang"
+                  : pathname === href
+                  ? "text-emerald-light"
+                  : pathname !== "/" && pathname !== "/tentang"
                   ? "text-sky"
-                  : "text-sky"
+                  : "text-white"
               }`}
             >
               {label === "Masuk" ? (

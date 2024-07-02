@@ -18,6 +18,11 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        cover: "url('/images/cover.png')",
+        "custom-gradient":
+          "linear-gradient(101.87deg, #332685 23%, rgba(51, 77, 89, 0) 176.78%)",
+      },
       boxShadow: {
         accordion: "0px 6px 16px 0px #4A3AFF30",
       },
@@ -90,7 +95,6 @@ const config = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
 } satisfies Config;
 
 export default config;

@@ -28,10 +28,21 @@ const BusinessCard = () => {
             <h3>Kebutuhan Pendanaan</h3>
             <h4 className="font-bold">Rp 400.000.000</h4>
           </section>
-          <Progress value={33} className="" />
+          <section className="text-sm text-left">
+            <h3>Efek Tersedia</h3>
+            <h4 className="font-bold">3000</h4>
+          </section>
+          <section className="text-sm text-left">
+            <h3>Dana Terkumpul</h3>
+          </section>
+          <Progress value={65} className="" />
           <section className="flex justify-between">
-            <p>Rp. 1.551.000.000</p>
+            <p>225.000.000</p>
             <p>65%</p>
+          </section>
+          <section className="text-sm text-left mb-4">
+            <h3>Sisa Dana yang Dibutuhkan</h3>
+            <h4 className="font-bold">Rp 175.000.000</h4>
           </section>
         </section>
       </section>

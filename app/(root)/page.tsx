@@ -4,60 +4,84 @@ import TabsQuestions from "../components/TabsQuestions";
 export default async function Home() {
   return (
     <main className="w-full">
-      <section className="w-4/5 lg:w-11/12 mx-auto py-8 md:py-16 xl:py-28 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
-        <section className="w-full lg:w-3/5 text-sky flex flex-col gap-6">
-          <h1 className="text-2xl md:text-3xl xl:text-5xl font-bold">
-            Selamat Datang di Fulusme
-          </h1>
-          <p className="text-xl text-justify lg:text-left font-normal leading-relaxed lg:leading-loose">
+      <div className="w-full absolute top-0">
+        <img
+          className="w-full hidden lg:block relative rounded-b-5xl -z-50"
+          src="/images/cover.png"
+          alt="Background image Cover"
+        />
+        <div className="absolute inset-0 bg-custom-gradient rounded-b-5xl z-10"></div>
+      </div>
+      {/* gradient bawah ini */}
+      <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>
+      <section className="w-4/5 lg:w-11/12 mx-auto py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
+        <section className="w-full lg:w-1/2 text-white space-y-3 z-20 ">
+          <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>
+          <p className="text-base text-justify lg:text-left font-normal">
             Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
             menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
             dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
           </p>
-          <section className="flex flex-col sm:flex-row gap-4 text-sm lg:text-base">
-            <button className="py-3 px-3 lg:py-4 lg:px-6 bg-emerald rounded-3xl text-white font-semibold ">
+          <section className="flex flex-col sm:flex-row text-sm lg:text-base font-bold gap-2 lg:gap-0">
+            <button className="relative z-10 my-0 lg:my-8 py-3 px-3 lg:py-6 lg:px-6 bg-emerald rounded-xl lg:rounded-l-xl text-white">
               Daftar Sebagai Penerbit
             </button>
-            <button className="py-3 px-3 lg:py-4 lg:px-6 bg-sky rounded-3xl text-white font-semibold ">
+            <button className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-3 px-3 lg:py-6 lg:px-6 bg-white rounded-xl text-black">
               Daftar Sebagai Pemodal
             </button>
           </section>
-        </section>
-        <section className="w-full lg:w-2/5 flex justify-center gap-4 sm:gap-0 sm:justify-around lg:grid lg:grid-cols-2">
-          <section>
-            <h2 className="text-sm text-sky my-2">Berizin dan Diawasi Oleh</h2>
-            <img src="/images/ojk2.png" alt="Otoritas Jasa Keuangan Logo" />
-          </section>
-          <section>
-            <h2 className="text-sm text-sky my-2">Keamanan Data</h2>
+
+          <section className="w-full flex justify-center lg:justify-start gap-4">
             <img
+              className="z-20 "
+              src="/images/ojk_white.png"
+              alt="Otoritas Jasa Keuangan Logo"
+            />
+            <img
+              className="z-20 "
               src="/images/iso-badge.png"
               alt="InfoSec Management ISO 2013 Badge"
             />
           </section>
         </section>
+        {/* Section bawah ini */}
+        <section className="w-11/12 lg:w-1/2 grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-2 lg:gap-16 z-20 mb-0 lg:mb-20  text-white">
+          <section className="flex items-center gap-8 lg:gap-2">
+            <img
+              className="w-[24px] h-[24px]"
+              src="/icons/people.svg"
+              alt="People Icon"
+            />
+            <section className="">
+              <h3 className="">Dana Tersalurkan</h3>
+              <h4 className="text-2xl font-bold">Rp 250.665.000.000</h4>
+            </section>
+          </section>
+          <section className="flex items-center gap-8 lg:gap-2">
+            <img src="/icons/check.svg" alt="Check Icon" />
+            <section className="">
+              <h3 className="">Investor Aktif</h3>
+              <h4 className="text-2xl font-bold">25.1rb</h4>
+            </section>
+          </section>
+          <section className="flex items-center gap-8 lg:gap-2">
+            <img src="/icons/undo.svg" alt="Undo Icon" />
+            <section className="">
+              <h3 className="">Pengembalian Dana</h3>
+              <h4 className="text-2xl font-bold"> Rp 1.305.595.000</h4>
+            </section>
+          </section>
+          <section className="flex items-center gap-8 lg:gap-2">
+            <img src="/icons/stats.svg" alt="Stats Icon" />
+            <section className="">
+              <h3 className="">Rata-rata Realisasi ROI</h3>
+              <h4 className="text-2xl font-bold">15%</h4>
+            </section>
+          </section>
+        </section>
       </section>
-      <section className="w-full bg-gradient-to-r from-emerald to-sky py-12 mt-12 md:mt-16 lg:mt-28 xl:mt-40 mb-16 text-white font-semibold flex justify-around items-center">
-        <section>
-          <h5 className="text-xs lg:text-xl font-normal">Total Pemodal</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
-            525 Investor
-          </h3>
-        </section>
-        <section>
-          <h5 className="text-xs lg:text-xl font-normal">Total Pendanaan</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
-            Rp 2.520.586.000
-          </h3>
-        </section>
-        <section>
-          <h5 className="text-xs lg:text-xl font-normal">Pengembalian Dana</h5>
-          <h3 className="text-sm md:text-xl lg:text-3xl font-bold">
-            Rp 1.305.595.000
-          </h3>
-        </section>
-      </section>
-      <section className="space-y-4 text-center">
+
+      <section className="space-y-4 mt-32 text-center">
         <section className="w-11/12 lg:w-1/2 mx-auto ">
           <h4 className="text-xl lg:text-3xl font-bold">
             Investasi Proyek Yang Sedang Berjalan

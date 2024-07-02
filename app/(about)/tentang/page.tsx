@@ -86,77 +86,58 @@ export default async function Tentang() {
           </section>
         </section>
       </section>
-      <section className="h-128 bg-white text-black flex flex-col justify-evenly items-center">
-        <h1 className="text-5xl font-bold">Board Of Commisioner</h1>
-        <section className="w-2/3 flex justify-center items-center gap-12">
-          <img
-            className="rounded-full"
-            src="https://i.pinimg.com/236x/69/47/ae/6947ae53e2807e7e041d14ae17cc0c01.jpg"
-            alt="Board"
+      <h1 className="py-16 text-5xl text-center bg-white text-black font-bold">
+        Board Of Commisioner
+      </h1>
+      <section className="w-full  bg-white text-black text-justify flex justify-center items-center">
+        <section className="w-11/12 mx-auto grid grid-cols-3 justify-center items-center gap-16">
+          <ProfileCard
+            name="Donald Akbar"
+            position="President Comissioner"
+            imageSrc="images/commisioner_donaldakbar.png"
+            description="Berkecimpung sebagai komisaris dan komisaris utama di beberapa perusahaan multi industri, membuatnya memiliki pengalaman yang panjang dan tajam sebagai pengawas jalannya FuLusme . Dengan memiliki visi dan misi untuk memajukan bisnis dengan konsep Urun Dana/ securities Crowdfunding bagi seluruh masyarakat, diharapkan FuLusme dapat bermanfaat bagi dunia bisnis di Indonesia."
           />
-          <section className="space-y-2">
-            <h2 className="text-2xl font-bold">Donald Akbar</h2>
-            <h4 className="text-2xl text-emerald-light">
-              President Commisioner
-            </h4>
-            <div className="h-1 bg-emerald-light mt-2 w-8"></div>
-            <p>
-              Berkecimpung sebagai komisaris dan komisaris utama di beberapa
-              perusahaan multi industri, membuatnya memiliki pengalaman yang
-              panjang dan tajam sebagai pengawas jalannya FuLusme. Dengan
-              memiliki visi dan misi untuk memajukan bisnis dengan konsep Urun
-              Dana/ securities Crowdfunding bagi seluruh masyarakat, diharapkan
-              Fulusme dapat bermanfaat bagi dunia bisnis di Indonesia.
-            </p>
-          </section>
-        </section>
-      </section>
-      <section className="w-full h-[720px] bg-[#f9f9f9] text-black text-justify flex justify-center items-center">
-        <section className="w-11/12 mx-auto grid grid-cols-4 gap-16">
+          <ProfileCard
+            name="Antasari Irawanto "
+            position="Comissioner"
+            imageSrc="images/comisionner_antasasri.png"
+            description="Bachelor Of Engineering (B.ENG), lulusan New Mexico State University. Berpengalaman di telekomunikasi Industri, menduduki beberapa posisi sebagai presiden direktur dan co-founder di beberapa perusahaan telekomunikasi."
+          />
           <ProfileCard
             name="Chris Agustono W"
             position="Comissioner"
+            imageSrc="/images/commisioner_chris.png"
             description="Berpengalaman lebih dari 20 tahun sebagai praktisi, konsultan dan Auditor IT. Beberapa kali menjadi pembicara dan moderator untuk event IT nasional. Pengalamannya menjadi dasar bagi pengembangan finansial berbasis teknologi saat ini dengan membangun platform Securities Crowd Funding, utamanya utk memenuhi kebutuhan akan Pendanaan dan Pemodalan yang tepat sasaran dan memberikan kontribusi bagi seluruh lapisan masyarakat tanpa dibatasi oleh ruang dan waktu"
-          />
-          <ProfileCard
-            name="Helmi Yusuf"
-            position="Comissioner"
-            description="Memiliki pengalaman yang panjang dalam dunia telekomunikasi dan pernah berdinas di perusahaan operator selular terkemuka di Indonesia selama beberapa tahun. Saat ini masih menjabat sebagai komisaris di beberapa perusahaan. Dengan adanya beliau, memungkinkan FuLusme untuk memiliki pengawas yang handal untuk lebih berkembang kedalam bisnis Securities Crowdfunding."
-          />
-          <ProfileCard
-            name="Doni Yuliardi"
-            position="Comissioner"
-            description="Saat ini masih menjabat sebagai komisaris dan direktur di beberapa perusahaan. Dengan pengalaman multi talenta dan multi industri, menjadikannya matang sebagai pengawas di FuLusme . Selain berpengalaman sebagai teknokrat, juga berpengalaman dalam bisnis praktis dan enterpreneur. Di sela kesibukannya, masih sempat mengajar sebagai dosen di Universitas Bina Nusantara."
-          />
-          <ProfileCard
-            name="Cacan Somantri Agis"
-            position="Comissioner"
-            description="Berpengalaman selama bertahun – tahun di dunia keuangan dan asuransi. Saat ini masih menjabat sebagai direktur dan komisaris di beberapa perusahaan serta menjadi pengajar untuk pelatihan dan pengembangan manajemen dan SDM. Karena pengalaman di bidang bisnis dan keuangan inilah menjadikan beliau sebagai pengawas di FuLusme."
           />
         </section>
       </section>
-      <section className="w-full h-[840px] bg-white text-black text-justify flex flex-col justify-center items-center">
+      <section className="w-full bg-white text-black text-justify flex flex-col justify-center items-center">
         <h1 className="text-5xl font-bold my-16">Board Of Director</h1>
         <section className="w-11/12 mx-auto grid grid-cols-4 gap-16">
           <ProfileCard
             name="Emil Dharma"
             position="Chief Executive Officer"
-            description="Berpengalaman lebih dari 20 tahun sebagai praktisi, konsultan dan Auditor IT. Beberapa kali menjadi pembicara dan moderator untuk event IT nasional. Pengalamannya menjadi dasar bagi pengembangan finansial berbasis teknologi saat ini dengan membangun platform Securities Crowd Funding, utamanya utk memenuhi kebutuhan akan Pendanaan dan Pemodalan yang tepat sasaran dan memberikan kontribusi bagi seluruh lapisan masyarakat tanpa dibatasi oleh ruang dan waktu"
+            imageSrc="/images/ceo_emildharma.png"
+            description="Master of Commerce dari University of New South Wales, Australia. Berpengalaman di bidang Perbankan, Lembaga Keuangan dan Capital Market selama kurang lebih 15 tahun, Berpengalaman sebagai komisaris dan direktur di berbagai bidang usaha, Berpengalaman pada industri Finansial Teknologi, Penasehat Keuangan di beberapa Perusahaan"
           />
           <ProfileCard
             name="Nandana Pawitra"
-            position="Chief Operation Officer"
-            description="Memiliki pengalaman yang panjang dalam dunia telekomunikasi dan pernah berdinas di perusahaan operator selular terkemuka di Indonesia selama beberapa tahun. Saat ini masih menjabat sebagai komisaris di beberapa perusahaan. Dengan adanya beliau, memungkinkan FuLusme untuk memiliki pengawas yang handal untuk lebih berkembang kedalam bisnis Securities Crowdfunding."
+            position="Chief Business Officer"
+            imageSrc="/images/cbo_nandana.png"
+            description="Berpengalaman lebih dari 20 tahun sebagai profesional, pelaku pasar di Bursa Efek dan pemilik Anggota Bursa Berjangka Jakarta. Juga pendiri The Jakarta Commodity Exchange. Pengalaman yang cukup dalam industri Capital Market dapat menjadi landasan dalam mengembangkan industri Securities Crowdfunding yang Insya AlLah dapat menjadi manfaat bagi sebanyak-banyak umat.
+"
           />
           <ProfileCard
-            name="Rumaida"
+            name="Eva Marlina"
             position="Chief Finance Officer"
-            description="Saat ini masih menjabat sebagai komisaris dan direktur di beberapa perusahaan. Dengan pengalaman multi talenta dan multi industri, menjadikannya matang sebagai pengawas di FuLusme . Selain berpengalaman sebagai teknokrat, juga berpengalaman dalam bisnis praktis dan enterpreneur. Di sela kesibukannya, masih sempat mengajar sebagai dosen di Universitas Bina Nusantara."
+            imageSrc="/images/cfo_evamarlina.jpg"
+            description="Berpengalaman di industry telekomunikasi sebagai Associate director dan Chief of Corporate Relation Affairs, dan memiliki pengalaman financial yang mumpuni untuk mendukung jalannya Fulusme"
           />
           <ProfileCard
-            name="Andi Chesyah M"
+            name="Rahmat Kurniatapa"
             position="Chief Technology Officer"
-            description="Berpengalaman selama bertahun – tahun di dunia keuangan dan asuransi. Saat ini masih menjabat sebagai direktur dan komisaris di beberapa perusahaan serta menjadi pengajar untuk pelatihan dan pengembangan manajemen dan SDM. Karena pengalaman di bidang bisnis dan keuangan inilah menjadikan beliau sebagai pengawas di FuLusme."
+            imageSrc="/images/cto_rahmat.png"
+            description="Berpengalaman lebih dari 15 tahun di industri Paymen, memiliki pengalaman di industry financial teknologi dan digital paymen, dan pengalaman di dunia perbankan yaitu Citibank dan Mandiri, pernah menjabat sebagai direktur di beberapa perusahaan EDC dan Fintek"
           />
         </section>
       </section>
