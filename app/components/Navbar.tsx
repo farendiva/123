@@ -89,8 +89,16 @@ const menuItems = [
   { href: "/tentang", label: "Tentang" },
   { href: "/alur", label: "Alur Bisnis" },
   { href: "/bantuan", label: "Bantuan" },
-  { href: "/masuk", label: "Masuk" },
-  { href: "/daftar", label: "Daftar" },
+  {
+    href: "/masuk",
+    label: "Masuk",
+    as: "https://web-app-dev.khalifahdev.biz.id/masuk",
+  },
+  {
+    href: "/daftar",
+    label: "Daftar",
+    as: "https://web-app-dev.khalifahdev.biz.id/daftar",
+  },
 ];
 
 export default Navbar;
