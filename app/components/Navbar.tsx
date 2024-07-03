@@ -84,11 +84,34 @@ const Navbar = () => {
 };
 
 const menuItems = [
-  { href: "/", label: "Beranda" },
-  { href: "/daftar-bisnis", label: "Daftar Bisnis" },
-  { href: "/tentang", label: "Tentang" },
-  { href: "/alur", label: "Alur Bisnis" },
-  { href: "/bantuan", label: "Bantuan" },
+  {
+    href: "/",
+    label: "Beranda",
+
+    as: "https://web-app-dev.khalifahdev.biz.id/",
+  },
+  {
+    href: "/daftar-bisnis",
+    label: "Daftar Bisnis",
+
+    as: "https://web-app-dev.khalifahdev.biz.id/daftar-bisnis",
+  },
+  {
+    href: "/tentang",
+    label: "Tentang",
+    as: "https://web-app-dev.khalifahdev.biz.id/tentang",
+  },
+  {
+    href: "/alur",
+    label: "Alur Bisnis",
+
+    as: "https://web-app-dev.khalifahdev.biz.id/alur",
+  },
+  {
+    href: "/bantuan",
+    label: "Bantuan",
+    as: "https://web-app-dev.khalifahdev.biz.id/bantuan",
+  },
   {
     href: "/masuk",
     label: "Masuk",

@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { RegistrationDataSchema } from "../../lib/schema";

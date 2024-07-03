@@ -1,7 +1,6 @@
 "use client";
 
 import { ChangeEvent, Suspense, useState } from "react";
-import { motion } from "framer-motion";
 import { z } from "zod";
 import { KycPemodalFormSchema } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -148,7 +147,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
                   } rounded-full lg:h-12 lg:w-12 shrink-0 relative`}
                 >
                   <img
-                    className="w-3.5 h-3.5 lg:w-4 lg:h-4"
+                    className="w-2 h-2 lg:w-4 lg:h-4"
                     src={
                       index === 0
                         ? "/icons/face-verified.svg"
@@ -164,7 +163,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
                   />
                   {index < 4 && (
                     <span
-                      className={`absolute left-1/2 top-1/2 transform -translate-y-1/2 w-full h-1 ${
+                      className={`hidden lg:block absolute left-1/2 top-1/2 transform -translate-y-1/2 w-full h-1 ${
                         index < currentStep
                           ? "bg-emerald-light"
                           : "bg-gray-100 dark:bg-gray-700"

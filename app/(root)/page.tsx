@@ -1,3 +1,4 @@
+import Link from "next/link";
 import BusinessCard from "../components/BusinessCard";
 import TabsQuestions from "../components/TabsQuestions";
 
@@ -23,12 +24,18 @@ export default async function Home() {
             dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
           </p>
           <section className="flex flex-col sm:flex-row text-sm lg:text-base font-bold gap-2 lg:gap-0">
-            <button className="relative z-10 my-0 lg:my-8 py-3 px-3 lg:py-6 lg:px-6 bg-emerald rounded-xl lg:rounded-l-xl text-white">
+            <Link
+              href="/penerbit"
+              className="relative z-10 my-0 lg:my-8 py-3 px-3 lg:py-6 lg:px-6 bg-emerald hover:bg-green-700 rounded-xl lg:rounded-l-xl text-white"
+            >
               Daftar Sebagai Penerbit
-            </button>
-            <button className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-3 px-3 lg:py-6 lg:px-6 bg-white rounded-xl text-black">
+            </Link>
+            <Link
+              href="/pemodal"
+              className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-3 px-3 lg:py-6 lg:px-6 bg-white hover:bg-slate-200 rounded-xl text-black"
+            >
               Daftar Sebagai Pemodal
-            </button>
+            </Link>
           </section>
 
           <section className="w-full flex justify-center lg:justify-start gap-4">
@@ -92,14 +99,14 @@ export default async function Home() {
           </p>
         </section>
       </section>
-      <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-12 lg:gap-y-0 my-8">
+      <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0 my-8">
         <BusinessCard />
         <BusinessCard />
         <BusinessCard />
         <BusinessCard />
       </section>
       <section className="flex justify-center items-center mx-auto my-16">
-        <button className="bg-sky text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
+        <button className="bg-sky hover:bg-sky-dark text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
           Lihat Proyek Selengkapnya
         </button>
       </section>
@@ -168,7 +175,7 @@ export default async function Home() {
       </section>
       <TabsQuestions />
       <section className="flex justify-center items-center mx-auto my-16 ">
-        <button className="bg-emerald-light text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
+        <button className="bg-emerald-light hover:bg-green-700 text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
           Baca Lebih Lanjut
         </button>
       </section>

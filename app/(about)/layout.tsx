@@ -3,6 +3,7 @@ import { Open_Sans } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import StickyButton from "../components/StickyButton";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -21,13 +22,7 @@ export default function AboutLayout({
         <Navbar />
         {children}
         <Footer />
-        <a
-          href="https://api.whatsapp.com/send?phone=6282299996862&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
-          className="floating-button flex justify-center items-center gap-2 font-bold rounded-3xl py-3 px-4"
-        >
-          <img src="/icons/whatsapp.svg" alt="Whatsapp Icon" />
-          Butuh Bantuan?
-        </a>
+        <StickyButton />
       </body>
     </html>
   );
