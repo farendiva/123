@@ -73,13 +73,10 @@ export default function Form() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
         reset();
-        // Handle success (e.g., navigate to a different page or show a success message)
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData);
-        // Handle error (e.g., show an error message)
       }
     } catch (error) {
       console.error("Error:", error);
@@ -126,11 +123,11 @@ export default function Form() {
         onSubmit={handleSubmit(processForm)}
       >
         {currentStep === 0 && (
-          <motion.div
+          <div
             className="w-4/5 lg:w-2/5 mx-auto text-sky"
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            // animate={{ x: 0, opacity: 1 }}
+            // transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="flex justify-between items-center my-8 lg:my-0">
               <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
@@ -246,15 +243,15 @@ export default function Form() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {currentStep === 1 && (
-          <motion.div
+          <div
             className="w-4/5 lg:w-2/5 mx-auto text-sky"
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            // animate={{ x: 0, opacity: 1 }}
+            // transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="flex justify-between items-center my-8 lg:my-0">
               <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
@@ -369,14 +366,14 @@ export default function Form() {
                 kirim ulang kode OTP
               </p>
             </section>
-          </motion.div>
+          </div>
         )}
         {currentStep === 2 && (
-          <motion.div
+          <div
             className="w-4/5 lg:w-2/5 mx-auto text-sky space-y-6"
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            // animate={{ x: 0, opacity: 1 }}
+            // transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="flex justify-between items-center my-8 lg:my-0">
               <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
@@ -442,15 +439,15 @@ export default function Form() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {currentStep === 3 && (
-          <motion.div
+          <div
             className="w-4/5 lg:w-3/5 mx-auto text-sky space-y-6"
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            // animate={{ x: 0, opacity: 1 }}
+            // transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <div className="flex items-center my-8 gap-2 lg:gap-4 lg:my-0">
               <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
@@ -529,15 +526,15 @@ export default function Form() {
                 </ul>
               </div>
             </div>
-          </motion.div>
+          </div>
         )}
 
         {currentStep === 4 && (
-          <motion.div
+          <div
             className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
-            initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+            // animate={{ x: 0, opacity: 1 }}
+            // transition={{ duration: 0.3, ease: "easeInOut" }}
           >
             <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
             <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
@@ -553,7 +550,7 @@ export default function Form() {
                 </span>
               </p>
             </div>
-          </motion.div>
+          </div>
         )}
       </form>
 

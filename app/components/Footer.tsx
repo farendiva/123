@@ -9,8 +9,9 @@ const Footer = () => {
           <h5 className="font-bold">ALAMAT</h5>
           <p>
             Gedung Menara 165 Lt. 3 <br />
-            Jl. Tahi Bonar Simatupang <br /> No.Kav.1, Cilandak, Pasar Minggu,
-            Kota Jakarta Selatan <br /> Daerah Khusus Ibukota Jakarta 12560
+            Jl. TB Simatupang Kav. 1 <br />
+            Cilandak, Pasar Minggu, Kota Jakarta Selatan <br /> Daerah Khusus
+            Ibukota Jakarta 12560
           </p>
           <h5 className="font-bold">HUBUNGI KAMI</h5>
           <ul className="flex flex-col lg:flex-row gap-4 lg:gap-6">
