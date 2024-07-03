@@ -67,7 +67,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
       }
 
       const result = await response.json();
-      console.log("Form successfully submitted:", result);
+      // console.log("Form successfully submitted:", result);
       reset();
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -194,12 +194,12 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
         className={`my-6 ${currentStep === 5 ? "lg:my-4" : "lg:my-6"}`}
         onSubmit={handleSubmit(processForm)}
       >
-        <motion.div
+        <div
           key={currentStep}
           className="w-4/5 lg:w-1/2 mx-auto text-sky"
-          initial={{ x: delta >= 0 ? 50 : -50, opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          // initial={{ x: delta >= 0 ? 50 : -50, opacity: 0 }}
+          // animate={{ x: 0, opacity: 1 }}
+          // transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <Suspense fallback={<>Loading...</>}>
             <StepComponent
@@ -216,7 +216,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
               }
             />
           </Suspense>
-        </motion.div>
+        </div>
       </form>
       <div
         className={`flex w-1/2 mx-auto  ${

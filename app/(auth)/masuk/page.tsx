@@ -46,7 +46,6 @@ export default function Masuk() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
         Cookies.set("authToken", result.token.token, {
           expires: 1,
           secure: true,
@@ -71,11 +70,11 @@ export default function Masuk() {
         className="h-screen flex justify-center items-center mx-auto"
         onSubmit={handleSubmit(processForm)}
       >
-        <motion.div
+        <div
           className="w-4/5 lg:w-2/5 mx-auto text-sky"
-          initial={{ x: "50%", opacity: 0 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.3, ease: "easeInOut" }}
+          // initial={{ x: "50%", opacity: 0 }}
+          // animate={{ x: 0, opacity: 1 }}
+          // transition={{ duration: 0.3, ease: "easeInOut" }}
         >
           <div className="flex justify-between items-center my-8 lg:my-0">
             <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
@@ -155,7 +154,7 @@ export default function Masuk() {
               {loading ? "Loading..." : "Masuk"}
             </button>
           </div>
-        </motion.div>
+        </div>
       </form>
     </main>
   );
