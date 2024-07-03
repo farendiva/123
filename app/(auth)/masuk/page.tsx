@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import { z } from "zod";
@@ -84,7 +83,7 @@ export default function Masuk() {
             </Link>
           </div>
           <div className="mt-10 grid grid-cols-1 gap-x-3 gap-y-4 lg:gap-x-6 lg:gap-y-8 sm:grid-cols-8">
-            <div className="sm:col-span-4 lg:col-span-8">
+            <div className="col-span-8">
               <label
                 htmlFor="email"
                 className="block text-sm leading-6 font-bold"
@@ -108,7 +107,7 @@ export default function Masuk() {
                 </div>
               </div>
             </div>
-            <div className="sm:col-span-4 lg:col-span-8">
+            <div className="col-span-8">
               <label
                 htmlFor="password"
                 className="block text-sm leading-6 font-bold"
@@ -133,7 +132,7 @@ export default function Masuk() {
               </div>
             </div>
           </div>
-          <div className="my-8 flex justify-between w-full">
+          <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between w-full">
             <div>
               <p>Lupa Kata Sandi</p>
               <p>
@@ -148,7 +147,7 @@ export default function Masuk() {
             </div>
             <button
               type="submit"
-              className="bg-emerald-light hover:bg-green-800 text-white font-bold px-16 rounded-3xl"
+              className="bg-emerald-light hover:bg-green-800 text-white font-bold py-4 px-16 rounded-3xl"
               disabled={loading} // Disable button while loading
             >
               {loading ? "Loading..." : "Masuk"}

@@ -58,7 +58,7 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto h-72 lg:h-128 rounded-5xl overflow-hidden">
+    <div className="relative w-full max-w-5xl mx-auto h-128 rounded-5xl overflow-hidden">
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       <Webcam
         audio={false}
