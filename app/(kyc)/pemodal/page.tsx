@@ -28,7 +28,7 @@ const steps = [
   {
     id: "Step 2",
     name: "Capture KTP",
-    fields: ["ktpImage"],
+    fields: ["ktpImage", "ktp"],
     component: CaptureKTP,
   },
   {

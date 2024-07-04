@@ -5,7 +5,7 @@ const BusinessCard = () => {
   return (
     <Link href="/daftar-investasi">
       <section className="bg-[#f8f8ff] rounded-xl max-w-80">
-        <img className="" src="/images/kentang.png" alt="Product" />
+        <img className="w-full" src="/images/kentang.png" alt="Product" />
         <section className="w-11/12 mx-auto my-4 flex flex-col gap-3">
           <section className="flex justify-start items-center text-xs text-white font-bold">
             <button className="bg-emerald-light px-7 py-1.5 rounded-l-md">

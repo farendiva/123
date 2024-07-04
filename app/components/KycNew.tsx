@@ -43,35 +43,40 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
   });
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    try {
-      console.log("Attempting to submit form with data:", data);
-
-      const payload = {
-        ...data,
-        slip_gaji: data.slip_gaji,
-      };
-
-      const response = await fetch("http://localhost:5000/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error("Server response:", errorText);
-        throw new Error("Network response was not ok");
-      }
-
-      const result = await response.json();
-      // console.log("Form successfully submitted:", result);
-      reset();
-    } catch (error) {
-      console.error("Error submitting form:", error);
-    }
+    // console.log(data);
+    reset();
   };
+
+  // const processForm: SubmitHandler<Inputs> = async (data) => {
+  //   try {
+  //     console.log("Attempting to submit form with data:", data);
+
+  //     const payload = {
+  //       ...data,
+  //       slip_gaji: data.slip_gaji,
+  //     };
+
+  //     const response = await fetch("http://localhost:5000/users", {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(payload),
+  //     });
+
+  //     if (!response.ok) {
+  //       const errorText = await response.text();
+  //       console.error("Server response:", errorText);
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const result = await response.json();
+  //     // console.log("Form successfully submitted:", result);
+  //     reset();
+  //   } catch (error) {
+  //     console.error("Error submitting form:", error);
+  //   }
+  // };
 
   type FieldName = keyof Inputs;
 

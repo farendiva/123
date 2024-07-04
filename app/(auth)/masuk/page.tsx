@@ -24,10 +24,12 @@ export default function Masuk() {
     resolver: zodResolver(LoginDataSchema),
   });
   const [loading, setLoading] = useState(false);
+  const [loginError, setLoginError] = useState<string | null>(null);
   const router = useRouter();
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
+    setLoginError(null); // Reset previous error
     try {
       const response = await fetch(
         "https://oms-api-dev.khalifahdev.biz.id/api/v1/login",
@@ -54,10 +56,15 @@ export default function Masuk() {
         router.push("/");
       } else {
         const errorData = await response.json();
-        console.error("Error:", errorData);
+        if (errorData.message) {
+          setLoginError(errorData.message);
+        } else {
+          setLoginError("Login gagal. Silakan coba lagi.");
+        }
       }
     } catch (error) {
       console.error("Error:", error);
+      setLoginError("Terjadi kesalahan. Silakan coba lagi.");
     } finally {
       setLoading(false);
     }
@@ -132,6 +139,9 @@ export default function Masuk() {
               </div>
             </div>
           </div>
+          {loginError && (
+            <div className="my-2 lg:my-4 text-red-500">{loginError}</div>
+          )}
           <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between w-full">
             <div>
               <p>Lupa Kata Sandi</p>
