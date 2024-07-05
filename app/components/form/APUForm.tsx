@@ -6,10 +6,17 @@ import {
   UseFormSetValue,
   UseFormTrigger,
 } from "react-hook-form";
-import { z } from "zod";
-import { FormDataSchema } from "../../../lib/schema";
 import React from "react";
-type Inputs = z.infer<typeof FormDataSchema>;
+
+interface Inputs {
+  pep: string;
+  relationshipPep: string;
+  relationshipWna: string;
+  legalIssues: string;
+  suspect: string;
+  relationshipSuspect: string;
+  illegalFunds: string;
+}
 
 interface APUFormProps {
   register: UseFormRegister<Inputs>;
@@ -22,7 +29,6 @@ interface APUFormProps {
 const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
   return (
     <>
-      {/* APU Fields */}
       <h1>
         Sehubungan dengan dukungan untuk menegakkan komitmen Anti Pencucian Uang
         (Anti Money Laundering) & Pencegahan Pendanaan Terorisme (PPT) sesuai
@@ -36,13 +42,28 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
           partai, politik tertentu (Politically Exposed Person/PEP)?
         </label>
         <div className="flex items-center mt-2">
-          <input type="radio" id="pepYes" value="Ya" className="mr-2" />
+          <input
+            type="radio"
+            id="pepYes"
+            value="Ya"
+            {...register("pep", { required: "Harus memilih salah satu" })}
+            className="mr-2"
+          />
           <label htmlFor="pepYes" className="mr-4">
             Ya
           </label>
-          <input type="radio" id="pepNo" value="Tidak" className="mr-2" />
+          <input
+            type="radio"
+            id="pepNo"
+            value="Tidak"
+            {...register("pep", { required: "Harus memilih salah satu" })}
+            className="mr-2"
+          />
           <label htmlFor="pepNo">Tidak</label>
         </div>
+        {errors.pep && (
+          <span className="text-red-500">{errors.pep.message}</span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -55,6 +76,9 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipPepYes"
             value="Ya"
+            {...register("relationshipPep", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipPepYes" className="mr-4">
@@ -64,10 +88,16 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipPepNo"
             value="Tidak"
+            {...register("relationshipPep", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipPepNo">Tidak</label>
         </div>
+        {errors.relationshipPep && (
+          <span className="text-red-500">{errors.relationshipPep.message}</span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -79,6 +109,9 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipWnaYes"
             value="Ya"
+            {...register("relationshipWna", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipWnaYes" className="mr-4">
@@ -88,10 +121,16 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipWnaNo"
             value="Tidak"
+            {...register("relationshipWna", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipWnaNo">Tidak</label>
         </div>
+        {errors.relationshipWna && (
+          <span className="text-red-500">{errors.relationshipWna.message}</span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -99,7 +138,15 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
           Apakah saat ini sedang menghadapi permasalahan hukum?
         </label>
         <div className="flex items-center mt-2">
-          <input type="radio" id="legalIssuesYes" value="Ya" className="mr-2" />
+          <input
+            type="radio"
+            id="legalIssuesYes"
+            value="Ya"
+            {...register("legalIssues", {
+              required: "Harus memilih salah satu",
+            })}
+            className="mr-2"
+          />
           <label htmlFor="legalIssuesYes" className="mr-4">
             Ya
           </label>
@@ -107,10 +154,16 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="legalIssuesNo"
             value="Tidak"
+            {...register("legalIssues", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="legalIssuesNo">Tidak</label>
         </div>
+        {errors.legalIssues && (
+          <span className="text-red-500">{errors.legalIssues.message}</span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -118,13 +171,28 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
           Apakah ditetapkan sebagai Tersangka / Terdakwa?
         </label>
         <div className="flex items-center mt-2">
-          <input type="radio" id="suspectYes" value="Ya" className="mr-2" />
+          <input
+            type="radio"
+            id="suspectYes"
+            value="Ya"
+            {...register("suspect", { required: "Harus memilih salah satu" })}
+            className="mr-2"
+          />
           <label htmlFor="suspectYes" className="mr-4">
             Ya
           </label>
-          <input type="radio" id="suspectNo" value="Tidak" className="mr-2" />
+          <input
+            type="radio"
+            id="suspectNo"
+            value="Tidak"
+            {...register("suspect", { required: "Harus memilih salah satu" })}
+            className="mr-2"
+          />
           <label htmlFor="suspectNo">Tidak</label>
         </div>
+        {errors.suspect && (
+          <span className="text-red-500">{errors.suspect.message}</span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -137,6 +205,9 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipSuspectYes"
             value="Ya"
+            {...register("relationshipSuspect", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipSuspectYes" className="mr-4">
@@ -146,10 +217,18 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="relationshipSuspectNo"
             value="Tidak"
+            {...register("relationshipSuspect", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="relationshipSuspectNo">Tidak</label>
         </div>
+        {errors.relationshipSuspect && (
+          <span className="text-red-500">
+            {errors.relationshipSuspect.message}
+          </span>
+        )}
       </div>
 
       <div className="mt-6">
@@ -163,6 +242,9 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="illegalFundsYes"
             value="Ya"
+            {...register("illegalFunds", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="illegalFundsYes" className="mr-4">
@@ -172,10 +254,16 @@ const APUForm: FC<APUFormProps> = ({ register, control, errors }) => {
             type="radio"
             id="illegalFundsNo"
             value="Tidak"
+            {...register("illegalFunds", {
+              required: "Harus memilih salah satu",
+            })}
             className="mr-2"
           />
           <label htmlFor="illegalFundsNo">Tidak</label>
         </div>
+        {errors.illegalFunds && (
+          <span className="text-red-500">{errors.illegalFunds.message}</span>
+        )}
       </div>
     </>
   );

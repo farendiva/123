@@ -8,6 +8,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp";
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
 
@@ -261,100 +267,23 @@ export default function Form() {
             </div>
 
             <section className="w-full mx-auto my-16">
+              <h1 className="font-bold text-2xl xl:text-4xl">
+                Masukkan Kode OTP
+              </h1>
               <p className="text-base lg:text-xl">
                 Kode OTP telah dikirimkan ke nomor{" "}
                 <span className="font-bold">+6123456789</span>
               </p>
-              <div className="flex my-4 space-x-2 rtl:space-x-reverse">
-                <div>
-                  <label htmlFor="code-1" className="sr-only">
-                    First code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-next="code-2"
-                    id="code-1"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="code-2" className="sr-only">
-                    Second code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-prev="code-1"
-                    data-focus-input-next="code-3"
-                    id="code-2"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="code-3" className="sr-only">
-                    Third code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-prev="code-2"
-                    data-focus-input-next="code-4"
-                    id="code-3"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="code-4" className="sr-only">
-                    Fourth code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-prev="code-3"
-                    data-focus-input-next="code-5"
-                    id="code-4"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="code-5" className="sr-only">
-                    Fifth code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-prev="code-4"
-                    data-focus-input-next="code-6"
-                    id="code-5"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-                <div>
-                  <label htmlFor="code-6" className="sr-only">
-                    Sixth code
-                  </label>
-                  <input
-                    type="text"
-                    max="1"
-                    data-focus-input-init
-                    data-focus-input-prev="code-5"
-                    id="code-6"
-                    className="block w-14 h-14 py-3 text-sm font-extrabold text-center text-gray-900 bg-[#F0F2ff] border border-gray-300 rounded-lg focus:ring-primary-500 focus:border-primary-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                    required
-                  />
-                </div>
-              </div>
+              <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+                <InputOTPGroup className="gap-2 lg:gap-4 mt-8 lg:mt-16">
+                  <InputOTPSlot index={0} />
+                  <InputOTPSlot index={1} />
+                  <InputOTPSlot index={2} />
+                  <InputOTPSlot index={3} />
+                  <InputOTPSlot index={4} />
+                  <InputOTPSlot index={5} />
+                </InputOTPGroup>
+              </InputOTP>
               <p
                 id="helper-text-explanation"
                 className="mt-2 text-base text-sky"
@@ -468,18 +397,18 @@ export default function Form() {
                     yang mengikat secara hukum terhadap Pengguna untuk
                     mengakses, menggunakan dan mengunjungi setiap dan seluruh
                     laman situs (website) dan layanan yang terdapat pada situs
-                    www.Fulusme.id (“Situs Fulusme“). Situs Fulusme merupakan
-                    situs milik dari PT. Fulusme (atau dikenal dengan nama
-                    “Fulusme” atau “Penyelenggara”) yang merupakan penyelenggara
-                    penawaran efek melalui layanan urun dana berbasis teknologi
-                    informasi (Securities Crowdfunding) berdasarkan Peraturan
-                    Otoritas Jasa Keuangan No.57 Tahun 2020 (selanjutnya disebut
-                    “POJK”) yang telah memperoleh izin dari Otoritas Jasa
-                    Keuangan Republik Indonesia (selanjutnya disebut OJK RI)
-                    berdasarkan Surat Keputusan No: KEP-38/D.04/2021 tentang
-                    Pemberian Izin Usaha Penyelenggara Penawaran Efek Melalui
-                    Layanan Urun Dana Berbasis Teknologi Informasi (Securities
-                    Crowdfunding) PT. Fulusme.
+                    www.Fulusme.id (â€œSitus Fulusmeâ€œ). Situs Fulusme
+                    merupakan situs milik dari PT. Fulusme (atau dikenal dengan
+                    nama â€œFulusmeâ€ atau â€œPenyelenggaraâ€) yang merupakan
+                    penyelenggara penawaran efek melalui layanan urun dana
+                    berbasis teknologi informasi (Securities Crowdfunding)
+                    berdasarkan Peraturan Otoritas Jasa Keuangan No.57 Tahun
+                    2020 (selanjutnya disebut â€œPOJKâ€) yang telah memperoleh
+                    izin dari Otoritas Jasa Keuangan Republik Indonesia
+                    (selanjutnya disebut OJK RI) berdasarkan Surat Keputusan No:
+                    KEP-38/D.04/2021 tentang Pemberian Izin Usaha Penyelenggara
+                    Penawaran Efek Melalui Layanan Urun Dana Berbasis Teknologi
+                    Informasi (Securities Crowdfunding) PT. Fulusme.
                   </li>
                   <li>
                     3. Situs Fulusme merupakan Penawaran Efek melalui Layanan
@@ -489,10 +418,10 @@ export default function Form() {
                     efek secara langsung kepada pemodal melalui jaringan sistem
                     elektronik yang bersifat terbuka, yang mempertemukan Pemodal
                     dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
-                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
-                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
-                    umum di bawah ini secara keseluruhan.
+                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
+                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
+                    selaku pengguna dengan ini menyatakan menerima Syarat dan
+                    Ketentuan umum di bawah ini secara keseluruhan.
                   </li>
                   <li>
                     {" "}
@@ -503,10 +432,10 @@ export default function Form() {
                     efek secara langsung kepada pemodal melalui jaringan sistem
                     elektronik yang bersifat terbuka, yang mempertemukan Pemodal
                     dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
-                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
-                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
-                    umum di bawah ini secara keseluruhan.
+                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
+                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
+                    selaku pengguna dengan ini menyatakan menerima Syarat dan
+                    Ketentuan umum di bawah ini secara keseluruhan.
                   </li>
                   <li>
                     {" "}
@@ -517,10 +446,10 @@ export default function Form() {
                     efek secara langsung kepada pemodal melalui jaringan sistem
                     elektronik yang bersifat terbuka, yang mempertemukan Pemodal
                     dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut “Pengguna”) Dengan
-                    mengakses dan memiliki akun pada Situs Fulusme, anda selaku
-                    pengguna dengan ini menyatakan menerima Syarat dan Ketentuan
-                    umum di bawah ini secara keseluruhan.
+                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
+                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
+                    selaku pengguna dengan ini menyatakan menerima Syarat dan
+                    Ketentuan umum di bawah ini secara keseluruhan.
                   </li>
                 </ul>
               </div>

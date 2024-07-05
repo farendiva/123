@@ -88,7 +88,7 @@ export default async function Home() {
         </section>
       </section>
 
-      <section className="space-y-4 mt-32 text-center">
+      <section className="space-y-4 mt-4 2xl:mt-16 text-center">
         <section className="w-11/12 lg:w-1/2 mx-auto ">
           <h4 className="text-xl lg:text-3xl font-bold">
             Investasi Proyek Yang Sedang Berjalan
@@ -106,9 +106,12 @@ export default async function Home() {
         <BusinessCard />
       </section>
       <section className="flex justify-center items-center mx-auto my-16">
-        <button className="bg-sky hover:bg-sky-dark text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl">
+        <Link
+          href="/daftar-bisnis"
+          className="bg-sky hover:bg-sky-dark text-base lg:text-xl font-bold px-6 py-2 text-white rounded-4xl"
+        >
           Lihat Proyek Selengkapnya
-        </button>
+        </Link>
       </section>
       <section className="w-4/5 lg:w-11/12 mx-auto my-24 flex flex-col lg:flex-row justify-around gap-8 lg:gap-28">
         <h1 className="w-3/4 mx-auto lg:w-1/3 text-2xl lg:text-4xl font-bold text-center lg:text-right">

@@ -238,7 +238,7 @@ const PerusahaanForm: FC<PerusahaanFormProps> = ({
               htmlFor={field}
               className="block text-sm leading-6 font-bold"
             >
-              {`Unggah ${field.replace("_", " ").toUpperCase()}`}
+              {`Unggah ${field}`}
             </label>
             <div className="w-full flex items-center">
               <Controller
