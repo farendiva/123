@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${openSans.className} w-full mx-auto`}>
+      <body className={`${openSans.className} w-full mx-auto max-w-[1800px]`}>
         <Navbar />
         {children}
         <Footer />

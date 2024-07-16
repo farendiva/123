@@ -126,12 +126,12 @@ const PerusahaanForm: FC<PerusahaanFormProps> = ({
                 </div>
               )}
             />
-            {errors.nomor_akta_perusahaan && (
-              <p className="text-sm text-red-400">
-                {errors.nomor_akta_perusahaan?.message}
-              </p>
-            )}
           </div>
+          {errors.nomor_akta_perusahaan && (
+            <p className="text-sm text-red-400">
+              {String(errors.nomor_akta_perusahaan?.message)}
+            </p>
+          )}
         </div>
 
         <div className="sm:col-span-4">
@@ -164,12 +164,12 @@ const PerusahaanForm: FC<PerusahaanFormProps> = ({
                 </div>
               )}
             />
-            {errors.dokumen_siup && (
-              <p className="text-sm text-red-400">
-                {errors.dokumen_siup?.message}
-              </p>
-            )}
           </div>
+          {errors.dokumen_siup && (
+            <p className="text-sm text-red-400">
+              {String(errors.dokumen_siup?.message)}
+            </p>
+          )}
         </div>
 
         <div className="sm:col-span-4">
@@ -202,12 +202,12 @@ const PerusahaanForm: FC<PerusahaanFormProps> = ({
                 </div>
               )}
             />
-            {errors.dokumen_tdp && (
-              <p className="text-sm text-red-400">
-                {errors.dokumen_tdp?.message}
-              </p>
-            )}
           </div>
+          {errors.dokumen_tdp && (
+            <p className="text-sm text-red-400">
+              {String(errors.dokumen_tdp?.message)}
+            </p>
+          )}
         </div>
 
         <div className="sm:col-span-4">
@@ -263,10 +263,12 @@ const PerusahaanForm: FC<PerusahaanFormProps> = ({
                   </div>
                 )}
               />
-              {errors[field] && (
-                <p className="text-sm text-red-400">{errors[field]?.message}</p>
-              )}
             </div>
+            {errors[field] && (
+              <p className="text-sm text-red-400">
+                {String(errors[field]?.message)}
+              </p>
+            )}
           </div>
         ))}
       </div>

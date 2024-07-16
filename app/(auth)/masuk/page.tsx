@@ -9,6 +9,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { ToastAction } from "@/components/ui/toast";
 
 type Inputs = z.infer<typeof LoginDataSchema>;
 
@@ -24,12 +27,11 @@ export default function Masuk() {
     resolver: zodResolver(LoginDataSchema),
   });
   const [loading, setLoading] = useState(false);
-  const [loginError, setLoginError] = useState<string | null>(null);
+  const { toast } = useToast();
   const router = useRouter();
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
-    setLoginError(null); // Reset previous error
     try {
       const response = await fetch(
         "https://oms-api-dev.khalifahdev.biz.id/api/v1/login",
@@ -52,19 +54,57 @@ export default function Masuk() {
           secure: true,
           sameSite: "Strict",
         });
+        Cookies.set("user_id", result.user.id, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
+        Cookies.set("penerbit_id", result.user.penerbit_id, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
+        Cookies.set("pemodal_id", result.user.pemodal_id, {
+          expires: 1,
+          secure: true,
+          sameSite: "Strict",
+        });
         reset();
-        router.push("/");
+        router.push("/dashboard");
       } else {
         const errorData = await response.json();
         if (errorData.message) {
-          setLoginError(errorData.message);
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "Login gagal",
+            description: errorData.message,
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
         } else {
-          setLoginError("Login gagal. Silakan coba lagi.");
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "Terjadi Kesalahan",
+            description: "Silahkan Coba lagi.",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
         }
       }
     } catch (error) {
-      console.error("Error:", error);
-      setLoginError("Terjadi kesalahan. Silakan coba lagi.");
+      toast({
+        className: cn(
+          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        ),
+        variant: "destructive",
+        title: "Pastikan Email anda sudah Terdaftar",
+        description: "Silahkan Coba lagi.",
+        action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+      });
     } finally {
       setLoading(false);
     }
@@ -139,9 +179,6 @@ export default function Masuk() {
               </div>
             </div>
           </div>
-          {loginError && (
-            <div className="my-2 lg:my-4 text-red-500">{loginError}</div>
-          )}
           <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between w-full">
             <div>
               <p>Lupa Kata Sandi</p>

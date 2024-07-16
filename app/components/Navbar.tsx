@@ -14,11 +14,15 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`z-50  w-11/12 relative flex justify-between items-center mx-auto py-8 font-semibold`}
+      className={`z-50  w-11/12 relative flex justify-between items-center mx-auto py-2 lg:py-8 font-semibold`}
     >
       <Link href="/" className="flex">
         {pathname === "/" || pathname === "/tentang" ? (
-          <img src="/images/fulusme-white.png" alt="Fulusme Icon" />
+          <img
+            className="scale-75 lg:scale-100"
+            src="/images/fulusme-white.png"
+            alt="Fulusme Icon"
+          />
         ) : (
           <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
         )}
@@ -61,7 +65,7 @@ const Navbar = () => {
         ))}
       </ul>
       {isOpen && (
-        <ul className="absolute top-24 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
+        <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
           {menuItems.map(({ href, label }) => (
             <li key={href}>
               <Link
@@ -118,9 +122,9 @@ const menuItems = [
     as: "https://web-app-dev.khalifahdev.biz.id/masuk",
   },
   {
-    href: "/daftar",
+    href: "/daftar/pemodal",
     label: "Daftar",
-    as: "https://web-app-dev.khalifahdev.biz.id/daftar",
+    as: "https://web-app-dev.khalifahdev.biz.id/daftar/pemodal",
   },
 ];
 

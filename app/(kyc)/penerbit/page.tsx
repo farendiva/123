@@ -3,20 +3,27 @@
 import dynamic from "next/dynamic";
 import CaptureFace from "@/app/components/CaptureFace";
 import CaptureKTP from "@/app/components/CaptureKTP";
-const KycFormNew = dynamic(() => import("@/app/components/KycNew"), {
-  ssr: false,
-});
-import APUForm from "@/app/components/form/APUForm";
+const KYCPenerbitForm = dynamic(
+  () => import("@/app/components/form/KYCPenerbitForm"),
+  {
+    ssr: false,
+  }
+);
+import APUForm, { APUFields } from "@/app/components/form/APUForm";
 import Completion from "@/app/components/form/Completion";
-import PersonalInfoForm, {
+import PersonalFormPenerbit, {
   personalInfoFields,
-} from "@/app/components/form/PersonalInforForm";
+} from "@/app/components/form/PersonalFormPenerbit";
+
 import PerusahaanForm, {
   perusahaanFields,
 } from "@/app/components/form/PerusahaanForm";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthToken } from "@/hooks/useAuthToken";
+import DetailPerusahaanForm, {
+  detailPerusahaanFields,
+} from "@/app/components/form/DetailPerusahaanForm";
 
 type Props = {};
 
@@ -30,14 +37,14 @@ const steps = [
   {
     id: "Step 2",
     name: "Capture KTP",
-    fields: ["ktpImage", "ktp"],
+    fields: ["ktpImage", "no_ktp"],
     component: CaptureKTP,
   },
   {
     id: "Step 3",
     name: "Data Diri",
     fields: personalInfoFields,
-    component: PersonalInfoForm,
+    component: PersonalFormPenerbit,
   },
   {
     id: "Step 4",
@@ -47,11 +54,18 @@ const steps = [
   },
   {
     id: "Step 5",
-    name: "APU PPT",
-    component: APUForm,
+    name: "Detail Perusahaan",
+    fields: detailPerusahaanFields,
+    component: DetailPerusahaanForm,
   },
   {
     id: "Step 6",
+    name: "APU PPT",
+    fields: APUFields,
+    component: APUForm,
+  },
+  {
+    id: "Step 7",
     name: "Completed",
     component: Completion,
   },
@@ -69,7 +83,7 @@ const KYCPenerbitPage = (props: Props) => {
 
   return (
     <main className="mx-auto">
-      <KycFormNew steps={steps} />
+      <KYCPenerbitForm steps={steps} />
     </main>
   );
 };

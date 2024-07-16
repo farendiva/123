@@ -1,12 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
+const KYCPemodalForm = dynamic(
+  () => import("@/app/components/form/KYCPemodalForm"),
+  {
+    ssr: false,
+  }
+);
 import CaptureFace from "@/app/components/CaptureFace";
 import CaptureKTP from "@/app/components/CaptureKTP";
-const KycFormNew = dynamic(() => import("@/app/components/KycNew"), {
-  ssr: false,
-});
-import APUForm from "@/app/components/form/APUForm";
+import APUForm, { APUFields } from "@/app/components/form/APUForm";
 import Completion from "@/app/components/form/Completion";
 import IncomeForm, { incomeFields } from "@/app/components/form/IncomeForm";
 import PersonalInfoForm, {
@@ -28,7 +31,7 @@ const steps = [
   {
     id: "Step 2",
     name: "Capture KTP",
-    fields: ["ktpImage", "ktp"],
+    fields: ["ktpImage", "no_ktp"],
     component: CaptureKTP,
   },
   {
@@ -46,6 +49,7 @@ const steps = [
   {
     id: "Step 5",
     name: "APU PPT",
+    fields: APUFields,
     component: APUForm,
   },
   {
@@ -67,7 +71,7 @@ const KYCPemodalPage = (props: Props) => {
 
   return (
     <main className="mx-auto">
-      <KycFormNew steps={steps} />
+      <KYCPemodalForm steps={steps} />
     </main>
   );
 };

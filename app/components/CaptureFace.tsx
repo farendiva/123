@@ -2,15 +2,36 @@
 
 import { FC, useState } from "react";
 import Capture from "./Capture";
+import {
+  UseFormRegister,
+  Control,
+  FieldErrors,
+  UseFormSetValue,
+  UseFormTrigger,
+  Controller,
+  UseFormWatch,
+} from "react-hook-form";
+import { z } from "zod";
+import { KycPemodalFormSchema } from "@/lib/schema";
+
+type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
 interface CaptureFaceProps {
-  onCaptured: (image: string) => void;
+  register: UseFormRegister<Inputs>;
+  control: Control<Inputs>;
+  setValue: UseFormSetValue<Inputs>;
+  trigger: UseFormTrigger<Inputs>;
+  errors: FieldErrors<Inputs>;
+  watch: UseFormWatch<Inputs>;
+  ktpImage: File;
+  faceImage: File;
+  onCaptured: (image: File) => void;
 }
 
-const CaptureFace: FC<CaptureFaceProps> = ({ onCaptured }) => {
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
+const CaptureFace: FC<CaptureFaceProps> = ({ onCaptured, register }) => {
+  const [capturedImage, setCapturedImage] = useState<File | null>(null);
 
-  const handleCapture = (image: string) => {
+  const handleCapture = (image: File) => {
     setCapturedImage(image);
   };
 
@@ -23,7 +44,7 @@ const CaptureFace: FC<CaptureFaceProps> = ({ onCaptured }) => {
       {capturedImage ? (
         <div className="flex flex-col items-center">
           <img
-            src={capturedImage}
+            src={capturedImage ? URL.createObjectURL(capturedImage) : ""}
             alt="Captured Face"
             className="mb-4 rounded-full w-40 h-40"
           />

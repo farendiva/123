@@ -81,7 +81,7 @@
   flex-direction: column;
   justify-content: space-around;
   width: 30px;
-  height: 24px;
+  height: 30px;
   cursor: pointer;
   transition: all 0.3s ease-in-out;
 }
@@ -111,7 +111,7 @@
 
 /* Open State (X) */
 .hamburger-icon.open .line-top {
-  transform: rotate(35deg);
+  transform: rotate(45deg);
 }
 
 .hamburger-icon.open .line-middle {
@@ -120,15 +120,14 @@
 }
 
 .hamburger-icon.open .line-bottom {
-  transform: rotate(-35deg);
+  transform: rotate(-45deg);
 }
 
 .floating-button {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #64b161;
-
+  background-color: #3da834;
   color: white;
   border: none;
   cursor: pointer;
