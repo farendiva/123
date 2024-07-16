@@ -14,7 +14,7 @@ import {
 import { KycPemodalFormSchema } from "../../../lib/schema";
 import { z } from "zod";
 import { DatePicker } from "../../../components/ui/datepicker";
-import { usePathname } from "next/navigation";
+import usePreferences from "@/hooks/usePreferences";
 
 type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
@@ -25,10 +25,43 @@ interface PersonalInfoFormProps {
   trigger: UseFormTrigger<Inputs>;
   errors: FieldErrors<Inputs>;
   watch: UseFormWatch<Inputs>;
-  ktpImage: string;
-  faceImage: string;
+  ktpImage: File;
+  faceImage: File;
 }
 
+interface Province {
+  province: string;
+  province_code: string;
+}
+
+interface City {
+  city: string;
+  city_code: string;
+}
+
+interface District {
+  district: string;
+  district_code: string;
+}
+
+interface Subdistrict {
+  sub_district: string;
+  sub_district_code: string;
+}
+
+interface PostalCode {
+  postal_code: string;
+}
+
+interface Nationality {
+  id: number;
+  kewarganegaraan: string;
+}
+
+interface Education {
+  id: number;
+  pendidikan: string;
+}
 export const personalInfoFields: (keyof Inputs)[] = [
   "title",
   "nama_depan",
@@ -66,14 +99,29 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   faceImage,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
-  const pathname = usePathname();
-
+  const {
+    provinces,
+    nationalities,
+    religions,
+    educations,
+    cities,
+    districts,
+    subdistricts,
+    postalCodes,
+    fetchCities,
+    fetchDistricts,
+    fetchSubDistricts,
+    fetchPostalCodes,
+  } = usePreferences();
   const alamat_ktp = watch("alamat_ktp");
   const provinsi_ktp = watch("provinsi_ktp");
   const kabupaten_ktp = watch("kabupaten_ktp");
   const kecamatan_ktp = watch("kecamatan_ktp");
   const kelurahan_ktp = watch("kelurahan_ktp");
   const kodePos_ktp = watch("kodePos_ktp");
+  const provinsi_domisili = watch("provinsi_domisili");
+  const kabupaten_domisili = watch("kabupaten_domisili");
+  const kecamatan_domisili = watch("kecamatan_domisili");
 
   useEffect(() => {
     if (isChecked) {
@@ -91,8 +139,47 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     kabupaten_ktp,
     kecamatan_ktp,
     kelurahan_ktp,
+    kodePos_ktp,
     setValue,
   ]);
+
+  useEffect(() => {
+    if (provinsi_ktp) {
+      fetchCities(provinsi_ktp);
+    }
+  }, [provinsi_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (kabupaten_ktp) {
+      fetchDistricts(kabupaten_ktp);
+    }
+  }, [kabupaten_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (kecamatan_ktp) {
+      fetchSubDistricts(kecamatan_ktp);
+      fetchPostalCodes(kecamatan_ktp);
+    }
+  }, [kecamatan_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (provinsi_domisili) {
+      fetchCities(provinsi_domisili);
+    }
+  }, [provinsi_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (kabupaten_domisili) {
+      fetchDistricts(kabupaten_domisili);
+    }
+  }, [kabupaten_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (kecamatan_domisili) {
+      fetchSubDistricts(kecamatan_domisili);
+      fetchPostalCodes(kecamatan_domisili);
+    }
+  }, [kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -103,7 +190,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <div className="relative w-24 h-24">
               <img
                 className="w-full h-full rounded-full object-cover"
-                src={faceImage}
+                src={faceImage ? URL.createObjectURL(faceImage) : ""}
                 alt="Foto Wajah"
               />
               <img
@@ -116,7 +203,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <div className="relative w-56 h-36">
               <img
                 className="w-full h-full object-contain"
-                src={ktpImage}
+                src={ktpImage ? URL.createObjectURL(ktpImage) : ""}
                 alt="Foto KTP"
               />
               <img
@@ -134,7 +221,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="relative w-36">
             <img
               className="w-full h-full object-contain"
-              src={ktpImage}
+              src={ktpImage ? URL.createObjectURL(ktpImage) : ""}
               alt="Foto KTP"
             />
             <img
@@ -191,36 +278,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </div>
           </div>
         </div>
-        {pathname == "/penerbit" && (
-          <div className="sm:col-span-4 lg:col-span-8">
-            <label
-              htmlFor="agama"
-              className="block text-sm leading-6 font-bold"
-            >
-              Posisi di Perusahaan
-            </label>
-            <div className="w-full">
-              <select
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-                id="agama"
-                {...register("agama")}
-              >
-                <option value="" disabled selected>
-                  Pilih Posisi di Perusahaan
-                </option>
-                <option value="direktur">Direktur</option>
-                <option value="manager">Manager</option>
-                <option value="engineer">Engineer</option>
-                <option value="supervisor">Supervisor</option>
-              </select>
-              <div className="mt-1 h-1">
-                {errors.agama?.message && (
-                  <p className="text-sm text-red-400">{errors.agama.message}</p>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
 
         <div className="sm:col-span-2">
           <label htmlFor="title" className="block text-sm leading-6 font-bold">
@@ -228,16 +285,17 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("title") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="title"
               {...register("title")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Title
               </option>
-              <option value="ty">Tn.</option>
-              <option value="ny">Ny.</option>
-              <option value="nn">Nn.</option>
+              <option value="Pria">Tn.</option>
+              <option value="Wanita">Ny.</option>
+              <option value="Wanita">Nn.</option>
             </select>
             <div className="mt-1 h-1">
               {errors.title?.message && (
@@ -355,18 +413,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("agama") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="agama"
               {...register("agama")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Agama
               </option>
-              <option value="islam">Islam</option>
-              <option value="kristen">Kristen</option>
-              <option value="buddha">Buddha</option>
-              <option value="katholik">Katholik</option>
-              <option value="konghucu">Konghucu</option>
+              {religions.slice(0, 6).map(({ id, agama }, index) => (
+                <option key={index} value={id}>
+                  {agama}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.agama?.message && (
@@ -384,17 +443,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("pendidikan_terakhir") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="pendidikan_terakhir"
               {...register("pendidikan_terakhir")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Pendidikan Terakhir
               </option>
-              <option value="s1">Sarjana</option>
-              <option value="sma">SMA / SMK</option>
-              <option value="s2">Magister</option>
-              <option value="s3">Doctor</option>
+              {educations.map((education: Education) => (
+                <option key={education.id} value={education.id}>
+                  {education.pendidikan}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.pendidikan_terakhir?.message && (
@@ -455,24 +516,26 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
         <div className="sm:col-span-4">
           <label
-            htmlFor="kewarganegraan"
+            htmlFor="kewarganegaraan"
             className="block text-sm leading-6 font-bold"
           >
             Pilih Kewarganegaraan
           </label>
           <div className="w-full">
             <select
+              value={watch("kewarganegaraan") || ""}
               className="block w-full rounded-md border-0 py-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kewarganegaraan"
               {...register("kewarganegaraan")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Kewarganegaraan
               </option>
-              <option value="wna">WNA - Tinggal Dalam Negeri</option>
-              <option value="wna">WNA - Tinggal Luar Negeri</option>
-              <option value="wni">WNI - Tinggal Dalam Negeri</option>
-              <option value="wni">WN1 - Tinggal Luar Negeri</option>
+              {nationalities.map((nationality: Nationality) => (
+                <option key={nationality.id} value={nationality.id}>
+                  {nationality.kewarganegaraan.toUpperCase()}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.kewarganegaraan?.message && (
@@ -519,18 +582,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("provinsi_ktp") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="provinsi_ktp"
               {...register("provinsi_ktp")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Provinsi
               </option>
-              <option value="jakarta">DKI Jakarta</option>
-              <option value="jawabarat">Jawa Barat</option>
-              <option value="jawatimur">Jawa Timur</option>
-              <option value="jawatengah">Jawa Tengah</option>
-              <option value="bali">Bali</option>
+              {provinces.map((province: Province, index: number) => (
+                <option key={index} value={province.province_code}>
+                  {province.province}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.provinsi_ktp?.message && (
@@ -550,17 +614,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("kabupaten_ktp") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kabupaten_ktp"
               {...register("kabupaten_ktp")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Kota/Kabupaten
               </option>
-              <option value="bekasi">Bekasi</option>
-              <option value="bandung">Bandung</option>
-              <option value="semarang">Semarang</option>
-              <option value="surabaya">Surabaya</option>
+              {cities.map((city: City, index: number) => (
+                <option key={index} value={city.city_code}>
+                  {city.city}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.kabupaten_ktp?.message && (
@@ -580,17 +646,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("kecamatan_ktp") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kecamatan_ktp"
               {...register("kecamatan_ktp")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Kecamatan
               </option>
-              <option value="mustikajaya">Mustikajaya</option>
-              <option value="mustikasari">Mustikasari</option>
-              <option value="bantargebang">Bantargebang</option>
-              <option value="rawalumbu">Rawalumbu</option>
+              {districts.map((district: District, index: number) => (
+                <option key={index} value={district.district_code}>
+                  {district.district}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.kecamatan_ktp?.message && (
@@ -610,17 +678,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("kelurahan_ktp") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kelurahan_ktp"
               {...register("kelurahan_ktp")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih kelurahan
               </option>
-              <option value="mustikajaya">Mustikajaya</option>
-              <option value="mustikasari">Mustikasari</option>
-              <option value="bantargebang">Bantargebang</option>
-              <option value="rawalumbu">Rawalumbu</option>
+              {subdistricts.map((subdistrict: Subdistrict, index: number) => (
+                <option key={index} value={subdistrict.sub_district_code}>
+                  {subdistrict.sub_district}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.kelurahan_ktp?.message && (
@@ -640,17 +710,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </label>
           <div className="w-full">
             <select
+              value={watch("kodePos_ktp") || ""}
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kodePos_ktp"
               {...register("kodePos_ktp")}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Kode Pos
               </option>
-              <option value="123123">123123</option>
-              <option value="23322332">23322332</option>
-              <option value="321312">321312</option>
-              <option value="13211321">13211321</option>
+              {postalCodes.map((postalCode: PostalCode, index: number) => (
+                <option key={index} value={postalCode.postal_code}>
+                  {postalCode.postal_code}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.kodePos_ktp?.message && (
@@ -710,18 +782,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </label>
             <div className="w-full">
               <select
+                value={watch("provinsi_domisili") || ""}
                 className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="provinsi_domisili"
                 {...register("provinsi_domisili")}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Pilih Provinsi
                 </option>
-                <option value="jakarta">DKI Jakarta</option>
-                <option value="jawabarat">Jawa Barat</option>
-                <option value="jawatimur">Jawa Timur</option>
-                <option value="jawatengah">Jawa Tengah</option>
-                <option value="bali">Bali</option>
+                {provinces.map((province: Province, index: number) => (
+                  <option key={index} value={province.province_code}>
+                    {province.province}
+                  </option>
+                ))}
               </select>
               <div className="mt-1 h-1">
                 {errors.provinsi_domisili?.message && (
@@ -741,17 +814,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </label>
             <div className="w-full">
               <select
+                value={watch("kabupaten_domisili") || ""}
                 className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kabupaten_domisili"
                 {...register("kabupaten_domisili")}
               >
-                <option value="" disabled selected>
-                  Pilih Kabupaten
+                <option value="" disabled>
+                  Pilih Kota/Kabupaten
                 </option>
-                <option value="bekasi">Bekasi</option>
-                <option value="bandung">Bandung</option>
-                <option value="semarang">Semarang</option>
-                <option value="surabaya">Surabaya</option>
+                {cities.map((city: City, index: number) => (
+                  <option key={index} value={city.city_code}>
+                    {city.city}
+                  </option>
+                ))}
               </select>
               <div className="mt-1 h-1">
                 {errors.kabupaten_domisili?.message && (
@@ -771,17 +846,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </label>
             <div className="w-full">
               <select
+                value={watch("kecamatan_domisili") || ""}
                 className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kecamatan_domisili"
                 {...register("kecamatan_domisili")}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Pilih Kecamatan
                 </option>
-                <option value="mustikajaya">Mustikajaya</option>
-                <option value="mustikasari">Mustikasari</option>
-                <option value="bantargebang">Bantargebang</option>
-                <option value="rawalumbu">Rawalumbu</option>
+                {districts.map((district: District, index: number) => (
+                  <option key={index} value={district.district_code}>
+                    {district.district}
+                  </option>
+                ))}
               </select>
               <div className="mt-1 h-1">
                 {errors.kecamatan_domisili?.message && (
@@ -801,17 +878,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </label>
             <div className="w-full">
               <select
+                value={watch("kelurahan_domisili") || ""}
                 className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kelurahan_domisili"
                 {...register("kelurahan_domisili")}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Pilih Kelurahan
                 </option>
-                <option value="mustikajaya">Mustikajaya</option>
-                <option value="mustikasari">Mustikasari</option>
-                <option value="bantargebang">Bantargebang</option>
-                <option value="rawalumbu">Rawalumbu</option>
+                {subdistricts.map((subdistrict: Subdistrict, index: number) => (
+                  <option key={index} value={subdistrict.sub_district_code}>
+                    {subdistrict.sub_district}
+                  </option>
+                ))}
               </select>
               <div className="mt-1 h-1">
                 {errors.kelurahan_domisili?.message && (
@@ -831,17 +910,19 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </label>
             <div className="w-full">
               <select
+                value={watch("kodePos_domisili") || ""}
                 className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kodePos_domisili"
                 {...register("kodePos_domisili")}
               >
-                <option value="" disabled selected>
+                <option value="" disabled>
                   Pilih Kode Pos
                 </option>
-                <option value="123">123</option>
-                <option value="2332">2332</option>
-                <option value="321312">321312</option>
-                <option value="1321">1321</option>
+                {postalCodes.map((postalCode: PostalCode, index: number) => (
+                  <option key={index} value={postalCode.postal_code}>
+                    {postalCode.postal_code}
+                  </option>
+                ))}
               </select>
               <div className="mt-1 h-1">
                 {errors.kodePos_domisili?.message && (

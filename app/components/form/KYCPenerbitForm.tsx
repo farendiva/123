@@ -2,13 +2,14 @@
 
 import { ChangeEvent, Suspense, useState } from "react";
 import { z } from "zod";
-import { KycPemodalFormSchema } from "../../lib/schema";
+import { KycPenerbitFormSchema } from "../../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
+import useFetchProtectedData from "@/lib/fetchProtectedData";
 
-type Inputs = z.infer<typeof KycPemodalFormSchema>;
+type Inputs = z.infer<typeof KycPenerbitFormSchema>;
 
 interface Step {
   id: string;
@@ -17,16 +18,16 @@ interface Step {
   component: React.ComponentType<any>;
 }
 
-interface KycFormNewProps {
+interface StepProps {
   steps: Step[];
 }
 
-const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
+const KYCPenerbitForm: React.FC<StepProps> = ({ steps }) => {
   const [previousStep, setPreviousStep] = useState(0);
   const [currentStep, setCurrentStep] = useState(0);
-  const [faceImage, setFaceImage] = useState<string | null>(null);
-  const [ktpImage, setKtpImage] = useState<string | null>(null);
-
+  const [faceImage, setFaceImage] = useState<File | null>(null);
+  const [ktpImage, setKtpImage] = useState<File | null>(null);
+  const { postProtectedData } = useFetchProtectedData();
   const delta = currentStep - previousStep;
 
   const {
@@ -39,44 +40,97 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
     trigger,
     formState: { errors },
   } = useForm<Inputs>({
-    resolver: zodResolver(KycPemodalFormSchema),
+    resolver: zodResolver(KycPenerbitFormSchema),
   });
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    // console.log(data);
-    reset();
+    const perusahaan = {
+      nama: data.nama_perusahaan,
+      jenis_perusahaan: data.jenis_perusahaan,
+      situs_perusahaan: data.situs_perusahaan,
+      no_telp: data.no_telp_perusahaan,
+      alamat: data.alamat_perusahaan,
+      no_rekening: data.nomor_rekening_perusahaan,
+      nama_rekening: data.nama_rekening_perusahaan,
+      bank_rekening: data.nama_bank_rekening,
+      provinsi: data.provinsi_perusahaan,
+      kota: data.kota_perusahaan,
+      kecamatan: data.kecamatan_perusahaan,
+      kelurahan: data.kecamatan_perusahaan,
+      kodepos: data.kodePos_perusahaan,
+      status: 1,
+    };
+
+    const personal = {
+      nama_depan: data.nama_depan,
+      nama_belakang: data.nama_belakang,
+      email: "",
+      no_ktp: data.no_ktp,
+      no_hp: data.no_handphone,
+      tempat_lahir: data.tempat_lahir,
+      tanggal_lahir: data.tanggal_lahir,
+      agama: data.agama,
+      kewarganegaraan: data.kewarganegaraan,
+      pendidikan_terakhir: data.pendidikan_terakhir,
+      pekerjaan: data.posisi,
+      alamat_ktp: data.alamat_ktp,
+      kelurahan_ktp: data.kelurahan_ktp,
+      kecamatan_ktp: data.kecamatan_ktp,
+      kabupaten_ktp: data.kabupaten_ktp,
+      provinsi_ktp: data.provinsi_ktp,
+      alamat_domisili: data.alamat_domisili,
+      kelurahan_domisili: data.kelurahan_domisili,
+      kecamatan_domisili: data.kecamatan_domisili,
+      kabupaten_domisili: data.kabupaten_domisili,
+      provinsi_domisili: data.provinsi_domisili,
+    };
+
+    const document = new FormData();
+    document.append("nomor_akta_perusahaan", data.nomor_akta_perusahaan);
+    document.append("nomor_npwp_perusahaan", data.nomor_npwp_perusahaan);
+    document.append("dokumen_siup", data.dokumen_siup);
+    document.append("dokumen_tdp", data.dokumen_tdp);
+    document.append(
+      "dokumen_profil_perusahaan",
+      data.dokumen_profil_perusahaan
+    );
+    document.append("dokumen_laporan_keuangan", data.dokumen_laporan_keuangan);
+
+    try {
+      const responsePerusahaan = await postProtectedData(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit",
+        perusahaan
+      );
+      if (responsePerusahaan) {
+        console.log("Form submitted successfully:", responsePerusahaan);
+      } else {
+        console.error("Form submission failed");
+      }
+
+      const responseDocument = await postProtectedData(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit-berkas",
+        document
+      );
+      if (responseDocument) {
+        console.log("Form submitted successfully:", responseDocument);
+      } else {
+        console.error("Form submission failed");
+      }
+
+      const responsePersonal = await postProtectedData(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit-perwakilan",
+        personal
+      );
+      if (responsePersonal) {
+        console.log("Form submitted successfully:", responsePersonal);
+      } else {
+        console.error("Form submission failed");
+      }
+      reset();
+    } catch (error) {
+      console.error("Error during form submission:", error);
+    }
   };
-
-  // const processForm: SubmitHandler<Inputs> = async (data) => {
-  //   try {
-  //     console.log("Attempting to submit form with data:", data);
-
-  //     const payload = {
-  //       ...data,
-  //       slip_gaji: data.slip_gaji,
-  //     };
-
-  //     const response = await fetch("http://localhost:5000/users", {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(payload),
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorText = await response.text();
-  //       console.error("Server response:", errorText);
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const result = await response.json();
-  //     // console.log("Form successfully submitted:", result);
-  //     reset();
-  //   } catch (error) {
-  //     console.error("Error submitting form:", error);
-  //   }
-  // };
 
   type FieldName = keyof Inputs;
 
@@ -104,13 +158,13 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
     }
   };
 
-  const handleFaceCaptured = (image: string) => {
+  const handleFaceCaptured = (image: File) => {
     setFaceImage(image);
     setValue("swa_photo", image);
     next();
   };
 
-  const handleKtpCaptured = (image: string) => {
+  const handleKtpCaptured = (image: File) => {
     setKtpImage(image);
     setValue("ktp", image);
     next();
@@ -121,7 +175,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
   return (
     <section className="mx-auto flex w-full flex-col my-2">
       {/* Steps */}
-      {currentStep < 5 && (
+      {currentStep < 6 && (
         <header
           className={`w-full flex justify-between items-center my-8 lg:my-10`}
         >
@@ -224,7 +278,7 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
       </form>
       <div
         className={`flex w-1/2 mx-auto  ${
-          (currentStep === 0 || currentStep === 1 || currentStep === 5) &&
+          (currentStep === 0 || currentStep === 1 || currentStep === 6) &&
           "hidden"
         }`}
       >
@@ -240,4 +294,4 @@ const KycFormNew: React.FC<KycFormNewProps> = ({ steps }) => {
   );
 };
 
-export default KycFormNew;
+export default KYCPenerbitForm;

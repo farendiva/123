@@ -1,18 +1,55 @@
 import { Progress } from "@/components/ui/progress";
 import Link from "next/link";
 
-const BusinessCard = () => {
+interface TypeProps {
+  type: string;
+}
+
+const BusinessCard: React.FC<TypeProps> = ({ type }) => {
+  const progressValue = type === "1" || type === "2" ? 100 : 65;
   return (
     <Link href="/daftar-investasi">
-      <section className="bg-[#f8f8ff] rounded-xl max-w-80">
-        <img className="w-full" src="/images/kentang.png" alt="Product" />
+      <section className="bg-[#f8f8ff] rounded-xl max-w-80 2xl:max-w-[350px]">
+        <div className="relative">
+          <img
+            className="w-full rounded-t-xl"
+            src="/images/kentang.png"
+            alt="Product"
+          />
+          {type === "1" || type === "2" || type === "3" ? (
+            <>
+              <div
+                className={`absolute inset-0 ${
+                  type === "1"
+                    ? "bg-emerald-light"
+                    : type === "2"
+                    ? "bg-sky"
+                    : type === "3"
+                    ? "bg-orange-400"
+                    : ""
+                } opacity-80 rounded-t-xl`}
+              ></div>
+              <div className="absolute inset-0 flex justify-center items-center">
+                <span className="w-2/3   text-white text-center border-2 border-white rounded-xl font-bold">
+                  {type === "1"
+                    ? "Pendanaan Terpenuhi"
+                    : type === "2"
+                    ? "Proyek Berakhir"
+                    : type === "3"
+                    ? "Segera Terbit"
+                    : ""}
+                </span>
+              </div>
+            </>
+          ) : null}
+        </div>
         <section className="w-11/12 mx-auto my-4 flex flex-col gap-3">
           <section className="flex justify-start items-center text-xs text-white font-bold">
             <button className="bg-emerald-light px-7 py-1.5 rounded-l-md">
               Saham
             </button>
             <button className="bg-sky px-7 py-1.5 rounded-r-md">
-              24 Hari lagi
+              {type === "1" || type === "2" ? "0 Lagi" : "24 Hari lagi"}
             </button>
           </section>
           <h2 className="font-bold text-left text-sm">
@@ -30,19 +67,25 @@ const BusinessCard = () => {
           </section>
           <section className="text-sm text-left">
             <h3>Efek Tersedia</h3>
-            <h4 className="font-bold">3000</h4>
+            <h4 className="font-bold">
+              {type === "1" || type === "2" ? "-" : "3000"}
+            </h4>
           </section>
           <section className="text-sm text-left">
             <h3>Dana Terkumpul</h3>
           </section>
-          <Progress value={65} className="" />
+          <Progress value={progressValue} type={type} />
           <section className="flex justify-between">
-            <p>225.000.000</p>
-            <p>65%</p>
+            <p>
+              {type === "1" || type === "2" ? "400.000.000" : "225.000.000"}
+            </p>
+            <p>{type === "1" || type === "2" ? "100%" : "65%"}</p>
           </section>
           <section className="text-sm text-left mb-4">
             <h3>Sisa Dana yang Dibutuhkan</h3>
-            <h4 className="font-bold">Rp 175.000.000</h4>
+            <h4 className="font-bold">
+              {type === "1" || type === "2" ? "Rp 0" : "Rp 175.000.000"}
+            </h4>
           </section>
         </section>
       </section>

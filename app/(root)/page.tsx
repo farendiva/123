@@ -4,35 +4,36 @@ import TabsQuestions from "../components/TabsQuestions";
 
 export default async function Home() {
   return (
-    <main className="w-full">
+    <main className="w-full ">
+      {/* HERO SECTION */}
       <div className="w-full absolute top-0">
         <img
-          className="w-full hidden lg:block relative rounded-b-5xl -z-50"
+          className="w-full max-w-[1800px] hidden lg:block relative rounded-b-5xl -z-50"
           src="/images/cover.png"
           alt="Background image Cover"
         />
-        <div className="absolute inset-0 bg-custom-gradient rounded-b-5xl z-10"></div>
+        <div className="absolute inset-0 max-w-[1800px] bg-custom-gradient rounded-b-5xl z-10"></div>
       </div>
-      {/* gradient bawah ini */}
+      {/* HERO GRADIENT */}
       <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>
-      <section className="w-4/5 lg:w-11/12 mx-auto py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
-        <section className="w-full lg:w-1/2 text-white space-y-3 z-20 ">
+      <section className="w-4/5 lg:w-11/12 mx-auto mb-32 md:mb-24 lg:mb-16 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
+        <section className="w-full lg:w-1/2 text-white space-y-6 lg:space-y-3 z-20 ">
           <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>
           <p className="text-base text-justify lg:text-left font-normal">
             Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
             menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
             dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
           </p>
-          <section className="flex flex-col sm:flex-row text-sm lg:text-base font-bold gap-2 lg:gap-0">
+          <section className="flex flex-col sm:flex-row text-base font-bold gap-2 lg:gap-0">
             <Link
-              href="/penerbit"
-              className="relative z-10 my-0 lg:my-8 py-3 px-3 lg:py-6 lg:px-6 bg-emerald hover:bg-green-700 rounded-xl lg:rounded-l-xl text-white"
+              href="/daftar/penerbit"
+              className="relative z-10 my-0 lg:my-8 py-4 px-3 lg:py-6 lg:px-6 bg-emerald hover:bg-green-700 rounded-xl lg:rounded-l-xl text-white"
             >
               Daftar Sebagai Penerbit
             </Link>
             <Link
-              href="/pemodal"
-              className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-3 px-3 lg:py-6 lg:px-6 bg-white hover:bg-slate-200 rounded-xl text-black"
+              href="/daftar/pemodal"
+              className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-4 px-3 lg:py-6 lg:px-6 bg-white hover:bg-slate-200 rounded-xl text-black"
             >
               Daftar Sebagai Pemodal
             </Link>
@@ -51,9 +52,8 @@ export default async function Home() {
             />
           </section>
         </section>
-        {/* Section bawah ini */}
         <section className="w-11/12 lg:w-1/2 grid grid-cols-1 lg:grid-cols-2 justify-center items-center gap-2 lg:gap-16 z-20 mb-0 lg:mb-20  text-white">
-          <section className="flex items-center gap-8 lg:gap-2">
+          <section className="flex items-center gap-16 lg:gap-2">
             <img
               className="w-[24px] h-[24px]"
               src="/icons/people.svg"
@@ -61,34 +61,40 @@ export default async function Home() {
             />
             <section className="">
               <h3 className="">Dana Tersalurkan</h3>
-              <h4 className="text-2xl font-bold">Rp 250.665.000.000</h4>
+              <h4 className="text-base lg:text-2xl font-bold">
+                Rp 250.665.000.000
+              </h4>
             </section>
           </section>
-          <section className="flex items-center gap-8 lg:gap-2">
+          <section className="flex items-center gap-16 lg:gap-2">
             <img src="/icons/check.svg" alt="Check Icon" />
             <section className="">
               <h3 className="">Investor Aktif</h3>
-              <h4 className="text-2xl font-bold">25.1rb</h4>
+              <h4 className="text-base lg:text-2xl font-bold">25.1rb</h4>
             </section>
           </section>
-          <section className="flex items-center gap-8 lg:gap-2">
+          <section className="flex items-center gap-16 lg:gap-2">
             <img src="/icons/undo.svg" alt="Undo Icon" />
             <section className="">
               <h3 className="">Pengembalian Dana</h3>
-              <h4 className="text-2xl font-bold"> Rp 1.305.595.000</h4>
+              <h4 className="text-base lg:text-2xl font-bold">
+                {" "}
+                Rp 1.305.595.000
+              </h4>
             </section>
           </section>
-          <section className="flex items-center gap-8 lg:gap-2">
+          <section className="flex items-center gap-16 lg:gap-2">
             <img src="/icons/stats.svg" alt="Stats Icon" />
             <section className="">
               <h3 className="">Rata-rata Realisasi ROI</h3>
-              <h4 className="text-2xl font-bold">15%</h4>
+              <h4 className="text-base lg:text-2xl font-bold">15%</h4>
             </section>
           </section>
         </section>
       </section>
 
-      <section className="space-y-4 mt-4 2xl:mt-16 text-center">
+      {/* TEXT DIBAWAH HERO  */}
+      <section className="space-y-4 text-center">
         <section className="w-11/12 lg:w-1/2 mx-auto ">
           <h4 className="text-xl lg:text-3xl font-bold">
             Investasi Proyek Yang Sedang Berjalan
@@ -99,11 +105,11 @@ export default async function Home() {
           </p>
         </section>
       </section>
-      <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-8 lg:gap-y-0 my-8">
-        <BusinessCard />
-        <BusinessCard />
-        <BusinessCard />
-        <BusinessCard />
+      <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-8 2xl:gap-0 lg:gap-y-0 my-8">
+        <BusinessCard type="3" />
+        <BusinessCard type="1" />
+        <BusinessCard type="0" />
+        <BusinessCard type="2" />
       </section>
       <section className="flex justify-center items-center mx-auto my-16">
         <Link
@@ -187,84 +193,161 @@ export default async function Home() {
         <h4 className="text-xl lg:text-2xl font-bold mx-auto mt-12 mb-16 text-center">
           Hal yang perlu Diperhatikan
         </h4>
-        <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-scroll">
+        <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-scroll space-y-2 text-justify">
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Consectetur
-            libero, in minima dignissimos laborum assumenda placeat nostrum
-            maxime porro nisi eos possimus quisquam doloremque sint autem
-            pariatur a vero quasi. Voluptatibus in fuga neque! Voluptatibus
-            ratione enim vitae, consectetur animi eligendi fugiat consequuntur
-            consequatur rem expedita iure placeat sint tempora modi qui esse
-            rerum possimus delectus tempore ullam magnam quia. Iusto officia
-            eveniet cum iste est odit vero modi impedit numquam sit, molestiae
-            ipsam laudantium perferendis id magnam quidem hic. Maxime illum
-            ratione corrupti at vitae quibusdam nostrum tempore itaque animi
-            similique nam eaque soluta harum enim incidunt, aliquid voluptate.
+            PT Fintek Andalan Solusi Teknologi (“Fulusme”) adalah Penyelenggara
+            Layanan Urun Dana melalui Penawaran Efek Berbasis Teknologi
+            Informasi (Securities Crowdfunding) sebagaimana tunduk pada
+            ketentuan Peraturan Otoritas Jasa Keuangan NOMOR 57/POJK.04/2020
+            tentang Penawaran Efek Melalui Layanan Urun Dana Berbasis Teknologi
+            Informasi atau Securities Crowdfunding (“POJK 57/2020”), yang telah
+            berizin dan diawasi OJK, kami menyatakan bahwa :
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta
-            molestias recusandae in ratione, laudantium esse reiciendis?
-            Inventore quo odit, fugit dicta temporibus, id cupiditate impedit
-            voluptates expedita illo mollitia magnam. Dolor amet qui, nam saepe
-            tempora impedit a, ipsum repellendus, hic mollitia suscipit alias
-            laboriosam nesciunt consectetur deserunt sint voluptatem asperiores?
-            Quod vero enim cum dicta error commodi repellat explicabo quisquam
-            consectetur aliquid officiis obcaecati, reiciendis a eveniet facere
-            ad pariatur quibusdam eum accusamus molestiae quidem dolorem
-            molestias. Amet veritatis sed quisquam nobis ipsam nesciunt illo
-            consectetur expedita laborum autem tempore facilis nisi quod quia
-            architecto quasi rerum reiciendis, modi iure deserunt, quos eligendi
-            voluptas fugiat. Autem, quidem. Nesciunt at eligendi recusandae, ab
-            in nemo non blanditiis. Assumenda, quos voluptas ipsam quidem
-            corporis iure facere sit asperiores perspiciatis suscipit quod nam
-            esse et fugiat, aut quaerat iusto iste impedit. Quisquam architecto
-            nisi sapiente id blanditiis laborum at cupiditate, sunt deleniti,
-            necessitatibus error voluptas, voluptatibus reprehenderit maiores
-            sequi mollitia ratione quae dignissimos? Facilis earum tenetur
-            consequatur, totam, magni reiciendis tempora fuga nemo beatae
-            commodi blanditiis? Voluptatum quasi dolorum amet magnam odit
-            voluptatibus omnis repellat error! Quod vitae modi animi
-            exercitationem adipisci facilis perferendis asperiores ipsam
-            quibusdam incidunt? Obcaecati veniam sequi ducimus.
+            “OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN MENYETUJUI ATAU
+            TIDAK MENYETUJUI EFEK INI, TIDAK JUGA MENYATAKAN KEBENARAN ATAU
+            KECUKUPAN INFORMASI DALAM LAYANAN URUN DANA INI. SETIAP PERNYATAAN
+            YANG BERTENTANGAN DENGAN HAL TERSEBUT ADALAH PERBUATAN MELANGGAR
+            HUKUM”;
           </p>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
-            quis ipsam autem. Voluptate eligendi qui ad dolor id sequi velit ab
-            voluptatibus labore aliquam, impedit dignissimos dolores totam,
-            molestias assumenda eos magni explicabo quae pariatur recusandae
-            consectetur dolore? Animi libero voluptatibus consequuntur dolorem
-            dicta. Ea officiis dolores qui sunt sit totam libero iure
-            exercitationem, deleniti suscipit aspernatur. Facilis nisi porro
-            eius perferendis cumque libero minima voluptatem, inventore numquam
-            quas. Quae voluptatem eum autem aliquam dolor, laboriosam laborum
-            culpa nihil esse consectetur labore reiciendis quasi quam inventore,
-            fuga ducimus minima iure non. Aperiam minus, officiis reprehenderit
-            quod laboriosam veniam! Consequuntur exercitationem repudiandae,
-            quasi omnis accusantium quisquam ipsum expedita animi architecto
-            asperiores iusto dignissimos vero autem deserunt maiores, qui a
-            assumenda ipsa alias molestiae accusamus, eum consectetur rem. Eos,
-            quidem ut tenetur quis alias eius amet sunt blanditiis quaerat iusto
-            minus at laudantium pariatur asperiores sint! Est mollitia
-            repellendus iusto dolorem aliquam animi fuga qui illo, iste ab
-            explicabo accusamus, doloribus, dignissimos quasi earum corporis
-            vero ipsam! Quod magni in cumque voluptates rem. Fuga reiciendis
-            tempora dignissimos molestias repellendus magni ratione eius
-            corporis, sapiente velit quaerat molestiae ipsum fugiat quae nisi
-            aperiam amet voluptas illo! Cupiditate assumenda commodi eveniet sed
-            placeat. Tempore voluptatem perspiciatis cupiditate dolore.
-            Excepturi expedita rerum porro quos sed! Obcaecati officia tempora
-            perferendis molestiae rerum amet id rem quod, cumque, et atque
-            mollitia deserunt nihil doloribus fuga quis voluptatibus illum
-            assumenda voluptatum facere debitis velit natus. Explicabo, impedit
-            a unde ducimus minus eligendi nisi doloribus amet, saepe corrupti
-            perferendis voluptatum deserunt, quia provident placeat qui!
-            Obcaecati deserunt reprehenderit, suscipit temporibus fugiat aut?
-            Voluptate suscipit ab aliquid mollitia a repellat, aperiam
-            doloremque voluptates neque enim soluta iste voluptatibus facilis
-            natus placeat animi provident dignissimos labore quisquam expedita
-            nam! Quia error enim sit dolores earum facere doloremque repellat
-            explicabo ab? Tenetur.
+            “INFORMASI DALAM LAYANAN URUN DANA INI PENTING DAN PERLU MENDAPAT
+            PERHATIAN SEGERA. APABILA TERDAPAT KERAGUAN PADA TINDAKAN YANG AKAN
+            DIAMBIL, SEBAIKNYA BERKONSULTASI DENGAN PENYELENGGARA.”; dan
           </p>
+          <p>
+            PENERBIT DAN PENYELENGGARA, BAIK SENDIRI-SENDIRI MAUPUN
+            BERSAMA-SAMA, BERTANGGUNG JAWAB SEPENUHNYA ATAS KEBENARAN SEMUA
+            INFORMASI YANG TERCANTUM DALAM LAYANAN URUN DANA INI
+          </p>
+          <ul className="space-y-2">
+            <li className="space-y-2">
+              <p>
+                1. Anda perlu mempertimbangkan dengan cermat, teliti dan seksama
+                setiap investasi bisnis yang akan Anda lakukan di Fulusme,
+                berdasarkan pengetahuan, keilmuan serta pengalaman yang Anda
+                miliki dalam hal keuangan dan bisnis. Dibutuhkan
+                kajian/penelaahan laporan keuangan, target tujuan investasi,
+                kemampuan analisis, serta pertimbangan risiko yang akan Anda
+                ambil.
+              </p>
+              <p>
+                Anda menyadari bahwa setiap bisnis pasti memiliki risikonya
+                masing-masing. Untuk itu, dengan berinvestasi melalui Fulusme,
+                Anda sudah mengerti akan segala resiko yang dapat terjadi di
+                kemudian hari, seperti penurunan performa bisnis, hingga
+                kebangkrutan dari bisnis yang anda investasikan tersebut.
+              </p>
+              <p>
+                <span className="font-bold">
+                  Fulusme TIDAK BERTANGGUNG JAWAB terhadap risiko kerugian dan
+                  gugatan hukum serta segala bentuk risiko lain yang timbul
+                  dikemudian hari atas hasil investasi bisnis yang anda tentukan
+                  sendiri saat ini.
+                </span>{" "}
+                Beberapa risiko yang dapat terjadi saat Anda berinvestasi yaitu
+                :
+              </p>
+              <p className="font-bold">Risiko Usaha</p>
+              <p>
+                Risiko adalah suatu hal yang tidak dapat dihindari dalam suatu
+                usaha/bisnis. Beberapa risiko bisa terjadi karena berubahnya
+                permintaan pasar dan proyeksi keuangan bisnis bisa saja tidak
+                sesuai dengan proposal bisnis ketika dijalankan
+              </p>
+              <p className="font-bold">Kerugian Investasi </p>
+              <p>
+                Setiap investasi memiliki tingkat risiko yang bervariasi seperti
+                tidak terkumpulnya dana investasi yang dibutuhkan selama proses
+                pengumpulan dana atau proyek yang dijalankan tidak menghasilkan
+                keuntungan sesuai yang diharapkan.
+              </p>
+              <p className="font-bold">Kekurangan Likuiditas</p>
+              <p>
+                Investasi Anda di suatu Penerbit, mungkin saja tidak likuid dan
+                tidak mudah dijual kembali karena Efek yang ditawarkan tidak
+                terdaftar di bursa umum secara publik. Ini berarti bahwa Anda
+                mungkin tidak dapat dengan mudah menjual Efek Anda di bisnis
+                tertentu atau Anda mungkin tidak dapat menemukan pembeli sebelum
+                berakhirnya jangka waktu investasi di pasar sekunder.
+              </p>
+              <p className="font-bold">Kelangkaan Pembagian Dividen</p>
+              <p>
+                Setiap Pemodal yang ikut berinvestasi berhak untuk mendapatkan
+                dividen sesuai dengan jumlah kepemilikan Efek. Dividen (imbal
+                hasil) ini akan diberikan oleh Penerbit dengan jadwal pembagian
+                yang telah disepakati di awal dan dapat dicek di detail bisnis.
+                Kelangkaan pembagian dividen bahkan gagal bayar dapat terjadi
+                karena kinerja bisnis yang Anda investasikan bisa jadi kurang
+                berjalan dengan baik.
+              </p>
+              <p className="font-bold">Dilusi Kepemilikan Efek</p>
+              <p>
+                Dilusi kepemilikan Efek adalah penurunan persentase kepemilikan
+                Efek yang terjadi karena bertambahnya total jumlah Efek yang
+                beredar, dimana Investor yang bersangkutan tidak ikut membeli
+                Efek yang baru diterbitkan tersebut. Penerbit dapat menerbitkan
+                Efek baru jika jumlah penawaran yang diajukan masih dibawah
+                batas maksimum. Jika Penerbit mengadakan urun dana lagi dan
+                terjadi penerbitan Efek baru, maka Fulusme akan membuka bisnis
+                tersebut di website Fulusme.id dan menginformasikan kepada semua
+                pemegang Efek.
+              </p>
+              <p className="font-bold">Perubahan Status Efek Syariah</p>
+              <p>
+                Risiko yang timbul adanya Penerbit melanggar atau tidak lagi
+                memenuhi kriteria Efek Syariah. Penerbit yang listing di
+                platform Vestora sudah melalui proses screening dari tim analis
+                bisnis Vestora. Penerbit yang dipilih berdasarkan rekam jejak
+                bisnis yang baik dan memenuhi standar dalam kesesuaian kriteria
+                prinsip syariah yang diputuskan dalam persetujuan akhir oleh
+                Dewan Pengawas Syariah. Dalam hal ini Vestora sebagai
+                penyelenggara akan memonitoring kepada Penerbit secara berkala.
+              </p>
+              <p className="font-bold">Kegagalan Sistem Elektronik</p>
+              <p>
+                Fulusme telah menerapkan sistem teknologi informasi dan keamanan
+                data yang handal. Namun bagaimanapun juga tetap memungkinkan
+                jika terjadi gangguan sistem teknologi informasi dan kegagalan
+                sistem, jika ini terjadi maka akan menyebabkan aktivitas bisnis
+                Anda di platform Fulusme menjadi tertunda.
+              </p>
+            </li>
+            <li>
+              2. Semua materi terkait pilihan investasi yang tercantum dalam
+              situs ini sebatas informasi dan tidak dapat dianggap sebagai
+              nasihat, dukungan, ataupun rekomendasi investasi. Perusahaan
+              sebagai penyedia layanan urun dana hanya terbatas pada fungsi
+              administratif. Pemodal harus sepenuhnya menyadari adanya risiko
+              kelangkaan pembayaran dividen di kemudian hari dan risiko-risiko
+              lainnya
+            </li>
+            <li>
+              3. Penyelenggara dengan persetujuan dari masing-masing Pengguna
+              (Pemodal dan / atau Penerbit) mengakses, memperoleh, menyimpan,
+              mengelola, dan / atau menggunakan data pribadi Pengguna
+              (&quot;Pemanfaatan Data&quot;) pada atau di dalam benda, perangkat
+              elektronik (termasuk smartphone atau telepon seluler), perangkat
+              keras (hardware) maupun lunak (software), dokumen elektronik,
+              aplikasi atau sistem elektronik milik Pengguna atau yang dikuasai
+              Pengguna, dengan memberitahukan tujuan, batasan, dan mekanisme
+              Pemanfaatan Data tersebut kepada Pengguna yang bersangkutan
+              sebelum memperoleh persetujuan yang dimaksud sesuai kebutuhan
+              layanan urun dana
+            </li>
+            <li>
+              4. Fulusme tidak memaksa pengguna membeli Efek yang sedang
+              ditawarkan. Semua keputusan transaksi jual beli Efek merupakan
+              keputusan pribadi konsumen.
+            </li>
+            <li>
+              5. Fulusme bertindak sebagai Penyelenggara Layanan Urun Dana,
+              bukan sebagai pihak yang menjalankan kegiatan usaha atau proyek
+              Penerbit. Otoritas Jasa Keuangan bertindak sebagai regulator dan
+              pemberi izin, pengawas Penyelenggara, bukan sebagai penjamin
+              investasi.
+            </li>
+          </ul>
         </section>
       </section>
     </main>

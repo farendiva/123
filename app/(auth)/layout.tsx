@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "../globals.css";
-import StickyButton from "../components/StickyButton";
+import { Toaster } from "@/components/ui/toaster";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -18,7 +18,7 @@ export default function AuthLayout({
     <html lang="en">
       <body className={`${openSans.className} w-11/12 mx-auto`}>
         {children}
-        <StickyButton />
+        <Toaster />
       </body>
     </html>
   );

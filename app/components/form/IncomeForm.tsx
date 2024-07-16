@@ -1,15 +1,17 @@
 "use client";
 
-import React, { ChangeEvent, FC, useState } from "react";
+import React, { ChangeEvent, FC, useState, useEffect } from "react";
 import {
   UseFormRegister,
   Control,
   FieldErrors,
   UseFormSetValue,
   Controller,
+  UseFormWatch,
 } from "react-hook-form";
 import { z } from "zod";
 import { KycPemodalFormSchema } from "../../../lib/schema";
+import usePreferences from "@/hooks/usePreferences";
 
 type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
@@ -18,6 +20,22 @@ interface IncomeFormProps {
   control: Control<Inputs>;
   setValue: UseFormSetValue<Inputs>;
   errors: FieldErrors<Inputs>;
+  watch: UseFormWatch<Inputs>;
+}
+
+interface Profession {
+  id: number;
+  pekerjaan: string;
+}
+
+interface Industry {
+  id: number;
+  industri_pekerjaan: string;
+}
+
+interface Salary {
+  id: number;
+  pendapatan: string;
 }
 
 export const incomeFields: (keyof Inputs)[] = [
@@ -25,27 +43,23 @@ export const incomeFields: (keyof Inputs)[] = [
   "industri_pekerjaan",
   "pendapatan_per_bulan",
   "slip_gaji",
-  "nomorRekening",
-  "namaPemilikRekening",
-  "nomorRekeningKustodian",
-  "namaPemilikRekeningKustodian",
+  "nomor_rekening",
+  "nama_pemilik_rekening",
+  "nomor_rekening_kustodian",
+  "nama_pemilik_rekening_kustodian",
 ];
 
 const IncomeForm: FC<IncomeFormProps> = ({
   register,
   control,
   errors,
+  watch,
   setValue,
 }) => {
+  const pekerjaan = watch("pekerjaan");
   const [isSlipGajiDisabled, setIsSlipGajiDisabled] = useState(false);
   const [fileName, setFileName] = useState("Unggah Slip Gaji");
-
-  const handlePekerjaanChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    const selectedPekerjaan = e.target.value;
-    setIsSlipGajiDisabled(
-      selectedPekerjaan === "direktur" || selectedPekerjaan === "wiraswasta"
-    );
-  };
+  const { profession, industries, salaries } = usePreferences();
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>, field: any) => {
     const files = e.target.files;
@@ -56,6 +70,15 @@ const IncomeForm: FC<IncomeFormProps> = ({
       setFileName(file.name); // Update the file name state
     }
   };
+
+  useEffect(() => {
+    if (pekerjaan === "direktur" || pekerjaan === "wiraswasta") {
+      setIsSlipGajiDisabled(true);
+      setValue("slip_gaji", undefined);
+    } else {
+      setIsSlipGajiDisabled(false);
+    }
+  }, [pekerjaan, setValue]);
 
   return (
     <>
@@ -72,17 +95,19 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <select
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="pekerjaan"
+              value={pekerjaan || ""}
               {...register("pekerjaan", {
                 required: "Pilih pekerjaan diperlukan",
               })}
-              onChange={handlePekerjaanChange}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih pekerjaan
               </option>
-              <option value="wiraswasta">Wiraswasta</option>
-              <option value="direktur">Direktur Perusahaan</option>
-              <option value="programmer">Programmer</option>
+              {profession.map((item: Profession) => (
+                <option key={item.id} value={item.id}>
+                  {item.pekerjaan.toUpperCase()}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.pekerjaan && (
@@ -105,16 +130,19 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <select
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="industri_pekerjaan"
+              value={watch("industri_pekerjaan") || ""}
               {...register("industri_pekerjaan", {
                 required: "Pilih bidang pekerjaan diperlukan",
               })}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Bidang Pekerjaan
               </option>
-              <option value="technology">Technology</option>
-              <option value="finance">Finance</option>
-              <option value="design">Design</option>
+              {industries.map((industry: Industry) => (
+                <option key={industry.id} value={industry.id}>
+                  {industry.industri_pekerjaan.toUpperCase()}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.industri_pekerjaan && (
@@ -167,7 +195,9 @@ const IncomeForm: FC<IncomeFormProps> = ({
           </div>
           <div className="mt-1 h-1">
             {errors.slip_gaji?.message && (
-              <p className="text-sm text-red-400">{errors.slip_gaji.message}</p>
+              <p className="text-sm text-red-400">
+                {String(errors.slip_gaji?.message)}
+              </p>
             )}
           </div>
         </div>
@@ -177,22 +207,25 @@ const IncomeForm: FC<IncomeFormProps> = ({
             htmlFor="pendapatan_per_bulan"
             className="block text-sm leading-6 font-bold"
           >
-            Total Gaji dalam Setahun
+            Total Gaji dalam Sebulan
           </label>
           <div className="w-full">
             <select
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="pendapatan_per_bulan"
+              value={watch("pendapatan_per_bulan") || ""}
               {...register("pendapatan_per_bulan", {
                 required: "Pilih total gaji diperlukan",
               })}
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Pilih Total Gaji
               </option>
-              <option value="<500000000">{"< Rp 500.000.000"}</option>
-              <option value="<1000000000">{"< Rp 1.000.000.000"}</option>
-              <option value="<10000000000">{"< Rp 10.000.000.000"}</option>
+              {salaries.map((salary: Salary) => (
+                <option key={salary.id} value={salary.id}>
+                  {salary.pendapatan}
+                </option>
+              ))}
             </select>
             <div className="mt-1 h-1">
               {errors.pendapatan_per_bulan && (
@@ -206,7 +239,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="nomorRekeningKustodian"
+            htmlFor="nomor_rekening_kustodian"
             className="block text-sm leading-6 font-bold"
           >
             Nomor Rekening Kustodian (Opsional)
@@ -215,13 +248,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="nomorRekeningKustodian"
-              {...register("nomorRekeningKustodian")}
+              id="nomor_rekening_kustodian"
+              {...register("nomor_rekening_kustodian")}
             />
             <div className="mt-1 h-1">
-              {errors.nomorRekeningKustodian && (
+              {errors.nomor_rekening_kustodian && (
                 <p className="text-sm text-red-400">
-                  {errors.nomorRekeningKustodian.message}
+                  {errors.nomor_rekening_kustodian.message}
                 </p>
               )}
             </div>
@@ -230,7 +263,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="namaPemilikRekeningKustodian"
+            htmlFor="nama_pemilik_rekening_kustodian"
             className="block text-sm leading-6 font-bold"
           >
             Nama Pemilik Rekening Kustodian (Opsional)
@@ -239,13 +272,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="namaPemilikRekeningKustodian"
-              {...register("namaPemilikRekeningKustodian")}
+              id="nama_pemilik_rekening_kustodian"
+              {...register("nama_pemilik_rekening_kustodian")}
             />
             <div className="mt-1 h-1">
-              {errors.namaPemilikRekeningKustodian && (
+              {errors.nama_pemilik_rekening_kustodian && (
                 <p className="text-sm text-red-400">
-                  {errors.namaPemilikRekeningKustodian.message}
+                  {errors.nama_pemilik_rekening_kustodian.message}
                 </p>
               )}
             </div>
@@ -254,7 +287,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="nomorRekening"
+            htmlFor="nomor_rekening"
             className="block text-sm leading-6 font-bold"
           >
             Nomor Rekening
@@ -263,13 +296,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="nomorRekening"
-              {...register("nomorRekening")}
+              id="nomor_rekening"
+              {...register("nomor_rekening")}
             />
             <div className="mt-1 h-1">
-              {errors.nomorRekening && (
+              {errors.nomor_rekening && (
                 <p className="text-sm text-red-400">
-                  {errors.nomorRekening.message}
+                  {errors.nomor_rekening.message}
                 </p>
               )}
             </div>
@@ -278,7 +311,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="namaPemilikRekening"
+            htmlFor="nama_pemilik_rekening"
             className="block text-sm leading-6 font-bold"
           >
             Nama Pemilik Rekening
@@ -287,13 +320,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="namaPemilikRekening"
-              {...register("namaPemilikRekening")}
+              id="nama_pemilik_rekening"
+              {...register("nama_pemilik_rekening")}
             />
             <div className="mt-1 h-1">
-              {errors.namaPemilikRekening && (
+              {errors.nama_pemilik_rekening && (
                 <p className="text-sm text-red-400">
-                  {errors.namaPemilikRekening.message}
+                  {errors.nama_pemilik_rekening.message}
                 </p>
               )}
             </div>

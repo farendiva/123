@@ -14,10 +14,10 @@ const Completion: FC = () => {
           </h2>
         </div>
         <Link
-          href="/"
+          href="/dashboard"
           className="mx-auto bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          Kembali Ke Beranda
+          Kembali Ke Dashboard
         </Link>
       </div>
     </>

@@ -2,7 +2,7 @@ import { useRef, FC } from "react";
 import Webcam from "react-webcam";
 
 interface CaptureProps {
-  onCapture: (image: string) => void;
+  onCapture: (image: File) => void;
   captureType: "face" | "ktp";
 }
 
@@ -43,8 +43,15 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
           overlayHeight
         );
 
-        const croppedImage = canvas.toDataURL("image/jpeg");
-        onCapture(croppedImage);
+        // Convert canvas content to Blob (file)
+        canvas.toBlob((blob) => {
+          if (blob) {
+            const file = new File([blob], "captured-image.jpeg", {
+              type: "image/jpeg",
+            });
+            onCapture(file);
+          }
+        }, "image/jpeg");
       };
     }
   };
@@ -58,7 +65,7 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
   };
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto h-128 rounded-5xl overflow-hidden">
+    <div className="relative w-full max-w-5xl mx-auto h-screen lg:h-128 rounded-5xl overflow-hidden">
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
       <Webcam
         audio={false}
@@ -66,16 +73,14 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
         screenshotFormat="image/jpeg"
         className="absolute inset-0 w-full h-full object-cover rounded-5xl"
       />
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 mix-blend-multiply">
         {captureType === "face" ? (
-          <>
-            <div className="relative">
-              <div className="h-72 w-72 rounded-full border-4 border-white bg-transparent"></div>
-            </div>
-          </>
+          <div className="relative">
+            <div className="h-52 w-52 md:h-72 md:w-72 rounded-full border-4 bg-white bg-transparent border-white"></div>
+          </div>
         ) : (
           <div className="relative">
-            <div className="h-36 w-56 border-4 border-white bg-transparent"></div>
+            <div className="h-28 w-48 md:h-56 md:w-96 border-4 border-white bg-white bg-transparent"></div>
           </div>
         )}
       </div>
@@ -84,10 +89,10 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
           src="/icons/circle.svg"
           alt=""
           onClick={handleCapture}
-          className="cursor-pointer h-16 w-16"
+          className="cursor-pointer h-8 w-8 md:h-16 md:w-16"
         />
       </div>
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-center">
+      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-center text-sm md:text-base">
         {captureType === "face"
           ? "Posisikan wajah anda pada lingkaran"
           : "Posisikan Kartu KTP anda Masuk kedalam Frame"}

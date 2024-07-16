@@ -24,27 +24,15 @@ interface CaptureKTPProps {
   trigger: UseFormTrigger<Inputs>;
   errors: FieldErrors<Inputs>;
   watch: UseFormWatch<Inputs>;
-  ktpImage: string;
-  faceImage: string;
+  ktpImage: File;
+  faceImage: File;
+  onCaptured: (image: File) => void;
 }
 
-interface CaptureKTPProps {
-  onCaptured: (image: string) => void;
-}
+const CaptureKTP: FC<CaptureKTPProps> = ({ onCaptured, register, errors }) => {
+  const [capturedImage, setCapturedImage] = useState<File | null>(null);
 
-const CaptureKTP: FC<CaptureKTPProps> = ({
-  onCaptured,
-  register,
-  control,
-  setValue,
-  watch,
-  errors,
-  ktpImage,
-  faceImage,
-}) => {
-  const [capturedImage, setCapturedImage] = useState<string | null>(null);
-
-  const handleCapture = (image: string) => {
+  const handleCapture = (image: File) => {
     setCapturedImage(image);
   };
 
@@ -57,7 +45,7 @@ const CaptureKTP: FC<CaptureKTPProps> = ({
       {capturedImage ? (
         <div className="flex flex-col items-center">
           <img
-            src={capturedImage}
+            src={capturedImage ? URL.createObjectURL(capturedImage) : ""}
             alt="Captured KTP"
             className="mb-4 w-56 h-36"
           />
@@ -88,7 +76,7 @@ const CaptureKTP: FC<CaptureKTPProps> = ({
           </div>
 
           <button
-            className=" bg-emerald-light px-12 font-bold rounded-3xl py-2 text-white"
+            className="my-4 bg-emerald-light px-12 font-bold rounded-3xl py-2 text-white"
             onClick={() => onCaptured(capturedImage)}
           >
             Selanjutnya

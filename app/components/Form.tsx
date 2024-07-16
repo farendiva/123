@@ -14,6 +14,11 @@ import {
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp";
+import { useToast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { ToastAction } from "@/components/ui/toast";
+import TermServices from "./TermServices";
+import { usePathname } from "next/navigation";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
 
@@ -42,9 +47,11 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [loading, setLoading] = useState(false);
-
-  const client_id = uuidv4(); // Generate a new UUID for the client_id
+  const { toast } = useToast();
+  const pathname = usePathname();
+  const client_id = uuidv4();
   const delta = currentStep - previousStep;
+  const user_type = pathname === "/daftar/pemodal" ? "pemodal" : "penerbit";
 
   const {
     register,
@@ -56,6 +63,12 @@ export default function Form() {
   } = useForm<Inputs>({
     resolver: zodResolver(RegistrationDataSchema),
   });
+  function convertPhoneNumber(phone: string) {
+    if (phone.startsWith("0")) {
+      return "62" + phone.slice(1);
+    }
+    return phone;
+  }
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -68,16 +81,19 @@ export default function Form() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            name: `${data.namaDepan} ${data.namaBelakang}`,
+            nama_depan: `${data.namaDepan}`,
+            nama_belakang: `${data.namaBelakang}`,
             email: data.email,
+            no_handphone: convertPhoneNumber(data.phone),
             password: data.password,
-            client_id: client_id,
+            user_type: user_type,
           }),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
+        console.log(result);
         reset();
       } else {
         const errorData = await response.json();
@@ -88,6 +104,32 @@ export default function Form() {
       // Handle network error
     } finally {
       setLoading(false); // Set loading to false setelah selesai mengirim data
+    }
+  };
+
+  const checkEmailAvailability = async (email: any) => {
+    try {
+      const response = await fetch(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        }
+      );
+
+      const result = await response.json();
+
+      if (!result.status && result.message.email) {
+        return false;
+      }
+
+      return true;
+    } catch (error) {
+      console.error("Error checking email availability:", error);
+      return false;
     }
   };
 
@@ -112,6 +154,26 @@ export default function Form() {
     }
 
     if (output && currentStep < steps.length - 1) {
+      if (currentStep === 0) {
+        // Check if email is available before moving to next step
+        const email = watch("email");
+        const isEmailAvailable = await checkEmailAvailability(email);
+
+        if (!isEmailAvailable) {
+          // Show error message
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "Email sudah terdaftar.",
+            description: "Silakan gunakan email lain.",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
+          return;
+        }
+      }
+
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
       }
@@ -384,75 +446,7 @@ export default function Form() {
               </h1>
             </div>
             <div className="flex flex-col items-center">
-              <div
-                id="terms"
-                onScroll={handleScroll}
-                className="h-128 overflow-y-scroll bg-[#f7f7ff] rounded-xl p-4 mb-4 w-full"
-              >
-                <h4>Syarat dan Ketentuan Umum</h4>
-                <ul className="">
-                  <li>1. Kata Pengantar</li>
-                  <li>
-                    2. Syarat dan Ketentuan Umum ini mengatur hak dan kewajiban
-                    yang mengikat secara hukum terhadap Pengguna untuk
-                    mengakses, menggunakan dan mengunjungi setiap dan seluruh
-                    laman situs (website) dan layanan yang terdapat pada situs
-                    www.Fulusme.id (â€œSitus Fulusmeâ€œ). Situs Fulusme
-                    merupakan situs milik dari PT. Fulusme (atau dikenal dengan
-                    nama â€œFulusmeâ€ atau â€œPenyelenggaraâ€) yang merupakan
-                    penyelenggara penawaran efek melalui layanan urun dana
-                    berbasis teknologi informasi (Securities Crowdfunding)
-                    berdasarkan Peraturan Otoritas Jasa Keuangan No.57 Tahun
-                    2020 (selanjutnya disebut â€œPOJKâ€) yang telah memperoleh
-                    izin dari Otoritas Jasa Keuangan Republik Indonesia
-                    (selanjutnya disebut OJK RI) berdasarkan Surat Keputusan No:
-                    KEP-38/D.04/2021 tentang Pemberian Izin Usaha Penyelenggara
-                    Penawaran Efek Melalui Layanan Urun Dana Berbasis Teknologi
-                    Informasi (Securities Crowdfunding) PT. Fulusme.
-                  </li>
-                  <li>
-                    3. Situs Fulusme merupakan Penawaran Efek melalui Layanan
-                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
-                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
-                    penawaran efek yang dilakukan oleh penerbit untuk menjual
-                    efek secara langsung kepada pemodal melalui jaringan sistem
-                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
-                    dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
-                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
-                    selaku pengguna dengan ini menyatakan menerima Syarat dan
-                    Ketentuan umum di bawah ini secara keseluruhan.
-                  </li>
-                  <li>
-                    {" "}
-                    4. Situs Fulusme merupakan Penawaran Efek melalui Layanan
-                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
-                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
-                    penawaran efek yang dilakukan oleh penerbit untuk menjual
-                    efek secara langsung kepada pemodal melalui jaringan sistem
-                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
-                    dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
-                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
-                    selaku pengguna dengan ini menyatakan menerima Syarat dan
-                    Ketentuan umum di bawah ini secara keseluruhan.
-                  </li>
-                  <li>
-                    {" "}
-                    5. Situs Fulusme merupakan Penawaran Efek melalui Layanan
-                    Urun Dana Berbasis Teknologi Informasi yang selanjutnya
-                    disebut Layanan Urun Dana adalah penyelenggaraan layanan
-                    penawaran efek yang dilakukan oleh penerbit untuk menjual
-                    efek secara langsung kepada pemodal melalui jaringan sistem
-                    elektronik yang bersifat terbuka, yang mempertemukan Pemodal
-                    dan Penerbit yang menawarkan efeknya melalui Fulusme
-                    (Pemodal dan Penerbit selanjutnya disebut â€œPenggunaâ€)
-                    Dengan mengakses dan memiliki akun pada Situs Fulusme, anda
-                    selaku pengguna dengan ini menyatakan menerima Syarat dan
-                    Ketentuan umum di bawah ini secara keseluruhan.
-                  </li>
-                </ul>
-              </div>
+              <TermServices handleScroll={handleScroll} />
             </div>
           </div>
         )}
@@ -486,12 +480,19 @@ export default function Form() {
       <div
         className={`flex w-4/5 ${
           currentStep === 3 ? "lg:w-3/5" : "lg:w-2/5"
-        } mx-auto ${
-          currentStep === 1 || currentStep === 3
-            ? "justify-start"
-            : "justify-end"
-        }`}
+        } mx-auto items-center justify-between ${
+          currentStep === 4 && "hidden"
+        } ${currentStep === 1 || currentStep === 3 ? "flex-row-reverse" : ""}`}
       >
+        <p className="text-sky text-sm text-center">
+          Butuh Pertanyaan?{" "}
+          <a
+            href="https://api.whatsapp.com/send?phone=6282299996862&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
+            className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
+          >
+            Hubungi Kami
+          </a>{" "}
+        </p>
         <button
           type="button"
           onClick={next}
