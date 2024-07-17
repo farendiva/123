@@ -64,7 +64,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
               {project.periode_penawaran_efek} Hari lagi
             </button>
           </section>
-          <h2 className="font-bold text-left text-sm">{project.nama_efek}</h2>
+          <h2 className="font-bold text-left text-sm">{project.nama_proyek}</h2>
           <section className="text-sm text-left">
             <h3>{project.nama_penerbit}</h3>
             <p>

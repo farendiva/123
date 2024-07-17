@@ -60,7 +60,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
         {images.map((image, index) => (
           <img
             key={index}
-            className={`w-1/4 object-cover cursor-pointer ${
+            className={`w-1/5 object-cover cursor-pointer ${
               currentIndex === index ? "border-2 border-blue-500" : ""
             }`}
             src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${image.nama_file}`}
