@@ -38,7 +38,7 @@ const steps = [
     name: "Password",
     fields: ["password", "passwordConfirmation"],
   },
-  { id: "Step 4", name: "Terms and Conditions" },
+  { id: "Step 4", name: "Terms and Conditions", fields: ["terms"] },
   { id: "Step 5", name: "Complete" },
 ];
 
@@ -448,6 +448,20 @@ export default function Form() {
             <div className="flex flex-col items-center">
               <TermServices handleScroll={handleScroll} />
             </div>
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="terms"
+                {...register("terms")}
+                className="mr-2"
+              />
+              <label htmlFor="terms" className="text-sm">
+                Saya setuju dengan Syarat dan Ketentuan
+              </label>
+            </div>
+            {errors.terms?.message && (
+              <p className="text-sm text-red-400">{errors.terms.message}</p>
+            )}
           </div>
         )}
 

@@ -154,7 +154,10 @@ export default async function ProductDetailPageSaham({
               Bagikan
             </button>
             <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
-              Dokumen
+              Prospektus
+            </button>
+            <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
+              Lokasi
             </button>
           </section>
           {/* Link Beli Saham */}

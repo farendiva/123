@@ -45,7 +45,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
         project.idlisting
       }`}
     >
-      <section className="bg-[#f8f8ff] rounded-xl max-w-full sm:max-w-80 2xl:max-w-[350px] h-[635px]">
+      <section className="bg-[#f8f8ff] rounded-xl max-w-full sm:max-w-80 2xl:max-w-[350px] h-[600px]">
         <img
           className="w-full aspect-video rounded-t-xl"
           src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${project.nama_file}`}
@@ -64,7 +64,11 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
               {project.periode_penawaran_efek} Hari lagi
             </button>
           </section>
-          <h2 className="font-bold text-left text-sm">{project.nama_proyek}</h2>
+          <section className="h-20 flex justify-start items-center">
+            <h2 className="font-bold text-left text-sm">
+              {project.nama_proyek}
+            </h2>
+          </section>
           <section className="text-sm text-left">
             <h3>{project.nama_penerbit}</h3>
             <p>
@@ -93,13 +97,13 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
             className=""
           />
           <section className="flex justify-between">
-            <p> {formatRupiah(project.nilai_pendanaan)}</p>
+            {/* <p> {formatRupiah(project.nilai_pendanaan)}</p> */}
             <p>
-              {isNaN(project.nilai_pendanaan / project.nilai_proyek)
+              {/* {isNaN(project.nilai_pendanaan / project.nilai_proyek)
                 ? "0%"
                 : `${Math.floor(
                     (project.nilai_pendanaan / project.nilai_proyek) * 100
-                  )}%`}
+                  )}%`} */}
             </p>
           </section>
 

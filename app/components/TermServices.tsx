@@ -9,7 +9,7 @@ const TermServices = ({ handleScroll }: TermProps) => {
     <div
       id="terms"
       onScroll={handleScroll}
-      className="h-128 text-justify overflow-y-scroll bg-[#f7f7ff] rounded-xl space-y-2 p-4 mb-4 w-full"
+      className="h-128 text-justify overflow-y-scroll bg-[#f7f7ff] rounded-xl space-y-2 p-4 w-full"
     >
       <p>
         Selamat datang di Fulusme, Platform layanan urun dana berbasis teknologi

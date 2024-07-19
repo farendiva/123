@@ -29,6 +29,11 @@ export const RegistrationDataSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         "Kata Sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu karakter spesial"
       ),
+    terms: z.literal(true, {
+      errorMap: () => ({
+        message: "Anda harus menyetujui syarat dan ketentuan",
+      }),
+    }),
   })
   .refine(
     (values) => {

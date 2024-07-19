@@ -27,16 +27,16 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
   };
 
   return (
-    <div className="relative w-full h-64">
-      <div className="relative w-full h-64 overflow-hidden">
+    <div className="relative w-full h-80">
+      <div className="relative w-full overflow-hidden rounded-md h-80">
         <div
           className="flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}
         >
           {images.map((image, index) => (
-            <div key={index} className="w-full flex-shrink-0">
+            <div key={index} className="flex-shrink-0 w-full">
               <img
-                className="w-full h-64 object-cover rounded-xl"
+                className="object-cover w-full rounded-md h-80"
                 src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${image.nama_file}`}
                 alt={`Slide ${index + 1}`}
               />
@@ -45,22 +45,22 @@ const ImageSlider: React.FC<ImageSliderProps> = ({ images }) => {
         </div>
         <button
           onClick={prevSlide}
-          className="absolute top-1/2 left-0 transform -translate-y-1/2 bg-sky text-black p-1 rounded-full"
+          className="absolute left-0 p-1 text-black transform -translate-y-1/2 rounded-full top-1/2 bg-sky"
         >
           <ChevronLeft color="white" />
         </button>
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 right-0 transform -translate-y-1/2 bg-sky text-black p-1 rounded-full"
+          className="absolute right-0 p-1 text-black transform -translate-y-1/2 rounded-full top-1/2 bg-sky"
         >
           <ChevronRight color="white" />
         </button>
       </div>
-      <div className="flex justify-center mt-2">
+      <div className="flex justify-center gap-2 mt-2">
         {images.map((image, index) => (
           <img
             key={index}
-            className={`w-1/5 object-cover cursor-pointer ${
+            className={`w-[calc(20%-6px)] object-cover cursor-pointer rounded-md ${
               currentIndex === index ? "border-2 border-blue-500" : ""
             }`}
             src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${image.nama_file}`}
