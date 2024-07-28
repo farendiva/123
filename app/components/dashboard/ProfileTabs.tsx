@@ -75,12 +75,12 @@ const ProfileTabs: React.FC = () => {
       <div className="flex flex-col md:flex-row items-center w-full gap-4 md:gap-8 my-4">
         <img
           className="w-16 h-16 rounded-full"
-          src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${user?.profile[0].swa_photo}`}
+          src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${user?.profile.swa_photo}`}
           alt="Profile"
         />
         <div className="text-center md:text-left text-xl">
           <h2 className="font-bold">
-            {user?.profile[0].nama_depan + " " + user?.profile[0].nama_belakang}
+            {user?.profile.nama_depan + " " + user?.profile.nama_belakang}
           </h2>
           <span
             className={`${
@@ -127,9 +127,7 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Nomor Handphone</label> <br />
-                  <span className="text-sm">
-                    {user?.profile[0].no_handphone}
-                  </span>
+                  <span className="text-sm">{user?.profile.no_handphone}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -161,43 +159,35 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Alamat KTP</label> <br />
-                  <span className="text-sm">{user?.profile[0].alamat_ktp}</span>
+                  <span className="text-sm">{user?.profile.alamat_ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Kelurahan KTP</label> <br />
-                  <span className="text-sm">
-                    {user?.profile[0].kelurahan_ktp}
-                  </span>
+                  <span className="text-sm">{user?.profile.kelurahan_ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Kecamatan KTP</label> <br />
-                  <span className="text-sm">
-                    {user?.profile[0].kecamatan_ktp}
-                  </span>
+                  <span className="text-sm">{user?.profile.kecamatan_ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Kabupaten KTP</label> <br />
-                  <span className="text-sm">
-                    {user?.profile[0].kabupaten_ktp}
-                  </span>
+                  <span className="text-sm">{user?.profile.kabupaten_ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Provinsi KTP</label> <br />
-                  <span className="text-sm">
-                    {user?.profile[0].provinsi_ktp}
-                  </span>
+                  <span className="text-sm">{user?.profile.provinsi_ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -210,7 +200,7 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Pekerjaan</label> <br />
-                  <span className="text-sm">{user?.profile[0].pekerjaan}</span>
+                  <span className="text-sm">{user?.profile.pekerjaan}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -218,7 +208,7 @@ const ProfileTabs: React.FC = () => {
                 <div>
                   <label className="font-bold">Industri Pekerjaan</label> <br />
                   <span className="text-sm">
-                    {user?.profile[0].industri_pekerjaan}
+                    {user?.profile.industri_pekerjaan}
                   </span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
@@ -226,7 +216,7 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Pendapatan</label> <br />
-                  <span className="text-sm">{user?.profile[0].pendapatan}</span>
+                  <span className="text-sm">{user?.profile.pendapatan}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -239,21 +229,21 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">KTP</label> <br />
-                  <span className="text-sm">{user?.profile[0].ktp}</span>
+                  <span className="text-sm">{user?.profile.ktp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">NPWP</label> <br />
-                  <span className="text-sm">{user?.profile[0].npwp}</span>
+                  <span className="text-sm">{user?.profile.npwp}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Slip Gaji</label> <br />
-                  <span className="text-sm">{user?.profile[0].slip_gaji}</span>
+                  <span className="text-sm">{user?.profile.slip_gaji}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -261,7 +251,7 @@ const ProfileTabs: React.FC = () => {
                 <div>
                   <label className="font-bold">Kartu Keluarga</label> <br />
                   <span className="text-sm">
-                    {user?.profile[0].kartu_keluarga}
+                    {user?.profile.kartu_keluarga}
                   </span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
@@ -276,7 +266,7 @@ const ProfileTabs: React.FC = () => {
                 <div>
                   <label className="font-bold">Nomor Rekening</label> <br />
                   <span className="text-sm">
-                    {user?.profile[0].nomor_rekening}
+                    {user?.profile.nomor_rekening}
                   </span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
@@ -284,7 +274,7 @@ const ProfileTabs: React.FC = () => {
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Nama Bank</label> <br />
-                  <span className="text-sm">{user?.profile[0].nama_bank}</span>
+                  <span className="text-sm">{user?.profile.nama_bank}</span>
                 </div>
                 <SquarePen strokeWidth={1.5} />
               </div>
@@ -293,7 +283,7 @@ const ProfileTabs: React.FC = () => {
                   <label className="font-bold">Nama Pemilik Rekening</label>{" "}
                   <br />
                   <span className="text-sm">
-                    {user?.profile[0].nama_pemilik_rekening}
+                    {user?.profile.nama_pemilik_rekening}
                   </span>
                 </div>
                 <SquarePen strokeWidth={1.5} />

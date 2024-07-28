@@ -47,7 +47,6 @@ const formatTitleForUrl = (title: string) => {
 
 const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
   const formattedNamaEfek = formatTitleForUrl(project.nama_efek);
-  console.log(project);
   return (
     <Link
       href={`/daftar-bisnis/${project.jenis_efek.toLowerCase()}/${formattedNamaEfek}-${
