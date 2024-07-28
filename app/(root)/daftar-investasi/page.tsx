@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 type Props = {};
-const stepsFromBackend = ["Pre Listing", "Listing", "Terpenuhi", "Berjalan"];
+// const stepsFromBackend = ["Pre Listing", "Listing", "Terpenuhi", "Berjalan"];
 
 const ProductDetailPage = (props: Props) => {
   return (
@@ -63,7 +63,7 @@ const ProductDetailPage = (props: Props) => {
             51%
           </p>
         </section>
-        <Stepper steps={stepsFromBackend} />
+        {/* <Stepper steps={stepsFromBackend} /> */}
         <section className="text-sm flex justify-between">
           <h3 className="text-[#677AB9]">Kategori Bisnis</h3>
           <h3>Makanan dan Minuman</h3>
