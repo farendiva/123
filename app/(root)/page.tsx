@@ -16,15 +16,17 @@ export default async function Home() {
       </div>
       {/* HERO GRADIENT */}
       <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>
-      <section className="w-4/5 lg:w-11/12 mx-auto mb-32 md:mb-24 lg:mb-16 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
+      <section className="w-4/5 lg:w-11/12 mx-auto mb-32 md:mb-24 lg:mb-32 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
         <section className="w-full lg:w-1/2 text-white space-y-6 lg:space-y-3 z-20 ">
-          <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>
-          <p className="text-base text-justify lg:text-left font-normal">
-            Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
-            menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
-            dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
-          </p>
-          <section className="flex flex-col sm:flex-row text-base font-bold gap-2 lg:gap-0">
+          <section className="flex flex-col gap-4">
+            <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>
+            <p className="text-base text-justify lg:text-left font-normal">
+              Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
+              menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
+              dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
+            </p>
+          </section>
+          {/* <section className="flex flex-col sm:flex-row text-base font-bold gap-2 lg:gap-0">
             <Link
               href="/daftar/penerbit"
               className="relative z-10 my-0 lg:my-8 py-4 px-3 lg:py-6 lg:px-6 bg-emerald hover:bg-green-700 rounded-xl lg:rounded-l-xl text-white"
@@ -37,7 +39,7 @@ export default async function Home() {
             >
               Daftar Sebagai Pemodal
             </Link>
-          </section>
+          </section> */}
 
           <section className="w-full flex justify-center lg:justify-start gap-4">
             <img
@@ -191,7 +193,7 @@ export default async function Home() {
       <div className="bg-[#d3d3d3] h-[1px]"></div>
       <section className="w-4/5 lg:w-3/4 mx-auto my-16">
         <h4 className="text-xl lg:text-2xl font-bold mx-auto mt-12 mb-16 text-center">
-          Hal yang perlu Diperhatikan
+          DISCLAIMER
         </h4>
         <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-scroll space-y-2 text-justify">
           <p>

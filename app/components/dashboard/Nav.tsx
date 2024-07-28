@@ -21,7 +21,6 @@ const Nav = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -32,7 +31,6 @@ const Nav = () => {
     setIsOpen(false);
     setIsDropdownOpen(false);
   };
-
   return (
     <nav
       className={`z-50 w-4/5 relative flex justify-between items-center mx-auto py-2 font-semibold`}
@@ -82,23 +80,25 @@ const Nav = () => {
       <div className="relative hidden  lg:flex items-center gap-2">
         <img
           className="w-12 h-12 rounded-full"
-          src="https://via.placeholder.com/150"
-          alt="Profile"
+          src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${user.profile.swa_photo}`}
+          alt={`${user.name} Foto Profile`}
         />
         <div className="text-base">
-          <h2 className="font-bold">{user.name}</h2>
+          <h2 className="font-bold">
+            {user.profile.nama_depan + " " + user.profile.nama_belakang}
+          </h2>
           <span
             className={`${
-              user?.pemodal_status === 0 || user?.pemodal_status === 1
-                ? "text-[#E09400]"
-                : "text-emerald-light"
+              user?.pemodal_status === 3
+                ? "text-emerald-light"
+                : "text-[#E09400]"
             } flex items-center gap-2 cursor-pointer`}
             onClick={toggleDropdown}
           >
             <ChevronDown color="black" />
-            {user?.pemodal_status === 0 || user?.pemodal_status === 1
-              ? "Belum Terverifikasi"
-              : "Terverifikasi"}
+            {user?.pemodal_status === 3
+              ? "Terverifikasi"
+              : "Belum Terverifikasi"}
           </span>
           {isDropdownOpen && (
             <form

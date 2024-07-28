@@ -5,7 +5,7 @@ export default async function DaftarBisnis() {
   const listing = await getListing();
   return (
     <main>
-      <ListingGrid listings={listing.data} />
+      <ListingGrid listings={listing} />
     </main>
   );
 }

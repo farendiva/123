@@ -185,3 +185,31 @@ export async function getBanks(token: string) {
   );
   return response.json();
 }
+
+export async function getDetailOrder(id: number, token: string) {
+  const response = await fetch(
+    `https://oms-api-dev.khalifahdev.biz.id/api/v1/transaksi/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.json();
+}
+
+export async function getTransaksiPemodal(id: string, token: string) {
+  const response = await fetch(
+    `https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal/${id}/transaksi?page=1`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    }
+  );
+  return response.json();
+}

@@ -38,7 +38,7 @@ const steps = [
     name: "Password",
     fields: ["password", "passwordConfirmation"],
   },
-  { id: "Step 4", name: "Terms and Conditions" },
+  { id: "Step 4", name: "Terms and Conditions", fields: ["terms"] },
   { id: "Step 5", name: "Complete" },
 ];
 
@@ -48,10 +48,7 @@ export default function Form() {
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
-  const pathname = usePathname();
-  const client_id = uuidv4();
   const delta = currentStep - previousStep;
-  const user_type = pathname === "/daftar/pemodal" ? "pemodal" : "penerbit";
 
   const {
     register,
@@ -63,6 +60,9 @@ export default function Form() {
   } = useForm<Inputs>({
     resolver: zodResolver(RegistrationDataSchema),
   });
+
+  const termsAgreed = watch("terms");
+
   function convertPhoneNumber(phone: string) {
     if (phone.startsWith("0")) {
       return "62" + phone.slice(1);
@@ -86,14 +86,13 @@ export default function Form() {
             email: data.email,
             no_handphone: convertPhoneNumber(data.phone),
             password: data.password,
-            user_type: user_type,
+            user_type: "pemodal",
           }),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
         reset();
       } else {
         const errorData = await response.json();
@@ -446,7 +445,11 @@ export default function Form() {
               </h1>
             </div>
             <div className="flex flex-col items-center">
-              <TermServices handleScroll={handleScroll} />
+              <TermServices
+                register={register}
+                errors={errors}
+                handleScroll={handleScroll}
+              />
             </div>
           </div>
         )}
@@ -499,11 +502,11 @@ export default function Form() {
           disabled={
             loading || // Disable tombol saat loading
             currentStep === steps.length - 1 ||
-            (currentStep === 3 && !isScrolledToBottom)
+            (currentStep === 3 && (!isScrolledToBottom || !termsAgreed))
           }
           className={`${
             currentStep === 4 && "hidden"
-          } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50`}
+          } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500`}
         >
           {loading ? "Loading..." : "Lanjutkan"}
         </button>

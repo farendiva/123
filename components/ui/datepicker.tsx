@@ -25,26 +25,52 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
     onChange(selectedDate);
   };
 
+  // return (
+  //   <Popover>
+  //     <PopoverTrigger asChild>
+  //       <Button
+  //         variant={"outline"}
+  //         className={cn(
+  //           "w-full h-12 justify-start text-left font-normal bg-slate-100",
+  //           !date && "text-muted-foreground"
+  //         )}
+  //       >
+  //         <CalendarIcon className="mr-2 h-4 w-4" />
+  //         {date ? format(date, "PPP") : <span>Pilih Tanggal</span>}
+  //       </Button>
+  //     </PopoverTrigger>
+  //     <PopoverContent className="w-auto p-0">
+  //       <Calendar
+  //         mode="single"
+  //         selected={date}
+  //         onSelect={handleDateChange}
+  //         initialFocus
+  //       />
+  //     </PopoverContent>
+  //   </Popover>
+  // );
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
           variant={"outline"}
           className={cn(
-            "w-full h-12 justify-start text-left font-normal bg-slate-100",
+            "w-full bg-slate-100 px-3 py-6 border-none justify-start text-left font-normal",
             !date && "text-muted-foreground"
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pilih Tanggal</span>}
+          {date ? format(date, "PPP") : <span>Pilih Tanggal Lahir</span>}
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
+      <PopoverContent align="start" className=" w-auto p-0">
         <Calendar
           mode="single"
+          captionLayout="dropdown-buttons"
           selected={date}
           onSelect={handleDateChange}
-          initialFocus
+          fromYear={1920}
+          toYear={2030}
         />
       </PopoverContent>
     </Popover>

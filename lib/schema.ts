@@ -8,10 +8,8 @@ export const RegistrationDataSchema = z
       .string()
       .min(1, "Email Harus Diisi")
       .email("Alamat Email Tidak Valid"),
-    phone: z
-      .string()
-      .min(1, "Nomor Handphone Diisi")
-      .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
+    phone: z.string().min(1, "Nomor Handphone Diisi"),
+    // .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
 
     password: z
       .string()
@@ -29,6 +27,11 @@ export const RegistrationDataSchema = z
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
         "Kata Sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu karakter spesial"
       ),
+    terms: z.literal(true, {
+      errorMap: () => ({
+        message: "Anda harus menyetujui syarat dan ketentuan",
+      }),
+    }),
   })
   .refine(
     (values) => {

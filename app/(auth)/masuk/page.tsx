@@ -49,28 +49,40 @@ export default function Masuk() {
 
       if (response.ok) {
         const result = await response.json();
-        Cookies.set("authToken", result.token.token, {
-          expires: 1,
-          secure: true,
-          sameSite: "Strict",
-        });
-        Cookies.set("user_id", result.user.id, {
-          expires: 1,
-          secure: true,
-          sameSite: "Strict",
-        });
-        Cookies.set("penerbit_id", result.user.penerbit_id, {
-          expires: 1,
-          secure: true,
-          sameSite: "Strict",
-        });
-        Cookies.set("pemodal_id", result.user.pemodal_id, {
-          expires: 1,
-          secure: true,
-          sameSite: "Strict",
-        });
-        reset();
-        router.push("/dashboard");
+        if (result.user.email_verified_at === null) {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "Login gagal",
+            description: "Silahkan verifikasi email Anda terlebih dahulu.",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
+        } else {
+          Cookies.set("authToken", result.token.token, {
+            expires: 1,
+            secure: true,
+            sameSite: "Strict",
+          });
+          Cookies.set("user_id", result.user.id, {
+            expires: 1,
+            secure: true,
+            sameSite: "Strict",
+          });
+          Cookies.set("penerbit_id", result.user.penerbit_id, {
+            expires: 1,
+            secure: true,
+            sameSite: "Strict",
+          });
+          Cookies.set("pemodal_id", result.user.pemodal_id, {
+            expires: 1,
+            secure: true,
+            sameSite: "Strict",
+          });
+          reset();
+          router.push("/dashboard");
+        }
       } else {
         const errorData = await response.json();
         if (errorData.message) {

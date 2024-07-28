@@ -189,7 +189,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           {faceImage ? (
             <div className="relative w-24 h-24">
               <img
-                className="w-full h-full rounded-full object-cover"
+                className="object-cover w-full h-full rounded-full"
                 src={faceImage ? URL.createObjectURL(faceImage) : ""}
                 alt="Foto Wajah"
               />
@@ -202,7 +202,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           ) : ktpImage ? (
             <div className="relative w-56 h-36">
               <img
-                className="w-full h-full object-contain"
+                className="object-contain w-full h-full"
                 src={ktpImage ? URL.createObjectURL(ktpImage) : ""}
                 alt="Foto KTP"
               />
@@ -220,7 +220,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="col-span-4 flex items-center justify-center gap-4 rounded-xl border border-dashed border-[#322783] bg-[#f5f4ff] p-4">
           <div className="relative w-36">
             <img
-              className="w-full h-full object-contain"
+              className="object-contain w-full h-full"
               src={ktpImage ? URL.createObjectURL(ktpImage) : ""}
               alt="Foto KTP"
             />
@@ -234,11 +234,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-x-3 gap-y-4 lg:gap-x-6 lg:gap-y-8 sm:grid-cols-8">
+      <div className="grid grid-cols-1 mt-10 gap-x-3 gap-y-4 lg:gap-x-6 lg:gap-y-8 sm:grid-cols-8">
         <div className="sm:col-span-4 lg:col-span-4">
           <label
             htmlFor="no_handphone"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Nomor Handphone
           </label>
@@ -248,9 +248,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               type="tel"
               {...register("no_handphone")}
               autoComplete="tel"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.no_handphone?.message && (
                 <p className="text-sm text-red-400">
                   {errors.no_handphone.message}
@@ -260,7 +260,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </div>
         </div>
         <div className="sm:col-span-4 lg:col-span-4">
-          <label htmlFor="no_ktp" className="block text-sm leading-6 font-bold">
+          <label htmlFor="no_ktp" className="block text-sm font-bold leading-6">
             Nomor Kartu KTP
           </label>
           <div className="">
@@ -269,9 +269,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               type="tel"
               {...register("no_ktp")}
               autoComplete="tel"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.no_ktp?.message && (
                 <p className="text-sm text-red-400">{errors.no_ktp.message}</p>
               )}
@@ -280,13 +280,13 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="title" className="block text-sm leading-6 font-bold">
+          <label htmlFor="title" className="block text-sm font-bold leading-6">
             Title
           </label>
           <div className="w-full">
             <select
               value={watch("title") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="title"
               {...register("title")}
             >
@@ -297,7 +297,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               <option value="Wanita">Ny.</option>
               <option value="Wanita">Nn.</option>
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.title?.message && (
                 <p className="text-sm text-red-400">{errors.title.message}</p>
               )}
@@ -307,7 +307,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-3">
           <label
             htmlFor="nama_depan"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Nama Depan
           </label>
@@ -317,9 +317,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               id="nama_depan"
               {...register("nama_depan")}
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.nama_depan?.message && (
                 <p className="text-sm text-red-400">
                   {errors.nama_depan.message}
@@ -332,7 +332,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-3">
           <label
             htmlFor="nama_belakang"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Nama Belakang
           </label>
@@ -342,9 +342,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               id="nama_belakang"
               {...register("nama_belakang")}
               autoComplete="family-name"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.nama_belakang?.message && (
                 <p className="text-sm text-red-400">
                   {errors.nama_belakang.message}
@@ -356,7 +356,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="tempat_lahir"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Tempat Lahir Sesuai KTP
           </label>
@@ -366,9 +366,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               id="tempat_lahir"
               {...register("tempat_lahir")}
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.tempat_lahir?.message && (
                 <p className="text-sm text-red-400">
                   {errors.tempat_lahir.message}
@@ -381,7 +381,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="tanggal_lahir"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Tanggal Lahir Sesuai KTP
           </label>
@@ -397,7 +397,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 />
               )}
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.tanggal_lahir?.message && (
                 <p className="text-sm text-red-400">
                   {errors.tanggal_lahir.message}
@@ -408,13 +408,13 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
 
         <div className="sm:col-span-4">
-          <label htmlFor="agama" className="block text-sm leading-6 font-bold">
+          <label htmlFor="agama" className="block text-sm font-bold leading-6">
             Agama
           </label>
           <div className="w-full">
             <select
               value={watch("agama") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="agama"
               {...register("agama")}
             >
@@ -427,7 +427,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.agama?.message && (
                 <p className="text-sm text-red-400">{errors.agama.message}</p>
               )}
@@ -437,14 +437,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="pendidikan_terakhir"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Pendidikan Terakhir
           </label>
           <div className="w-full">
             <select
               value={watch("pendidikan_terakhir") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="pendidikan_terakhir"
               {...register("pendidikan_terakhir")}
             >
@@ -457,7 +457,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.pendidikan_terakhir?.message && (
                 <p className="text-sm text-red-400">
                   {errors.pendidikan_terakhir.message}
@@ -469,7 +469,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4 lg:col-span-4">
           <label
             htmlFor="noDarurat"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Nomor Telefon Darurat
           </label>
@@ -479,9 +479,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               type="tel"
               {...register("noDarurat")}
               autoComplete="tel"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.noDarurat?.message && (
                 <p className="text-sm text-red-400">
                   {errors.noDarurat.message}
@@ -493,7 +493,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4 lg:col-span-4">
           <label
             htmlFor="ahliWaris"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Nama Ahli Waris
           </label>
@@ -503,9 +503,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               type="tel"
               {...register("ahliWaris")}
               autoComplete="tel"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.ahliWaris?.message && (
                 <p className="text-sm text-red-400">
                   {errors.ahliWaris.message}
@@ -517,14 +517,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="kewarganegaraan"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Pilih Kewarganegaraan
           </label>
           <div className="w-full">
             <select
               value={watch("kewarganegaraan") || ""}
-              className="block w-full rounded-md border-0 py-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kewarganegaraan"
               {...register("kewarganegaraan")}
             >
@@ -537,7 +537,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.kewarganegaraan?.message && (
                 <p className="text-sm text-red-400">
                   {errors.kewarganegaraan.message}
@@ -548,11 +548,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
       </div>
 
-      <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+      <div className="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-8">
         <div className="sm:col-span-8">
           <label
             htmlFor="alamat_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Alamat Sesuai KTP
           </label>
@@ -562,9 +562,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               id="alamat_ktp"
               {...register("alamat_ktp")}
               autoComplete="given-name"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.alamat_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.alamat_ktp.message}
@@ -576,14 +576,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="provinsi_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Provinsi
           </label>
           <div className="w-full">
             <select
               value={watch("provinsi_ktp") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="provinsi_ktp"
               {...register("provinsi_ktp")}
             >
@@ -596,7 +596,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.provinsi_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.provinsi_ktp.message}
@@ -608,14 +608,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="kabupaten_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Kota/Kabupaten
           </label>
           <div className="w-full">
             <select
               value={watch("kabupaten_ktp") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kabupaten_ktp"
               {...register("kabupaten_ktp")}
             >
@@ -628,7 +628,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.kabupaten_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.kabupaten_ktp.message}
@@ -640,14 +640,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="kecamatan_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Kecamatan
           </label>
           <div className="w-full">
             <select
               value={watch("kecamatan_ktp") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kecamatan_ktp"
               {...register("kecamatan_ktp")}
             >
@@ -660,7 +660,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.kecamatan_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.kecamatan_ktp.message}
@@ -672,14 +672,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="kelurahan_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Kelurahan
           </label>
           <div className="w-full">
             <select
               value={watch("kelurahan_ktp") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kelurahan_ktp"
               {...register("kelurahan_ktp")}
             >
@@ -692,7 +692,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.kelurahan_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.kelurahan_ktp.message}
@@ -704,14 +704,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         <div className="sm:col-span-4">
           <label
             htmlFor="kodePos_ktp"
-            className="block text-sm leading-6 font-bold"
+            className="block text-sm font-bold leading-6"
           >
             Kode Pos
           </label>
           <div className="w-full">
             <select
               value={watch("kodePos_ktp") || ""}
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="kodePos_ktp"
               {...register("kodePos_ktp")}
             >
@@ -724,7 +724,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 </option>
               ))}
             </select>
-            <div className="mt-1 h-1">
+            <div className="h-1 mt-1">
               {errors.kodePos_ktp?.message && (
                 <p className="text-sm text-red-400">
                   {errors.kodePos_ktp.message}
@@ -735,9 +735,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
       </div>
 
-      <div className="flex items-center my-4 gap-2">
+      <div className="flex items-center gap-2 my-4">
         <input
-          className="w-4 h-4 text-emerald-light bg-emerald-light border-gray-300 rounded checked:bg-emerald-light checked:border-emerald-light focus:ring-blue-500"
+          className="w-4 h-4 border-gray-300 rounded text-emerald-light bg-emerald-light checked:bg-emerald-light checked:border-emerald-light focus:ring-blue-500"
           type="checkbox"
           name="domisili"
           id="domisili"
@@ -748,11 +748,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       </div>
 
       {!isChecked && (
-        <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-8">
+        <div className="grid grid-cols-1 mt-10 gap-x-6 gap-y-8 sm:grid-cols-8">
           <div className="sm:col-span-8">
             <label
               htmlFor="alamat_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Alamat Domisili
             </label>
@@ -762,9 +762,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 id="alamat_domisili"
                 {...register("alamat_domisili")}
                 autoComplete="given-name"
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               />
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.alamat_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.alamat_domisili.message}
@@ -776,14 +776,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="sm:col-span-4">
             <label
               htmlFor="provinsi_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Provinsi
             </label>
             <div className="w-full">
               <select
                 value={watch("provinsi_domisili") || ""}
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="provinsi_domisili"
                 {...register("provinsi_domisili")}
               >
@@ -796,7 +796,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.provinsi_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.provinsi_domisili.message}
@@ -808,14 +808,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="sm:col-span-4">
             <label
               htmlFor="kabupaten_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Kota/Kabupaten
             </label>
             <div className="w-full">
               <select
                 value={watch("kabupaten_domisili") || ""}
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kabupaten_domisili"
                 {...register("kabupaten_domisili")}
               >
@@ -828,7 +828,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.kabupaten_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.kabupaten_domisili.message}
@@ -840,14 +840,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="sm:col-span-4">
             <label
               htmlFor="kecamatan_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Kecamatan
             </label>
             <div className="w-full">
               <select
                 value={watch("kecamatan_domisili") || ""}
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kecamatan_domisili"
                 {...register("kecamatan_domisili")}
               >
@@ -860,7 +860,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.kecamatan_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.kecamatan_domisili.message}
@@ -872,14 +872,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="sm:col-span-4">
             <label
               htmlFor="kelurahan_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Kelurahan
             </label>
             <div className="w-full">
               <select
                 value={watch("kelurahan_domisili") || ""}
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kelurahan_domisili"
                 {...register("kelurahan_domisili")}
               >
@@ -892,7 +892,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.kelurahan_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.kelurahan_domisili.message}
@@ -904,14 +904,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           <div className="sm:col-span-4">
             <label
               htmlFor="kodePos_domisili"
-              className="block text-sm leading-6 font-bold"
+              className="block text-sm font-bold leading-6"
             >
               Kode Pos
             </label>
             <div className="w-full">
               <select
                 value={watch("kodePos_domisili") || ""}
-                className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 id="kodePos_domisili"
                 {...register("kodePos_domisili")}
               >
@@ -924,7 +924,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                   </option>
                 ))}
               </select>
-              <div className="mt-1 h-1">
+              <div className="h-1 mt-1">
                 {errors.kodePos_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.kodePos_domisili.message}

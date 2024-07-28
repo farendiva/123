@@ -46,7 +46,7 @@ const BusinessCard: React.FC<TypeProps> = ({ type }) => {
         <section className="w-11/12 mx-auto my-4 flex flex-col gap-3">
           <section className="flex justify-start items-center text-xs text-white font-bold">
             <button className="bg-emerald-light px-7 py-1.5 rounded-l-md">
-              Saham
+              Sukuk
             </button>
             <button className="bg-sky px-7 py-1.5 rounded-r-md">
               {type === "1" || type === "2" ? "0 Lagi" : "24 Hari lagi"}
@@ -56,14 +56,14 @@ const BusinessCard: React.FC<TypeProps> = ({ type }) => {
             Pembangunan Extension Bay Trafo Gardu Induk New Balikpapan
           </h2>
           <section className="text-sm text-left">
-            <h3>PT.Fulusme Sejahtera</h3>
+            <h3>PT. Amsak Bangun Persada</h3>
             <p>
               <span className="font-bold">Kode Efek</span> ABPP1
             </p>
           </section>
           <section className="text-sm text-left">
             <h3>Kebutuhan Pendanaan</h3>
-            <h4 className="font-bold">Rp 400.000.000</h4>
+            <h4 className="font-bold">Rp 302.050.000</h4>
           </section>
           <section className="text-sm text-left">
             <h3>Efek Tersedia</h3>

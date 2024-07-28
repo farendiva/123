@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 type Props = {};
-const stepsFromBackend = ["Pre Listing", "Listing", "Terpenuhi", "Berjalan"];
+// const stepsFromBackend = ["Pre Listing", "Listing", "Terpenuhi", "Berjalan"];
 
 const ProductDetailPage = (props: Props) => {
   return (
@@ -12,29 +12,32 @@ const ProductDetailPage = (props: Props) => {
       <section className="w-full lg:w-1/2 space-y-4">
         <img
           className="w-full rounded-2xl"
-          src="/images/product-image.png"
+          src="https://assets.promediateknologi.id/crop/0x0:0x0/750x500/webp/photo/2023/07/06/IMG-20230706-WA0008-3150568808.jpg"
           alt="Product Image"
         />
         <h2 className="font-bold">Tentang Bisnis</h2>
         <section className="text-sm text-justify space-y-2">
           <p>
-            Investasi Saham Bisnis Bearmunch Bassura City Cipinang dan Ciputra
-            Mall Cibubur Berinvestasi melalui saham bisnis Bearmunch merupakan
-            salah satu cara untuk mendapatkan potensi keuntungan dan dividen
-            yang menggiurkan. Bearmunch adalah frozen yoghurt terpopuler di
-            Indonesia yang sudah berdiri sejak 14 tahun lalu. Frozen yoghurt ini
-            merupakan pelopor Frozen Yogurt dan Dessert di Indonesia yang saat
-            ini berhasil menjadi Top Of Mind Brand untuk kategori Frozen Yogurt
-            dan Healthy Ice Cream, Minuman dan Dessert.
+            Gardu Induk merupakan bagian dari sistem distribusi atau bagian dari
+            sistem kelistrikan. Gardu induk juga digunakan untuk mengubah energi
+            listrik tegangan tinggi menjadi energi listrik tegangan menengah dan
+            begitupun sebaliknya, serta juga dapat digunakan sebagai alat
+            pengaman sistem listrik.
           </p>
           <p>
-            Atas prestasinya tersebut, tidak heran jika Bearmunch kini telah
-            memiliki lebih dari 71 outlet yang tersebar di seluruh wilayah
-            Indonesia dengan skema own store dan kemitraan. Kabar baiknya, kini
-            Fulusme membuka penawaran bagi Anda untuk menjadi bagian dari
-            pemilik bisnis Bearmunch melalui kepemilikan saham. Bearmunch akan
-            membuka 2 outlet sekaligus yaitu Bearmunch Bassura City Cipinang dan
-            Ciputra Mall Cibubur.
+            Pembangunan sistem transmisi secara umum diarahkan kepada
+            tercapainya kesesuaian antara kapasitas pembangkitan di sisi hulu
+            dan permintaan daya di sisi hilir secara efisien. Disamping itu juga
+            sebagai usaha untuk mengatasi kemacetan penyaluran dan perbaikan
+            tegangan pelayanan.
+          </p>
+          <p>
+            Pengembangan transmisi dan gardu induk di Indonesia Timur pada
+            umumya dibangun untuk menghubungkan sistem-sistem yang selama ini
+            masih isolated, membentuk jalur transmisi untuk menyalurkan energi
+            dalam jumlah besar ke pusat beban yang lokasinya sangat berjauhan,
+            dan untuk menghubungkan antar sistem menjadi sistem yang lebih
+            besar.
           </p>
         </section>
       </section>
@@ -44,7 +47,7 @@ const ProductDetailPage = (props: Props) => {
         </h1>
         <section className="text-sm flex justify-between">
           <h3 className="text-[#677AB9]">Perusahaan</h3>
-          <h3>PT Fulusme Sejahtera</h3>
+          <h3>PT. Amsak Bangun Persada </h3>
         </section>
         <section className="text-sm flex justify-between">
           <h3 className="text-[#677AB9]">Kode Efek</h3>
@@ -55,12 +58,12 @@ const ProductDetailPage = (props: Props) => {
           <h3>Rp 1.504.500.000 </h3>
         </section>
         <section className="flex justify-between items-center gap-4">
-          <Progress value={65} type="0" className="h-6" />
+          <Progress value={51} type="0" className="h-6" />
           <p className="h-6 bg-emerald-light text-white text-sm text-center px-1 rounded-lg">
-            65%
+            51%
           </p>
         </section>
-        <Stepper steps={stepsFromBackend} />
+        {/* <Stepper steps={stepsFromBackend} /> */}
         <section className="text-sm flex justify-between">
           <h3 className="text-[#677AB9]">Kategori Bisnis</h3>
           <h3>Makanan dan Minuman</h3>
@@ -97,7 +100,10 @@ const ProductDetailPage = (props: Props) => {
             Bagikan
           </button>
           <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
-            Dokumen
+            Prospektus
+          </button>
+          <button className="w-full bg-[#e4f5f3] hover:bg-slate-200 rounded-xl font-bold py-4">
+            Lokasi
           </button>
         </section>
         <Link

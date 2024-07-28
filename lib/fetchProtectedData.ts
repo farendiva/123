@@ -1,7 +1,7 @@
 import { useAuthToken } from "@/hooks/useAuthToken";
 
 const useFetchProtectedData = () => {
-  const { token, user_id, penerbit_id } = useAuthToken();
+  const { token, user_id } = useAuthToken();
 
   const fetchProtectedData = async (url: string) => {
     if (!token) {
@@ -36,7 +36,7 @@ const useFetchProtectedData = () => {
     url: string,
     body: Record<string, any> | FormData
   ) => {
-    if (!token || !user_id || !penerbit_id) {
+    if (!token || !user_id) {
       console.error("No token or userId found");
       return;
     }
@@ -46,13 +46,16 @@ const useFetchProtectedData = () => {
 
       if (body instanceof FormData) {
         body.append("user_id", user_id);
-        body.append("penerbit_id", penerbit_id);
         options = {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
           },
-          body: body,
+          body: JSON.stringify({
+            ...body,
+            user_id: user_id,
+          }),
         };
       } else {
         options = {
@@ -64,7 +67,6 @@ const useFetchProtectedData = () => {
           body: JSON.stringify({
             ...body,
             user_id: user_id,
-            penerbit_id: penerbit_id,
           }),
         };
       }

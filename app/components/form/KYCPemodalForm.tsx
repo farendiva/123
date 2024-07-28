@@ -178,7 +178,7 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
             src="/icons/fulusme.svg"
             alt="Fulusme Icon"
           />
-          <ol className="w-1/2 mx-auto flex justify-between items-center relative">
+          <ol className="w-1/2 mx-auto hidden lg:flex justify-between items-center relative">
             {steps.slice(0, 5).map((step, index) => (
               <li
                 key={step.id}
@@ -248,7 +248,7 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       >
         <div
           key={currentStep}
-          className="w-4/5 lg:w-1/2 mx-auto text-sky"
+          className="w-full lg:w-1/2 mx-auto text-sky"
           // initial={{ x: delta >= 0 ? 50 : -50, opacity: 0 }}
           // animate={{ x: 0, opacity: 1 }}
           // transition={{ duration: 0.3, ease: "easeInOut" }}

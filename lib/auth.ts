@@ -6,6 +6,7 @@ export async function signOut() {
   cookies().delete("authToken");
   cookies().delete("user_id");
   cookies().delete("penerbit_id");
+  cookies().delete("pemodal_id");
 }
 
 export async function getUserData() {

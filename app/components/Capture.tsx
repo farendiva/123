@@ -1,4 +1,4 @@
-import { useRef, FC } from "react";
+import { useRef, FC, useCallback, useState } from "react";
 import Webcam from "react-webcam";
 
 interface CaptureProps {
@@ -8,94 +8,121 @@ interface CaptureProps {
 
 const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
   const webcamRef = useRef<Webcam>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [capturedImage, setCapturedImage] = useState<string | null>(null);
 
-  const captureAndCropImage = (
-    overlayWidth: number,
-    overlayHeight: number,
-    overlayLeft: number,
-    overlayTop: number
-  ) => {
-    if (webcamRef.current && canvasRef.current) {
+  const handleCapture = useCallback(() => {
+    if (webcamRef.current) {
       const imageSrc = webcamRef.current.getScreenshot();
-      if (!imageSrc) return;
+      if (imageSrc) {
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = () => {
+          const canvas = document.createElement("canvas");
+          const ctx = canvas.getContext("2d");
+          const { width, height } = image;
 
-      const img = new Image();
-      img.src = imageSrc;
+          if (ctx) {
+            if (captureType === "face") {
+              // Crop for face (circle)
+              const cropSize = Math.min(width, height) * 0.6;
+              canvas.width = cropSize;
+              canvas.height = cropSize;
+              ctx.drawImage(
+                image,
+                (width - cropSize) / 2,
+                (height - cropSize) / 2,
+                cropSize,
+                cropSize,
+                0,
+                0,
+                cropSize,
+                cropSize
+              );
+            } else {
+              // Crop for KTP (rectangle with specific aspect ratio)
+              const aspectRatio = 85.6 / 53.98; // KTP aspect ratio ~1.585
+              let cropHeight;
 
-      img.onload = () => {
-        const canvas = canvasRef.current!;
-        const ctx = canvas.getContext("2d");
+              if (window.innerWidth >= 1024) {
+                // LG (large) screens and above
+                cropHeight = height * 0.47;
+              } else {
+                // Smaller screens (mobile)
+                cropHeight = height * 0.35; // Adjust this value as needed
+              }
+              const cropWidth = cropHeight * aspectRatio;
+              canvas.width = cropWidth;
+              canvas.height = cropHeight;
+              ctx.drawImage(
+                image,
+                (width - cropWidth) / 2,
+                (height - cropHeight) / 2,
+                cropWidth,
+                cropHeight,
+                0,
+                0,
+                cropWidth,
+                cropHeight
+              );
+            }
 
-        canvas.width = overlayWidth;
-        canvas.height = overlayHeight;
-
-        ctx?.clearRect(0, 0, canvas.width, canvas.height);
-        ctx?.drawImage(
-          img,
-          overlayLeft,
-          overlayTop,
-          overlayWidth,
-          overlayHeight,
-          0,
-          0,
-          overlayWidth,
-          overlayHeight
-        );
-
-        // Convert canvas content to Blob (file)
-        canvas.toBlob((blob) => {
-          if (blob) {
-            const file = new File([blob], "captured-image.jpeg", {
-              type: "image/jpeg",
-            });
-            onCapture(file);
+            // Convert canvas to blob and then to file
+            canvas.toBlob((blob) => {
+              if (blob) {
+                const file = new File([blob], "cropped-image.jpeg", {
+                  type: "image/jpeg",
+                });
+                setCapturedImage(URL.createObjectURL(blob));
+                onCapture(file);
+              }
+            }, "image/jpeg");
           }
-        }, "image/jpeg");
-      };
+        };
+      }
     }
-  };
-
-  const handleCapture = () => {
-    if (captureType === "face") {
-      captureAndCropImage(400, 400, 150, 50); // Adjusted to fit the center circle
-    } else {
-      captureAndCropImage(560, 360, 120, 90); // Adjusted for KTP
-    }
-  };
+  }, [webcamRef, onCapture, captureType]);
 
   return (
-    <div className="relative w-full max-w-5xl mx-auto h-screen lg:h-128 rounded-5xl overflow-hidden">
-      <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
+    <div className="relative w-full max-w-5xl mx-auto h-128 lg:h-128 rounded-5xl overflow-hidden">
       <Webcam
         audio={false}
         ref={webcamRef}
         screenshotFormat="image/jpeg"
         className="absolute inset-0 w-full h-full object-cover rounded-5xl"
+        videoConstraints={{
+          facingMode: "user",
+        }}
       />
+      {capturedImage && (
+        <img
+          src={capturedImage}
+          alt="Captured"
+          className="absolute inset-0 w-full h-full object-cover rounded-5xl"
+        />
+      )}
       <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 mix-blend-multiply">
         {captureType === "face" ? (
           <div className="relative">
-            <div className="h-52 w-52 md:h-72 md:w-72 rounded-full border-4 bg-white bg-transparent border-white"></div>
+            <div className="h-72 w-72 rounded-full border-4 border-white bg-white bg-transparent"></div>
           </div>
         ) : (
           <div className="relative">
-            <div className="h-28 w-48 md:h-56 md:w-96 border-4 border-white bg-white bg-transparent"></div>
+            <div className="h-44 w-80 lg:h-56 lg:w-96 border-4 border-white bg-white bg-transparent"></div>
           </div>
         )}
       </div>
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2">
         <img
           src="/icons/circle.svg"
-          alt=""
+          alt="Capture"
           onClick={handleCapture}
-          className="cursor-pointer h-8 w-8 md:h-16 md:w-16"
+          className="cursor-pointer h-16 w-16"
         />
       </div>
       <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-center text-sm md:text-base">
         {captureType === "face"
           ? "Posisikan wajah anda pada lingkaran"
-          : "Posisikan Kartu KTP anda Masuk kedalam Frame"}
+          : "Posisikan Kartu KTP anda masuk ke dalam frame"}
       </div>
     </div>
   );

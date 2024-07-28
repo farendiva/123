@@ -4,6 +4,7 @@ import Sidebar from "../components/dashboard/Sidebar";
 import "../globals.css";
 import { Open_Sans } from "next/font/google";
 import { UserProvider } from "@/context/UserContext";
+import SidebarLinks from "../components/dashboard/SidebarLinks";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 export const metadata = {
@@ -26,8 +27,14 @@ export default async function DashboardLayout({
           <header className="bg-white">
             <Nav />
           </header>
-          <main className="w-4/5 mx-auto my-4 flex gap-6">
-            <Sidebar />
+          <main className="w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-6">
+            <>
+              <Sidebar />
+            </>
+            <div className="block lg:hidden">
+              <SidebarLinks />
+            </div>
+
             {children}
           </main>
         </UserProvider>
