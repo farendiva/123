@@ -80,6 +80,8 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
     setIsModalOpen(false);
   };
 
+  console.log(data);
+
   const filteredData = data.filter((item) => {
     const matchesSearchTerm = item.business.nama_efek
       .toLowerCase()
