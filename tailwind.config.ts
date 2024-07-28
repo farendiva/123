@@ -80,6 +80,21 @@ const config = {
         "5xl": "2.5rem",
       },
       keyframes: {
+        blink: {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
+        },
+        bounce: {
+          "0%, 100%, 20%, 50%, 80%": {
+            transform: "translateY(0)",
+          },
+          "40%": {
+            transform: "translateY(-30px)",
+          },
+          "60%": {
+            transform: "translateY(-15px)",
+          },
+        },
         "accordion-down": {
           from: { height: "0" },
           to: { height: "var(--radix-accordion-content-height)" },
@@ -92,6 +107,8 @@ const config = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        blink: "blink 1s infinite",
+        bounce: "bounce 2s infinite",
       },
     },
   },

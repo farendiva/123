@@ -1,10 +1,17 @@
-import React from "react";
+import { RegistrationDataSchema } from "@/lib/schema";
+import { FC } from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+import { z } from "zod";
+
+type Inputs = z.infer<typeof RegistrationDataSchema>;
 
 interface TermProps {
   handleScroll: (event: React.UIEvent<HTMLDivElement>) => void;
+  register: UseFormRegister<Inputs>;
+  errors: FieldErrors<Inputs>;
 }
 
-const TermServices = ({ handleScroll }: TermProps) => {
+const TermServices: FC<TermProps> = ({ handleScroll, register, errors }) => {
   return (
     <div
       id="terms"
@@ -998,6 +1005,20 @@ const TermServices = ({ handleScroll }: TermProps) => {
         Perjanjian ini melalui Badan Arbitrase Pasar Modal Indonesia (BAPMI) dan
         Lembaga Alternatif Penyelesaian Sengketa Sektor Jasa Keuangan (LAPS){" "}
       </p>
+      <div className="flex items-center pt-4">
+        <input
+          type="checkbox"
+          id="terms1"
+          {...register("terms")}
+          className="mr-2 accent-emerald-light"
+        />
+        <label htmlFor="terms1" className="text-sm">
+          Saya setuju dengan Syarat dan Ketentuan
+        </label>
+      </div>
+      {errors.terms?.message && (
+        <p className="text-sm text-red-400">{errors.terms.message}</p>
+      )}
     </div>
   );
 };

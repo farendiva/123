@@ -50,7 +50,7 @@ const ListingGrid: React.FC<Props> = ({ listings }) => {
   const [sortCriteria, setSortCriteria] = useState<string | null>(null);
 
   const filteredProjects = listings.filter((listing) => {
-    const matchesSearch = listing.nama_proyek
+    const matchesSearch = listing.nama_efek
       .toLowerCase()
       .includes(search.toLowerCase());
     const matchesFilter = filter ? listing.jenis_efek === filter : true;
@@ -59,9 +59,9 @@ const ListingGrid: React.FC<Props> = ({ listings }) => {
 
   const sortedProjects = [...filteredProjects].sort((a, b) => {
     if (sortCriteria === "nama_a_z") {
-      return a.nama_proyek.localeCompare(b.nama_proyek);
+      return a.nama_efek.localeCompare(b.nama_efek);
     } else if (sortCriteria === "nama_z_a") {
-      return b.nama_proyek.localeCompare(a.nama_proyek);
+      return b.nama_efek.localeCompare(a.nama_efek);
     } else if (sortCriteria === "nilai_tinggi_rendah") {
       return b.nilai_pendanaan - a.nilai_pendanaan;
     } else if (sortCriteria === "nilai_rendah_tinggi") {
@@ -91,9 +91,9 @@ const ListingGrid: React.FC<Props> = ({ listings }) => {
             >
               <path
                 stroke="currentColor"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
                 d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
               />
             </svg>

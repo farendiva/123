@@ -1,7 +1,10 @@
-import { getDetailSaham } from "@/lib/listing";
-import { getBanks } from "@/lib/preferences";
-import { cookies } from "next/headers";
 import PurchaseForm from "@/app/components/form/PurchasedForm";
+import { UserProvider } from "@/context/UserContext";
+import { getUserData } from "@/lib/auth";
+import { getDetailSukuk } from "@/lib/listing";
+import { getBanks } from "@/lib/preferences";
+import { User } from "lucide-react";
+import { cookies } from "next/headers";
 
 type Props = {
   data: {
@@ -57,24 +60,42 @@ type Props = {
   };
 };
 
-export default async function PurchasedSaham({
+export default async function BeliSukuk({
   params,
 }: {
-  params: { id: number };
+  params: { slug: string };
 }) {
-  const { id } = params;
+  const { slug } = params;
   const cookieStore = cookies();
   const token = cookieStore.get("authToken")?.value;
-  const data = await getDetailSaham(id);
   const banks = await getBanks(token as string);
+  const id = slug.split("-").pop();
+  if (!id) {
+    return <div>Product not found</div>;
+  }
+  const data = await getDetailSukuk(id);
+  const user = await getUserData();
   return (
-    <main className="w-11/12 lg:w-3/5 mx-auto my-8 lg:my-16">
-      <section className="w-full max-w-xl lg:max-w-full mx-auto flex-shrink-0">
-        <button className="bg-sky text-sm text-white py-1 px-7 rounded-3xl">
-          {data.jenis_efek}
-        </button>
-      </section>
-      <PurchaseForm data={data} banks={banks} />
-    </main>
+    <UserProvider initialUser={user.data}>
+      <main className="w-11/12 lg:w-3/5 mx-auto my-8 lg:my-16">
+        <section className="w-full max-w-xl lg:max-w-full mx-auto flex-shrink-0">
+          <button className="bg-[#FF1F00] text-sm text-white py-1 px-7 rounded-3xl">
+            {data.jenis_efek === "Sukuk"
+              ? data.akad === 1
+                ? "Sukuk Mudharabah"
+                : data.akad === 2
+                ? "Sukuk Musyarakah"
+                : "Saham"
+              : "Saham"}
+          </button>
+        </section>
+        <PurchaseForm
+          data={data}
+          banks={banks}
+          user={user.data}
+          token={token as string}
+        />
+      </main>
+    </UserProvider>
   );
 }

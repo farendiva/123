@@ -18,6 +18,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { ToastAction } from "@/components/ui/toast";
 import TermServices from "./TermServices";
+import {
+  getAuth,
+  signInWithPhoneNumber,
+  PhoneAuthProvider,
+  RecaptchaVerifier,
+} from "firebase/auth";
+import { auth } from "@/lib/firebase"; // Make sure this path matches where you initiali
 import { usePathname } from "next/navigation";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
@@ -47,11 +54,11 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [verificationId, setVerificationId] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [otp, setOtp] = useState("");
   const { toast } = useToast();
-  const pathname = usePathname();
-  const client_id = uuidv4();
   const delta = currentStep - previousStep;
-  const user_type = pathname === "/daftar/pemodal" ? "pemodal" : "penerbit";
 
   const {
     register,
@@ -63,12 +70,67 @@ export default function Form() {
   } = useForm<Inputs>({
     resolver: zodResolver(RegistrationDataSchema),
   });
+
+  const termsAgreed = watch("terms");
+
   function convertPhoneNumber(phone: string) {
     if (phone.startsWith("0")) {
       return "62" + phone.slice(1);
     }
     return phone;
   }
+
+  const onSignInSubmit = (phone: string) => {
+    setLoading(true);
+    setUpRecaptcha();
+
+    const appVerifier = window.recaptchaVerifier;
+
+    signInWithPhoneNumber(auth, phone, appVerifier)
+      .then((confirmationResult) => {
+        setVerificationId(confirmationResult.verificationId);
+        setCurrentStep(1); // Move to OTP input step
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("SMS not sent", error);
+        setLoading(false);
+      });
+  };
+
+  const setUpRecaptcha = () => {
+    const phone = watch("phone");
+    if (!window.recaptchaVerifier) {
+      window.recaptchaVerifier = new RecaptchaVerifier(
+        auth,
+        "recaptcha-container",
+        {
+          size: "invisible",
+          callback: () => {
+            onSignInSubmit(phone);
+          },
+        }
+      );
+    }
+    window.recaptchaVerifier.render();
+  };
+
+  // const verifyCode = () => {
+  //   setLoading(true);
+  //   const credential = PhoneAuthProvider.credential(verificationId, otp);
+
+  //   auth
+  //     .signInWithCredential(credential)
+  //     .then((result) => {
+  //       console.log("User signed in");
+  //       setCurrentStep(2); // Move to next step after OTP verification
+  //       setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error verifying OTP", error);
+  //       setLoading(false);
+  //     });
+  // };
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -86,14 +148,13 @@ export default function Form() {
             email: data.email,
             no_handphone: convertPhoneNumber(data.phone),
             password: data.password,
-            user_type: user_type,
+            user_type: "pemodal",
           }),
         }
       );
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
         reset();
       } else {
         const errorData = await response.json();
@@ -158,7 +219,6 @@ export default function Form() {
         // Check if email is available before moving to next step
         const email = watch("email");
         const isEmailAvailable = await checkEmailAvailability(email);
-
         if (!isEmailAvailable) {
           // Show error message
           toast({
@@ -173,6 +233,9 @@ export default function Form() {
           return;
         }
       }
+      const phone = watch("phone");
+
+      onSignInSubmit(phone);
 
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
@@ -184,6 +247,8 @@ export default function Form() {
 
   return (
     <section className="mx-auto flex w-full flex-col my-2">
+      <div id="recaptcha-container" className="invisible"></div>
+
       {/* Form */}
       <form
         className={`my-6 ${currentStep === 3 ? "lg:my-4" : "lg:my-12"}  `}
@@ -309,6 +374,7 @@ export default function Form() {
                   </div>
                 </div>
               </div>
+              <div id="recaptcha-container" className="invisible"></div>
             </div>
           </div>
         )}
@@ -446,22 +512,12 @@ export default function Form() {
               </h1>
             </div>
             <div className="flex flex-col items-center">
-              <TermServices handleScroll={handleScroll} />
-            </div>
-            <div className="flex items-center">
-              <input
-                type="checkbox"
-                id="terms"
-                {...register("terms")}
-                className="mr-2"
+              <TermServices
+                register={register}
+                errors={errors}
+                handleScroll={handleScroll}
               />
-              <label htmlFor="terms" className="text-sm">
-                Saya setuju dengan Syarat dan Ketentuan
-              </label>
             </div>
-            {errors.terms?.message && (
-              <p className="text-sm text-red-400">{errors.terms.message}</p>
-            )}
           </div>
         )}
 
@@ -513,11 +569,11 @@ export default function Form() {
           disabled={
             loading || // Disable tombol saat loading
             currentStep === steps.length - 1 ||
-            (currentStep === 3 && !isScrolledToBottom)
+            (currentStep === 3 && (!isScrolledToBottom || !termsAgreed))
           }
           className={`${
             currentStep === 4 && "hidden"
-          } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:cursor-not-allowed disabled:opacity-50`}
+          } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500`}
         >
           {loading ? "Loading..." : "Lanjutkan"}
         </button>

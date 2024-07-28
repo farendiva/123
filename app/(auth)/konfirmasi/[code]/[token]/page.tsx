@@ -1,30 +1,40 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect } from "react";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const ConfirmPage = ({ params }: { params: { code: string } }) => {
-  const { code } = params;
-
-  const endpoint = "https://fms-dev.khalifahdev.biz.id/konfirmasi/";
+const ConfirmPage = () => {
+  const { code, token } = useParams();
+  const [loading, setLoading] = useState(false);
+  const url = `https://fms-dev.khalifahdev.biz.id/konfirmasi/${code}/${token}`;
 
   useEffect(() => {
     const verifyEmail = async () => {
+      setLoading(true);
       try {
-        const url = endpoint + code;
         const response = await fetch(url);
         if (!response.ok) {
           throw new Error("Failed to verify email");
         }
         const data = await response.json();
-        console.log(data); // Handle the response data as needed
+        console.log(data);
       } catch (error) {
         console.error("Error verifying email:", error);
+      } finally {
+        setLoading(false);
       }
     };
-
     verifyEmail();
-  }, [code]);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="h-[80vh] flex justify-center items-center">
+        <h1 className="text-2xl lg:text-4xl font-bold">Loading...</h1>
+      </div>
+    );
+  }
 
   return (
     <main className="h-[80vh] flex flex-col justify-center items-center gap-8">

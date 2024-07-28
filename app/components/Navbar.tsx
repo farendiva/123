@@ -122,9 +122,9 @@ const menuItems = [
     as: "https://web-app-dev.khalifahdev.biz.id/masuk",
   },
   {
-    href: "/daftar/pemodal",
+    href: "/daftar",
     label: "Daftar",
-    as: "https://web-app-dev.khalifahdev.biz.id/daftar/pemodal",
+    as: "https://web-app-dev.khalifahdev.biz.id/daftar",
   },
 ];
 

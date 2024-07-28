@@ -12,5 +12,12 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/pemodal", "/penerbit", "/purchase/:path*", "/dashboard/:path*"], // Daftar halaman yang memerlukan authentikasi
+  matcher: [
+    "/kyc/pemodal",
+    "/kyc/penerbit",
+    "/daftar-bisnis/saham/:slug/bayar",
+    "/daftar-bisnis/sukuk/:slug/bayar",
+    "/transaksi/pembayaran/:prder_id",
+    "/dashboard/:path*",
+  ], // Daftar halaman yang memerlukan authentikasi
 };

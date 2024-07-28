@@ -8,10 +8,8 @@ export const RegistrationDataSchema = z
       .string()
       .min(1, "Email Harus Diisi")
       .email("Alamat Email Tidak Valid"),
-    phone: z
-      .string()
-      .min(1, "Nomor Handphone Diisi")
-      .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
+    phone: z.string().min(1, "Nomor Handphone Diisi"),
+    // .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
 
     password: z
       .string()
