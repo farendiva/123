@@ -138,7 +138,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
             <p className="text-[#667AB9] font-bold">
               {distance < 0 || transaksi.transaksi_status.status_id === 1
-                ? "Status"
+                ? "Status Pembayaran"
                 : "Batas Pembayaran"}
             </p>
             {distance < 0 && transaksi.transaksi_status.status_id === 1 ? (

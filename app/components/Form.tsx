@@ -18,13 +18,6 @@ import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { ToastAction } from "@/components/ui/toast";
 import TermServices from "./TermServices";
-import {
-  getAuth,
-  signInWithPhoneNumber,
-  PhoneAuthProvider,
-  RecaptchaVerifier,
-} from "firebase/auth";
-import { auth } from "@/lib/firebase"; // Make sure this path matches where you initiali
 import { usePathname } from "next/navigation";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
@@ -54,9 +47,6 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [verificationId, setVerificationId] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [otp, setOtp] = useState("");
   const { toast } = useToast();
   const delta = currentStep - previousStep;
 
@@ -79,58 +69,6 @@ export default function Form() {
     }
     return phone;
   }
-
-  const onSignInSubmit = (phone: string) => {
-    setLoading(true);
-    setUpRecaptcha();
-
-    const appVerifier = window.recaptchaVerifier;
-
-    signInWithPhoneNumber(auth, phone, appVerifier)
-      .then((confirmationResult) => {
-        setVerificationId(confirmationResult.verificationId);
-        setCurrentStep(1); // Move to OTP input step
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("SMS not sent", error);
-        setLoading(false);
-      });
-  };
-
-  const setUpRecaptcha = () => {
-    const phone = watch("phone");
-    if (!window.recaptchaVerifier) {
-      window.recaptchaVerifier = new RecaptchaVerifier(
-        auth,
-        "recaptcha-container",
-        {
-          size: "invisible",
-          callback: () => {
-            onSignInSubmit(phone);
-          },
-        }
-      );
-    }
-    window.recaptchaVerifier.render();
-  };
-
-  // const verifyCode = () => {
-  //   setLoading(true);
-  //   const credential = PhoneAuthProvider.credential(verificationId, otp);
-
-  //   auth
-  //     .signInWithCredential(credential)
-  //     .then((result) => {
-  //       console.log("User signed in");
-  //       setCurrentStep(2); // Move to next step after OTP verification
-  //       setLoading(false);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error verifying OTP", error);
-  //       setLoading(false);
-  //     });
-  // };
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -219,6 +157,7 @@ export default function Form() {
         // Check if email is available before moving to next step
         const email = watch("email");
         const isEmailAvailable = await checkEmailAvailability(email);
+
         if (!isEmailAvailable) {
           // Show error message
           toast({
@@ -233,9 +172,6 @@ export default function Form() {
           return;
         }
       }
-      const phone = watch("phone");
-
-      onSignInSubmit(phone);
 
       if (currentStep === steps.length - 2) {
         await handleSubmit(processForm)();
@@ -247,8 +183,6 @@ export default function Form() {
 
   return (
     <section className="mx-auto flex w-full flex-col my-2">
-      <div id="recaptcha-container" className="invisible"></div>
-
       {/* Form */}
       <form
         className={`my-6 ${currentStep === 3 ? "lg:my-4" : "lg:my-12"}  `}
@@ -374,7 +308,6 @@ export default function Form() {
                   </div>
                 </div>
               </div>
-              <div id="recaptcha-container" className="invisible"></div>
             </div>
           </div>
         )}

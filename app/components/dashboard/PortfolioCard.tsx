@@ -70,39 +70,45 @@ interface PorfolioProps {
 
 const PortfolioCard: React.FC<PorfolioProps> = ({ portfolio }) => {
   return (
-    <div className="h-40 bg-white shadow px-4 rounded-xl flex items-center justify-between gap-4">
+    <div className="h-auto lg:h-40 bg-white shadow px-4 py-4 rounded-xl flex flex-col md:flex-row items-center md:justify-between gap-4">
       <img
         src={portfolio.business.berkas.image_url}
         alt={portfolio.business.nama_efek}
-        className="w-1/4 aspect-video rounded-xl"
+        className="w-full md:w-1/4 aspect-video rounded-xl"
       />
       <div className="w-full space-y-4">
-        <div className="flex justify-between">
-          <h3 className="font-bold w-1/2">{portfolio.business.nama_proyek}</h3>
+        <div className="flex flex-col md:flex-row justify-between">
+          <h3 className="font-bold w-full md:w-1/2">
+            {portfolio.business.nama_proyek}
+          </h3>
           <span
-            className={`h-7 px-6 flex items-center text-xs rounded-xl ${
+            className={`h-7 px-6 flex items-center justify-center text-xs rounded-xl mt-2 md:mt-0 ${
               portfolio.business.jenis_efek === "Saham"
                 ? "bg-emerald-light"
                 : "bg-[#FF1F00]"
             } text-white`}
           >
-            {portfolio.business.jenis_efek}
+            {portfolio.business.jenis_efek === "Sukuk"
+              ? portfolio.business.akad === 1
+                ? "Sukuk Mudharabah"
+                : "Sukuk Musyarakah"
+              : "Saham"}
           </span>
         </div>
-        <div className="flex justify-between items-center text-sm">
-          <div className="flex-col">
+        <div className="flex flex-col md:flex-row justify-between items-center text-sm space-y-2 md:space-y-0">
+          <div className="flex flex-row justify-between items-center md:items-start md:flex-col w-full">
             <h2 className="font-bold">Status</h2>
             <p>{portfolio.status === 1 && "Berjalan"}</p>
           </div>
-          <div className="flex-col">
+          <div className="flex flex-row justify-between items-center md:items-start md:flex-col w-full">
             <h2 className="font-bold">Total Saham</h2>
             <p>{portfolio.total_saham}</p>
           </div>
-          <div className="flex-col">
+          <div className="flex flex-row justify-between items-center md:items-start md:flex-col w-full">
             <h2 className="font-bold">Nilai Investasi</h2>
             <p>{formatRupiah(portfolio.nilai_investasi)}</p>
           </div>
-          <div className="flex-col">
+          <div className="flex flex-row justify-between items-center md:items-start md:flex-col w-full">
             <h2 className="font-bold">Keuntungan</h2>
             <p className="text-emerald">-</p>
           </div>
