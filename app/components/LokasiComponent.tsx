@@ -3,16 +3,15 @@
 import { useState } from "react";
 import { Share2, X, Check, MapPin } from "lucide-react";
 
-type ShareProps = {
-  text: string;
-  tipe: string;
-  id: string;
+type LokasiProps = {
+  lokasi: string;
+  detail: string;
 };
 
-const LokasiComponent: React.FC = () => {
+const LokasiComponent: React.FC<LokasiProps> = ({ lokasi, detail }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const shareUrl = "https://maps.app.goo.gl/W9ZER78xfuXsdbx98";
+  const shareUrl = lokasi;
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
@@ -51,16 +50,12 @@ const LokasiComponent: React.FC = () => {
               </button>
             </div>
             <div className="space-y-4">
-              <iframe
+              {/* <iframe
                 className="w-full h-72 "
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.3845867817245!2d106.80772903488766!3d-6.2129035!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f7134b9327c5%3A0xe4982bf27c73eb8c!2sFulusme.id!5e0!3m2!1sen!2sid!4v1721881916895!5m2!1sen!2sid"
                 loading="lazy"
-              ></iframe>
-              <p className="text-sm leading-loose">
-                Aeon mall, West Tanjung, Jagakarsa, South Jakarta City, Jakarta
-                Jl. Raya Tj. Barat, Tj. Bar., Kec. Jagakarsa, Kota Jakarta
-                Selatan, Daerah Khusus Ibukota Jakarta 12530
-              </p>
+              ></iframe> */}
+              <p className="text-sm leading-loose">{detail}</p>
               <div className="flex">
                 <input
                   type="text"

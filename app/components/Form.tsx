@@ -1,11 +1,10 @@
 "use client";
 
-import { useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState } from "react";
 import { z } from "zod";
 import { RegistrationDataSchema } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import {
@@ -19,6 +18,8 @@ import { cn } from "@/lib/utils";
 import { ToastAction } from "@/components/ui/toast";
 import TermServices from "./TermServices";
 import { usePathname } from "next/navigation";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import axios from "axios";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
 
@@ -47,13 +48,47 @@ export default function Form() {
   const [currentStep, setCurrentStep] = useState(0);
   const [isScrolledToBottom, setIsScrolledToBottom] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [otpId, setOtpId] = useState("");
   const { toast } = useToast();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const delta = currentStep - previousStep;
+  const [time, setTime] = useState(600);
+  const [resend, setResend] = useState(false);
+
+  useEffect(() => {
+    if (time <= 0) {
+      setResend(true);
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setTime((prevTime) => prevTime - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [time]);
+
+  const formatTime = (seconds: number): string => {
+    const minutes = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${String(minutes).padStart(2, "0")}:${String(secs).padStart(
+      2,
+      "0"
+    )}`;
+  };
+
+  const handleResend = () => {
+    if (resend) {
+      setTime(600);
+      setResend(false);
+    }
+  };
 
   const {
     register,
     handleSubmit,
     watch,
+    control,
     reset,
     trigger,
     formState: { errors },
@@ -72,7 +107,31 @@ export default function Form() {
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
+
+    // ReCAPTCHA logic
+    if (!executeRecaptcha) {
+      setLoading(false);
+      return;
+    }
+
     try {
+      const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
+
+      const recaptchaResponse = await axios({
+        method: "post",
+        url: "/api/recaptchaSubmit",
+        data: { gRecaptchaToken },
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (recaptchaResponse?.data?.success !== true) {
+        setLoading(false);
+        return;
+      }
+
       const response = await fetch(
         "https://oms-api-dev.khalifahdev.biz.id/api/v1/register",
         {
@@ -132,6 +191,60 @@ export default function Form() {
     }
   };
 
+  const generatedOtp = async (phone: string) => {
+    const data = {
+      phone: phone,
+      brand: "FULUSME",
+    };
+
+    try {
+      const response = await fetch(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/otp/request",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      const result = await response.json();
+      if (result.status) {
+        setOtpId(result.data.id);
+      }
+
+      return result;
+    } catch (error) {
+      console.error("Error SEND OTP", error);
+    }
+  };
+
+  const verifyOtp = async (otpId: string, pin: string) => {
+    try {
+      const response = await fetch(
+        "https://oms-api-dev.khalifahdev.biz.id/api/v1/otp/verify",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            otp_id: otpId,
+            otp: pin,
+          }),
+        }
+      );
+
+      const result = await response.json();
+      return result;
+    } catch (error) {
+      console.error("Error VERIFY OTP", error);
+      return { status: false }; // Return an error status
+    }
+  };
+
   type FieldName = keyof Inputs;
 
   const handleScroll = (event: any) => {
@@ -142,6 +255,8 @@ export default function Form() {
       setIsScrolledToBottom(false);
     }
   };
+
+  const phone = watch("phone");
 
   const next = async () => {
     if (loading) return; // Jika dalam keadaan loading, jangan lanjutkan
@@ -167,6 +282,35 @@ export default function Form() {
             variant: "destructive",
             title: "Email sudah terdaftar.",
             description: "Silakan gunakan email lain.",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
+          return;
+        }
+
+        await generatedOtp(phone);
+      }
+
+      if (currentStep === 1) {
+        const pin = watch("pin");
+        const result = await verifyOtp(otpId, pin);
+
+        if (result.status) {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "success",
+            title: "OTP Berhasil",
+            description: "Silahkan Masukkan Kata sandi untuk akun anda.",
+          });
+        } else {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "OTP tidak valid.",
+            description: "Silakan coba lagi.",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
           return;
@@ -333,27 +477,40 @@ export default function Form() {
               </h1>
               <p className="text-base lg:text-xl">
                 Kode OTP telah dikirimkan ke nomor{" "}
-                <span className="font-bold">+6123456789</span>
+                <span className="font-bold">{phone}</span>
               </p>
-              <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
-                <InputOTPGroup className="gap-2 lg:gap-4 mt-8 lg:mt-16">
-                  <InputOTPSlot index={0} />
-                  <InputOTPSlot index={1} />
-                  <InputOTPSlot index={2} />
-                  <InputOTPSlot index={3} />
-                  <InputOTPSlot index={4} />
-                  <InputOTPSlot index={5} />
-                </InputOTPGroup>
-              </InputOTP>
-              <p
-                id="helper-text-explanation"
-                className="mt-2 text-base text-sky"
+              <Controller
+                control={control}
+                name="pin"
+                render={({ field }) => (
+                  <InputOTP
+                    maxLength={6}
+                    value={field.value}
+                    onChange={field.onChange}
+                  >
+                    <InputOTPGroup className="gap-2 lg:gap-4 mt-8 lg:mt-16">
+                      <InputOTPSlot index={0} />
+                      <InputOTPSlot index={1} />
+                      <InputOTPSlot index={2} />
+                      <InputOTPSlot index={3} />
+                      <InputOTPSlot index={4} />
+                      <InputOTPSlot index={5} />
+                    </InputOTPGroup>
+                  </InputOTP>
+                )}
+              />
+              <p className="mt-2 text-base text-sky">
+                {time > 0 ? formatTime(time) : "00:00"}, tidak mendapatkan kode?
+              </p>
+              <button
+                className={`font-bold text-base text-sky ${
+                  resend ? "cursor-pointer" : "cursor-not-allowed"
+                }`}
+                onClick={handleResend}
+                disabled={!resend}
               >
-                00:35, tidak mendapatkan kode?
-              </p>
-              <p className="font-bold text-base text-sky">
                 kirim ulang kode OTP
-              </p>
+              </button>
             </section>
           </div>
         )}

@@ -43,7 +43,7 @@ interface Business {
   jaminan?: string | null;
   porsi_modal_pemodal_idr: number;
   porsi_modal_penerbit_idr: number;
-  berkas: Berkas;
+  berkas: Berkas[];
 }
 
 interface PortfolioItem {
@@ -72,8 +72,8 @@ const PortfolioCard: React.FC<PorfolioProps> = ({ portfolio }) => {
   return (
     <div className="h-auto lg:h-40 bg-white shadow px-4 py-4 rounded-xl flex flex-col md:flex-row items-center md:justify-between gap-4">
       <img
-        src={portfolio.business.berkas.image_url}
-        alt={portfolio.business.nama_efek}
+        src={portfolio.business.berkas[0].image_url}
+        alt={`${portfolio.business.nama_efek} Foto`}
         className="w-full md:w-1/4 aspect-video rounded-xl"
       />
       <div className="w-full space-y-4">

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useState, KeyboardEvent } from "react";
 import { formatRupiah } from "@/lib/rupiah";
 import {
   Tooltip,
@@ -11,6 +11,10 @@ import {
 
 import { useRouter } from "next/navigation";
 import { ChevronDown, CircleAlert, CreditCard } from "lucide-react";
+import PurchaseModal from "../PurchaseModal";
+import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
+import { ToastAction } from "@/components/ui/toast";
 
 interface Data {
   id: number;
@@ -34,9 +38,57 @@ interface Profile {
   no_handphone: string;
 }
 
+interface Profile {
+  nama_depan: string;
+  nama_belakang: string;
+  jenis_kelamin: string;
+  tempat_lahir: string;
+  tanggal_lahir: string;
+  no_handphone: string;
+  no_ktp: string;
+  no_npwp: string | null;
+  no_sid: string | null;
+  agama: string;
+  kewarganegaraan: string;
+  alamat_ktp: string;
+  kelurahan_ktp: string | null;
+  kecamatan_ktp: string | null;
+  kabupaten_ktp: string | null;
+  provinsi_ktp: string | null;
+  alamat_domisili: string | null;
+  kelurahan_domisili: string | null;
+  kecamatan_domisili: string | null;
+  kabupaten_domisili: string | null;
+  provinsi_domisili: string | null;
+  pendidikan: string;
+  pekerjaan: string;
+  industri_pekerjaan: string;
+  pendapatan: string;
+  sumber_pendapatan: string;
+  status_id: number;
+  status: string;
+  nomor_rekening: string;
+  nama_pemilik_rekening: string;
+  nama_bank: string | null;
+  kabupaten_cabang_bank: string | null;
+  ktp: string;
+  npwp: string;
+  swa_photo: string;
+  slip_gaji: string;
+  kartu_keluarga: string;
+}
+
 interface User {
+  id: number;
+  name: string;
   email: string;
-  id: string;
+  email_verified_at: string;
+  created_at: string;
+  updated_at: string;
+  user_type: string;
+  pemodal_id: number;
+  pemodal_status: number;
+  pemodal_status_description: string;
   profile: Profile;
 }
 
@@ -57,6 +109,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const [jumlahPendanaan, setJumlahPendanaan] = useState<string>("");
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
   const handleIncrement = () => {
     setJumlahLembar((prevJumlah) => prevJumlah + 1);
@@ -70,16 +123,35 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
     const value = parseInt(e.target.value, 10);
     setJumlahLembar(isNaN(value) ? 0 : value);
   };
-
   const handleJumlahPendanaanChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value.replace(/[^0-9]/g, ""), 10);
-    if (!isNaN(value)) {
-      setJumlahPendanaan(formatRupiah(value));
-      const jumlahLembarSaham = Math.ceil(value / data.satuan_pemindahan_buku);
+    const value = e.target.value.replace(/[^0-9]/g, "");
+    setJumlahPendanaan(value);
+  };
+
+  const adjustJumlahPendanaan = () => {
+    const value = parseInt(jumlahPendanaan, 10);
+    if (!isNaN(value) && data.satuan_pemindahan_buku) {
+      const adjustedValue =
+        Math.ceil(value / data.satuan_pemindahan_buku) *
+        data.satuan_pemindahan_buku;
+      setJumlahPendanaan(formatRupiah(adjustedValue));
+      const jumlahLembarSaham = Math.ceil(
+        adjustedValue / data.satuan_pemindahan_buku
+      );
       setJumlahLembar(jumlahLembarSaham);
     } else {
       setJumlahPendanaan("");
       setJumlahLembar(0);
+    }
+  };
+
+  const handleBlur = () => {
+    adjustJumlahPendanaan();
+  };
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      adjustJumlahPendanaan();
     }
   };
 
@@ -130,16 +202,49 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
       );
 
       if (response.ok) {
-        alert("Pembelian berhasil!");
+        toggleModal();
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "success",
+          title: "Pesanan Berhasil.",
+          description: "Anda akan diarahkan ke Detail pesanan.",
+        });
         const { order_id } = await response.json();
         router.push(`/transaksi/pembayaran/${order_id}`);
       } else {
-        // Handle error
-        alert("Pembelian gagal, silakan coba lagi.");
+        toggleModal();
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "destructive",
+          title: "Pesanan Gagal",
+          description: "Silakan coba lagi.",
+          action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+        });
       }
     } catch (error) {
       console.error("Error posting data:", error);
-      alert("Terjadi kesalahan, silakan coba lagi.");
+      toast({
+        className: cn(
+          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        ),
+        variant: "destructive",
+        title: "Pesanan Gagal",
+        description: "Silakan coba lagi.",
+        action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+      });
+    }
+  };
+
+  const toggleModal = () => {
+    setIsModalOpen(!isModalOpen);
+    if (isModalOpen) {
+      document.body.style.overflow = "auto";
+    } else {
+      document.body.style.overflow = "hidden";
     }
   };
 
@@ -177,8 +282,14 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                 placeholder="Isi nilai pendanaan yang diinginkan"
                 value={jumlahPendanaan}
                 onChange={handleJumlahPendanaanChange}
+                onBlur={handleBlur}
+                onKeyDown={handleKeyDown}
                 required
               />
+              <p className="text-[10px] text-sky mt-1">
+                Nominal harus kelipatan{" "}
+                {formatRupiah(data.satuan_pemindahan_buku)}
+              </p>
             </div>
             <form className="w-full mx-auto space-y-2">
               <label
@@ -280,8 +391,11 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                     <TooltipTrigger>
                       <CircleAlert fill="#677AB9" color="white" />
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to library</p>
+                    <TooltipContent className="w-40 text-[#677AB9]">
+                      <p>
+                        Pemodal dikenakan biaya platform 0.5% dihitung dari
+                        nilai investasi efek
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -299,8 +413,11 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                     <TooltipTrigger>
                       <CircleAlert fill="#677AB9" color="white" />
                     </TooltipTrigger>
-                    <TooltipContent>
-                      <p>Add to library</p>
+                    <TooltipContent className="w-52 text-[#677AB9]">
+                      <p>
+                        Besaran Pajak disesuaikan berdasarkan peraturan
+                        undang-undang yang berlaku dari biaya platform
+                      </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -382,7 +499,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
         <section className="relative top-4 mb-8 lg:mb-0">
           <button
             className="w-full mb-2 block text-center bg-emerald-light hover:bg-green-700 rounded-4xl text-white text-sm font-semibold py-4 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500 disabled:font-bold"
-            onClick={handleSubmit}
+            onClick={toggleModal}
             disabled={!selectedBank}
           >
             Beli Efek
@@ -395,6 +512,13 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
           </p>
         </section>
       </section>
+      {isModalOpen && (
+        <PurchaseModal
+          toggleModal={toggleModal}
+          handleSubmit={handleSubmit}
+          user={user}
+        />
+      )}
     </section>
   );
 };

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 const ConfirmPage = () => {
   const { code, token } = useParams();
   const [loading, setLoading] = useState(false);
-  const url = `https://fms-dev.khalifahdev.biz.id/konfirmasi/${code}/${token}`;
+  const url = `https://oms-api-dev.khalifahdev.biz.id/api/email/verify/${code}/${token}`;
 
   useEffect(() => {
     const verifyEmail = async () => {
@@ -18,7 +18,6 @@ const ConfirmPage = () => {
           throw new Error("Failed to verify email");
         }
         const data = await response.json();
-        console.log(data);
       } catch (error) {
         console.error("Error verifying email:", error);
       } finally {
