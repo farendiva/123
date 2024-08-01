@@ -18,7 +18,6 @@ const ConfirmPage = () => {
           throw new Error("Failed to verify email");
         }
         const data = await response.json();
-        console.log(data);
       } catch (error) {
         console.error("Error verifying email:", error);
       } finally {

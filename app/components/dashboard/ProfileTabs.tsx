@@ -142,7 +142,6 @@ const ProfileTabs: React.FC = () => {
     fetchSubDistricts,
     fetchPostalCodes,
   } = usePreferences();
-  console.log(formData);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
@@ -189,20 +188,20 @@ const ProfileTabs: React.FC = () => {
     if (formData?.provinsi_ktp) {
       fetchCities(formData.provinsi_ktp);
     }
-  }, [formData?.provinsi_ktp]);
+  }, [formData?.provinsi_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (formData?.kabupaten_ktp) {
       fetchDistricts(formData.kabupaten_ktp);
     }
-  }, [formData?.kabupaten_ktp]);
+  }, [formData?.kabupaten_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (formData?.kecamatan_ktp) {
       fetchSubDistricts(formData.kecamatan_ktp);
       fetchPostalCodes(formData.kecamatan_ktp);
     }
-  }, [formData?.kecamatan_ktp]);
+  }, [formData?.kecamatan_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -238,7 +237,6 @@ const ProfileTabs: React.FC = () => {
       );
       if (response.ok) {
         const result = await response.json();
-        console.log(changedData.values);
         setIsEditing(false);
         setOriginalData(formData);
       } else {

@@ -141,7 +141,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               kedudukannya selaku Direktur Utama PT FINTEK Andalan Solusi
               Teknologi (Fulusme) dan karenanya berhak bertindak untuk dan atas
               nama perseroan tersebut, untuk selanjutnya disebut
-              "Penyelenggara";{" "}
+              &quot;Penyelenggara&quot;{" "}
             </li>
             <li>
               2) <span className="font-bold">Perseorangan </span>
@@ -368,7 +368,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               1.25 <span className="font-bold">Sukuk</span> adalah Efek Syariah
               berupa sertifikat atau bukti kepemilikan yang bernilai sama dan
               mewakili bagian yang tidak terpisahkan atau tidak terbagi
-              (syuyu'), atas aset yang mendasarinya.
+              (syuyu&apos;), atas aset yang mendasarinya.
             </li>
             <li>
               1.26 <span className="font-bold">Sistem Elektronik</span> adalah
@@ -1353,7 +1353,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               Para Pihak kepada Pihak lainnya dan/atau yang diperoleh
               berdasarkan Perjanjian ini dan/atau Perjanjian ikutan lainnya
               (untuk selanjutnya disebut{" "}
-              <span className="font-bold">"Informasi Rahasia"</span>).
+              <span className="font-bold">&quot;Informasi Rahasia&quot;</span>).
             </li>
             <li>
               13.2. Tidak satupun dari Para Pihak berhak dan/atau berwenang
@@ -1479,10 +1479,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             <li>
               15.2. Dalam hal di kemudian hari terdapat perbedaan, kontroversi,
               pertentangan, perselisihan sengketa, dan/atau pengaduan Pemodal
-              (untuk selanjutnya disebut "Sengketa") yang mungkin timbul dari,
-              atau sehubungan dengan, atau dalam pelaksanaan Perjanjian ini,
-              sepanjang dimungkinkan, akan diselesaikan oleh Para Pihak secara
-              musyawarah untuk mufakat;
+              (untuk selanjutnya disebut &quot;Sengketa&quot;) yang mungkin
+              timbul dari, atau sehubungan dengan, atau dalam pelaksanaan
+              Perjanjian ini, sepanjang dimungkinkan, akan diselesaikan oleh
+              Para Pihak secara musyawarah untuk mufakat;
             </li>
             <li>
               15.3. Namun, apabila penyelesaian Sengketa secara musyawarah untuk

@@ -69,7 +69,6 @@ interface PorfolioProps {
 }
 
 const PortfolioCard: React.FC<PorfolioProps> = ({ portfolio }) => {
-  console.log(portfolio);
   return (
     <div className="h-auto lg:h-40 bg-white shadow px-4 py-4 rounded-xl flex flex-col md:flex-row items-center md:justify-between gap-4">
       <img

@@ -46,7 +46,7 @@ interface Business {
   jaminan?: string | null;
   porsi_modal_pemodal_idr: number;
   porsi_modal_penerbit_idr: number;
-  berkas: Berkas;
+  berkas: Berkas[];
 }
 
 interface PortfolioItem {

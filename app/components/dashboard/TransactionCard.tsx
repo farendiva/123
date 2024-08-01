@@ -84,7 +84,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [transaksi.va_expiry_time]);
+  }, [transaksi.va_expiry_time, distance]);
 
   const ppn = transaksi.biaya_layanan * 0.11;
 
