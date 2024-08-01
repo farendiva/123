@@ -4,6 +4,7 @@ import "../globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import StickyButton from "../components/StickyButton";
+import { Toaster } from "@/components/ui/toaster";
 
 const openSans = Open_Sans({ subsets: ["latin"] });
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({
         {children}
         <Footer />
         <StickyButton />
+        <Toaster />
       </body>
     </html>
   );

@@ -12,6 +12,8 @@ import { ChevronLeft } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { ToastAction } from "@/components/ui/toast";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import axios from "axios";
 
 type Inputs = z.infer<typeof LoginDataSchema>;
 
@@ -29,21 +31,42 @@ export default function Masuk() {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
+
+    // ReCAPTCHA logic
+    if (!executeRecaptcha) {
+      setLoading(false);
+      return;
+    }
+
     try {
+      const gRecaptchaToken = await executeRecaptcha("inquirySubmit");
+
+      const recaptchaResponse = await axios({
+        method: "post",
+        url: "/api/recaptchaSubmit",
+        data: { gRecaptchaToken },
+        headers: {
+          Accept: "application/json, text/plain, */*",
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (recaptchaResponse?.data?.success !== true) {
+        setLoading(false);
+        return;
+      }
+
+      // Proceed with form submission
       const response = await fetch(
         "https://oms-api-dev.khalifahdev.biz.id/api/v1/login",
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: data.email,
-            password: data.password,
-          }),
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email, password: data.password }),
         }
       );
 
@@ -193,7 +216,9 @@ export default function Masuk() {
           </div>
           <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between w-full">
             <div>
-              <p>Lupa Kata Sandi</p>
+              <Link href="/lupa-password" className="hover:underline ">
+                Lupa Kata Sandi
+              </Link>
               <p>
                 Belum Punya Akun?{" "}
                 <Link

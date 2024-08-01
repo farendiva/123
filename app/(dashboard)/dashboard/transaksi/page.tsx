@@ -1,6 +1,5 @@
-import TransactionCard from "@/app/components/dashboard/TransactionCard";
+import TransactionList from "@/app/components/dashboard/TransactionList";
 import { getTransaksiPemodal } from "@/lib/preferences";
-import { FilterIcon } from "lucide-react";
 import { cookies } from "next/headers";
 
 export interface Transaksi {
@@ -47,46 +46,10 @@ export default async function TransaksiPage() {
     user_id as string,
     token as string
   );
-  const sortedTransaksi = data.data.sort(
-    (
-      a: { created_at: string | number | Date },
-      b: { created_at: string | number | Date }
-    ) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
 
   return (
     <main className="w-full mx-auto rounded-xl">
-      <form className="w-full mb-4 mx-auto flex items-center gap-4">
-        <div className="w-full relative">
-          <input
-            type="search"
-            className="block w-full p-4 ps-4 text-sm text-gray-900 rounded-3xl bg-white focus:ring-blue-500 focus:border-blue-500"
-            placeholder="Cari Bisnis..."
-            required
-          />
-          <div className="absolute inset-y-0 end-4 flex items-center pointer-events-none">
-            <svg
-              className="w-4 h-4 text-gray-500 dark:text-gray-400"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 20 20"
-            >
-              <path
-                stroke="currentColor"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-              />
-            </svg>
-          </div>
-        </div>
-        <FilterIcon fill="black" />
-      </form>
-      {sortedTransaksi.map((transaksi: Transaksi) => (
-        <TransactionCard key={transaksi.id} transaksi={transaksi} />
-      ))}
+      <TransactionList data={data.data} />
     </main>
   );
 }

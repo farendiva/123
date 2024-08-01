@@ -8,9 +8,14 @@ export const RegistrationDataSchema = z
       .string()
       .min(1, "Email Harus Diisi")
       .email("Alamat Email Tidak Valid"),
-    phone: z.string().min(1, "Nomor Handphone Diisi"),
-    // .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
-
+    phone: z
+      .string()
+      .min(1, "Nomor Handphone Diisi")
+      .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
+    pin: z
+      .string()
+      .length(6, "OTP harus terdiri dari 6 digit")
+      .regex(/^\d+$/, "OTP hanya boleh mengandung angka"),
     password: z
       .string()
       .min(8, "Kata Sandi harus minimal 8 karakter")

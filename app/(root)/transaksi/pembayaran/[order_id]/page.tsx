@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/tooltip";
 import { CircleAlert } from "lucide-react";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 
 interface OrderDetailProps {
   params: { order_id: number };
@@ -31,8 +32,19 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
         {data && (
           <div className="space-y-4 bg-[#F3F5FF] text-[15px]">
             <div className="bg-white p-4 rounded-lg space-y-2">
-              <button className="bg-sky text-sm rounded-xl text-white px-8 py-1">
-                {data.tipe_efek}
+              <button
+                className={`${
+                  data.tipe_efek === "Sukuk"
+                    ? "bg-[#FF1F00]"
+                    : "bg-emerald-light"
+                } text-sm rounded-xl text-white px-8 py-1`}
+              >
+                {/* {data.tipe_efek} */}
+                {data.tipe_efek === "Sukuk"
+                  ? data.akad === 1
+                    ? "Sukuk Mudharabah"
+                    : "Sukuk Musyarakah"
+                  : "Saham"}
               </button>
               <div className="space-y-2">
                 <h1 className="text-xl lg:text-2xl font-bold">
@@ -63,8 +75,11 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                         <TooltipTrigger>
                           <CircleAlert fill="#677AB9" color="white" />
                         </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Add to library</p>
+                        <TooltipContent className="w-40 text-[#677AB9]">
+                          <p>
+                            Pemodal dikenakan biaya platform 0.5% dihitung dari
+                            nilai investasi efek
+                          </p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -81,8 +96,11 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                         <TooltipTrigger>
                           <CircleAlert fill="#677AB9" color="white" />
                         </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Add to library</p>
+                        <TooltipContent className="w-52 text-[#677AB9]">
+                          <p>
+                            Besaran Pajak disesuaikan berdasarkan peraturan
+                            undang-undang yang berlaku dari biaya platform
+                          </p>
                         </TooltipContent>
                       </Tooltip>
                     </TooltipProvider>
@@ -124,9 +142,12 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
         )}
       </main>
       <div className="flex justify-center items-center my-4 gap-2 flex-col">
-        <button className="bg-emerald-light rounded-5xl text-white font-bold px-32 py-4">
+        <Link
+          href="/"
+          className="bg-emerald-light rounded-5xl text-white font-bold px-32 py-4"
+        >
           Beranda
-        </button>
+        </Link>
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
           <a

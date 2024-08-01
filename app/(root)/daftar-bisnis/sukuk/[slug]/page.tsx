@@ -9,6 +9,8 @@ import Link from "next/link";
 import SimulasiComponent from "@/app/components/SimulasiComponent";
 import LokasiComponent from "@/app/components/LokasiComponent";
 import { Progress } from "@/components/ui/progress";
+import PurchaseButton from "@/app/components/PurchaseButton";
+import { getUserData } from "@/lib/auth";
 
 const steps = [
   {
@@ -44,13 +46,56 @@ export default async function ProductDetailPageSukuk({
   params: { slug: string };
 }) {
   const { slug } = params;
-  const id = slug.split("-").pop();
-
+  let id = slug.split("-").pop();
   if (!id) {
-    return <div>Product not found</div>;
+    return (
+      <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
+    );
   }
 
-  const data = await getDetailSukuk(id);
+  let data;
+  try {
+    data = await getDetailSukuk(id);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return <div>Failed to load product details. Please try again later.</div>;
+  }
+
+  if (!data || !data.nama_efek) {
+    return (
+      <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
+    );
+  }
+  const user = await getUserData();
+  const industriData = [
+    { id: 1, industri_pekerjaan: "retail" },
+    { id: 2, industri_pekerjaan: "otomotif" },
+    { id: 3, industri_pekerjaan: "finansial" },
+    { id: 4, industri_pekerjaan: "travel" },
+    { id: 5, industri_pekerjaan: "pendidikan" },
+    { id: 6, industri_pekerjaan: "makanan dan minuman" },
+    { id: 7, industri_pekerjaan: "kesehatan dan gaya hidup" },
+    { id: 8, industri_pekerjaan: "penginapan" },
+    { id: 9, industri_pekerjaan: "agriculture" },
+    { id: 10, industri_pekerjaan: "pertambangan" },
+    { id: 11, industri_pekerjaan: "teknologi" },
+    { id: 12, industri_pekerjaan: "kontraktor" },
+    { id: 13, industri_pekerjaan: "konstruksi" },
+    { id: 14, industri_pekerjaan: "konsultan" },
+    { id: 15, industri_pekerjaan: "elektronik" },
+    { id: 16, industri_pekerjaan: "transportasi" },
+    { id: 17, industri_pekerjaan: "perumahan" },
+    { id: 18, industri_pekerjaan: "logistik" },
+    { id: 19, industri_pekerjaan: "manufaktur" },
+    { id: 20, industri_pekerjaan: "hiburan" },
+    { id: 61, industri_pekerjaan: "software dev" },
+    { id: 63, industri_pekerjaan: "tani" },
+  ];
+
+  function getIndustriPeekerjaanById(id: number) {
+    const industri = industriData.find((item) => item.id === id);
+    return industri ? industri.industri_pekerjaan : "Unknown";
+  }
   return (
     <>
       <Head>
@@ -67,12 +112,12 @@ export default async function ProductDetailPageSukuk({
         <meta property="og:image" content={data.berkas[0]} />
         <meta
           property="og:url"
-          content={`http://localhost:3000/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
+          content={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
         />
         <meta property="og:type" content="product" />
         <link
           rel="canonical"
-          href={`http://localhost:3000/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
+          href={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
         />
       </Head>
       <main>
@@ -102,21 +147,16 @@ export default async function ProductDetailPageSukuk({
               {/* Detail Perusahaan */}
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Perusahaan</h3>
-                <h3>{data.penerbit?.nama || ""}</h3>
+                <h3>{data.penerbit.nama_perusahaan}</h3>
               </section>
               {/* Kode Efek */}
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Kode Efek</h3>
                 <h3>{data.kode_penerbit}</h3>
               </section>
-              {/* Dana Terkumpul */}
               <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
-                <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
-              </section>
-              <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Lokasi Bisnis</h3>
-                <h3>Surabaya</h3>
+                <h3 className="text-[#677AB9]">Jenis Akad</h3>
+                <h3>{data.akad === 1 ? "Mudharabah" : "Musyarakah"}</h3>
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
@@ -137,31 +177,42 @@ export default async function ProductDetailPageSukuk({
             <section className="bg-white rounded-xl space-y-2 p-4">
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Kategori Bisnis</h3>
-                <h3>Makanan dan Minuman</h3>
-              </section>
-              <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Kebutuhan Dana</h3>
-                <h3>{formatRupiah(data.nilai_proyek)}</h3>
-              </section>
-              <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Harga per Lembar Efek</h3>
-                <h3>{formatRupiah(data.satuan_pemindahan_buku)}</h3>
+                <h3>
+                  {" "}
+                  {getIndustriPeekerjaanById(data.bidang_usaha).toUpperCase()}
+                </h3>
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Minimal Investasi</h3>
                 <h3>{formatRupiah(data.minimal_investasi)}</h3>
               </section>
               <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Jumlah Efek Yang Ditawarkan</h3>
+                <h3 className="text-[#677AB9]">Harga Unit</h3>
+                <h3>{formatRupiah(data.satuan_pemindahan_buku)}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Jumlah Unit</h3>
                 <h3>{data.jumlah_unit_yang_ditawarkan}</h3>
               </section>
               <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Periode Dividen</h3>
-                <h3>{data.periode_penawaran_efek} Hari</h3>
+                <h3 className="text-[#677AB9]">Total Unit (Rp)</h3>
+                <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
               </section>
               <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Total Saham yang Dibagikan</h3>
-                <h3>{data.proyeksi_bagi_hasil_max} %</h3>
+                <h3 className="text-[#677AB9]">Unit Tersisa</h3>
+                <h3>{data.jumlah_unit_yang_ditawarkan}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Periode Pengembalian</h3>
+                <h3>Per {data.tenor_efek} Bulan</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Tenor</h3>
+                <h3>{data.tenor_efek} Bulan</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
+                <h3>{data.proyeksi_bagi_hasil_min} %</h3>
               </section>
             </section>
 
@@ -180,14 +231,16 @@ export default async function ProductDetailPageSukuk({
                 <FileText />
                 Prospektus
               </button>
-              <LokasiComponent />
+              <LokasiComponent
+                lokasi={data.penerbit.lokasi}
+                detail={data.penerbit.alamat_detail}
+              />
             </section>
-            <Link
-              href={`/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}/bayar`}
-              className="block w-full py-4 text-sm font-semibold text-center text-white bg-sky hover:bg-sky-950 rounded-4xl"
-            >
-              Beli Efek
-            </Link>
+            <PurchaseButton
+              slug={slug}
+              jenis_efek={data.jenis_efek}
+              status={user.data?.pemodal_status}
+            />
             {/* Kontak */}
             <p className="text-sm text-center text-sky">
               Butuh Pertanyaan?{" "}

@@ -202,7 +202,7 @@ export async function getDetailOrder(id: number, token: string) {
 
 export async function getTransaksiPemodal(id: string, token: string) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal/${id}/transaksi?page=1`,
+    `https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal/${id}/transaksi?page=3`,
     {
       method: "GET",
       headers: {

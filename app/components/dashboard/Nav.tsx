@@ -80,7 +80,7 @@ const Nav = () => {
       <div className="relative hidden  lg:flex items-center gap-2">
         <img
           className="w-12 h-12 rounded-full"
-          src={`https://oms-api-dev.khalifahdev.biz.id/api/public/file/${user.profile.swa_photo}`}
+          src={`https://static.fulusme.id/images/${user.profile.swa_photo}`}
           alt={`${user.name} Foto Profile`}
         />
         <div className="text-base">

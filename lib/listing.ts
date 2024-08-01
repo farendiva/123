@@ -1,6 +1,6 @@
 export async function getListing() {
   const response = await fetch(
-    "https://oms-api-dev.khalifahdev.biz.id/api/proyek",
+    "https://oms-api-dev.khalifahdev.biz.id/api/proyek?limit=50",
     {
       method: "GET",
       headers: {
