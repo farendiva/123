@@ -183,6 +183,20 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     }
   }, [kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // const fullName = user?.name || "";
+  // const [firstName, ...lastNameParts] = fullName.split(" ");
+  // const lastName = lastNameParts.join(" ");
+
+  useEffect(() => {
+    if (user?.name) {
+      const fullName = user.name || "";
+      const [firstName, ...lastNameParts] = fullName.split(" ");
+      const lastName = lastNameParts.join(" ");
+      setValue("nama_depan", firstName);
+      setValue("nama_belakang", lastName);
+    }
+  }, [user?.name]);
+
   return (
     <>
       {/* Personal Info Fields */}
@@ -318,7 +332,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <input
               type="text"
               id="nama_depan"
-              value={user?.name?.split(" ")[0] || ""}
+              // value={firstName}
               {...register("nama_depan")}
               autoComplete="given-name"
               disabled
@@ -345,7 +359,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <input
               type="text"
               id="nama_belakang"
-              value={user?.name?.split(" ").slice(1).join(" ") || ""}
+              // value={lastName}
               {...register("nama_belakang")}
               disabled
               autoComplete="family-name"
