@@ -13,7 +13,7 @@ export async function getUserData() {
   const cookieStore = cookies();
   const token = cookieStore.get("authToken")?.value;
   const response = await fetch(
-    "https://oms-api-dev.khalifahdev.biz.id/api/v1/me",
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/me`,
     {
       method: "GET",
       headers: {

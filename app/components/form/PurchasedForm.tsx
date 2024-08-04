@@ -63,7 +63,7 @@ interface Profile {
   pendidikan: string;
   pekerjaan: string;
   industri_pekerjaan: string;
-  pendapatan: string;
+  pendapatan: number;
   sumber_pendapatan: string;
   status_id: number;
   status: string;
@@ -168,6 +168,22 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const totalPembayaran = nilaiInvestasi + biayaPlatform + ppn;
 
   const handleSubmit = async () => {
+    const maxInvestment =
+      user.profile.pendapatan < 6 ? 500000000 * 0.05 : 500000000 * 0.1;
+    const nilaiInvestasi = jumlahLembar * data.satuan_pemindahan_buku;
+
+    if (nilaiInvestasi > maxInvestment) {
+      toast({
+        className: cn(
+          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        ),
+        variant: "destructive",
+        title: "Investasi Melebihi Batas",
+        description: `Maksimal investasi Anda adalah ${maxInvestment.toLocaleString()} rupiah.`,
+      });
+      return;
+    }
+
     const postData = {
       user_id: user.id,
       efek_id: data.id,
@@ -179,7 +195,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
       no_handphone: user.profile.no_handphone,
       harga_perlembar_saham: data.satuan_pemindahan_buku,
       total_saham: jumlahLembar,
-      nilai_investasi: jumlahLembar * data.satuan_pemindahan_buku,
+      nilai_investasi: nilaiInvestasi,
       biaya_layanan: biayaPlatform,
       total_pembayaran: totalPembayaran,
       metode_pembayaran: "transfer",
@@ -189,7 +205,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 
     try {
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/transaksi",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/transaksi`,
         {
           method: "POST",
           headers: {

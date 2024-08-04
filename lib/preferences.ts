@@ -5,7 +5,7 @@ export function useApi() {
 
   const getProvinces = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/provinces",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/provinces`,
       {
         method: "GET",
         headers: {
@@ -19,7 +19,7 @@ export function useApi() {
 
   const getCities = async (provinceId: string) => {
     const response = await fetch(
-      `https://oms-api-dev.khalifahdev.biz.id/api/v1/cities/${provinceId}`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/cities/${provinceId}`,
       {
         method: "GET",
         headers: {
@@ -33,7 +33,7 @@ export function useApi() {
 
   const getDistricts = async (cityId: string) => {
     const response = await fetch(
-      `https://oms-api-dev.khalifahdev.biz.id/api/v1/districts/${cityId}`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/districts/${cityId}`,
       {
         method: "GET",
         headers: {
@@ -47,7 +47,7 @@ export function useApi() {
 
   const getSubDistricts = async (districtId: string) => {
     const response = await fetch(
-      `https://oms-api-dev.khalifahdev.biz.id/api/v1/sub-districts/${districtId}`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/sub-districts/${districtId}`,
       {
         method: "GET",
         headers: {
@@ -61,7 +61,7 @@ export function useApi() {
 
   const getPostalCodes = async (districtId: string) => {
     const response = await fetch(
-      `https://oms-api-dev.khalifahdev.biz.id/api/v1/postal-codes/${districtId}`,
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/postal-codes/${districtId}`,
       {
         method: "GET",
         headers: {
@@ -75,7 +75,7 @@ export function useApi() {
 
   const getNationalities = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/kewarganegaraan",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/kewarganegaraan`,
       {
         method: "GET",
         headers: {
@@ -89,7 +89,7 @@ export function useApi() {
 
   const getReligions = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/agama",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/agama`,
       {
         method: "GET",
         headers: {
@@ -103,7 +103,7 @@ export function useApi() {
 
   const getEducations = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/pendidikan-terakhir",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pendidikan-terakhir`,
       {
         method: "GET",
         headers: {
@@ -117,7 +117,7 @@ export function useApi() {
 
   const getProfession = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/pekerjaan",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pekerjaan`,
       {
         method: "GET",
         headers: {
@@ -131,7 +131,7 @@ export function useApi() {
 
   const getIndustries = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/industri-pekerjaan",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/industri-pekerjaan`,
       {
         method: "GET",
         headers: {
@@ -145,7 +145,7 @@ export function useApi() {
 
   const getSalaries = async () => {
     const response = await fetch(
-      "https://oms-api-dev.khalifahdev.biz.id/api/v1/pendapatan-per-bulan",
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pendapatan-per-bulan`,
       {
         method: "GET",
         headers: {
@@ -174,7 +174,7 @@ export function useApi() {
 
 export async function getBanks(token: string) {
   const response = await fetch(
-    "https://oms-api-dev.khalifahdev.biz.id/api/v1/banks",
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/banks`,
     {
       method: "GET",
       headers: {
@@ -188,7 +188,7 @@ export async function getBanks(token: string) {
 
 export async function getDetailOrder(id: number, token: string) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/v1/transaksi/${id}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/transaksi/${id}`,
     {
       method: "GET",
       headers: {
@@ -200,9 +200,13 @@ export async function getDetailOrder(id: number, token: string) {
   return response.json();
 }
 
-export async function getTransaksiPemodal(id: string, token: string) {
+export async function getTransaksiPemodal(
+  id: string,
+  token: string,
+  page: number = 1
+) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal/${id}/transaksi?page=3`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${id}/transaksi?page=${page}`,
     {
       method: "GET",
       headers: {

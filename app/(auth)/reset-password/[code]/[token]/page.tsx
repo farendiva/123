@@ -15,7 +15,7 @@ const ResetPasswordPage = () => {
   const [password, setPassword] = useState<string>("");
   const [passwordConfirmation, setPasswordConfirmation] = useState<string>("");
   const [loading, setLoading] = useState(false);
-  const url = `https://oms-api-dev.khalifahdev.biz.id/api/v1/reset-password`;
+  const url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/reset-password`;
 
   useEffect(() => {
     const storedEmail = Cookies.get("resetEmail");
@@ -44,7 +44,6 @@ const ResetPasswordPage = () => {
       });
 
       if (response.ok) {
-        alert("Kata sandi berhasil direset.");
         toast({
           className: cn(
             "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
@@ -54,7 +53,15 @@ const ResetPasswordPage = () => {
           description: "Anda akan diarahkan ke Halaman Login",
         });
       } else {
-        alert("Terjadi kesalahan. Silakan coba lagi.");
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "destructive",
+          title: "Terjadi Kesalahan",
+          description: "Silakan coba lagi.",
+          action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+        });
       }
     } catch (error) {
       console.error("Error:", error);

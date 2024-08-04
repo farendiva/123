@@ -18,7 +18,7 @@ export default function ForgetPassword() {
 
     try {
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/forgot-password",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/forgot-password`,
         {
           method: "POST",
           headers: {

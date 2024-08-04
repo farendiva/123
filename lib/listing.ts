@@ -1,6 +1,6 @@
 export async function getListing() {
   const response = await fetch(
-    "https://oms-api-dev.khalifahdev.biz.id/api/proyek?limit=50",
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/proyek?limit=50`,
     {
       method: "GET",
       headers: {
@@ -13,7 +13,7 @@ export async function getListing() {
 
 export async function getDetailSaham(id: string) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/proyek/saham/${id}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/proyek/saham/${id}`,
     {
       method: "GET",
       headers: {
@@ -26,7 +26,7 @@ export async function getDetailSaham(id: string) {
 
 export async function getDetailSukuk(id: string) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/proyek/sukuk/${id}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/proyek/sukuk/${id}`,
     {
       method: "GET",
       headers: {
@@ -39,7 +39,7 @@ export async function getDetailSukuk(id: string) {
 
 export async function getPortfolios(token: string) {
   const response = await fetch(
-    `https://oms-api-dev.khalifahdev.biz.id/api/v1/portfolios`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/portfolios`,
     {
       method: "GET",
       headers: {

@@ -62,7 +62,7 @@ export default function Masuk() {
 
       // Proceed with form submission
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/login",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/login`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -115,7 +115,7 @@ export default function Masuk() {
             ),
             variant: "destructive",
             title: "Login gagal",
-            description: errorData.message,
+            description: "Password tidak sesuai",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
         } else {

@@ -8,6 +8,8 @@ import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import useFetchProtectedData from "@/lib/fetchProtectedData";
+import Cookies from "js-cookie";
+import { useUser } from "@/context/UserContext";
 
 type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
@@ -22,13 +24,65 @@ interface StepProps {
   steps: Step[];
 }
 
+interface Profile {
+  nama_depan: string;
+  nama_belakang: string;
+  jenis_kelamin: string;
+  tempat_lahir: string;
+  tanggal_lahir: string;
+  no_handphone: string;
+  no_ktp: string;
+  no_npwp: string | null;
+  no_sid: string | null;
+  agama: string;
+  kewarganegaraan: string;
+  alamat_ktp: string;
+  kelurahan_ktp: string | null;
+  kecamatan_ktp: string | null;
+  kabupaten_ktp: string | null;
+  provinsi_ktp: string | null;
+  alamat_domisili: string | null;
+  kelurahan_domisili: string | null;
+  kecamatan_domisili: string | null;
+  kabupaten_domisili: string | null;
+  provinsi_domisili: string | null;
+  pendidikan: string;
+  pekerjaan: string;
+  industri_pekerjaan: string;
+  pendapatan: string;
+  pendapatan_per_bulan: string;
+  sumber_pendapatan: string;
+  status_id: number;
+  status: string;
+  nomor_rekening: string;
+  nama_pemilik_rekening: string;
+  nama_bank: string | null;
+  nama_ibu_kandung: string;
+  kabupaten_cabang_bank: string | null;
+  ktp: string | File;
+  npwp: string | File;
+  swa_photo: string | File;
+  slip_gaji: string | File;
+  kartu_keluarga: string | File;
+}
+
 const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
   const [previousStep, setPreviousStep] = useState(0);
+  const { user } = useUser();
   const [currentStep, setCurrentStep] = useState(0);
   const [faceImage, setFaceImage] = useState<File | null>(null);
   const [ktpImage, setKtpImage] = useState<File | null>(null);
   const { postProtectedData } = useFetchProtectedData();
+  const [formData, setFormData] = useState<Partial<Profile> | undefined>(
+    user?.profile
+  );
+  const [originalData, setOriginalData] = useState<
+    Partial<Profile> | undefined
+  >(user?.profile);
   const delta = currentStep - previousStep;
+  const token = Cookies.get("authToken");
+  const user_id = Cookies.get("user_id");
+  const pemodal_id = Cookies.get("pemodal_id");
 
   const {
     register,
@@ -44,34 +98,66 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
   });
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
-    const personal = {
-      nama_depan: data.nama_depan,
-      nama_belakang: data.nama_belakang,
-      jenis_kelamin: data.title,
-      tempat_lahir: data.tempat_lahir,
-      tanggal_lahir: data.tanggal_lahir,
-      no_handphone: data.no_handphone,
-      no_ktp: data.no_ktp,
-      agama: data.agama,
-      kewarganegaraan: data.kewarganegaraan,
-      alamat_ktp: data.alamat_ktp,
-      kelurahan_ktp: data.kelurahan_ktp,
-      kecamatan_ktp: data.kecamatan_ktp,
-      kabupaten_ktp: data.kabupaten_ktp,
-      provinsi_ktp: data.provinsi_ktp,
-      alamat_domisili: data.alamat_domisili,
-      kelurahan_domisili: data.kelurahan_domisili,
-      kecamatan_domisili: data.kecamatan_domisili,
-      kabupaten_domisili: data.kabupaten_domisili,
-      provinsi_domisili: data.provinsi_domisili,
-      pendidikan_terakhir: data.pendidikan_terakhir,
-      pekerjaan: data.pekerjaan,
-      industri_pekerjaan: data.industri_pekerjaan,
-      pendapatan_per_bulan: data.pendapatan_per_bulan,
-      sumber_pendapatan: "gaji",
-      deskripsi_binis: "",
-      deskripsi_sumber_pendapatan: "",
-      sumber_informasi: "",
+    if (!formData) {
+      console.error("Form data is undefined");
+      return;
+    }
+
+    const personalFields = [
+      "jenis_kelamin",
+      "tempat_lahir",
+      "tanggal_lahir",
+      "no_ktp",
+      "agama",
+      "kewarganegaraan",
+      "alamat_ktp",
+      "kelurahan_ktp",
+      "kecamatan_ktp",
+      "kabupaten_ktp",
+      "provinsi_ktp",
+      "alamat_domisili",
+      "kelurahan_domisili",
+      "kecamatan_domisili",
+      "kabupaten_domisili",
+      "provinsi_domisili",
+      "pendidikan_terakhir",
+      "pekerjaan",
+      "industri_pekerjaan",
+      "pendapatan_per_bulan",
+    ] as const;
+
+    const personal: Partial<Record<keyof Profile, string | number | File>> = {
+      status: 1,
+    };
+
+    personalFields.forEach((key) => {
+      if (
+        key in data &&
+        data[key as keyof Inputs] !== originalData?.[key as keyof Profile] &&
+        data[key as keyof Inputs] != null &&
+        data[key as keyof Inputs] !== "" &&
+        data[key as keyof Inputs] !== undefined
+      ) {
+        personal[key as keyof Profile] = data[key as keyof Inputs] as
+          | string
+          | number
+          | File;
+      }
+    });
+
+    const cleanPersonal = Object.fromEntries(
+      Object.entries(personal).filter(([_, v]) => v != null && v !== "")
+    );
+
+    console.log("Cleaned personal data being sent:", cleanPersonal);
+
+    const account = {
+      nomor_rekening: data.nomor_rekening,
+      nama_pemilik_rekening: data.nama_pemilik_rekening,
+      nama_bank: data.nama_bank,
+      nama_bank_kustodian: "",
+      nama_ibu_kandung: data.nama_ibu_kandung,
+      nama_pemilik_rekening_kustodian: data.nama_pemilik_rekening_kustodian,
     };
 
     const document = new FormData();
@@ -80,42 +166,46 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     if (data.slip_gaji && data.slip_gaji) {
       document.append("slip_gaji", data.slip_gaji);
     }
+    document.append("npwp", data.ktp);
+    document.append("kartu_keluarga", data.ktp);
 
-    const account = {
-      nomor_rekening: data.nomor_rekening,
-      nama_pemilik_rekening: data.nama_pemilik_rekening,
-      nama_bank: "",
-      nama_bank_kustodian: "",
-      nama_pemilik_rekening_kustodian: data.nama_pemilik_rekening_kustodian,
-    };
-
+    console.log(personal);
     try {
-      const responsePersonal = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal",
-        personal
+      const responsePersonal = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${pemodal_id}?_method=PUT`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cleanPersonal),
+        }
       );
-      if (responsePersonal) {
-        console.log("Form submitted successfully:", responsePersonal);
+      if (responsePersonal.ok) {
+        const result = await responsePersonal.json();
+        console.log("Form submitted successfully:", result);
+      } else {
+        const errorData = await responsePersonal.json();
+        console.error("Form submission failed", errorData);
+      }
+
+      const responseAccount = await postProtectedData(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal-akunbank`,
+        account
+      );
+      if (responseAccount) {
+        console.log("Form submitted successfully:", responseAccount);
       } else {
         console.error("Form submission failed");
       }
 
       const responseDocument = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal-berkas",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal-berkas`,
         document
       );
       if (responseDocument) {
         console.log("Form submitted successfully:", responseDocument);
-      } else {
-        console.error("Form submission failed");
-      }
-
-      const responseAccount = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal-akunbank",
-        account
-      );
-      if (responseAccount) {
-        console.log("Form submitted successfully:", responseAccount);
       } else {
         console.error("Form submission failed");
       }

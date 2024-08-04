@@ -1,6 +1,10 @@
+"use client";
+
 import TransactionList from "@/app/components/dashboard/TransactionList";
 import { getTransaksiPemodal } from "@/lib/preferences";
-import { cookies } from "next/headers";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export interface Transaksi {
   id: number;
@@ -38,18 +42,48 @@ export interface TransaksiStatus {
   description: string;
 }
 
-export default async function TransaksiPage() {
-  const cookieStore = cookies();
-  const token = cookieStore.get("authToken")?.value;
-  const user_id = cookieStore.get("user_id")?.value;
-  const { data } = await getTransaksiPemodal(
-    user_id as string,
-    token as string
-  );
+export default function TransaksiPage() {
+  const token = Cookies.get("authToken");
+  const user_id = Cookies.get("user_id");
+  const [transactions, setTransactions] = useState<Transaksi[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const router = useRouter();
+
+  useEffect(() => {
+    fetchTransactions();
+  }, []);
+
+  const fetchTransactions = async () => {
+    if (!token || !user_id) {
+      router.push("/login"); // Redirect to login if no token or user_id
+      return;
+    }
+
+    try {
+      const { data } = await getTransaksiPemodal(user_id, token, page);
+      if (data.data.length === 0) {
+        setHasMore(false);
+      } else {
+        setTransactions((prev) => [...prev, ...data.data]);
+        setPage((prevPage) => prevPage + 1);
+      }
+    } catch (error) {
+      console.error("Error fetching transactions:", error);
+    }
+  };
+
+  const handleLoadMore = () => {
+    fetchTransactions();
+  };
 
   return (
     <main className="w-full mx-auto rounded-xl">
-      <TransactionList data={data.data} />
+      <TransactionList
+        data={transactions}
+        onLoadMore={handleLoadMore}
+        hasMore={hasMore}
+      />
     </main>
   );
 }

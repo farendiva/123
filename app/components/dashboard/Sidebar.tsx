@@ -5,6 +5,7 @@ import SidebarLinks from "./SidebarLinks";
 import {
   Album,
   Award,
+  Clock9,
   FileText,
   PieChart,
   SquareArrowOutUpRight,
@@ -21,10 +22,20 @@ export default function Sidebar() {
             <h2 className="mb-2">Anda Belum Melengkapi Data Diri</h2>
             <Link
               href="/kyc/pemodal"
-              className=" font-bold text-[#E09400] text-sm"
+              className="font-bold text-[#E09400] text-sm"
             >
               Lengkapi KYC
             </Link>
+          </div>
+        </div>
+      ) : user?.pemodal_status === 1 ? (
+        <div className="flex items-center justify-between px-3 py-4">
+          <Clock9 fill="#677AB9" color="white" />
+          <div className="w-4/5">
+            <h2 className="mb-2">Anda Sudah Melengkapi Data Diri</h2>
+            <p className="font-bold text-[#E09400] text-sm">
+              Menunggu Verifikasi
+            </p>
           </div>
         </div>
       ) : null}
@@ -34,14 +45,14 @@ export default function Sidebar() {
           <Album fill="#677AB9" color="white" />
           <div className="w-4/5">
             <h2 className="font-bold text-black">Total Aset</h2>
-            <p className="text-emerald-light text-sm">Rp 650.440.000</p>
+            <p className="text-emerald-light text-sm">Rp 0</p>
           </div>
         </div>
         <div className="flex items-center justify-between px-3 py-4 ">
           <PieChart fill="#677AB9" color="white" />
           <div className="w-4/5">
             <h2 className="font-bold text-black">Dividen</h2>
-            <p className="text-emerald-light text-sm">Rp 59.551.586</p>
+            <p className="text-emerald-light text-sm">Rp 0</p>
           </div>
         </div>
       </div>

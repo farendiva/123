@@ -27,7 +27,7 @@ const ShareComponent: React.FC<ShareProps> = ({ text, tipe, id }) => {
   const [isCopied, setIsCopied] = useState(false);
   const titleToShare = `Check out this amazing post: ${text}`;
   const formattedNamaEfek = formatTitleForUrl(text);
-  const shareUrl = `https://web-app-dev.khalifahdev.biz.id/${tipe.toLowerCase()}/${formattedNamaEfek}-${id}`;
+  const shareUrl = `https://fulusme.id/${tipe.toLowerCase()}/${formattedNamaEfek}-${id}`;
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);

@@ -25,30 +25,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
     onChange(selectedDate);
   };
 
-  // return (
-  //   <Popover>
-  //     <PopoverTrigger asChild>
-  //       <Button
-  //         variant={"outline"}
-  //         className={cn(
-  //           "w-full h-12 justify-start text-left font-normal bg-slate-100",
-  //           !date && "text-muted-foreground"
-  //         )}
-  //       >
-  //         <CalendarIcon className="mr-2 h-4 w-4" />
-  //         {date ? format(date, "PPP") : <span>Pilih Tanggal</span>}
-  //       </Button>
-  //     </PopoverTrigger>
-  //     <PopoverContent className="w-auto p-0">
-  //       <Calendar
-  //         mode="single"
-  //         selected={date}
-  //         onSelect={handleDateChange}
-  //         initialFocus
-  //       />
-  //     </PopoverContent>
-  //   </Popover>
-  // );
   return (
     <Popover>
       <PopoverTrigger asChild>

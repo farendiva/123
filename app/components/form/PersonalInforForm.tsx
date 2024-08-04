@@ -15,6 +15,7 @@ import { KycPemodalFormSchema } from "../../../lib/schema";
 import { z } from "zod";
 import { DatePicker } from "../../../components/ui/datepicker";
 import usePreferences from "@/hooks/usePreferences";
+import { useUser } from "@/context/UserContext";
 
 type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
@@ -113,6 +114,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     fetchSubDistricts,
     fetchPostalCodes,
   } = usePreferences();
+  const { user } = useUser();
   const alamat_ktp = watch("alamat_ktp");
   const provinsi_ktp = watch("provinsi_ktp");
   const kabupaten_ktp = watch("kabupaten_ktp");
@@ -269,7 +271,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               type="tel"
               {...register("no_ktp")}
               autoComplete="tel"
-              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              disabled
+              className="cursor-not-allowed block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
               {errors.no_ktp?.message && (
@@ -281,7 +284,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
         <div className="sm:col-span-2">
           <label htmlFor="title" className="block text-sm font-bold leading-6">
-            Title
+            Panggilan
           </label>
           <div className="w-full">
             <select
@@ -291,7 +294,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               {...register("title")}
             >
               <option value="" disabled>
-                Pilih Title
+                Pilih Panggilan
               </option>
               <option value="Pria">Tn.</option>
               <option value="Wanita">Ny.</option>
@@ -315,9 +318,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <input
               type="text"
               id="nama_depan"
+              value={user?.name?.split(" ")[0] || ""}
               {...register("nama_depan")}
               autoComplete="given-name"
-              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              disabled
+              className="cursor-not-allowed block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
               {errors.nama_depan?.message && (
@@ -340,9 +345,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <input
               type="text"
               id="nama_belakang"
+              value={user?.name?.split(" ").slice(1).join(" ") || ""}
               {...register("nama_belakang")}
+              disabled
               autoComplete="family-name"
-              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              className="cursor-not-allowed block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
               {errors.nama_belakang?.message && (

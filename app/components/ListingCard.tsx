@@ -56,9 +56,25 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
       <section className="bg-[#f8f8ff] space-y-4 rounded-xl max-w-full h-[400px] relative">
         <img
           className="w-full h-2/5 aspect-video rounded-t-xl"
-          src={`https://static.khalifahdev.biz.id/images/${project.nama_file}`}
+          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
           alt={project.nama_efek}
         />
+        {/* <div className="relative">
+          <img
+            className="w-full rounded-t-xl"
+            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
+            alt="Product"
+          />
+           bg-sky, bg-orange-400, Pendanaan Terpenuhi, Proyek Berakhir, Segera Terbit
+          <div
+            className={`absolute inset-0 bg-emerald-light  opacity-80 rounded-t-xl`}
+          ></div>
+          <div className="absolute inset-0 flex justify-center items-center">
+            <span className="w-2/3 text-white text-center border-2 border-white rounded-xl font-bold">
+              Pendanaan Terpenuhi
+            </span>
+          </div>
+        </div> */}
         <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 p-1 flex items-center gap-2">
           <button
             className={`${

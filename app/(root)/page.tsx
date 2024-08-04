@@ -26,20 +26,6 @@ export default async function Home() {
               dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
             </p>
           </section>
-          {/* <section className="flex flex-col sm:flex-row text-base font-bold gap-2 lg:gap-0">
-            <Link
-              href="/daftar/penerbit"
-              className="relative z-10 my-0 lg:my-8 py-4 px-3 lg:py-6 lg:px-6 bg-emerald hover:bg-green-700 rounded-xl lg:rounded-l-xl text-white"
-            >
-              Daftar Sebagai Penerbit
-            </Link>
-            <Link
-              href="/daftar/pemodal"
-              className="relative z-10 my-0 lg:my-8 lg:-ml-4 py-4 px-3 lg:py-6 lg:px-6 bg-white hover:bg-slate-200 rounded-xl text-black"
-            >
-              Daftar Sebagai Pemodal
-            </Link>
-          </section> */}
 
           <section className="w-full flex justify-center lg:justify-start gap-4">
             <img
