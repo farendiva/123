@@ -1,13 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const ConfirmPage = () => {
   const { code, token } = useParams();
+  const verifyParams = useSearchParams();
   const [loading, setLoading] = useState(false);
-  const url = `https://oms-api-dev.khalifahdev.biz.id/api/email/verify/${code}/${token}`;
+  const expires = verifyParams.get("expires");
+  const signature = verifyParams.get("signature");
+  const url = `${process.env.NEXT_PUBLIC_API_ENDPOINT}/email/verify/${code}/${token}?expires=${expires}&signature=${signature}`;
 
   useEffect(() => {
     const verifyEmail = async () => {

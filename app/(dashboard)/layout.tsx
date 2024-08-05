@@ -50,7 +50,7 @@ export default async function DashboardLayout({
             </div>
             <div className="w-full mx-auto rounded-xl">
               {error ? (
-                <div className="font-bold text-center text-5xl">{error}</div>
+                <div className="font-bold text-center text-2xl">{error}</div>
               ) : (
                 children
               )}

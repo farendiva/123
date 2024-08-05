@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useUser } from "@/context/UserContext";
 import { signOut } from "@/lib/auth";
 import { ChevronDown } from "lucide-react";
@@ -21,9 +22,6 @@ const Nav = () => {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  if (!user) {
-    return <div>Loading...</div>;
-  }
 
   const handleSignOut = async () => {
     await signOut();
@@ -77,39 +75,52 @@ const Nav = () => {
           </li>
         ))}
       </ul>
-      <div className="relative hidden  lg:flex items-center gap-2">
-        <img
-          className="w-12 h-12 rounded-full"
-          src={`https://static.fulusme.id/images/${user.profile.swa_photo}`}
-          alt={`${user.name} Foto Profile`}
-        />
-        <div className="text-base">
-          <h2 className="font-bold">
-            {user.profile.nama_depan + " " + user.profile.nama_belakang}
-          </h2>
-          <span
-            className={`${
-              user?.pemodal_status === 3
-                ? "text-emerald-light"
-                : "text-[#E09400]"
-            } flex items-center gap-2 cursor-pointer`}
-            onClick={toggleDropdown}
-          >
-            <ChevronDown color="black" />
-            {user?.pemodal_status === 3
-              ? "Terverifikasi"
-              : "Belum Terverifikasi"}
-          </span>
-          {isDropdownOpen && (
-            <form
-              className="absolute right-0 mt-2 w-full bg-white border hover:bg-slate-50 shadow-lg rounded-lg py-3 px-3 cursor-pointer"
-              onClick={handleSignOut}
+      {user ? (
+        <div className="relative hidden  lg:flex items-center gap-2">
+          <img
+            className="w-12 h-12 rounded-full"
+            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${user.profile.swa_photo}`}
+            alt={`${user.name} Foto Profile`}
+          />
+          <div className="text-base">
+            <h2 className="font-bold">
+              {user.profile.nama_depan + " " + user.profile.nama_belakang}
+            </h2>
+            <span
+              className={`${
+                user?.pemodal_status === 3
+                  ? "text-emerald-light"
+                  : "text-[#E09400]"
+              } flex items-center gap-2 cursor-pointer`}
+              onClick={toggleDropdown}
             >
-              Keluar
-            </form>
-          )}
+              <ChevronDown color="black" />
+              {user?.pemodal_status === 3
+                ? "Terverifikasi"
+                : user?.pemodal_status === 1
+                ? "Menunggu Review"
+                : "Belum Terverifikasi"}
+            </span>
+            {isDropdownOpen && (
+              <form
+                className="absolute right-0 mt-2 w-full bg-white border hover:bg-slate-50 shadow-lg rounded-lg py-3 px-3 cursor-pointer"
+                onClick={handleSignOut}
+              >
+                Keluar
+              </form>
+            )}
+          </div>
         </div>
-      </div>
+      ) : (
+        <div className="flex items-center space-x-4">
+          <Skeleton className="h-12 w-12 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-4 w-[250px]" />
+            <Skeleton className="h-4 w-[200px]" />
+          </div>
+        </div>
+      )}
+
       {isOpen && (
         <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
           {menuItems.map(({ href, label }) => (

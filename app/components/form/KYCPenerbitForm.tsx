@@ -98,7 +98,7 @@ const KYCPenerbitForm: React.FC<StepProps> = ({ steps }) => {
 
     try {
       const responsePerusahaan = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/penerbit`,
         perusahaan
       );
       if (responsePerusahaan) {
@@ -108,7 +108,7 @@ const KYCPenerbitForm: React.FC<StepProps> = ({ steps }) => {
       }
 
       const responseDocument = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit-berkas",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/penerbit-berkas`,
         document
       );
       if (responseDocument) {
@@ -118,7 +118,7 @@ const KYCPenerbitForm: React.FC<StepProps> = ({ steps }) => {
       }
 
       const responsePersonal = await postProtectedData(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/penerbit-perwakilan",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/penerbit-perwakilan`,
         personal
       );
       if (responsePersonal) {

@@ -28,7 +28,7 @@ interface Profile {
   pendidikan: string;
   pekerjaan: string;
   industri_pekerjaan: string;
-  pendapatan: string;
+  pendapatan: number;
   sumber_pendapatan: string;
   status_id: number;
   status: string;
@@ -70,14 +70,6 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
     setIsCheckboxChecked(e.target.checked);
   };
 
-  const handleSetujuClick = () => {
-    if (isCheckboxChecked) {
-      setTimeout(() => {
-        toggleModal();
-      }, 2000); // Show prompt for 2 seconds
-    }
-  };
-
   const tanggalLahir = user.profile.tanggal_lahir;
   const date = new Date();
   const dateTanggalLahir = new Date(tanggalLahir);
@@ -95,7 +87,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
 
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
-      <div className="bg-white p-4 rounded-lg space-y-4 w-2/5 h-128 overflow-auto">
+      <div className="bg-white p-4 rounded-lg space-y-4 w-4/5 lg:w-2/5 h-128 overflow-auto">
         <div className="flex justify-end items-center">
           <button
             onClick={toggleModal}
@@ -104,11 +96,14 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             <X size={20} />
           </button>
         </div>
-        <div className="space-y-4 text-sm p-4">
-          <p className="text-sm font-bold text-center w-2/3 mx-auto">
-            Perjanjian Penyelenggaraan Penawaran Efek Melalui Layanan Urun Dana
-            Berbasis Teknologi Informasi antara PT FINTEK Andalan Solusi
-            Teknologi dan Pemodal
+        <div className="space-y-4 text-sm p-4 text-justify">
+          <p className="text-base font-bold text-center mx-auto">
+            PERJANJIAN PENYELENGGARAAN PENAWARAN EFEK MELALUI LAYANAN URUN DANA
+            BERBASIS TEKNOLOGI INFORMASI <br />
+            ANTARA <br />
+            PT FINTEK ANDALAN SOLUSI TEKNOLOGI (“FULUSME”) <br />
+            DAN <br />
+            PEMODAL
           </p>
           <p>
             Perjanjian Penyelenggaraan Layanan Urun Dana antara PT Fintek
@@ -126,26 +121,28 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               <span className="font-bold"> FULUSME</span>), suatu perseroan
               terbatas yang didirikan dan tunduk pada ketentuan hukum dan
               peraturan perundang-undangan Negara Kesatuan Republik Indonesia,
-              berdasarkan Akta Pendirian Nomor 02 tanggal 2 Maret 2018 yang
-              dibuat dihadapan Yusdin Fahim, S.H, Notaris di Jakarta, Akta
+              berdasarkan Akta Pendirian Nomor “01”tanggal “01 April 2019” yang
+              dibuat dihadapan “Hambit Maseh”, S.H, Notaris di Jakarta, Akta
               Pendirian tersebut telah memperoleh pengesahan dari Kementerian
               Hukum dan Hak Asasi Manusia Republik Indonesia sebagaimana
-              tertuang dalam Surat Keputusan Nomor AHU-0019472.AH.01.01 tahun
-              2018 tertanggal 12 April 2018. Akta Pendirian tersebut telah
-              diubah terakhir dengan Akta Nomor 29 Tanggal 10 Januari 2023 yang
-              dibuat dihadapan Yusdin Fahim, Notaris di Jakarta dan telah
-              memperoleh pengesahan dari Kementerian Hukum dan Hak Asasi Manusia
-              Republik Indonesia sebagaimana tertuang dalam Surat Keputusan
-              Nomor AHU-0002683.AH.01.02 Tahun 2023 tertanggal 14 Januari 2023,
-              yang dalam hal ini diwakili oleh Emil Dharma, bertindak dalam
-              kedudukannya selaku Direktur Utama PT FINTEK Andalan Solusi
-              Teknologi (Fulusme) dan karenanya berhak bertindak untuk dan atas
-              nama perseroan tersebut, untuk selanjutnya disebut
-              &quot;Penyelenggara&quot;{" "}
+              tertuang dalam Surat Keputusan Nomor “AHU-0018084.AH.01.01 Tahun
+              2019” tertanggal “05” April “2019”. Akta Pendirian tersebut telah
+              diubah terakhir dengan Akta Nomor “33” Tanggal 20 Juli 2023“ yang
+              dibuat dihadapan “Emmyra Fauzia Kariana, S.H., M.Kn”, Notaris di
+              “Jakarta” dan telah memperoleh pengesahan dari Kementerian Hukum
+              dan Hak Asasi Manusia Republik Indonesia sebagaimana tertuang
+              dalam Surat Keputusan Nomor “AHU-0140760.AH.01.01 Tahun 2023”
+              Tahun 2023 tertanggal “25” Juli “2023”, yang dalam hal ini
+              diwakili oleh <span className="font-bold">EMIL EDHIE DHARMA</span>
+              , bertindak dalam kedudukannya selaku{" "}
+              <span className="font-bold">DIREKTUR UTAMA</span> PT Fintek
+              Andalan Solusi Teknologi (Fulusme) dan karenanya berhak bertindak
+              untuk dan atas nama perseroan tersebut, untuk selanjutnya disebut
+              &quot;<span className="font-bold">Penyelenggara</span>&quot;{" "}
             </li>
             <li>
-              2) <span className="font-bold">Perseorangan </span>
-              <span className="font-bold">{user.name}</span>, tanggal lahir
+              2) <span className="font-bold">{user.name}</span> <br /> tanggal
+              lahir
               <span className="font-bold"> {formattedTanggalLahir}</span>{" "}
               bertempat tinggal di{" "}
               <span className="font-bold">{user.profile.alamat_domisili}</span>,
@@ -178,20 +175,22 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
           </p>
           <ul className="space-y-2">
             <li>
-              1) Pihak Pertama adalah suatu perusahaan yang bergerak dalam
-              bidang penyelenggaraan layanan urun dana melalui penawaran efek
-              berbasis teknologi informasi, yang beroperasi berdasarkan
-              Keputusan Anggota Dewan Komisioner Otoritas Jasa Keuangan Republik
-              Indonesia No.KEP-38/D.04/2021 tentang Pemberian Izin Usaha
-              Penyelenggara Penawaran Efek Melalui Layanan Urun Dana Berbasis
-              Teknologi Informasi (Securities Crowdfunding) PT Fintek Andalan
-              Solusi Teknologi (Fulusme);
+              a) <span className="font-bold">Penyelenggara</span> adalah suatu
+              perusahaan yang bergerak dalam bidang penyelenggaraan layanan urun
+              dana melalui penawaran saham berbasis teknologi informasi, yang
+              beroperasi berdasarkan Keputusan Anggota Dewan Komisioner Otoritas
+              Jasa Keuangan Republik Indonesia No.KEP-45/D.04/2022 tentang
+              Pemberian Izin Usaha Penyelenggara Penawaran Efek Melalui Layanan
+              Urun Dana Berbasis Teknologi Informasi (Securities Crowdfunding)
+              <span className="font-bold">
+                PT. Fintek Andalan Solusi Teknologi (Fulusme);
+              </span>
             </li>
             <li>
-              2) Bahwa, Pemodal adalah pihak yang melakukan pembelian efek
-              Penerbit pada layanan urun dana melalui penawaran efek berbasis
-              teknologi informasi (securities crowdfunding) yang diselenggarakan
-              oleh Penyelenggara.
+              b) <span className="font-bold">Pemodal</span> adalah pihak yang
+              melakukan pembelian efek Penerbit pada layanan urun dana melalui
+              penawaran efek berbasis teknologi informasi (securities
+              crowdfunding) yang diselenggarakan oleh Penyelenggara.
             </li>
           </ul>
           <p>
@@ -200,7 +199,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             sesuai dengan syarat-syarat dan ketentuan-ketentuan sebagai berikut:
           </p>
           <p className="text-center font-bold">
-            Pasal 1 <br /> Definisi
+            PASAL 1 <br /> DEFINISI
           </p>
           <p>
             Kecuali ditentukan lain dalam perjanjian ini, setiap kata maupun
@@ -209,36 +208,25 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
           </p>
           <ul className="space-y-2">
             <li>
-              1.1 <span className="font-bold">Ahli Syariah Pasar Modal</span>{" "}
-              yang selanjutnya disebut dengan{" "}
-              <span className="font-bold">“ASPM”</span> orang perseorangan yang
-              memiliki pengetahuan dan pengalaman di bidang syariah yang
-              memiliki izin untuk memberikan nasihat dan/atau mengawasi
-              pelaksanaan penerapan prinsip syariah di pasar modal oleh pihak
-              yang melakukan kegiatan syariah di pasar modal dan/atau memberikan
-              pernyataan kesesuaian syariah atas produk atau jasa syariah di
-              pasar modal.{" "}
-            </li>
-            <li>
-              1.2 <span className="font-bold">Biaya Layanan</span> (Platform
+              1.1 <span className="font-bold">Biaya Layanan</span> (Platform
               Fee) adalah biaya yang dikenakan oleh Penyelenggara kepada
               Pemodal, atas penggunaan layanan urun dana berbasis teknologi
               informasi, yang akan dikenakan pada saat melakukan setoran efek
               yang dikeluarkan oleh Penerbit.
             </li>
             <li>
-              1.3 <span className="font-bold">Bank Kustodian</span> adalah bank
+              1.2 <span className="font-bold">Bank Kustodian</span> adalah bank
               umum yang telah memperoleh persetujuan Otoritas Jasa Keuangan
               untuk melakukan kegiatan usaha sebagai kustodian.{" "}
             </li>
             <li>
-              1.4 <span className="font-bold">C-Best</span> adalah The Central
+              1.3 <span className="font-bold">C-Best</span> adalah The Central
               Depository and Book Entry Settlement System, atau platform
               elektronik terpadu yang mendukung aktivitas penyelesaian transaksi
               efek secara pemindahbukuan.
             </li>
             <li>
-              1.5 <span className="font-bold">Dokumen Elektronik</span> adalah
+              1.4 <span className="font-bold">Dokumen Elektronik</span> adalah
               setiap informasi elektronik yang dibuat, diteruskan, dikirimkan,
               diterima, atau disimpan dalam bentuk analog, digital,
               elektromagnetik, optikal, atau sejenisnya, yang dapat dilihat,
@@ -249,43 +237,34 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               dipahami oleh orang yang mampu memahaminya.
             </li>
             <li>
-              1.6 <span className="font-bold">EBITDA</span> adalah Earning
+              1.5 <span className="font-bold">EBITDA</span> adalah Earning
               Before Interest, Taxes, Depreciation, and Amortization atau
               pendapatan sebelum bunga, pajak, dan amortisasi.{" "}
             </li>
             <li>
-              1.7 <span className="font-bold">Efek</span> adalah surat berharga,
+              1.6 <span className="font-bold">Efek</span> adalah surat berharga,
               yaitu surat pengakuan utang, surat berharga komersial, saham,
               obligasi, tanda bukti utang, unit penyertaan kontrak investasi
-              kolektif, kontrak berjangka atas Efek, Sukuk, dan setiap derivatif
-              dari Efek.
+              kolektif, kontrak berjangka atas Efek, Obligasi, dan setiap
+              derivatif dari Efek.
             </li>
             <li>
-              1.8 <span className="font-bold">Efek Syariah</span> adalah Efek
-              sebagaimana dimaksud dalam Undang-Undang mengenai pasar modal dan
-              peraturan pelaksanaannya, yang akad, cara pengelolaan, kegiatan
-              usaha, dan/atau aset yang menjadi landasan akad, cara pengelolaan,
-              kegiatan usaha, dan/atau aset yang terkait dengan Efek dimaksud
-              dan penerbitnya tidak bertentangan dengan prinsip syariah di pasar
-              modal.{" "}
-            </li>
-            <li>
-              1.9 <span className="font-bold">Hari Kalender</span> adalah hari
+              1.7 <span className="font-bold">Hari Kalender</span> adalah hari
               senin sampai dengan hari minggu yang merupakan hari-hari
               berdasarkan perhitungan kalender tahun masehi.
             </li>
             <li>
-              1.10 <span className="font-bold">Hari Kerja</span> adalah
-              hari-hari selain hari sabtu, minggu, libur nasional (tanggal
-              merah) serta hari-hari dimana badan pemerintahan dan perbankan
-              nasional melakukan kegiatan aktivitasnya.
+              1.8 <span className="font-bold">Hari Kerja</span> adalah hari-hari
+              selain hari sabtu, minggu, libur nasional (tanggal merah) serta
+              hari-hari dimana badan pemerintahan dan perbankan nasional
+              melakukan kegiatan aktivitasnya.
             </li>
             <li>
-              1.11 <span className="font-bold">Informasi Rahasia</span> adalah
+              1.9 <span className="font-bold">Informasi Rahasia</span> adalah
               sebagaimana dimaksud dalam Pasal 13 Perjanjian ini.
             </li>
             <li>
-              1.12{" "}
+              1.10{" "}
               <span className="font-bold">
                 Konfirmasi Tertulis untuk Rapat (KTUR)
               </span>{" "}
@@ -296,13 +275,13 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               (RUPS).
             </li>
             <li>
-              1.13 <span className="font-bold">Kuasa Pemodal</span> adalah pihak
+              1.11 <span className="font-bold">Kuasa Pemodal</span> adalah pihak
               yang mewakili kepentingan pemegang sukuk, berfungsi sebagai agen
               pemantau yang telah diberikan kuasa oleh Pemodal berdasarkan
               Perjanjian ini dan telah ditunjuk oleh Penerbit.{" "}
             </li>
             <li>
-              1.14{" "}
+              1.12{" "}
               <span className="font-bold">
                 Lembaga Penyimpanan dan Penyelesaian
               </span>{" "}
@@ -310,97 +289,75 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               bank kustodian, perusahaan efek, dan pihak lain.
             </li>
             <li>
-              1.15 <span className="font-bold">Management Fee</span> adalah
+              1.13 <span className="font-bold">Management Fee</span> adalah
               biaya sebagaimana dimaksud pasal 7 ayat 2 Perjanjian ini.
             </li>
             <li>
-              1.16{" "}
+              1.14{" "}
               <span className="font-bold">Penyelenggara Layanan Urun Dana</span>{" "}
               yang selanjutnya disebut Penyelenggara adalah badan hukum
               Indonesia yang menyediakan, mengelola, dan mengoperasikan Layanan
               Urun Dana melalui platform Fulusme.
             </li>
             <li>
-              1.17 <span className="font-bold">Pengguna Layanan Urun Dana</span>{" "}
+              1.15 <span className="font-bold">Pengguna Layanan Urun Dana</span>{" "}
               yang selanjutnya disebut Pengguna adalah Penerbit dan Pemodal.
             </li>
             <li>
-              1.18 <span className="font-bold">Penerbit</span> adalah badan
+              1.16 <span className="font-bold">Penerbit</span> adalah badan
               usaha Indonesia baik yang berbentuk perseroan terbatas maupun
               badan usaha lainnya yang menerbitkan efek melalui Penyelenggara
               securities crowdfunding.
             </li>
             <li>
-              1.19 Penerbit yang merupakan entitas yang menjalankan kegiatan
-              usaha berdasarkan prinsip syariah yang selanjutnya disebut
-              <span className="font-bold">Penerbit Syariah</span> adalah
-              Penerbit yang anggaran dasarnya menyatakan kegiatan dan jenis
-              usaha serta cara pengelolaan usahanya berdasarkan prinsip syariah.
-            </li>
-            <li>
-              1.20 <span className="font-bold">Pemodal</span> adalah pihak yang
+              1.17 <span className="font-bold">Pemodal</span> adalah pihak yang
               melakukan pembelian Efek Penerbit melalui Layanan Urun Dana, baik
               perseorangan atau badan hukum.
             </li>
             <li>
-              1.21 <span className="font-bold">Proyek</span> adalah kegiatan
+              1.18 <span className="font-bold">Proyek</span> adalah kegiatan
               atau pekerjaan yang menghasilkan barang, jasa, dan/atau manfaat
               lain, baik yang sudah ada maupun yang akan ada, termasuk kegiatan
               investasi yang telah ditentukan yang akan menjadi dasar penerbitan
-              atas Efek bersifat utang atau sukuk.
+              atas Efek bersifat utang atau Obligasi.
             </li>
             <li>
-              1.22{" "}
+              1.19{" "}
               <span className="font-bold">
                 Rapat Umum Pemegang Saham (RUPS)
               </span>{" "}
               adalah Rapat Umum Pemegang Saham, baik Tahunan maupun Luar Biasa.
             </li>
             <li>
-              1.23 <span className="font-bold">RUPSU</span> adalah Rapat Umum
-              Pemegang Sukuk.
+              1.20 <span className="font-bold">RUPO</span> adalah Rapat Umum
+              Pemegang Obligasi;
             </li>
             <li>
-              1.24 <span className="font-bold">RUPO</span> adalah Rapat Umum
-              Pemegang Obligasi atau Efek bersifat utang;
-            </li>
-            <li>
-              1.25 <span className="font-bold">Sukuk</span> adalah Efek Syariah
+              1.21 <span className="font-bold">Obligasi</span> adalah Efek
               berupa sertifikat atau bukti kepemilikan yang bernilai sama dan
-              mewakili bagian yang tidak terpisahkan atau tidak terbagi
-              (syuyu&apos;), atas aset yang mendasarinya.
+              mewakili bagian yang tidak terpisahkan atas aset yang
+              mendasarinya.
             </li>
             <li>
-              1.26 <span className="font-bold">Sistem Elektronik</span> adalah
+              1.22 <span className="font-bold">Sistem Elektronik</span> adalah
               serangkaian perangkat dan prosedur elektronik yang berfungsi
               mempersiapkan, mengumpulkan, mengolah, menganalisis, menyimpan,
               menampilkan, mengumumkan, mengirimkan, dan/atau menyebarkan
               informasi elektronik di bidang layanan jasa keuangan.
             </li>
             <li>
-              1.27 <span className="font-bold">Tim Ahli Syariah</span> adalah
-              tim yang bertanggung jawab terhadap kesesuaian syariah atas produk
-              atau jasa di pasar modal, termasuk memberikan Pernyataan
-              Kesesuaian Syariah atas Sukuk yang akan diterbitkan oleh calon
-              Penerbit efek bersifat Sukuk.{" "}
-            </li>
-            <li>
-              1.28 <span className="font-bold">Tanda Tangan Elektronik</span>{" "}
+              1.23 <span className="font-bold">Tanda Tangan Elektronik</span>{" "}
               adalah tanda tangan yang terdiri atas sistem informasi elektronik
               yang dilekatkan, terasosiasi atau terkait dengan informasi
               elektronik lainnya yang digunakan sebagai alat verifikasi dan
               autentikasi;
             </li>
             <li>
-              1.29{" "}
-              <span className="font-bold">Unit Layanan Urun Dana Syariah</span>{" "}
-              adalah bagian dari Penyelenggara yang telah memperoleh izin usaha
-              dari Otoritas Jasa Keuangan yang dibentuk untuk menyelenggarakan
-              Layanan Urun Dana berdasarkan prinsip syariah di pasar modal.
-            </li>
-            <li>
-              1.30 Layanan Administrasi Prinsip Mengenali Nasabah atau
-              selanjutnya disebut <span className="font-bold">LAPMN</span>{" "}
+              1.24{" "}
+              <span className="font-bold">
+                Layanan Administrasi Prinsip Mengenali Nasabah
+              </span>{" "}
+              atau selanjutnya disebut <span className="font-bold">LAPMN</span>{" "}
               adalah layanan penyimpanan data dan dokumen calon nasabah dan/atau
               nasabah pengguna LAPMN yang tersentralisasi untuk dapat digunakan
               dalam mendukung pelaksanaan kegiatan customer due diligence
@@ -411,7 +368,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 2 <br /> Maksud dan Tujuan
+            PASAL 2<br /> MAKSUD DAN TUJUAN
           </p>
           <p>
             Perjanjian ini dimaksudkan oleh Para Pihak sebagai dasar-dasar
@@ -421,7 +378,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             yang diselenggarakan/disediakan oleh Penyelenggara.
           </p>
           <p className="text-center font-bold">
-            Pasal 3 <br /> Jangka Waktu Perjanjian
+            PASAL 3 <br /> JANGKA WAKTU PERJANJIAN
           </p>
           <p>
             Jangka waktu Perjanjian ini berlaku efektif terhitung sejak Pemodal
@@ -434,7 +391,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             Urun Dana Penyelenggara.
           </p>
           <p className="text-center font-bold">
-            Pasal 4 <br /> Hak dan Kewajiban
+            PASAL 4 <br /> HAK DAN KEWAJIBAN
           </p>
           <p>
             4.1 <span className="font-bold">Hak-Hak Pemodal</span>
@@ -457,12 +414,12 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               c. Memperoleh pembagian dividen jika efek yang ditawarkan berupa
               saham, suku bunga atau kupon jika efek yang ditawarkan berupa
               utang atau pembagian keuntungan nisbah bagi hasil, imbal
-              hasil/jasa atau margin jika efek yang ditawarkan berupa sukuk;
+              hasil/jasa atau margin jika efek yang ditawarkan berupa Obligasi;
             </li>
             <li>
               d. Memperoleh bukti kepemilikan efek, berupa catatan kepemilikan
               efek yang terdapat rekening efek pada Lembaga Penyimpanan dan
-              Penyelesaian;{" "}
+              Penyelesaian;
             </li>
             <li>
               e. Memiliki rekening Efek pada Bank Kustodian yang khusus untuk
@@ -470,8 +427,8 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
             <li>
               f. Memperoleh panggilan Rapat Umum Pemegang Saham (RUPS) atau
-              Rapat Umum Pemegang Sukuk (RUPSU) dan berhak melakukan kehadiran
-              pada RUPS/RUPSU;
+              Rapat Umum Pemegang Obligasi (RUPO) dan berhak melakukan kehadiran
+              pada RUPS atau RUPO;
             </li>
             <li>
               g. Melakukan pembatalan rencana pembelian Efek melalui layanan
@@ -485,51 +442,49 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               Sekunder (Secondary Market) yang disediakan oleh Penyelenggara,
               perdagangan Pasar Sekunder akan dibuka setelah 1 (satu) tahun
               pendanaan, dan dapat dilaksanakan setahun 2 (dua) kali dalam
-              jangka waktu 10 (sepuluh) hari kerja;{" "}
+              jangka waktu 10 (sepuluh) hari kerja;
             </li>
             <li>
               i. Membeli Efek melalui Layanan Urun Dana dengan batasan-batasan
               yaitu:{" "}
               <ul>
                 <li>
-                  i. bagi Pemodal dengan penghasilan sampai dengan Rp
-                  500.000.000 (Lima Ratus Juta Rupiah) per tahun , maka Pemodal
-                  dapat membeli Efek paling banyak sebesar 5% (lima persen) dari
-                  penghasilan per tahun;{" "}
+                  • Bagi Pemodal dengan penghasilan sampai dengan Rp 500.000.000
+                  (Lima Ratus Juta Rupiah) per tahun, maka Pemodal dapat membeli
+                  Efek paling banyak sebesar 5% (lima persen) dari penghasilan
+                  per tahun;
                 </li>
                 <li>
-                  ii. bagi Pemodal dengan penghasilan lebih dari Rp500.000.000
+                  • Bagi Pemodal dengan penghasilan lebih dari Rp500.000.000
                   (Lima Ratus Juta Rupiah) per tahun, maka Pemodal dapat membeli
                   Efek paling banyak sebesar 10% (sepuluh persen) dari
-                  penghasilan per tahun.{" "}
+                  penghasilan per tahun.
                 </li>
               </ul>
             </li>
             <li>
-              j. apabila Pemodal merupakan badan hukum dan memiliki pengalaman
+              j. Apabila Pemodal merupakan badan hukum dan memiliki pengalaman
               investasi di pasar modal disertai bukti kepemilikan rekening
               paling singkat 2 (dua) tahun sebelum masa penawaran Efek, atau
-              Efek bersifat utang atau Sukuk dijamin atau ditanggung dengan
-              nilai penjaminan atau nilai penanggungan paling sedikit 125%
-              (Seratus Dua Puluh Lima Persen) dari nilai penghimpunan dana, maka
-              jumlah batasan-batasan sebagaimana dimaksud pada huruf i dan huruf
-              ii tersebut tidak berlaku;
+              Efek Obligasi dijamin atau ditanggung dengan nilai penjaminan atau
+              nilai penanggungan paling sedikit 125% (Seratus Dua Puluh Lima
+              Persen) dari nilai penghimpunan dana, maka jumlah batasan-batasan
+              sebagaimana dimaksud pada huruf i ditas tidak berlaku;
             </li>
             <li>
               k. Menghadiri setiap Rapat Umum Pemegang Efek termasuk namun tidak
               terbatas pada Rapat Umum Pemegang Saham (untuk selanjutnya disebut
               RUPS), baik RUPS Tahunan maupun RUPS Luar Biasa, Rapat Umum
-              Pemegang Sukuk (RUPSU), Rapat Umum Pemegang Obligasi (RUPO), yang
-              diselenggarakan oleh Penerbit dengan dukungan Penyelenggara atau
-              Pemodal dapat memberikan kuasa kepada Penyelenggara untuk
-              menghadiri RUPS, RUPSU atau RUPO yang diselenggarakan oleh
-              Penerbit dan mengeluarkan suara; dan
+              Pemegang Obligasi (RUPO), yang diselenggarakan oleh Penerbit
+              dengan dukungan Penyelenggara atau Pemodal dapat memberikan kuasa
+              kepada Penyelenggara untuk menghadiri RUPS atau RUPO yang
+              diselenggarakan oleh Penerbit dan mengeluarkan suara; dan
             </li>
             <li>
               l. Dibantu oleh Penyelenggara atau kuasa Pemodal dalam hal
-              penyelesaian masalah yang berkaitan dengan Penawaran efek bersifat
-              utang atau Sukuk yang diterbitkan dalam hal Penerbit mengalami
-              gagal bayar dan atau (wanprestasi).
+              penyelesaian masalah yang berkaitan dengan Penawaran efek Obligasi
+              yang diterbitkan dalam hal Penerbit mengalami gagal bayar dan atau
+              (wanprestasi).
             </li>
           </ul>
           <p>
@@ -541,8 +496,8 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
           </p>
           <ul className="space-y-2">
             <li>
-              a. Mengisi formulir keikutsertaan dalam layanan urun dana berbasis
-              teknologi informasi dengan benar, akurat dan dapat
+              a. Mengisi formulir keikut sertaan dalam layanan urun dana
+              berbasis teknologi informasi dengan benar, akurat dan dapat
               dipertanggungjawabkan;
             </li>
             <li>
@@ -553,8 +508,8 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               lainnya jika dibutuhkan termasuk namun tidak terbatas pada Nomor
               Pokok Wajib Pajak (NPWP) dan Kartu Keluarga (KK). Permintaan
               tambahan dokumen tersebut akan disesuaikan dengan kebutuhan pihak
-              Penyelenggara dalam hal melakukan due diligence untuk kelengkapan
-              proses Know Your Customer (KYC);
+              Penyelenggara dalam hal melakukan customer due diligent atau
+              enhance due diligence;
             </li>
             <li>
               c. Memiliki rekening Efek pada Bank Kustodian yang khusus untuk
@@ -600,13 +555,13 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               k. Melakukan transaksi pembelian dan Penjualan Efek melalui
               Layanan Urun Dana Penyelenggara dari penghasilan dan/atau
               peruntukan dana Pemodal yang tidak bertentangan dengan peraturan
-              perundang-undangan di Indonesia.{" "}
+              perundang-undangan di Indonesia.
             </li>
           </ul>
           <p>
             4.3 <span className="font-bold">Hak-Hak Penyelenggara</span>
           </p>
-          <p>Hak-Hak Penyelenggara</p>
+          <p>Penyelenggara berhak untuk:</p>
           <ul className="space-y-2">
             <li>
               a. Memperoleh dokumen pribadi dari masing-masing Pemodal, termasuk
@@ -614,8 +569,9 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               (E-KTP) dengan valid dan jelas, swafoto dengan memegang E-KTP
               dengan valid dan jelas, menyertakan penghasilan selama 1 (Satu)
               tahun, menyertakan pekerjaan atau profesi saat ini, menyertakan
-              nama ibu kandung, , Kartu Keluarga dan dokumen lainnya jika
-              dibutuhkan dari Pemodal perseorangan;{" "}
+              nama ibu kandung, Kartu Keluarga (KK) dan dokumen lainnya jika
+              dibutuhkan dari Pemodal perseorangan untuk melakukan customer due
+              diligent atau enhance due diligence;
             </li>
             <li>
               b. Memperoleh informasi yang benar, akurat dan dapat
@@ -652,7 +608,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               dilakukannya, maka Penyelenggara berhak dan berwenang untuk
               melakukan pembatasan-pembatasan terhadap akses Pemodal atas
               penggunaan fitur-fitur pada layanan urun dana berbasis teknologi
-              yang diselenggarakan oleh Penyelenggara.{" "}
+              yang diselenggarakan oleh Penyelenggara.
             </li>
           </ul>
           <p>
@@ -684,11 +640,11 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
             <li>
               e. Melakukan pembagian dividen yang diperoleh Penerbit bagi Efek
-              bersifat Ekuitas, membagikan suku bunga atau kupon bagi Efek
-              bersifat utang, dan membagikan keuntungan, bagi hasil, imbal
-              hasil/jasa atau margin atas Sukuk kepada Pemodal dengan melakukan
-              pencatatan pada saldo efek pada Penyelenggara atau platform
-              lainnya yang memiliki hubungan kerjasama dengan Penyelenggara;
+              bersifat Ekuitas, dan membagikan keuntungan, bagi hasil, imbal
+              hasil/jasa atau margin atas Efek Obligasi kepada Pemodal dengan
+              melakukan pencatatan pada saldo efek pada Penyelenggara atau
+              platform lainnya yang memiliki hubungan kerjasama dengan
+              Penyelenggara;
             </li>
             <li>
               f. Mendistribusikan efek kepada Pemodal paling lambat 2 (dua) hari
@@ -707,14 +663,13 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               Indonesia (KSEI) sebagai lembaga penyimpanan dan penyelesaian;
             </li>
             <li>
-              i. Mewakili kepentingan Pemodal sebagai pemegang Efek bersifat
-              utang dan/atau sukuk;
+              i. Mewakili kepentingan Pemodal sebagai pemegang Efek Obligasi;
             </li>
             <li>
               j. Setelah 12 (dua belas) bulan Pemodal tercatat sebagai pemilik
               efek bersifat ekuitas berupa saham pada Penerbit, Penyelenggara
               akan menyediakan sistem bagi Pemodal untuk memperdagangkan saham
-              Penerbit pada Pasar Sekunder (secondary market); dan
+              Penerbit pada Pasar Sekunder (secondary market);
             </li>
             <li>
               k. Memiliki catatan secara terpisah dan terperinci atas
@@ -722,8 +677,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 5 <br /> Pemindahan Hak atas Efek Bersifat Ekuitas Berupa
-            Saham
+            PASAL 5 <br /> PEMINDAHAN HAK ATAS EFEK BERSIFAT EKUTAS BERUPA SAHAM
           </p>
           <ul className="space-y-2">
             <li>
@@ -774,17 +728,35 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               diperlukan untuk pemindahan hak atas saham di maksud, maka ahli
               waris dapat mengajukan permohonan perubahan kepemilikan Efek
               kepada Penyelenggara dengan melengkapi dokumen sebagai sebagai
-              berikut: a. Surat permohonan peralihan kepemilikan Saham
-              dikarenakan Pemodal perseorangan meninggal dunia kepada
-              Penyelenggara; b. Salinan surat kematian dari instansi berwenang;
-              c. Salinan surat keterangan ahli waris dari instansi berwenang
-              dan/atau surat penetapan pengadilan tentang ahli waris; d. Salinan
-              E-KTP Pemodal perseorangan (almarhum/almarhumah) dan ahli waris e.
-              Salinan Kartu Keluarga (KK) Pemodal (almarhum/almarhumah) f. Surat
-              Penunjukan dan/atau Surat Kuasa dari ahli waris (apabila ahli
-              waris lebih dari satu) untuk menunjuk dan/atau menguasakan
-              peralihan kepemilikan Efek kepada salah satu ahli waris, g. bukti
-              kepemilikan efek (Portfolio) Penerbit di Penyelenggara;
+              berikut:{" "}
+              <ul className="p-2 space-y-2">
+                <li>
+                  a) Surat permohonan peralihan kepemilikan Saham dikarenakan
+                  Pemodal perseorangan meninggal dunia kepada Penyelenggara;{" "}
+                </li>
+                <li>b) Salinan surat kematian dari instansi berwenang; </li>
+                <li>
+                  c) Salinan surat keterangan ahli waris dari instansi berwenang
+                  dan/atau surat penetapan pengadilan tentang ahli waris;{" "}
+                </li>
+                <li>
+                  d) Salinan E-KTP Pemodal perseorangan (almarhum/almarhumah)
+                  dan ahli waris{" "}
+                </li>
+                <li>
+                  e) Salinan Kartu Keluarga (KK) Pemodal (almarhum/almarhumah){" "}
+                </li>
+                <li>
+                  f) Surat Penunjukan dan/atau Surat Kuasa dari ahli waris
+                  (apabila ahli waris lebih dari satu) untuk menunjuk dan/atau
+                  menguasakan peralihan kepemilikan Efek kepada salah satu ahli
+                  waris
+                </li>
+                <li>
+                  g) Bukti kepemilikan efek (Portfolio) Penerbit di
+                  Penyelenggara;
+                </li>
+              </ul>{" "}
             </li>
             <li>
               5.8 Setelah Pemodal tercatat sekurang-kurangnya 12 (dua belas)
@@ -798,12 +770,12 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               Hibah, Direksi Penerbit akan melakukan pemberitahuan kepada
               Penyelenggara untuk melakukan perubahan pencatatan atas pemindahan
               hak atas saham dimaksud pada Lembaga Penyimpanan dan Penyelesaian,
-              dimana saham Penerbit dicatatkan dengan menyampaikan kelengkapan
-              dokumen yang diperlukan untuk pemindahan hak atas saham dimaksud.
+              dimana saham Penerbit dicatatkan dengan melengkapi dokumen yang
+              diperlukan untuk pemindahan hak atas saham dimaksud.
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 6 <br /> Pemberian Izin dan Kuasa
+            PASAL 6<br /> PEMBERIAN IZIN DAN KUASA
           </p>
           <ul className="space-y-2">
             <li>
@@ -812,19 +784,19 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               memberikan kuasa kepada Penyelenggara untuk menyampaikan
               kelengkapan data Pemodal kepada Lembaga Penyimpanan dan
               Penyelesaian dan Bank Kustodian dengan tujuan pencatatan nama
-              Pemodal dalam Rekening Efek pada kustodian dan/atau segala
-              kebutuhan administrasi yang diperlukan lainnya termasuk namun
-              tidak terbatas untuk melakukan pemindahbukuan Efek dan/atau dana
-              dalam rangka Transaksi securities crowdfunding atau kepentingan
-              lain atas nama Pemodal;
+              Pemodal dalam Rekening Efek pada kustodian atau segala kebutuhan
+              administrasi yang diperlukan lainnya termasuk namun tidak terbatas
+              untuk melakukan pemindahbukuan Efek atau dana dalam rangka
+              Transaksi securities crowdfunding atau kepentingan lain atas nama
+              Pemodal;
             </li>
             <li>
               6.2. Dengan menandatangani Perjanjian ini dan selama Pemodal
               menjadi pemegang efek Penerbit, dalam hal Pemodal berhalangan
-              untuk menghadiri Rapat Umum Pemegang Saham dan/atau Rapat Umum
-              Pemegang Sukuk, dengan ini Pemodal sepakat dan setuju untuk
+              untuk menghadiri Rapat Umum Pemegang Saham atau Rapat Umum
+              Pemegang Obligasi, dengan ini Pemodal sepakat dan setuju untuk
               memberikan kuasa kepada Penyelenggara untuk menghadiri Rapat Umum
-              Pemegang Saham dan atau Rapat Umum Pemegang Sukuk/Obligasi yang
+              Pemegang Saham dan atau Rapat Umum Pemegang Obligasi yang
               diselenggarakan oleh Penerbit dan mengeluarkan hak suara
               berdasarkan kuasa yang telah diberikan oleh Pemodal;
             </li>
@@ -844,7 +816,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               memberikan kuasa kepada Penyelenggara untuk melakukan pengurusan
               segala aspek perbankan dari Penerbit dalam konteks layanan
               kustodian, termasuk namun tidak terbatas pada pembukaan rekening
-              atas nama Penerbit;{" "}
+              atas nama Penerbit;
             </li>
             <li>
               6.5. Pemodal setuju untuk memberikan kuasa kepada Penyelenggara
@@ -861,33 +833,31 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
             <li>
               6.7. Dengan menandatangani Perjanjian ini dan selama Pemodal
-              menjadi pemegang efek bersifat utang atau sukuk Penerbit, Pemodal
-              sepakat dan setuju untuk memberikan kuasa kepada Penyelenggara
-              untuk melakukan termasuk namun tidak terbatas untuk memantau
-              perkembangan pengelolaan Proyek berdasarkan data dan/atau
-              informasi yang diperoleh baik langsung maupun tidak langsung;
-              melakukan pembagian nisbah bagi hasil kepada pemegang Sukuk;
-              mengawasi dan memantau pelaksanaan kewajiban Penerbit berdasarkan
-              perjanjian mengenai penerbitan Efek bersifat utang atau sukuk;
-              mengawasi, melakukan inspeksi, dan mengadministrasikan jaminan
-              bagi pembayaran kewajiban kepada pemegang Efek bersifat utang atau
-              sukuk (jika terdapat jaminan) bagi pembayaran kewajiban kepada
-              pemegang efek bersifat utang atau sukuk; dan memantau pembayaran
-              yang dilakukan Penerbit kepada pemegang Efek bersifat atau sukuk;
-              dan
+              menjadi pemegang efek Obligasi Penerbit, Pemodal sepakat dan
+              setuju untuk memberikan kuasa kepada Penyelenggara untuk melakukan
+              termasuk namun tidak terbatas untuk memantau perkembangan
+              pengelolaan Proyek berdasarkan data dan/atau informasi yang
+              diperoleh baik langsung maupun tidak langsung; melakukan pembagian
+              nisbah bagi hasil kepada pemegang Obligasi; mengawasi dan memantau
+              pelaksanaan kewajiban Penerbit berdasarkan perjanjian mengenai
+              penerbitan Efek Obligasi; mengawasi, melakukan inspeksi, dan
+              mengadministrasikan jaminan bagi pembayaran kewajiban kepada
+              pemegang Efek Obligasi (jika terdapat jaminan) bagi pembayaran
+              kewajiban kepada pemegang efek Obligasi; dan memantau pembayaran
+              yang dilakukan Penerbit kepada pemegang Efek Obligasi; dan
             </li>
             <li>
               6.8. Dengan menandatangani Perjanjian ini dan selama Pemodal
-              menjadi pemegang Sukuk, maka Pemodal dapat memberikan kuasa kepada
-              Penyelenggara untuk melakukan segala urusan yang diperlukan dan
-              mewakili kepentingan pemegang Sukuk yang berkaitan dengan tanggung
-              jawab berlaku selama Pemodal memiliki sukuk, termasuk namun tidak
-              terbatas untuk mengurus kepentingan dalam hal terjadinya gagal
-              bayar oleh Penerbit, dan menyelenggarakan Rapat Umum Pemegang
-              Sukuk (Rupsu) jika diperlukan sesuai dengan peraturan
-              perundang-undangan dan Peraturan Otoritas Jasa Keuangan tentang
-              layanan urun dana Surat Edaran Otoritas Jasa Keuangan tentang
-              layanan urun dana.{" "}
+              menjadi pemegang Obligasi, maka Pemodal dapat memberikan kuasa
+              kepada Penyelenggara untuk melakukan segala urusan yang diperlukan
+              dan mewakili kepentingan pemegang Obligasi yang berkaitan dengan
+              tanggung jawab berlaku selama Pemodal memiliki Obligasi, termasuk
+              namun tidak terbatas untuk mengurus kepentingan dalam hal
+              terjadinya gagal bayar oleh Penerbit, dan menyelenggarakan Rapat
+              Umum Pemegang Obligasi (RUPO) jika diperlukan sesuai dengan
+              peraturan perundang-undangan dan Peraturan Otoritas Jasa Keuangan
+              (OJK) tentang layanan urun dana Surat Edaran Otoritas Jasa
+              Keuangan tentang layanan urun dana
             </li>
             <li>
               6.9. Dengan menandatangani Perjanjian ini dan selama Pemodal
@@ -901,19 +871,30 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 7 <br /> Biaya-Biaya
+            PASAL 7 <br /> BIAYA-BIAYA
           </p>
           <ul className="space-y-2">
             <li>
               7.1. Atas penggunaan layanan urun dana berbasis teknologi
               informasi (platform) yang disediakan oleh Penyelenggara kepada
               Pemodal dalam melakukan transaksi investasinya, Pemodal dikenakan
-              Biaya Layanan (Service Fee) sebesar: (i) 6% (enam persen) sampai
-              dengan 10% (sepuluh persen) dari nilai total investasi untuk
-              pembelian saham; dan/atau (ii) 5% (lima) persen sampai dengan 6%
-              (enam) persen dari nilai total investasi untuk pembelian Sukuk,
-              yang akan dikenakan pada saat melakukan pembelian Efek yang
-              dikeluarkan oleh Penerbit;
+              Biaya Layanan (Service Fee) sebesar:
+              <ul className="p-2 space-y-2">
+                <li>
+                  a) 3% (tiga persen) sampai dengan 5% (lima persen) dari nilai
+                  total investasi untuk pembelian saham; dan/atau{" "}
+                </li>
+                <li>
+                  b) 0,5% (nol koma lima persen) sampai dengan 3% (tiga persen)
+                  dari nilai total investasi untuk pembelian Obligasi, yang akan
+                  dikenakan pada saat melakukan pembelian Efek yang dikeluarkan
+                  oleh Penerbit;
+                </li>
+                <li>
+                  c) Legal fee; Kustodian fee dan biaya-biaya kepada pihak
+                  lainnya (bila ada).
+                </li>
+              </ul>
             </li>
             <li>
               7.2. Sehubungan dengan pengelolaan dan administrasi kegiatan usaha
@@ -921,10 +902,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               keuangan, dan/atau pembagian hasil usaha Penerbit termasuk namun
               tidak terbatas pada dividen jika efek yang ditawarkan berupa
               saham, atau pembagian keuntungan bagi hasil, imbal hasil/jasa atau
-              margin jika efek yang ditawarkan berupa sukuk, yang dilakukan oleh
-              Penyelenggara, Pemodal akan dikenakan biaya Management Fee sebesar
-              5% (lima persen) dari dividen yang akan diterima oleh Pemodal
-              (sebelum pajak).
+              margin jika efek yang ditawarkan berupa Obligasi, yang dilakukan
+              oleh Penyelenggara, Pemodal akan dikenakan biaya Management Fee
+              sebesar 5% (lima persen) dari dividen yang akan diterima oleh
+              Pemodal (sebelum pajak).
             </li>
             <li>
               7.3. Terhadap biaya Bank, termasuk namun tidak terbatas pada biaya
@@ -934,7 +915,8 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 8 <br /> Laporan Keuangan Penerbit
+            PASAL 8
+            <br /> LAPORAN KEUANGAN PENERBIT
           </p>
           <ul className="space-y-2">
             <li>
@@ -948,10 +930,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               informasi yang disediakan oleh Penyelenggara;
             </li>
             <li>
-              8.2. Khusus untuk laporan keuangan Penerbit yang menerbitkan utang
-              atau sukuk, Pemodal akan memperoleh laporan keuangan secara
-              berkala setiap 3 (tiga) bulan, pada bulan Maret, Juni, September,
-              dan Desember;
+              8.2. Khusus untuk laporan keuangan Penerbit yang menerbitkan
+              Obligasi, Pemodal akan memperoleh laporan keuangan secara berkala
+              setiap 3 (tiga) bulan, pada bulan Maret, Juni, September, dan
+              Desember;
             </li>
             <li>
               8.3. Laporan Keuangan akan disusun oleh Penerbit atau oleh pihak
@@ -961,40 +943,40 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 9 <br /> Pembagian Keuntungan <br /> (Dividen, Perhitungan
-            Bagi Hasil, Imbal Hasil/Jasa, Margin)
+            PASAL 9<br /> PEMBAGIAN KEUNTUNGAN <br /> (Dividen, Bagi Hasil,
+            Imbal Hasil/Jasa, Margin)
           </p>
           <ul className="space-y-2">
             <li>
               9.1. Pembagian keuntungan (dividen jika efek yang ditawarkan
               berupa saham, atau pembagian keuntungan nisbah bagi hasil, imbal
-              hasil/jasa atau margin jika efek yang ditawarkan berupa sukuk)
-              kepada Pemodal dapat dilakukan oleh Kustodian dan/atau
-              Penyelenggara. Dalam hal pembagian keuntungan dilakukan oleh
-              Kustodian, maka ketentuan-ketentuan terkait dengan pembagian
-              keuntungan yang berlaku pada Kustodian, akan berlaku bagi Pemodal.
-              Namun, apabila pembagian keuntungan dilakukan oleh Penyelenggara
-              berdasarkan syarat-syarat dan ketentuan-ketentuan Perjanjian ini,
-              maka pembagian keuntungan (dividen, bunga, nisbah bagi hasil akan
-              dilakukan selambat-lambatnya setiap tanggal 20 (dua puluh) pada
-              periode pembagian keuntungan (dividen, bunga atau kupon, nisbah
-              bagi hasil, imbal hasil, jasa atau margin) dimaksud atau
-              berdasarkan tanggal pembayaran imbal hasil pada perjanjian
-              penerbitan sukuk antara Penyelenggara dengan Penerbit yang telah
-              mengeluarkan Efek bersifat Sukuk;
+              hasil/jasa atau margin jika efek berupa Obligasi) kepada Pemodal
+              dapat dilakukan oleh Kustodian dan/atau Penyelenggara. Dalam hal
+              pembagian keuntungan dilakukan oleh Kustodian, maka
+              ketentuan-ketentuan terkait dengan pembagian keuntungan yang
+              berlaku pada Kustodian, akan berlaku bagi Pemodal. Namun, apabila
+              pembagian keuntungan dilakukan oleh Penyelenggara berdasarkan
+              syarat-syarat dan ketentuan-ketentuan Perjanjian ini, maka
+              pembagian keuntungan (dividen, nisbah bagi hasil akan dilakukan
+              selambat-lambatnya setiap tanggal 20 (dua puluh) pada periode
+              pembagian keuntungan (dividen, nisbah bagi hasil, imbal hasil,
+              jasa atau margin) dimaksud atau berdasarkan tanggal pembayaran
+              imbal hasil pada perjanjian penerbitan Obligasi antara
+              Penyelenggara dengan Penerbit yang telah mengeluarkan Efek
+              Obligasi;
             </li>
             <li>
-              9.2. Penyelenggara akan melakukan pembagian dividen, suku bunga,
-              nisbah bagi hasil atau pembagian keuntungan yang diperoleh
-              Penerbit kepada Pemodal dengan melakukan pencatatan pada saldo
-              efek pada platform Penyelenggara atau platform lainnya yang
-              memiliki hubungan kerjasama dengan Penyelenggara;
+              9.2. Penyelenggara akan melakukan pembagian dividen, nisbah bagi
+              hasil atau pembagian keuntungan yang diperoleh Penerbit kepada
+              Pemodal dengan melakukan pencatatan pada saldo efek pada platform
+              Penyelenggara atau platform lainnya yang memiliki hubungan
+              kerjasama dengan Penyelenggara;
             </li>
             <li>
               9.3. Pemodal dapat melakukan penarikan atas pembagian dividen,
-              suku bunga, nisbah bagi hasil, imbal hasil, jasa atau margin, atau
-              pembagian keuntungan yang diperoleh Pemodal, melalui fitur yang
-              disediakan pada platform Penyelenggara;
+              nisbah bagi hasil, imbal hasil, jasa atau margin, atau pembagian
+              keuntungan yang diperoleh Pemodal, melalui fitur yang disediakan
+              pada platform Penyelenggara;
             </li>
             <li>
               9.4. Penyelenggara akan melakukan pemindahbukuan ke dalam rekening
@@ -1015,7 +997,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
             <li>
               9.7. Laba ditahan (retained earning) dari setiap periode laporan
-              keuangan, sekurang-kurangnya sebesar 20% (dua puluh persen) dari
+              keuangan, sebanyak-banyak nya sebesar 20% (dua puluh persen) dari
               laba/keuntungan yang diperoleh pada periode laporan keuangan
               dimaksud;
             </li>
@@ -1026,7 +1008,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 10 <br /> Pajak-Pajak
+            PASAL 10 <br /> PAJAK-PAJAK
           </p>
           <p>
             Para Pihak setuju bahwa terhadap setiap pajak-pajak yang timbul
@@ -1035,7 +1017,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             yang berlaku di Negara Republik Indonesia;
           </p>
           <p className="text-center font-bold">
-            Pasal 11 <br /> Larangan dan Pembatasan
+            PASAL 11 <br /> LARANGAN DAN PEMBATASAN
           </p>
           <ul className="space-y-2">
             <li>
@@ -1061,9 +1043,9 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               11.3. Pemodal yang ditunjuk oleh pemegang Efek Penerbit sebagai
               direktur atau anggota direksi Penerbit, dilarang menjual,
               menjaminkan, menggadaikan atau cara apapun mengalihkan harta
-              kekayaan Penerbit tanpa persetujuan dari pemegang Efek Penerbit
-              tanpa persetujuan Rapat Umum Pemegang Saham dan atau Rapat Umum
-              Pemegang Efek Penerbit;
+              kekayaan Penerbit tanpa persetujuan dari pemegang Efek Penerbit,
+              Rapat Umum Pemegang Saham dan atau Rapat Umum Pemegang Efek
+              Penerbit;
             </li>
             <li>
               11.4. Dengan memperhatikan ketentuan perundang-undangan yang
@@ -1075,16 +1057,16 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
             <li>
               11.5. Pemodal dilarang menggunakan nama dagang (Merek) dari
-              Penyelenggara, baik sebagian maupun seluruhnya pada
-              kegiatan-kegiatan yang tidak berkaitan dengan Penyelenggaraan
-              layanan urun dana. Atas pelanggaran ketentuan ini, Penyelenggara
-              dapat melakukan tindakan-tindakan hukum kepada Pemodal,
-              berdasarkan ketentuan yang berlaku dalam bidang Merek sebagaimana
-              dimaksud dalam Peraturan Perundang-undangan tentang Merek.
+              Penyelenggara, baik sebagian maupun seluruhnya pada kegiatan yang
+              tidak berkaitan dengan Penyelenggaraan layanan urun dana. Atas
+              pelanggaran ketentuan ini, Penyelenggara dapat melakukan
+              tindakan-tindakan hukum kepada Pemodal, berdasarkan ketentuan yang
+              berlaku dalam bidang Merek sebagaimana dimaksud dalam Peraturan
+              Perundang-undangan tentang Merek.
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 12 <br /> Pernyataan dan Jaminan
+            PASAL 12 <br /> PERNYATAAN DAN JAMINAN
           </p>
           <ul className="space-y-2">
             <li>
@@ -1167,7 +1149,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
                   saat penandatanganan Perjanjian ini. Selanjutnya, Pemodal
                   menyatakan bahwa tanda tangan yang diberikan dan/atau
                   dibubuhkan baik secara fisik maupun elektronik adalah benar
-                  dan sah, serta memiliki dampak hukum;{" "}
+                  dan sah, serta memiliki dampak hukum;
                 </li>
                 <li>
                   c. Pemodal dengan ini menyatakan dan menjamin telah memberikan
@@ -1309,29 +1291,32 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
                   Management Fee ini merupakan biaya atas pengelolaan dan
                   administrasi kegiatan usaha Penerbit, termasuk namun tidak
                   terbatas pada penyampaian laporan keuangan dan/atau pembagian
-                  hasil usaha Penerbit (pembagian dividen dan/atau profit) yang
-                  dilakukan oleh Penyelenggara kepada Pemodal;
+                  hasil usaha Penerbit (pembagian dividen dan / atau profit)
+                  yang dilakukan oleh Penyelenggara kepada Pemodal;
                 </li>
                 <li>
-                  l. Pemodal dengan ini menyatakan bahwa Pemodal sepenuhnya
+                  d) Pemodal dengan ini menyatakan bahwa Pemodal sepenuhnya
                   mengetahui, memahami dan menyadari bahwa Penyelenggara akan
-                  membebankan Biaya Layanan (Platform Fee) sebesar: (i) 5% (lima
-                  persen) sampai dengan 10% (sepuluh persen) dari nilai total
-                  investasi untuk pembelian saham; dan/atau (ii) 0% (nol persen)
-                  sampai dengan 5% (lima) persen dari nilai total investasi
-                  untuk pembelian Efek bersifat Sukuk;
+                  membebankan Biaya Layanan (Platform Fee) sebesar: (ii) 3%
+                  (tiga persen) sampai dengan 5% (lima persen) dari nilai total
+                  investasi untuk pembelian saham; dan/atau (ii) 0,5% (nol koma
+                  lima) persen sampai dengan 3% (tiga persen) dari nilai total
+                  investasi untuk pembelian Efek Obligasi, yang akan dikenakan
+                  pada saat melakukan pembelian Efek yang dikeluarkan oleh
+                  Penerbit dan Legal fee; Custodian fee dan biaya-biaya kepada
+                  pihak lainnya (bila ada).
                 </li>
                 <li>
-                  m. Pemodal dengan ini menyatakan dan menjamin bahwa sumber
+                  l. Pemodal dengan ini menyatakan dan menjamin bahwa sumber
                   dana Pemodal yang digunakan untuk pembelian Efek melalui
                   layanan urun dana Penyelenggara tidak berasal dari pendapatan
                   dan/atau sumber dana yang bertentangan dengan peraturan
                   perundang-undangan. Selain itu, Pemodal dengan ini menyatakan
                   patuh terhadap ketentuan anti pencucian uang dan/atau
-                  pendanaan terorisme.{" "}
+                  pendanaan terorisme.
                 </li>
                 <li>
-                  n. Pemodal dengan ini menyatakan dan menjamin bahwa Pemodal
+                  m. Pemodal dengan ini menyatakan dan menjamin bahwa Pemodal
                   mengetahui konsekuensi dan memberikan izin sepenuhnya kepada
                   Penyelenggara untuk memberikan, menarik, dan melakukan
                   pengkinian data Pemodal melalui sistem LAPMN Kustodian Sentral
@@ -1341,7 +1326,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 13 <br /> Kerahasiaan
+            PASAL 13 <br /> KERAHASIAAN
           </p>
           <ul className="space-y-2">
             <li>
@@ -1352,8 +1337,9 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               format dan bentuk apapun, yang diungkapkan oleh salah satu dari
               Para Pihak kepada Pihak lainnya dan/atau yang diperoleh
               berdasarkan Perjanjian ini dan/atau Perjanjian ikutan lainnya
-              (untuk selanjutnya disebut{" "}
-              <span className="font-bold">&quot;Informasi Rahasia&quot;</span>).
+              (untuk selanjutnya disebut
+              <span className="font-bold"> &quot;Informasi Rahasia&quot;</span>
+              ).
             </li>
             <li>
               13.2. Tidak satupun dari Para Pihak berhak dan/atau berwenang
@@ -1372,10 +1358,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               pemberitahuan secara tertulis selambat-lambatnya 3 (tiga) Hari
               Kerja sebelumnya kepada Pihak lainnya. Selanjutnya, ketika
               pengungkapan Informasi Rahasia akan dilakukan oleh Pemodal,
-              Pemodal wajib untuk meminta persetujuan tertulis terlebih dahulu
-              dari Penyelenggara dan Penerbit sebelum pengungkapan dilakukan dan
-              Penyelenggara tidak akan menunda dalam pemberian persetujuan
-              tertulisnya tanpa alasan yang wajar.
+              Pemodal wajib untuk meminta persetujuan tertulis dari
+              Penyelenggara dan Penerbit sebelum pengungkapan dilakukan dan
+              Penyelenggara tidak menunda dalam pemberian persetujuan tertulis
+              tanpa alasan yang wajar.
             </li>
             <li>
               13.4. Kewajiban untuk menjaga kerahasiaan dari Informasi Rahasia
@@ -1398,7 +1384,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 14 <br /> Keadaan Memaksa (Force Majeure)
+            PASAL 14 <br /> KEADAAN MEMAKSA (Force Majeure)
           </p>
           <ul className="space-y-2">
             <li>
@@ -1410,10 +1396,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               14.2. Yang dimaksud dengan Keadaan Memaksa (force majeure) adalah
               suatu kejadian atau peristiwa yang yang terjadi di luar daya upaya
               manusia dan/atau tidak dapat diduga atau diprediksi sebelumnya
-              dan/atau di luar kendali kekuasaan salah satu dari Para Pihak
-              dan/atau Penerbit untuk mengatasinya, yang mengakibatkan
-              terhambatnya pelaksanaan kewajiban salah satu dari Para Pihak
-              dan/atau Penerbit, termasuk namun tidak terbatas pada:
+              atau di luar kendali kekuasaan salah satu dari Para Pihak dan/atau
+              Penerbit untuk mengatasinya, yang mengakibatkan terhambatnya
+              pelaksanaan kewajiban salah satu dari Para Pihak dan/atau
+              Penerbit, termasuk namun tidak terbatas pada:
               <ul className="space-y-2">
                 <li>
                   a. Kejadian atau peristiwa yang terjadi atas kehendak Tuhan,
@@ -1466,7 +1452,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 15 <br /> Hukum yang Berlaku dan Penyelesaian Sengketa
+            PASAL 15 <br /> HUKUM YANG BERLAKU DAN PENYELESAIAN SENGKETA
           </p>
           <ul className="space-y-2">
             <li>
@@ -1479,10 +1465,10 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             <li>
               15.2. Dalam hal di kemudian hari terdapat perbedaan, kontroversi,
               pertentangan, perselisihan sengketa, dan/atau pengaduan Pemodal
-              (untuk selanjutnya disebut &quot;Sengketa&quot;) yang mungkin
-              timbul dari, atau sehubungan dengan, atau dalam pelaksanaan
-              Perjanjian ini, sepanjang dimungkinkan, akan diselesaikan oleh
-              Para Pihak secara musyawarah untuk mufakat;
+              (selanjutnya disebut &quot;Sengketa&quot;) yang mungkin timbul
+              dari, atau sehubungan dengan, atau dalam pelaksanaan Perjanjian
+              ini, sepanjang dimungkinkan, akan diselesaikan oleh Para Pihak
+              secara musyawarah untuk mufakat;
             </li>
             <li>
               15.3. Namun, apabila penyelesaian Sengketa secara musyawarah untuk
@@ -1501,11 +1487,11 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               pengadilan, maka dapat dilakukan melalui 1 (satu) Lembaga
               Alternatif Penyelesaian Sengketa Sektor Jasa Keuangan (“LAPS
               Sektor Jasa Keuangan”) yang dilaksanakan sesuai dengan Peraturan
-              Otoritas Jasa Keuangan mengenai LAPS Sektor Jasa Keuangan.{" "}
+              Otoritas Jasa Keuangan mengenai LAPS Sektor Jasa Keuangan.
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 16 <br /> Berakhirnya Perjanjian
+            PASAL 16 <br /> BERAKHIRNYA PERJANJIAN
           </p>
           <ul className="space-y-2">
             <li>
@@ -1515,7 +1501,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               <ul className="space-y-2">
                 <li>
                   a. Pemodal berhenti, karena sebab apapun, sebagai pemegang
-                  Efek dari Penerbit;{" "}
+                  Efek dari Penerbit;
                 </li>
                 <li>
                   b. Atas keputusan Rapat Umum Pemegang Saham dan atau Rapat
@@ -1587,7 +1573,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             </li>
           </ul>
           <p className="text-center font-bold">
-            Pasal 17 <br /> Lain-lain
+            PASAL 17 <br /> LAIN-LAIN
           </p>
           <ul className="space-y-2">
             <li>
@@ -1669,7 +1655,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             <li>
               17.9. Perjanjian ini telah disesuaikan dengan ketentuan peraturan
               perundang-undangan termasuk namun tidak terbatas pada ketentuan
-              peraturan otoritas jasa keuangan.{" "}
+              peraturan otoritas jasa keuangan.
             </li>
           </ul>
           <p>
@@ -1679,25 +1665,30 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             isi Perjanjian ini, Perjanjian ini mengikat secara hukum dan berlaku
             sebagai undang-undang bagi Para Pihak.
           </p>
-          <div className="space-y-16">
-            <div className="font-bold flex justify-between w-full">
-              <p>Penyelenggara</p>
-              <p>Pemodal</p>
+        </div>
+        <div className="p-4 space-y-24 my-16">
+          <div className="flex justify-between w-full">
+            <div>
+              <p className="font-bold">Penyelenggara</p>
+              <p>
+                PT. FINTEK ANDALAN SOLUSI <br /> TEKNOLOGI (FULUSME)
+              </p>
             </div>
-            <div className="flex justify-between w-full">
-              <div>
-                <p className="font-bold">Emil Dharma</p>
-                <p>Direktur Utama</p>
-              </div>
-              <div>
-                <p className="font-bold">
-                  {user.profile.nama_depan + " " + user.profile.nama_belakang}
-                </p>
-              </div>
+            <p className="font-bold">Pemodal</p>
+          </div>
+          <div className="flex justify-between w-full">
+            <div>
+              <p className="font-bold">Emil Dharma</p>
+              <p>Direktur Utama</p>
+            </div>
+            <div>
+              <p className="font-bold">
+                {user.profile.nama_depan + " " + user.profile.nama_belakang}
+              </p>
             </div>
           </div>
         </div>
-        <div className="flex justify-between text-sm items-center">
+        <div className="p-4 flex justify-between text-sm items-center">
           <div>
             <input
               type="checkbox"

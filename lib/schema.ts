@@ -155,6 +155,8 @@ export const KycPemodalFormSchema = z
       })
       .optional(),
     pendapatan_per_bulan: z.string().min(1, "Total Gaji Harus Diisi."),
+    nama_ibu_kandung: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
+    nama_bank: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
     nomor_rekening_kustodian: z.string().optional(),
     nama_pemilik_rekening_kustodian: z.string().optional(),
     nomor_rekening: z.string().min(1, "Nomor rekening Harus Diisi."),
@@ -201,11 +203,7 @@ export const KycPemodalFormSchema = z
   })
   .refine(
     (data) => {
-      if (
-        data.pekerjaan !== "direktur" &&
-        data.pekerjaan !== "wiraswasta" &&
-        !data.slip_gaji
-      ) {
+      if (data.pekerjaan !== "2" && data.pekerjaan !== "5" && !data.slip_gaji) {
         return false;
       }
       return true;

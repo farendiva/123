@@ -26,20 +26,6 @@ interface Subdistrict {
   sub_district_code: string;
 }
 
-interface PostalCode {
-  postal_code: string;
-}
-
-interface Nationality {
-  id: number;
-  kewarganegaraan: string;
-}
-
-interface Education {
-  id: number;
-  pendidikan: string;
-}
-
 interface Profession {
   id: number;
   pekerjaan: string;
@@ -68,26 +54,28 @@ interface Profile {
   agama: string;
   kewarganegaraan: string;
   alamat_ktp: string;
-  kelurahan_ktp: string;
-  kecamatan_ktp: string;
-  kabupaten_ktp: string;
-  provinsi_ktp: string;
-  alamat_domisili: string;
-  kelurahan_domisili: string;
-  kecamatan_domisili: string;
-  kabupaten_domisili: string;
-  provinsi_domisili: string;
+  kelurahan_ktp: string | null;
+  kecamatan_ktp: string | null;
+  kabupaten_ktp: string | null;
+  provinsi_ktp: string | null;
+  alamat_domisili: string | null;
+  kelurahan_domisili: string | null;
+  kecamatan_domisili: string | null;
+  kabupaten_domisili: string | null;
+  provinsi_domisili: string | null;
   pendidikan: string;
   pekerjaan: string;
   industri_pekerjaan: string;
   pendapatan: string;
+  pendapatan_per_bulan: string;
   sumber_pendapatan: string;
   status_id: number;
   status: string;
   nomor_rekening: string;
   nama_pemilik_rekening: string;
-  nama_bank: string;
-  kabupaten_cabang_bank: string;
+  nama_bank: string | null;
+  nama_ibu_kandung: string;
+  kabupaten_cabang_bank: string | null;
   ktp: string | File;
   npwp: string | File;
   swa_photo: string | File;
@@ -117,7 +105,6 @@ const ProfileTabs: React.FC = () => {
   const { user } = useUser();
   const [activeTab, setActiveTab] = useState(0);
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [formData, setFormData] = useState<Partial<Profile> | undefined>(
     user?.profile
   );
@@ -127,21 +114,18 @@ const ProfileTabs: React.FC = () => {
   const token = Cookies.get("authToken");
   const {
     provinces,
-    nationalities,
-    religions,
-    educations,
     profession,
     industries,
     salaries,
     cities,
     districts,
     subdistricts,
-    postalCodes,
     fetchCities,
     fetchDistricts,
     fetchSubDistricts,
     fetchPostalCodes,
   } = usePreferences();
+  console.log(user);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
@@ -149,10 +133,7 @@ const ProfileTabs: React.FC = () => {
 
   const handleEditClick = () => {
     setIsEditing(true);
-  };
-
-  const handleDocumentClick = (docUrl: string) => {
-    setSelectedDocument(docUrl);
+    setFormData(user?.profile || {}); // Reset formData to user profile when entering edit mode
   };
 
   const handleFileUpload = (
@@ -212,9 +193,27 @@ const ProfileTabs: React.FC = () => {
 
     const changedData = new FormData();
 
-    // Bandingkan data original dengan formData
+    // Always include these fields
+    const alwaysIncludeFields: (keyof Profile)[] = [
+      "nomor_rekening",
+      "nama_pemilik_rekening",
+      "nama_bank",
+      "kabupaten_cabang_bank",
+    ];
+
+    // Add always include fields to changedData
+    alwaysIncludeFields.forEach((key) => {
+      if (formData[key]) {
+        changedData.append(key, formData[key] as string);
+      }
+    });
+
+    // Compare original data with formData and add only changed values to FormData
     (Object.keys(formData) as (keyof Profile)[]).forEach((key) => {
-      if (formData[key] !== originalData?.[key]) {
+      if (
+        formData[key] !== originalData?.[key] &&
+        !alwaysIncludeFields.includes(key)
+      ) {
         if (formData[key] instanceof File) {
           changedData.append(key, formData[key] as File);
         } else {
@@ -223,28 +222,23 @@ const ProfileTabs: React.FC = () => {
       }
     });
 
-    // Only send the changed data if there are any changes
-    if (Array.from(changedData.keys()).length > 0) {
-      const response = await fetch(
-        `https://oms-api-dev.khalifahdev.biz.id/api/v1/pemodal/${user?.pemodal_id}?_method=PUT`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(formData),
-        }
-      );
-      if (response.ok) {
-        const result = await response.json();
-        setIsEditing(false);
-        setOriginalData(formData);
-      } else {
-        const errorData = await response.json();
-        console.error("Error:", errorData);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${user?.pemodal_id}?_method=PUT`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: changedData,
       }
+    );
+    if (response.ok) {
+      const result = await response.json();
+      setIsEditing(false);
+      setOriginalData(formData); // Update originalData with the latest changes
     } else {
-      console.log("No changes detected");
+      const errorData = await response.json();
+      console.error("Error:", errorData);
     }
   };
 
@@ -253,7 +247,7 @@ const ProfileTabs: React.FC = () => {
       <div className="flex flex-col md:flex-row items-center w-full gap-4 md:gap-8 my-4">
         <img
           className="w-16 h-16 rounded-full"
-          src={`https://static.fulusme.id/image/${user?.profile.swa_photo}`}
+          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${user?.profile.swa_photo}`}
           alt="Profile"
         />
         <div className="text-center md:text-left text-xl">
@@ -270,6 +264,8 @@ const ProfileTabs: React.FC = () => {
             {user?.pemodal_status === 3 && <CircleCheckBig />}
             {user?.pemodal_status === 3
               ? "Terverifikasi"
+              : user?.pemodal_status === 1
+              ? "Menunggu Review"
               : "Belum Terverifikasi"}
           </span>
         </div>
@@ -300,34 +296,13 @@ const ProfileTabs: React.FC = () => {
                   <label className="font-bold">Email</label> <br />
                   <span className="text-sm">{user?.email}</span>
                 </div>
-                {/* <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                /> */}
               </div>
               <div className="flex justify-between items-center py-3">
                 <div>
                   <label className="font-bold">Nomor Handphone</label> <br />
                   <span className="text-sm">{user?.profile.no_handphone}</span>
                 </div>
-                {/* <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                /> */}
               </div>
-              {/* <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Password</label> <br />
-                  <span className="text-sm">**********</span>
-                </div>
-                <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                />
-              </div> */}
               <div className="py-4">
                 <button className="w-full text-start font-bold block border p-2 rounded-lg bg-[#ECF0FF]">
                   <Download className="inline mx-2" strokeWidth={2} /> Dokumen
@@ -335,12 +310,6 @@ const ProfileTabs: React.FC = () => {
                 </button>
               </div>
             </div>
-            {/* <div className="py-12 flex justify-end">
-              <button className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white">
-                <img src="/icons/save.svg" alt="Save Icon" />
-                Simpan
-              </button>
-            </div> */}
           </>
         )}
         {activeTab === 1 && (
@@ -369,6 +338,9 @@ const ProfileTabs: React.FC = () => {
                         onChange={handleSelectChange}
                         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                       >
+                        <option value="" disabled>
+                          Pilih Provinsi KTP
+                        </option>
                         {provinces.map((province: Province, index: number) => (
                           <option key={index} value={province.province_code}>
                             {province.province}
@@ -377,6 +349,7 @@ const ProfileTabs: React.FC = () => {
                       </select>
                     </div>
                   </div>
+
                   <div className="flex justify-between items-center py-3">
                     <div className="w-full">
                       <label className="font-bold">Kota/Kabupaten KTP</label>{" "}
@@ -387,6 +360,9 @@ const ProfileTabs: React.FC = () => {
                         onChange={handleSelectChange}
                         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                       >
+                        <option value="" disabled>
+                          Pilih Kota/Kabupaten KTP
+                        </option>
                         {cities.map((city: City, index: number) => (
                           <option key={index} value={city.city_code}>
                             {city.city}
@@ -404,6 +380,9 @@ const ProfileTabs: React.FC = () => {
                         onChange={handleSelectChange}
                         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                       >
+                        <option value="" disabled>
+                          Pilih Kecamatan KTP
+                        </option>
                         {districts.map((district: District, index: number) => (
                           <option key={index} value={district.district_code}>
                             {district.district}
@@ -421,6 +400,9 @@ const ProfileTabs: React.FC = () => {
                         onChange={handleSelectChange}
                         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                       >
+                        <option value="" disabled>
+                          Pilih Kelurahan KTP
+                        </option>
                         {subdistricts.map(
                           (subdistrict: Subdistrict, index: number) => (
                             <option
@@ -568,8 +550,8 @@ const ProfileTabs: React.FC = () => {
                     <div className="w-full">
                       <label className="font-bold">Pendapatan</label> <br />
                       <select
-                        name="pendapatan"
-                        value={formData?.pendapatan || ""}
+                        name="pendapatan_per_bulan"
+                        value={formData?.pendapatan_per_bulan || ""}
                         onChange={handleSelectChange}
                         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                       >
@@ -644,141 +626,182 @@ const ProfileTabs: React.FC = () => {
           </div>
         )}
         {activeTab === 3 && (
-          <div>
-            <div className="my-8 divide-y-2">
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">KTP</label> <br />
-                  <span
-                    className="text-sm cursor-pointer text-blue-600"
-                    onClick={() => handleDocumentClick(user?.profile.ktp || "")}
-                  >
-                    {user?.profile.ktp ? "Lihat Dokumen" : "Belum Upload"}
-                  </span>
+          <div className="">
+            {isEditing ? (
+              <form onSubmit={handleFormSubmit} className="space-y-4">
+                <div className="flex items-center py-3">
+                  <div className="w-full">
+                    <label className="block text-sm font-semibold">KTP</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="ktp"
+                      onChange={(e) => handleFileUpload(e, "ktp")}
+                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
+                    />
+                  </div>
                 </div>
-                <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                />
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">NPWP</label> <br />
-                  <span
-                    className="text-sm cursor-pointer text-blue-600"
-                    onClick={() =>
-                      handleDocumentClick(user?.profile.npwp || "")
-                    }
-                  >
-                    {user?.profile.npwp ? "Lihat Dokumen" : "Belum Upload"}
-                  </span>
+                <div className="flex items-center py-3">
+                  <div className="w-full">
+                    <label className="block text-sm font-semibold">NPWP</label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="npwp"
+                      onChange={(e) => handleFileUpload(e, "npwp")}
+                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
+                    />
+                  </div>
                 </div>
-                <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                />
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Slip Gaji</label> <br />
-                  <span
-                    className="text-sm cursor-pointer text-blue-600"
-                    onClick={() =>
-                      handleDocumentClick(user?.profile.slip_gaji || "")
-                    }
-                  >
-                    {user?.profile.slip_gaji ? "Lihat Dokumen" : "Belum Upload"}
-                  </span>
+                <div className="flex items-center py-3">
+                  <div className="w-full">
+                    <label className="block text-sm font-semibold">
+                      Slip Gaji
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="slip_gaji"
+                      onChange={(e) => handleFileUpload(e, "slip_gaji")}
+                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
+                    />
+                  </div>
                 </div>
-                <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                />
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Kartu Keluarga</label> <br />
-                  <span
-                    className="text-sm cursor-pointer text-blue-600"
-                    onClick={() =>
-                      handleDocumentClick(user?.profile.kartu_keluarga || "")
-                    }
-                  >
-                    {user?.profile.kartu_keluarga
-                      ? "Lihat Dokumen"
-                      : "Belum Upload"}
-                  </span>
+                <div className="flex items-center py-3">
+                  <div className="w-full">
+                    <label className="block text-sm font-semibold">
+                      Kartu Keluarga
+                    </label>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      name="kartu_keluarga"
+                      onChange={(e) => handleFileUpload(e, "kartu_keluarga")}
+                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
+                    />
+                  </div>
                 </div>
-                <SquarePen
-                  strokeWidth={1.5}
-                  onClick={handleEditClick}
-                  className="cursor-pointer"
-                />
-              </div>
-            </div>
-
-            {selectedDocument && (
-              <div className="modal">
-                <div className="modal-content">
-                  <span
-                    className="close"
-                    onClick={() => setSelectedDocument(null)}
+                <div className="flex justify-end gap-4">
+                  <button
+                    type="button"
+                    onClick={() => setIsEditing(false)}
+                    className="px-6 py-3 bg-red-600 text-white rounded-lg flex items-center gap-2 hover:bg-red-700"
                   >
-                    &times;
-                  </span>
-                  <img
-                    src={`https://static.fulusme.id/dokumen/${selectedDocument}`}
-                    alt="Document Preview"
+                    <CircleX className="h-5 w-5" />
+                    <span>Batalkan</span>
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-3 bg-green-600 text-white rounded-lg flex items-center gap-2 hover:bg-green-700"
+                  >
+                    <img
+                      src="/icons/save.svg"
+                      alt="Save Icon"
+                      className="h-5 w-5"
+                    />
+                    <span>Simpan</span>
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <div className="my-8 divide-y divide-gray-300">
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="block text-sm font-semibold">KTP</label>
+                    <a
+                      className="text-sm text-blue-600"
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                        user?.profile.ktp || ""
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {user?.profile.ktp ? "Lihat Dokumen" : "Belum Upload"}
+                    </a>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
+                  />
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="block text-sm font-semibold">NPWP</label>
+                    <a
+                      className="text-sm text-blue-600"
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                        user?.profile.npwp || ""
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {user?.profile.npwp ? "Lihat Dokumen" : "Belum Upload"}
+                    </a>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
+                  />
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="block text-sm font-semibold">
+                      Slip Gaji
+                    </label>
+                    <a
+                      className="text-sm text-blue-600"
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                        user?.profile.slip_gaji || ""
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {user?.profile.slip_gaji
+                        ? "Lihat Dokumen"
+                        : "Belum Upload"}
+                    </a>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
+                  />
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="block text-sm font-semibold">
+                      Kartu Keluarga
+                    </label>
+                    <a
+                      className="text-sm text-blue-600"
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                        user?.profile.kartu_keluarga || ""
+                      }`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {user?.profile.kartu_keluarga
+                        ? "Lihat Dokumen"
+                        : "Belum Upload"}
+                    </a>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
                   />
                 </div>
               </div>
             )}
-
-            {isEditing && (
-              <form onSubmit={handleFormSubmit} className="edit-form">
-                <label htmlFor="ktp">KTP:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="ktp"
-                  onChange={(e) => handleFileUpload(e, "ktp")}
-                />
-                <label htmlFor="npwp">NPWP:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="npwp"
-                  onChange={(e) => handleFileUpload(e, "npwp")}
-                />
-                <label htmlFor="slip_gaji">Slip Gaji:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="slip_gaji"
-                  onChange={(e) => handleFileUpload(e, "slip_gaji")}
-                />
-                <label htmlFor="kartu_keluarga">Kartu Keluarga:</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="kartu_keluarga"
-                  onChange={(e) => handleFileUpload(e, "kartu_keluarga")}
-                />
-                <button type="submit">Simpan</button>
-                <button type="button" onClick={() => setIsEditing(false)}>
-                  Batal
-                </button>
-              </form>
-            )}
           </div>
         )}
+
         {activeTab === 4 && (
           <div>
             {isEditing ? (
-              <form onSubmit={handleFormSubmit}>
+              <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div className="flex justify-between items-center py-3">
                   <div className="w-full">
                     <label className="font-bold">Nomor Rekening</label> <br />

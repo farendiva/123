@@ -45,7 +45,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
             <div key={index} className="flex-shrink-0 w-full">
               <img
                 className="object-cover w-full rounded-md h-72"
-                src={`https://static.khalifahdev.biz.id/images/${image.nama_file}`}
+                src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${image.nama_file}`}
                 alt={`Slide ${index + 1}`}
               />
             </div>
@@ -90,7 +90,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
             className={`w-[calc(20%-6px)] object-cover cursor-pointer rounded-md ${
               currentIndex === index ? "border-2 border-blue-500" : ""
             }`}
-            src={`https://static.khalifahdev.biz.id/images/${image.nama_file}`}
+            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${image.nama_file}`}
             alt={`Thumbnail ${index + 1}`}
             onClick={() => goToSlide(index)}
           />

@@ -50,18 +50,16 @@ const useFetchProtectedData = () => {
           method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            Accept: "application/json",
           },
-          body: JSON.stringify({
-            ...body,
-            user_id: user_id,
-          }),
+          body: body,
         };
       } else {
         options = {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({

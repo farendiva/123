@@ -133,7 +133,7 @@ export default function Form() {
       }
 
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/register",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/register`,
         {
           method: "POST",
           headers: {
@@ -168,7 +168,7 @@ export default function Form() {
   const checkEmailAvailability = async (email: any) => {
     try {
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/register",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/register`,
         {
           method: "POST",
           headers: {
@@ -199,7 +199,7 @@ export default function Form() {
 
     try {
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/otp/request",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/otp/request`,
         {
           method: "POST",
           headers: {
@@ -224,7 +224,7 @@ export default function Form() {
   const verifyOtp = async (otpId: string, pin: string) => {
     try {
       const response = await fetch(
-        "https://oms-api-dev.khalifahdev.biz.id/api/v1/otp/verify",
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/otp/verify`,
         {
           method: "POST",
           headers: {
@@ -280,8 +280,7 @@ export default function Form() {
               "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
             ),
             variant: "destructive",
-            title: "Email sudah terdaftar.",
-            description: "Silakan gunakan email lain.",
+            title: "Email Tidak Valid",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
           return;

@@ -11,7 +11,6 @@ export interface TransaksiStatus {
 }
 
 export interface Transaksi {
-  filter(arg0: (item: any) => any): unknown;
   id: number;
   user_id: number;
   efek_id: string;
@@ -44,9 +43,15 @@ export interface Transaksi {
 
 interface TransactionCardProps {
   data: Transaksi[];
+  onLoadMore: () => void;
+  hasMore: boolean;
 }
 
-const TransactionList: React.FC<TransactionCardProps> = ({ data }) => {
+const TransactionList: React.FC<TransactionCardProps> = ({
+  data,
+  onLoadMore,
+  hasMore,
+}) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -65,7 +70,7 @@ const TransactionList: React.FC<TransactionCardProps> = ({ data }) => {
 
   return (
     <main className="w-full mx-auto rounded-xl">
-      <form className="w-full mx-auto my-4 flex items-center gap-4">
+      <form className="w-full mx-auto mb-2 flex items-center gap-4">
         <div className="w-full relative">
           <input
             type="search"
@@ -101,42 +106,54 @@ const TransactionList: React.FC<TransactionCardProps> = ({ data }) => {
       </form>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Filter Jenis Efek</h2>
-            <div className="flex flex-col space-y-4">
-              <button
-                onClick={() => handleFilterChange("Saham")}
-                className="px-4 py-2 bg-emerald-500 text-white rounded-lg"
-              >
-                Saham
-              </button>
-              <button
-                onClick={() => handleFilterChange("Sukuk")}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg"
-              >
-                Sukuk
-              </button>
-              <button
-                onClick={() => handleFilterChange("")}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg"
-              >
-                Semua
-              </button>
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all ease-in-out duration-300 scale-100 opacity-100">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+              Filter Jenis Efek
+            </h2>
+            <div className="space-y-4">
+              {["Saham", "Sukuk", "Semua"].map((option) => (
+                <button
+                  key={option}
+                  onClick={() =>
+                    handleFilterChange(option === "Semua" ? "" : option)
+                  }
+                  className={`w-full py-3 px-4 rounded-lg transition-all duration-200 font-medium
+              ${
+                option === "Saham"
+                  ? "bg-emerald-light hover:bg-green-700 text-white"
+                  : option === "Sukuk"
+                  ? "bg-[#FF1F00] hover:bg-red-600 text-white"
+                  : "bg-gray-500 hover:bg-gray-600 text-white dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
+              }`}
+                >
+                  {option}
+                </button>
+              ))}
             </div>
             <button
               onClick={() => setIsModalOpen(false)}
-              className="mt-4 px-4 py-2 bg-gray-300 text-black rounded-lg"
+              className="mt-8 w-full py-3 px-4 bg-gray-100 hover:bg-gray-200 text-gray-800 rounded-lg transition-all duration-200 font-medium dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
               Tutup
             </button>
           </div>
         </div>
       )}
-      <section className="space-y-4">
+      <section className="space-y-4 h-full lg:h-[700px] overflow-y-scroll rounded-xl">
         {filteredData.map((item, index) => (
           <TransactionCard key={index} transaksi={item} />
         ))}
+        {hasMore && (
+          <div className="mt-4 flex justify-center">
+            <button
+              onClick={onLoadMore}
+              className="px-4 py-2 bg-emerald-light text-white rounded-lg hover:bg-green-700 transition-colors"
+            >
+              Lihat Lebih Banyak
+            </button>
+          </div>
+        )}
       </section>
     </main>
   );

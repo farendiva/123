@@ -90,7 +90,7 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
 
   return (
     <main className="w-full mx-auto rounded-xl">
-      <form className="w-full mx-auto my-4 flex items-center gap-4">
+      <form className="w-full mx-auto mb-2 flex items-center gap-4">
         <div className="w-full relative">
           <input
             type="search"
@@ -126,32 +126,34 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
       </form>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg">
-            <h2 className="text-lg font-semibold mb-4">Filter Jenis Efek</h2>
-            <div className="flex flex-col space-y-4">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+          <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl max-w-sm w-full mx-4 transform transition-all duration-300 ease-out scale-100 opacity-100">
+            <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
+              Filter Jenis Efek
+            </h2>
+            <div className="flex flex-col space-y-3">
               <button
                 onClick={() => handleFilterChange("Saham")}
-                className="px-4 py-2 bg-emerald-500 text-white rounded-lg"
+                className="px-4 py-3 bg-emerald-light hover:bg-green-700 text-white rounded-lg transition-colors duration-200 font-medium"
               >
                 Saham
               </button>
               <button
                 onClick={() => handleFilterChange("Sukuk")}
-                className="px-4 py-2 bg-red-500 text-white rounded-lg"
+                className="px-4 py-3 bg-[#FF1F00] hover:bg-red-600 text-white rounded-lg transition-colors duration-200 font-medium"
               >
                 Sukuk
               </button>
               <button
                 onClick={() => handleFilterChange("")}
-                className="px-4 py-2 bg-gray-500 text-white rounded-lg"
+                className="px-4 py-3 bg-gray-500 hover:bg-gray-600 text-white rounded-lg transition-colors duration-200 font-medium"
               >
                 Semua
               </button>
             </div>
             <button
               onClick={() => setIsModalOpen(false)}
-              className="mt-4 px-4 py-2 bg-gray-300 text-black rounded-lg"
+              className="mt-6 px-4 py-3 w-full bg-gray-200 hover:bg-gray-300 text-gray-800 rounded-lg transition-colors duration-200 font-medium dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
             >
               Tutup
             </button>
