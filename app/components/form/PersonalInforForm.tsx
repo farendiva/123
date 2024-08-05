@@ -195,7 +195,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("nama_depan", firstName);
       setValue("nama_belakang", lastName);
     }
-  }, [user?.name]);
+  }, [user?.name, setValue]);
 
   return (
     <>
