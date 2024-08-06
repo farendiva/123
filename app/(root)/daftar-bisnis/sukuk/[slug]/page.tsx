@@ -33,7 +33,7 @@ export default async function ProductDetailPageSukuk({
     return <div>Failed to load product details. Please try again later.</div>;
   }
 
-  if (!data || !data.nama_efek) {
+  if (!data) {
     return (
       <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
     );
