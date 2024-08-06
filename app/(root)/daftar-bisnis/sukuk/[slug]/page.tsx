@@ -1,0 +1,256 @@
+import Head from "next/head";
+import ImageSlider from "@/app/components/ImageSlider";
+import ShareComponent from "@/app/components/ShareComponent";
+import Stepper from "@/app/components/Stepper";
+import { getDetailSukuk } from "@/lib/listing";
+import { formatRupiah } from "@/lib/rupiah";
+import { Box, FileText, MapPin } from "lucide-react";
+import Link from "next/link";
+import SimulasiComponent from "@/app/components/SimulasiComponent";
+import LokasiComponent from "@/app/components/LokasiComponent";
+import { Progress } from "@/components/ui/progress";
+import PurchaseButton from "@/app/components/PurchaseButton";
+import { getUserData } from "@/lib/auth";
+
+const steps = [
+  {
+    title: "Pre Listing",
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    title: "Listing",
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    title: "Pendanaan",
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    title: "Terpenuhi",
+    isActive: false,
+    isComplete: false,
+  },
+  {
+    title: "Berjalan",
+    isActive: false,
+    isComplete: false,
+  },
+];
+
+export default async function ProductDetailPageSukuk({
+  params,
+}: {
+  params: { slug: string };
+}) {
+  const { slug } = params;
+  let id = slug.split("-").pop();
+  if (!id) {
+    return (
+      <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
+    );
+  }
+
+  let data;
+  try {
+    data = await getDetailSukuk(id);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return <div>Failed to load product details. Please try again later.</div>;
+  }
+
+  if (!data || !data.nama_efek) {
+    return (
+      <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
+    );
+  }
+  const user = await getUserData();
+  const industriData = [
+    { id: 1, industri_pekerjaan: "retail" },
+    { id: 2, industri_pekerjaan: "otomotif" },
+    { id: 3, industri_pekerjaan: "finansial" },
+    { id: 4, industri_pekerjaan: "travel" },
+    { id: 5, industri_pekerjaan: "pendidikan" },
+    { id: 6, industri_pekerjaan: "makanan dan minuman" },
+    { id: 7, industri_pekerjaan: "kesehatan dan gaya hidup" },
+    { id: 8, industri_pekerjaan: "penginapan" },
+    { id: 9, industri_pekerjaan: "agriculture" },
+    { id: 10, industri_pekerjaan: "pertambangan" },
+    { id: 11, industri_pekerjaan: "teknologi" },
+    { id: 12, industri_pekerjaan: "kontraktor" },
+    { id: 13, industri_pekerjaan: "konstruksi" },
+    { id: 14, industri_pekerjaan: "konsultan" },
+    { id: 15, industri_pekerjaan: "elektronik" },
+    { id: 16, industri_pekerjaan: "transportasi" },
+    { id: 17, industri_pekerjaan: "perumahan" },
+    { id: 18, industri_pekerjaan: "logistik" },
+    { id: 19, industri_pekerjaan: "manufaktur" },
+    { id: 20, industri_pekerjaan: "hiburan" },
+    { id: 61, industri_pekerjaan: "software dev" },
+    { id: 63, industri_pekerjaan: "tani" },
+  ];
+
+  function getIndustriPeekerjaanById(id: number) {
+    const industri = industriData.find((item) => item.id === id);
+    return industri ? industri.industri_pekerjaan : "Unknown";
+  }
+  return (
+    <>
+      <Head>
+        <title>{data.nama_efek} - Product Detail</title>
+        <meta
+          name="description"
+          content={`Detail for ${data.nama_efek}. Learn more about ${data.nama_efek}, its features, and investment opportunities.`}
+        />
+        <meta property="og:title" content={data.nama_efek} />
+        <meta
+          property="og:description"
+          content={`Detail for ${data.nama_efek}. Learn more about ${data.nama_efek}, its features, and investment opportunities.`}
+        />
+        <meta property="og:image" content={data.berkas[0]} />
+        <meta
+          property="og:url"
+          content={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
+        />
+        <meta property="og:type" content="product" />
+        <link
+          rel="canonical"
+          href={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
+        />
+      </Head>
+      <main>
+        <section className="flex flex-col justify-between w-4/5 gap-8 mx-auto my-4 lg:mt-4 lg:mb-16 lg:w-2/3 lg:flex-row">
+          <section className="flex flex-col w-full gap-20 space-y-4 lg:w-1/2">
+            <ImageSlider
+              images={data.berkas}
+              tipe={data.jenis_efek}
+              akad={data.akad}
+              periode={data.periode_penawaran_efek}
+            />
+            <div>
+              <h2 className="my-2 font-bold">Tentang Bisnis</h2>
+              <section
+                className="h-full space-y-2 text-sm text-justify lg:max-h-80"
+                dangerouslySetInnerHTML={{ __html: data.tentang_proyek }}
+              />
+            </div>
+          </section>
+
+          <section className="w-full space-y-2 lg:w-7/12 p-4 rounded-xl bg-[#F3F5FF]">
+            <section className="bg-white rounded-xl p-4 space-y-2">
+              {/* Judul Pembangunan */}
+              <h1 className="text-xl font-bold lg:text-2xl">
+                {data.nama_efek}
+              </h1>
+              {/* Detail Perusahaan */}
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Perusahaan</h3>
+                <h3>{data.penerbit.nama_perusahaan}</h3>
+              </section>
+              {/* Kode Efek */}
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Kode Efek</h3>
+                <h3>{data.kode_penerbit}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Jenis Akad</h3>
+                <h3>{data.akad === 1 ? "Mudharabah" : "Musyarakah"}</h3>
+              </section>
+            </section>
+            <section className="bg-white p-4 space-y-2 rounded-xl">
+              <Progress
+                value={Math.floor(
+                  (data.nilai_pendanaan / data.nilai_proyek) * 100
+                )}
+                type="0"
+                className="w-full mx-auto"
+              />
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
+                <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+              </section>
+            </section>
+
+            <Stepper steps={steps} />
+            <section className="bg-white rounded-xl space-y-2 p-4">
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Kategori Bisnis</h3>
+                <h3>
+                  {" "}
+                  {getIndustriPeekerjaanById(data.bidang_usaha).toUpperCase()}
+                </h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Minimal Investasi</h3>
+                <h3>{formatRupiah(data.minimal_investasi)}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Harga Unit</h3>
+                <h3>{formatRupiah(data.satuan_pemindahan_buku)}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Jumlah Unit</h3>
+                <h3>{data.jumlah_unit_yang_ditawarkan}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Total Unit (Rp)</h3>
+                <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Unit Tersisa</h3>
+                <h3>{data.jumlah_unit_yang_ditawarkan}</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Periode Pengembalian</h3>
+                <h3>Per {data.tenor_efek} Bulan</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">Tenor</h3>
+                <h3>{data.tenor_efek} Bulan</h3>
+              </section>
+              <section className="flex justify-between text-sm">
+                <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
+                <h3>{data.proyeksi_bagi_hasil_min} %</h3>
+              </section>
+            </section>
+
+            {/* Tombol Aksi */}
+            <section className="w-4/5 mx-auto flex justify-center items-center gap-1 lg:last-of-type:gap-8 text-xs font-medium py-2">
+              <SimulasiComponent
+                data={data.satuan_pemindahan_buku}
+                roi={data.imbal_hasil_pemodal}
+              />
+              <ShareComponent
+                text={data.nama_efek}
+                tipe={data.jenis_efek}
+                id={id}
+              />
+              <button className="w-full flex items-center gap-2">
+                <FileText />
+                Prospektus
+              </button>
+              <LokasiComponent
+                lokasi={data.penerbit.lokasi}
+                detail={data.penerbit.alamat_detail}
+              />
+            </section>
+            <PurchaseButton
+              slug={slug}
+              jenis_efek={data.jenis_efek}
+              status={user.data?.pemodal_status}
+            />
+            {/* Kontak */}
+            <p className="text-sm text-center text-sky">
+              Butuh Pertanyaan?{" "}
+              <span className="font-bold cursor-pointer hover:underline decoration-2 underline-offset-4">
+                Hubungi Kami
+              </span>{" "}
+            </p>
+          </section>
+        </section>
+      </main>
+    </>
+  );
+}
