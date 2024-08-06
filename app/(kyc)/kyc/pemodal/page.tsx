@@ -15,9 +15,6 @@ import IncomeForm, { incomeFields } from "@/app/components/form/IncomeForm";
 import PersonalInfoForm, {
   personalInfoFields,
 } from "@/app/components/form/PersonalInforForm";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthToken } from "@/hooks/useAuthToken";
 
 type Props = {};
 
@@ -60,15 +57,6 @@ const steps = [
 ];
 
 const KYCPemodalPage = (props: Props) => {
-  const router = useRouter();
-  const token = useAuthToken();
-
-  useEffect(() => {
-    if (!token) {
-      router.push("/masuk");
-    }
-  }, [router, token]);
-
   return (
     <main className="mx-auto">
       <KYCPemodalForm steps={steps} />

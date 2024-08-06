@@ -631,18 +631,14 @@ export default function Form() {
           >
             <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
             <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
-              <h2 className="leading-7">
-                Silahkan cek email anda untuk aktivasi akun anda, dan tekan
-                tombol
-                <span className="font-bold"> aktifkan akun.</span>
-              </h2>
-              <p className="mt-1 text-sm leading-6 ">
-                Tidak menerima Email?{" "}
-                <span className="text-emerald font-semibold hover:underline underline-offset-2 decoration-emerald-light">
-                  Kirim Ulang
-                </span>
-              </p>
+              <h2 className="leading-7">Selamat anda sudah terdafar</h2>
             </div>
+            <Link
+              className="bg-emerald-light hover:bg-green-700 px-16 py-2 rounded-3xl text-white font-bold"
+              href="/masuk"
+            >
+              Masuk
+            </Link>
           </div>
         )}
       </form>
