@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ChangeEvent, useState, KeyboardEvent } from "react";
+import React, { ChangeEvent, useState, KeyboardEvent, useEffect } from "react";
 import { formatRupiah } from "@/lib/rupiah";
 import {
   Tooltip,
@@ -112,37 +112,80 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const router = useRouter();
+
+  useEffect(() => {
+    // Set initial values when component mounts
+    const initialJumlahPendanaan = Math.max(
+      data.minimal_investasi,
+      data.satuan_pemindahan_buku
+    );
+    setJumlahPendanaan(formatRupiah(initialJumlahPendanaan));
+    setJumlahLembar(
+      Math.ceil(initialJumlahPendanaan / data.satuan_pemindahan_buku)
+    );
+  }, [data.minimal_investasi, data.satuan_pemindahan_buku]);
+
   const handleIncrement = () => {
-    setJumlahLembar((prevJumlah) => prevJumlah + 1);
+    setJumlahLembar((prevJumlah) => {
+      const newJumlah = prevJumlah + 1;
+      setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+      return newJumlah;
+    });
   };
 
   const handleDecrement = () => {
-    setJumlahLembar((prevJumlah) => (prevJumlah > 0 ? prevJumlah - 1 : 0));
+    setJumlahLembar((prevJumlah) => {
+      const newJumlah = Math.max(
+        Math.ceil(data.minimal_investasi / data.satuan_pemindahan_buku),
+        prevJumlah - 1
+      );
+      setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+      return newJumlah;
+    });
   };
 
   const handleJumlahChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = parseInt(e.target.value, 10);
-    setJumlahLembar(isNaN(value) ? 0 : value);
+    const newJumlah = isNaN(value)
+      ? 0
+      : Math.max(
+          Math.ceil(data.minimal_investasi / data.satuan_pemindahan_buku),
+          value
+        );
+    setJumlahLembar(newJumlah);
+    setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
   };
+
   const handleJumlahPendanaanChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
-    setJumlahPendanaan(value);
+    const numValue = parseInt(value, 10);
+    if (!isNaN(numValue) && numValue >= data.minimal_investasi) {
+      setJumlahPendanaan(value);
+    } else {
+      setJumlahPendanaan(data.minimal_investasi.toString());
+    }
   };
 
   const adjustJumlahPendanaan = () => {
     const value = parseInt(jumlahPendanaan, 10);
     if (!isNaN(value) && data.satuan_pemindahan_buku) {
-      const adjustedValue =
+      const adjustedValue = Math.max(
+        data.minimal_investasi,
         Math.ceil(value / data.satuan_pemindahan_buku) *
-        data.satuan_pemindahan_buku;
+          data.satuan_pemindahan_buku
+      );
       setJumlahPendanaan(formatRupiah(adjustedValue));
       const jumlahLembarSaham = Math.ceil(
         adjustedValue / data.satuan_pemindahan_buku
       );
       setJumlahLembar(jumlahLembarSaham);
     } else {
-      setJumlahPendanaan("");
-      setJumlahLembar(0);
+      const minInvestment = Math.max(
+        data.minimal_investasi,
+        data.satuan_pemindahan_buku
+      );
+      setJumlahPendanaan(formatRupiah(minInvestment));
+      setJumlahLembar(Math.ceil(minInvestment / data.satuan_pemindahan_buku));
     }
   };
 

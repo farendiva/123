@@ -3,7 +3,20 @@ import TabsQuestions from "../components/TabsQuestions";
 import { getListing } from "@/lib/listing";
 import ListingCard from "../components/ListingCard";
 
+const statusToTypeMap = {
+  "Segera Dibuka": 1,
+  Penawaran: 2,
+  "Pendanaan Terpenuhi": 3,
+  "Proses Administrasi": 4,
+  "Penyerahan Dana": 5,
+  "Distribusi Efek": 6,
+  Selesai: 7,
+};
+
+type StatusType = keyof typeof statusToTypeMap;
+
 interface Project {
+  status_kampanye: StatusType;
   penerbit_id: number;
   kode_penerbit: string;
   jenis_efek: string;
@@ -23,16 +36,18 @@ interface Project {
   skema_pembayaran: string;
   pihak_terlibat: string;
   minimal_investasi: number;
-  tenor_dividen: number;
   jumlah_unit_yang_ditawarkan: number;
+  tenor_dividen: number;
   satuan_pemindahan_buku: number;
   denda_keterlambatan: string | null;
   jaminan: string | null;
   monitoring_pembayaran: string;
   akad: number;
   bidang_usaha: number;
+  total_pendanaan: number;
   nama_file: string;
   nama_penerbit: string;
+  // status_kampanye: string;
   idlisting: number;
 }
 
@@ -52,7 +67,7 @@ export default async function Home() {
       </div>
       {/* HERO GRADIENT */}
       <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>
-      <section className="w-4/5 lg:w-11/12 mx-auto mb-32 md:mb-24 lg:mb-32 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
+      <section className="w-4/5 lg:w-11/12 mx-auto mb-52 md:mb-24 lg:mb-32 2xl:mb-60 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
         <section className="w-full lg:w-1/2 text-white space-y-6 lg:space-y-3 z-20 ">
           <section className="flex flex-col gap-4">
             <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>

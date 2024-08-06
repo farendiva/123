@@ -5,7 +5,20 @@ import ListingCard from "@/app/components/ListingCard";
 import { AlignLeft, FilterIcon, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
+const statusToTypeMap = {
+  "Segera Dibuka": 1,
+  Penawaran: 2,
+  "Pendanaan Terpenuhi": 3,
+  "Proses Administrasi": 4,
+  "Penyerahan Dana": 5,
+  "Distribusi Efek": 6,
+  Selesai: 7,
+};
+
+type StatusType = keyof typeof statusToTypeMap;
+
 interface Project {
+  status_kampanye: StatusType;
   penerbit_id: number;
   kode_penerbit: string;
   jenis_efek: string;
@@ -15,7 +28,6 @@ interface Project {
   dasar_penerbitan: string;
   nilai_proyek: number;
   nilai_modal: number;
-  tenor_dividen: number;
   nilai_pendanaan: number;
   minimal_pendanaan: number;
   periode_penawaran_efek: number;
@@ -27,14 +39,17 @@ interface Project {
   pihak_terlibat: string;
   minimal_investasi: number;
   jumlah_unit_yang_ditawarkan: number;
+  tenor_dividen: number;
   satuan_pemindahan_buku: number;
   denda_keterlambatan: string | null;
   jaminan: string | null;
   monitoring_pembayaran: string;
   akad: number;
   bidang_usaha: number;
+  total_pendanaan: number;
   nama_file: string;
   nama_penerbit: string;
+  // status_kampanye: string;
   idlisting: number;
 }
 
