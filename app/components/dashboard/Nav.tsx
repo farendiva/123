@@ -79,7 +79,7 @@ const Nav = () => {
         <div className="relative hidden  lg:flex items-center gap-2">
           <img
             className="w-12 h-12 rounded-full"
-            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${user.profile.swa_photo}`}
+            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`}
             alt={`${user.name} Foto Profile`}
           />
           <div className="text-base">

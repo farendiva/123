@@ -125,7 +125,6 @@ const ProfileTabs: React.FC = () => {
     fetchSubDistricts,
     fetchPostalCodes,
   } = usePreferences();
-  console.log(user);
 
   const handleTabClick = (index: number) => {
     setActiveTab(index);
@@ -247,7 +246,7 @@ const ProfileTabs: React.FC = () => {
       <div className="flex flex-col md:flex-row items-center w-full gap-4 md:gap-8 my-4">
         <img
           className="w-16 h-16 rounded-full"
-          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${user?.profile.swa_photo}`}
+          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user?.profile.swa_photo}`}
           alt="Profile"
         />
         <div className="text-center md:text-left text-xl">
@@ -643,18 +642,6 @@ const ProfileTabs: React.FC = () => {
                 </div>
                 <div className="flex items-center py-3">
                   <div className="w-full">
-                    <label className="block text-sm font-semibold">NPWP</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="npwp"
-                      onChange={(e) => handleFileUpload(e, "npwp")}
-                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center py-3">
-                  <div className="w-full">
                     <label className="block text-sm font-semibold">
                       Slip Gaji
                     </label>
@@ -663,20 +650,6 @@ const ProfileTabs: React.FC = () => {
                       accept="image/*"
                       name="slip_gaji"
                       onChange={(e) => handleFileUpload(e, "slip_gaji")}
-                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center py-3">
-                  <div className="w-full">
-                    <label className="block text-sm font-semibold">
-                      Kartu Keluarga
-                    </label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="kartu_keluarga"
-                      onChange={(e) => handleFileUpload(e, "kartu_keluarga")}
                       className="w-full text-sm border border-gray-300 rounded-lg p-2"
                     />
                   </div>
@@ -710,7 +683,7 @@ const ProfileTabs: React.FC = () => {
                     <label className="block text-sm font-semibold">KTP</label>
                     <a
                       className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
                         user?.profile.ktp || ""
                       }`}
                       target="_blank"
@@ -727,62 +700,18 @@ const ProfileTabs: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center py-3">
                   <div>
-                    <label className="block text-sm font-semibold">NPWP</label>
-                    <a
-                      className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
-                        user?.profile.npwp || ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {user?.profile.npwp ? "Lihat Dokumen" : "Belum Upload"}
-                    </a>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
                     <label className="block text-sm font-semibold">
                       Slip Gaji
                     </label>
                     <a
                       className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
                         user?.profile.slip_gaji || ""
                       }`}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
                       {user?.profile.slip_gaji
-                        ? "Lihat Dokumen"
-                        : "Belum Upload"}
-                    </a>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="block text-sm font-semibold">
-                      Kartu Keluarga
-                    </label>
-                    <a
-                      className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
-                        user?.profile.kartu_keluarga || ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {user?.profile.kartu_keluarga
                         ? "Lihat Dokumen"
                         : "Belum Upload"}
                     </a>

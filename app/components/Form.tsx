@@ -29,18 +29,18 @@ const steps = [
     name: "Personal Information",
     fields: ["namaDepan", "namaBelakang", "email", "phone"],
   },
+  // {
+  //   id: "Step 2",
+  //   name: "OTP",
+  //   fields: ["pin"],
+  // },
   {
     id: "Step 2",
-    name: "OTP",
-    fields: ["pin"],
-  },
-  {
-    id: "Step 3",
     name: "Password",
     fields: ["password", "passwordConfirmation"],
   },
-  { id: "Step 4", name: "Terms and Conditions", fields: ["terms"] },
-  { id: "Step 5", name: "Complete" },
+  { id: "Step 3", name: "Terms and Conditions", fields: ["terms"] },
+  { id: "Step 4", name: "Complete" },
 ];
 
 export default function Form() {
@@ -89,6 +89,7 @@ export default function Form() {
     handleSubmit,
     watch,
     control,
+    getValues,
     reset,
     trigger,
     formState: { errors },
@@ -259,7 +260,7 @@ export default function Form() {
   const phone = watch("phone");
 
   const next = async () => {
-    if (loading) return; // Jika dalam keadaan loading, jangan lanjutkan
+    if (loading) return;
 
     const fields = steps[currentStep].fields;
     let output = true;
@@ -267,14 +268,13 @@ export default function Form() {
       output = await trigger(fields as FieldName[], { shouldFocus: true });
     }
 
-    if (output && currentStep < steps.length - 1) {
+    if (output) {
       if (currentStep === 0) {
         // Check if email is available before moving to next step
         const email = watch("email");
         const isEmailAvailable = await checkEmailAvailability(email);
 
         if (!isEmailAvailable) {
-          // Show error message
           toast({
             className: cn(
               "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
@@ -285,45 +285,51 @@ export default function Form() {
           });
           return;
         }
-
-        await generatedOtp(phone);
-      }
-
-      if (currentStep === 1) {
-        const pin = watch("pin");
-        const result = await verifyOtp(otpId, pin);
-
-        if (result.status) {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "success",
-            title: "OTP Berhasil",
-            description: "Silahkan Masukkan Kata sandi untuk akun anda.",
-          });
-        } else {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "destructive",
-            title: "OTP tidak valid.",
-            description: "Silakan coba lagi.",
-            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
-          });
-          return;
-        }
       }
 
       if (currentStep === steps.length - 2) {
-        await handleSubmit(processForm)();
+        // This is now the Terms and Conditions step
+        if (isScrolledToBottom && termsAgreed) {
+          setLoading(true);
+          try {
+            const formData = getValues();
+            await processForm(formData);
+            // If form submission is successful, move to the next step
+            setPreviousStep(currentStep);
+            setCurrentStep((step) => step + 1);
+            toast({
+              variant: "success",
+              title: "Form Submitted",
+              description: "Your registration was successful.",
+            });
+          } catch (error) {
+            console.error("Error submitting form:", error);
+            toast({
+              variant: "destructive",
+              title: "Error",
+              description:
+                "There was an error submitting the form. Please try again.",
+            });
+          } finally {
+            setLoading(false);
+          }
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Please agree to the Terms and Services",
+            description:
+              "Scroll to the bottom and check the agreement box before continuing.",
+          });
+        }
+        return;
       }
-      setPreviousStep(currentStep);
-      setCurrentStep((step) => step + 1);
+
+      if (currentStep < steps.length - 1) {
+        setPreviousStep(currentStep);
+        setCurrentStep((step) => step + 1);
+      }
     }
   };
-
   return (
     <section className="mx-auto flex w-full flex-col my-2">
       {/* Form */}
@@ -455,7 +461,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 1 && (
+        {/* {currentStep === 1 && (
           <div
             className="w-4/5 lg:w-2/5 mx-auto text-sky"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -512,8 +518,8 @@ export default function Form() {
               </button>
             </section>
           </div>
-        )}
-        {currentStep === 2 && (
+        )} */}
+        {currentStep === 1 && (
           <div
             className="w-4/5 lg:w-2/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -587,7 +593,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 3 && (
+        {currentStep === 2 && (
           <div
             className="w-4/5 lg:w-3/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -610,7 +616,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 4 && (
+        {currentStep === 3 && (
           <div
             className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -638,10 +644,10 @@ export default function Form() {
       {/* Navigation */}
       <div
         className={`flex w-4/5 ${
-          currentStep === 3 ? "lg:w-3/5" : "lg:w-2/5"
+          currentStep === 2 ? "lg:w-3/5" : "lg:w-2/5"
         } mx-auto items-center justify-between ${
-          currentStep === 4 && "hidden"
-        } ${currentStep === 1 || currentStep === 3 ? "flex-row-reverse" : ""}`}
+          currentStep === 3 && "hidden"
+        } ${currentStep === 2 ? "flex-row-reverse" : ""}`}
       >
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
@@ -656,15 +662,20 @@ export default function Form() {
           type="button"
           onClick={next}
           disabled={
-            loading || // Disable tombol saat loading
+            loading || // Disable button when loading
             currentStep === steps.length - 1 ||
-            (currentStep === 3 && (!isScrolledToBottom || !termsAgreed))
+            (currentStep === steps.length - 2 &&
+              (!isScrolledToBottom || !termsAgreed))
           }
           className={`${
-            currentStep === 4 && "hidden"
+            currentStep === steps.length - 1 && "hidden"
           } bg-emerald-light text-base lg:text-[18px] px-12 py-2 rounded-3xl font-semibold text-white shadow-sm hover:bg-green-800 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500`}
         >
-          {loading ? "Loading..." : "Lanjutkan"}
+          {loading
+            ? "Loading..."
+            : currentStep === steps.length - 2
+            ? "Submit"
+            : "Lanjutkan"}
         </button>
       </div>
     </section>
