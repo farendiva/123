@@ -64,7 +64,7 @@ interface Education {
   pendidikan: string;
 }
 export const personalInfoFields: (keyof Inputs)[] = [
-  "title",
+  "jenis_kelamin",
   "nama_depan",
   "nama_belakang",
   "no_handphone",
@@ -183,10 +183,6 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     }
   }, [kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // const fullName = user?.name || "";
-  // const [firstName, ...lastNameParts] = fullName.split(" ");
-  // const lastName = lastNameParts.join(" ");
-
   useEffect(() => {
     if (user?.name) {
       const fullName = user.name || "";
@@ -195,7 +191,10 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("nama_depan", firstName);
       setValue("nama_belakang", lastName);
     }
-  }, [user?.name, setValue]);
+    if (user?.profile.no_handphone) {
+      setValue("no_handphone", user.profile.no_handphone);
+    }
+  }, [user?.name, user?.profile.no_handphone, setValue]);
 
   return (
     <>
@@ -262,9 +261,11 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             <input
               id="no_handphone"
               type="tel"
+              value={user?.profile.no_handphone}
               {...register("no_handphone")}
               autoComplete="tel"
-              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              disabled
+              className="cursor-not-allowed block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
               {errors.no_handphone?.message && (
@@ -297,15 +298,18 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
 
         <div className="sm:col-span-2">
-          <label htmlFor="title" className="block text-sm font-bold leading-6">
+          <label
+            htmlFor="jenis_kelamin"
+            className="block text-sm font-bold leading-6"
+          >
             Panggilan
           </label>
           <div className="w-full">
             <select
-              value={watch("title") || ""}
+              value={watch("jenis_kelamin") || ""}
               className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="title"
-              {...register("title")}
+              id="jenis_kelamin"
+              {...register("jenis_kelamin")}
             >
               <option value="" disabled>
                 Pilih Panggilan
@@ -315,8 +319,10 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               <option value="Wanita">Nn.</option>
             </select>
             <div className="h-1 mt-1">
-              {errors.title?.message && (
-                <p className="text-sm text-red-400">{errors.title.message}</p>
+              {errors.jenis_kelamin?.message && (
+                <p className="text-sm text-red-400">
+                  {errors.jenis_kelamin.message}
+                </p>
               )}
             </div>
           </div>

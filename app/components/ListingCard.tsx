@@ -59,22 +59,6 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
           alt={project.nama_efek}
         />
-        {/* <div className="relative">
-          <img
-            className="w-full rounded-t-xl"
-            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
-            alt="Product"
-          />
-           bg-sky, bg-orange-400, Pendanaan Terpenuhi, Proyek Berakhir, Segera Terbit
-          <div
-            className={`absolute inset-0 bg-emerald-light  opacity-80 rounded-t-xl`}
-          ></div>
-          <div className="absolute inset-0 flex justify-center items-center">
-            <span className="w-2/3 text-white text-center border-2 border-white rounded-xl font-bold">
-              Pendanaan Terpenuhi
-            </span>
-          </div>
-        </div> */}
         <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 p-1 flex items-center gap-2">
           <button
             className={`${
@@ -102,12 +86,13 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
         <section className="space-y-1.5 px-1">
           <section className="w-11/12 mx-auto text-xs flex justify-between items-center font-bold">
             <h3>Dana Terkumpul</h3>
-            <h3>Rp 1.000.000.000</h3>
+            <h3>Rp 0</h3>
           </section>
           <Progress
-            value={Math.floor(
-              (project.nilai_pendanaan / project.nilai_proyek) * 100
-            )}
+            // value={Math.floor(
+            //   (project.nilai_pendanaan / project.nilai_proyek) * 100
+            // )}
+            value={0}
             type="0"
             className="w-11/12 mx-auto"
           />
@@ -125,7 +110,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
-            <h4 className="">{project.proyeksi_bagi_hasil_min}</h4>
+            <h4 className="">{project.proyeksi_bagi_hasil_min}%</h4>
           </section>
         </section>
       </section>

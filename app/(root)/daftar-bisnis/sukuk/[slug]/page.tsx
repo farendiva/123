@@ -96,6 +96,7 @@ export default async function ProductDetailPageSukuk({
     const industri = industriData.find((item) => item.id === id);
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
+
   return (
     <>
       <Head>
@@ -132,7 +133,7 @@ export default async function ProductDetailPageSukuk({
             <div>
               <h2 className="my-2 font-bold">Tentang Bisnis</h2>
               <section
-                className="h-full space-y-2 text-sm text-justify lg:max-h-80"
+                className="h-full space-y-2 text-sm text-justify lg:max-h-[400px] lg:overflow-y-scroll"
                 dangerouslySetInnerHTML={{ __html: data.tentang_proyek }}
               />
             </div>
@@ -173,7 +174,7 @@ export default async function ProductDetailPageSukuk({
               </section>
             </section>
 
-            <Stepper steps={steps} />
+            <Stepper currentStatus={data.kampanye.status} />
             <section className="bg-white rounded-xl space-y-2 p-4">
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Kategori Bisnis</h3>
@@ -227,10 +228,17 @@ export default async function ProductDetailPageSukuk({
                 tipe={data.jenis_efek}
                 id={id}
               />
-              <button className="w-full flex items-center gap-2">
+              <Link
+                href={`${process.env.NEXT_PUBLIC_FILE_PATH}/dokumen/${
+                  data.kampanye.prospektus || ""
+                }`}
+                target="_blank"
+                className="w-full flex items-center gap-2"
+                download
+              >
                 <FileText />
                 Prospektus
-              </button>
+              </Link>
               <LokasiComponent
                 lokasi={data.penerbit.lokasi}
                 detail={data.penerbit.alamat_detail}
