@@ -63,6 +63,7 @@ const formatTitleForUrl = (title: string) => {
 
 const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
   const formattedNamaEfek = formatTitleForUrl(project.nama_efek);
+  // project.status_kampanye = "Segera Dibuka";
 
   return (
     <Link
@@ -71,11 +72,6 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
       }`}
     >
       <section className="bg-[#f8f8ff] space-y-4 rounded-xl max-w-[305px] h-[400px] relative">
-        {/* <img
-          className="w-full h-2/5 aspect-video rounded-t-xl"
-          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
-          alt={project.nama_efek}
-        /> */}
         <div className="relative">
           <img
             className="w-full h-2/5 aspect-video rounded-t-xl"
@@ -87,7 +83,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
               <div
                 className={`absolute inset-0 ${
                   project.status_kampanye === "Segera Dibuka"
-                    ? "bg-orange-400"
+                    ? "bg-orange-500"
                     : project.status_kampanye === "Pendanaan Terpenuhi" ||
                       project.status_kampanye === "Proses Administrasi" ||
                       project.status_kampanye === "Penyerahan Dana"
@@ -115,24 +111,26 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
             </>
           ) : null}
         </div>
-        <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 px-3 flex items-center gap-2">
-          <button
-            className={`${
-              project.jenis_efek === "Sukuk"
-                ? "bg-[#FF1F00]"
-                : "bg-emerald-light"
-            } text-white px-3 py-1 z-10 rounded-5xl`}
-          >
-            {project.jenis_efek === "Sukuk"
-              ? project.akad === 1
-                ? "Sukuk Mudharabah"
-                : "Sukuk Musyarakah"
-              : "Saham"}
-          </button>
-          <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">
-            {project.periode_penawaran_efek} Hari lagi
-          </button>
-        </div>
+        {project.status_kampanye === "Penawaran" && (
+          <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 px-3 flex items-center gap-2">
+            <button
+              className={`${
+                project.jenis_efek === "Sukuk"
+                  ? "bg-[#FF1F00]"
+                  : "bg-emerald-light"
+              } text-white px-3 py-1 z-10 rounded-5xl`}
+            >
+              {project.jenis_efek === "Sukuk"
+                ? project.akad === 1
+                  ? "Sukuk Mudharabah"
+                  : "Sukuk Musyarakah"
+                : "Saham"}
+            </button>
+            <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">
+              {project.periode_penawaran_efek} Hari lagi
+            </button>
+          </div>
+        )}
 
         <section className="w-11/12 mx-auto my-4 px-1">
           <section className="max-h-20 h-14 flex justify-start items-center">
@@ -142,7 +140,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
         <section className="space-y-1.5 px-1">
           <section className="w-11/12 mx-auto text-xs flex justify-between items-center font-bold">
             <h3>Dana Terkumpul</h3>
-            <h3>{formatRupiah(project.total_pendanaan)}</h3>
+            <h3> {formatRupiah(project.total_pendanaan ?? 0)}</h3>
           </section>
           <div className="w-11/12 flex items-center  mx-auto justify-between gap-2">
             <Progress

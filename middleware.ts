@@ -17,7 +17,7 @@ export const config = {
     "/kyc/penerbit",
     "/daftar-bisnis/saham/:slug/bayar",
     "/daftar-bisnis/sukuk/:slug/bayar",
-    "/transaksi/pembayaran/:prder_id",
+    "/transaksi/pembayaran/:order_id",
     "/dashboard/:path*",
   ], // Daftar halaman yang memerlukan authentikasi
 };

@@ -69,6 +69,30 @@ export default async function ProductDetailPageSukuk({
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
 
+  function calculateRemainingUnits(
+    summary_transaksi: {
+      total_pendanaan: string;
+      total_pemodal: number;
+      penawaran_berakhir: string;
+    },
+    totalUnit: number,
+    unitPrice: number
+  ) {
+    const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
+    const investedUnits = totalPendanaan / unitPrice;
+    const remainingUnits = totalUnit - investedUnits;
+    return remainingUnits;
+  }
+
+  const totalUnit = data.jumlah_unit_yang_ditawarkan; // Total unit yang ditawarkan
+  const unitPrice = data.satuan_pemindahan_buku; // Harga per unit
+
+  const remainingUnits = calculateRemainingUnits(
+    data.summary_transaksi,
+    totalUnit,
+    unitPrice
+  );
+
   return (
     <>
       <Head>
@@ -191,7 +215,7 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Unit Tersisa</h3>
-                <h3>{data.jumlah_unit_yang_ditawarkan}</h3>
+                <h3>{remainingUnits}</h3>
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Periode Pengembalian</h3>
