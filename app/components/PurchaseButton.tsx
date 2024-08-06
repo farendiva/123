@@ -9,13 +9,19 @@ import Link from "next/link";
 type Props = {
   jenis_efek: string;
   slug: string;
+  listing: number;
   status?: number;
 };
 
-const PurchaseButton = ({ jenis_efek, slug, status }: Props) => {
+const PurchaseButton = ({ jenis_efek, slug, status, listing }: Props) => {
   const router = useRouter();
 
   const handleClick = (e: MouseEvent<HTMLAnchorElement>) => {
+    if (listing !== 2) {
+      e.preventDefault();
+      return;
+    }
+
     if (status === undefined) {
       e.preventDefault();
       toast({
@@ -44,9 +50,17 @@ const PurchaseButton = ({ jenis_efek, slug, status }: Props) => {
 
   return (
     <Link
-      href={`/daftar-bisnis/${jenis_efek.toLowerCase()}/${slug}/bayar`}
+      href={
+        listing === 2
+          ? `/daftar-bisnis/${jenis_efek.toLowerCase()}/${slug}/bayar`
+          : "#"
+      }
       onClick={handleClick}
-      className="block w-full py-4 text-sm font-semibold text-center text-white bg-sky hover:bg-sky-950 rounded-4xl"
+      className={`block w-full py-4 text-sm font-semibold text-center text-white rounded-4xl ${
+        listing === 2
+          ? "bg-sky hover:bg-sky-950"
+          : "bg-gray-300 cursor-not-allowed"
+      }`}
     >
       Beli Efek
     </Link>
