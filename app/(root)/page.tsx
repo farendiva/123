@@ -1,8 +1,44 @@
 import Link from "next/link";
-import BusinessCard from "../components/BusinessCard";
 import TabsQuestions from "../components/TabsQuestions";
+import { getListing } from "@/lib/listing";
+import ListingCard from "../components/ListingCard";
+
+interface Project {
+  penerbit_id: number;
+  kode_penerbit: string;
+  jenis_efek: string;
+  nama_efek: string;
+  nama_proyek: string;
+  tentang_proyek: string | null;
+  dasar_penerbitan: string;
+  nilai_proyek: number;
+  nilai_modal: number;
+  nilai_pendanaan: number;
+  minimal_pendanaan: number;
+  periode_penawaran_efek: number;
+  porsi_modal_pemodal: number | null;
+  porsi_modal_penerbit: number | null;
+  proyeksi_bagi_hasil_min: number | null;
+  proyeksi_bagi_hasil_max: number | null;
+  skema_pembayaran: string;
+  pihak_terlibat: string;
+  minimal_investasi: number;
+  tenor_dividen: number;
+  jumlah_unit_yang_ditawarkan: number;
+  satuan_pemindahan_buku: number;
+  denda_keterlambatan: string | null;
+  jaminan: string | null;
+  monitoring_pembayaran: string;
+  akad: number;
+  bidang_usaha: number;
+  nama_file: string;
+  nama_penerbit: string;
+  idlisting: number;
+}
 
 export default async function Home() {
+  const listing = await getListing();
+
   return (
     <main className="w-full ">
       {/* HERO SECTION */}
@@ -94,10 +130,15 @@ export default async function Home() {
         </section>
       </section>
       <section className="w-11/12 mx-auto flex flex-col justify-center items-center gap-y-8 md:grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:gap-x-8 2xl:gap-0 lg:gap-y-0 my-8">
-        <BusinessCard type="3" />
-        <BusinessCard type="1" />
-        <BusinessCard type="0" />
-        <BusinessCard type="2" />
+        {listing.length > 0 ? (
+          listing
+            .slice(0, 4)
+            .map((listing: Project, index: number) => (
+              <ListingCard key={index} project={listing} />
+            ))
+        ) : (
+          <p>Bisnis tidak ada</p>
+        )}
       </section>
       <section className="flex justify-center items-center mx-auto my-16">
         <Link

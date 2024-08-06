@@ -16,7 +16,7 @@ const Step: React.FC<StepProps> = ({ title, isActive, isComplete }) => {
           isActive
             ? "bg-sky text-white"
             : isComplete
-            ? "bg-gray-400 text-gray-200"
+            ? "bg-sky text-white"
             : "bg-gray-200 text-gray-500"
         }`}
       ></div>

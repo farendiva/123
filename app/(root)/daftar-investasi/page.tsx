@@ -58,7 +58,7 @@ const ProductDetailPage = (props: Props) => {
           <h3>Rp 1.504.500.000 </h3>
         </section>
         <section className="flex justify-between items-center gap-4">
-          <Progress value={51} type="0" className="h-6" />
+          <Progress value={51} type={0} className="h-6" />
           <p className="h-6 bg-emerald-light text-white text-sm text-center px-1 rounded-lg">
             51%
           </p>

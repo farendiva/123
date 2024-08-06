@@ -298,27 +298,33 @@ export default function Form() {
             setPreviousStep(currentStep);
             setCurrentStep((step) => step + 1);
             toast({
+              className: cn(
+                "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+              ),
               variant: "success",
-              title: "Form Submitted",
-              description: "Your registration was successful.",
+              title: "Anda Berhasil Terdaftar",
             });
           } catch (error) {
             console.error("Error submitting form:", error);
             toast({
+              className: cn(
+                "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+              ),
               variant: "destructive",
               title: "Error",
-              description:
-                "There was an error submitting the form. Please try again.",
+              description: "Kesalahan pada pendaftaran",
             });
           } finally {
             setLoading(false);
           }
         } else {
           toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
             variant: "destructive",
-            title: "Please agree to the Terms and Services",
-            description:
-              "Scroll to the bottom and check the agreement box before continuing.",
+            title: "Anda harus menyetujui syarat dan ketentuan",
+            description: "Scroll kebawah dan setujui untuk melanjutkan.",
           });
         }
         return;

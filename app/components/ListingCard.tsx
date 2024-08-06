@@ -23,6 +23,7 @@ interface Project {
   pihak_terlibat: string;
   minimal_investasi: number;
   jumlah_unit_yang_ditawarkan: number;
+  tenor_dividen: number;
   satuan_pemindahan_buku: number;
   denda_keterlambatan: string | null;
   jaminan: string | null;
@@ -47,19 +48,59 @@ const formatTitleForUrl = (title: string) => {
 
 const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
   const formattedNamaEfek = formatTitleForUrl(project.nama_efek);
+
   return (
     <Link
       href={`/daftar-bisnis/${project.jenis_efek.toLowerCase()}/${formattedNamaEfek}-${
         project.idlisting
       }`}
     >
-      <section className="bg-[#f8f8ff] space-y-4 rounded-xl max-w-full h-[400px] relative">
+      <section className="bg-[#f8f8ff] space-y-4 rounded-xl max-w-[305px] h-[400px] relative">
         <img
           className="w-full h-2/5 aspect-video rounded-t-xl"
           src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
           alt={project.nama_efek}
         />
-        <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 p-1 flex items-center gap-2">
+        {/* <div className="relative">
+          <img
+            className="w-full h-2/5 aspect-video rounded-t-xl"
+            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${project.nama_file}`}
+            alt={project.nama_efek}
+          />
+          {project.kampanye.status !== 2 ? (
+            <>
+              <div
+                className={`absolute inset-0 ${
+                  project.kampanye.status === 1
+                    ? "bg-orange-400"
+                    : project.kampanye.status === 3 ||
+                      project.kampanye.status === 4 ||
+                      project.kampanye.status === 5
+                    ? "bg-emerald-light"
+                    : project.kampanye.status === 6 ||
+                      project.kampanye.status === 7
+                    ? "bg-sky"
+                    : ""
+                } opacity-80 rounded-t-xl`}
+              ></div>
+              <div className="absolute inset-0 flex justify-center items-center">
+                <span className="w-2/3 text-white text-center border-2 border-white rounded-xl font-bold">
+                  {project.kampanye.status === 1
+                    ? "Segera Terbit"
+                    : project.kampanye.status === 3 ||
+                      project.kampanye.status === 4 ||
+                      project.kampanye.status === 5
+                    ? "Pendanaan Terpenuhi"
+                    : project.kampanye.status === 6 ||
+                      project.kampanye.status === 7
+                    ? "Proyek Berakhir"
+                    : ""}
+                </span>
+              </div>
+            </>
+          ) : null}
+        </div> */}
+        <div className="absolute text-[10px] top-0 right-0 bg-opacity-70 px-3 flex items-center gap-2">
           <button
             className={`${
               project.jenis_efek === "Sukuk"
@@ -93,7 +134,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
             //   (project.nilai_pendanaan / project.nilai_proyek) * 100
             // )}
             value={0}
-            type="0"
+            type={0}
             className="w-11/12 mx-auto"
           />
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
@@ -105,12 +146,20 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
             <h4 className="">{formatRupiah(project.minimal_investasi)}</h4>
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
-            <h3>Jangka Waktu</h3>
-            <h4 className="">{project.periode_penawaran_efek}</h4>
+            <h3>
+              {" "}
+              {project.jenis_efek === "Sukuk"
+                ? "Jangka Waktu"
+                : "Periode Dividen"}
+            </h3>
+            <h4 className="">{project.tenor_dividen} Bulan</h4>
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
-            <h4 className="">{project.proyeksi_bagi_hasil_min}%</h4>
+            <h4 className="">
+              {project.proyeksi_bagi_hasil_min}% -{" "}
+              {project.proyeksi_bagi_hasil_max}%
+            </h4>
           </section>
         </section>
       </section>

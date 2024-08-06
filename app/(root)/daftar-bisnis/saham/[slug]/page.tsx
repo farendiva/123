@@ -219,16 +219,34 @@ export default async function ProductDetailPageSaham({
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
-              <Progress
-                value={Math.floor(
-                  (data.nilai_pendanaan / data.nilai_proyek) * 100
-                )}
-                type="0"
-                className="w-full mx-auto"
-              />
+              <div className="flex justify-between gap-2">
+                <Progress
+                  value={
+                    data.nilai_pendanaan
+                      ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                          data.nilai_proyek) *
+                        100
+                      : 0
+                  }
+                  type={data.kampanye.status}
+                  className="w-full mx-auto"
+                />
+                <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
+                  {data.nilai_pendanaan
+                    ? Math.round(
+                        ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                          data.nilai_proyek) *
+                          100
+                      )
+                    : 0}
+                  %
+                </p>
+              </div>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
-                <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+                <h3>
+                  {formatRupiah(data.summary_transaksi?.total_pendanaan ?? 0)}
+                </h3>
               </section>
             </section>
 
@@ -289,12 +307,13 @@ export default async function ProductDetailPageSaham({
                 <FileText />
                 Prospektus
               </Link>
-              <LokasiComponent
+              {/* <LokasiComponent
                 lokasi={data.penerbit.lokasi}
                 detail={data.penerbit.alamat_detail}
-              />
+              /> */}
             </section>
             <PurchaseButton
+              listing={data.kampanye.status}
               slug={slug}
               jenis_efek={data.jenis_efek}
               status={user.data?.pemodal_status}
