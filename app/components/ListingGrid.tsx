@@ -15,6 +15,7 @@ interface Project {
   dasar_penerbitan: string;
   nilai_proyek: number;
   nilai_modal: number;
+  tenor_dividen: number;
   nilai_pendanaan: number;
   minimal_pendanaan: number;
   periode_penawaran_efek: number;

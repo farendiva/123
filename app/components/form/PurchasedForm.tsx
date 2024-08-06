@@ -21,6 +21,7 @@ interface Data {
   satuan_pemindahan_buku: number;
   nilai_investasi: number;
   nama_efek: string;
+  minimal_investasi: number;
   kode_penerbit: string;
   jenis_efek: string;
   [key: string]: any;
