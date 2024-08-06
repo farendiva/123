@@ -74,10 +74,13 @@ export default async function ProductDetailPageSukuk({
       total_pendanaan: string;
       total_pemodal: number;
       penawaran_berakhir: string;
-    },
+    } | null,
     totalUnit: number,
     unitPrice: number
   ) {
+    if (!summary_transaksi) {
+      return totalUnit;
+    }
     const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
     const investedUnits = totalPendanaan / unitPrice;
     const remainingUnits = totalUnit - investedUnits;
@@ -88,7 +91,7 @@ export default async function ProductDetailPageSukuk({
   const unitPrice = data.satuan_pemindahan_buku; // Harga per unit
 
   const remainingUnits = calculateRemainingUnits(
-    data.summary_transaksi,
+    data.summary_transaksi || null,
     totalUnit,
     unitPrice
   );
