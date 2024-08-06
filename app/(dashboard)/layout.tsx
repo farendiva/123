@@ -17,19 +17,20 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let user: any = null;
-  let error: string | null = null;
+  const userData = await getUserData();
 
-  try {
-    const userData = await getUserData();
-    if (userData.data) {
-      user = userData.data;
-    } else {
-      throw new Error("User data is not available");
-    }
-  } catch (err) {
-    error = "Failed to load user data.";
-    console.error(err);
+  if (!userData.data) {
+    return (
+      <html lang="en">
+        <body
+          className={`${openSans.className} w-full mx-auto min-h-screen bg-[#F4F7FE]`}
+        >
+          <div className="font-bold text-center text-2xl">
+            Failed to load user data.
+          </div>
+        </body>
+      </html>
+    );
   }
 
   return (
@@ -37,7 +38,7 @@ export default async function DashboardLayout({
       <body
         className={`${openSans.className} w-full mx-auto min-h-screen bg-[#F4F7FE]`}
       >
-        <UserProvider initialUser={user}>
+        <UserProvider initialUser={userData.data}>
           <header className="bg-white">
             <Nav />
           </header>
@@ -48,13 +49,7 @@ export default async function DashboardLayout({
             <div className="block lg:hidden">
               <SidebarLinks />
             </div>
-            <div className="w-full mx-auto rounded-xl">
-              {error ? (
-                <div className="font-bold text-center text-2xl">{error}</div>
-              ) : (
-                children
-              )}
-            </div>
+            <div className="w-full mx-auto rounded-xl">{children}</div>
           </main>
         </UserProvider>
       </body>
