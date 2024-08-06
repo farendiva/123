@@ -141,7 +141,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                 ? "Status Pembayaran"
                 : "Batas Pembayaran"}
             </p>
-            {distance < 0 && transaksi.transaksi_status.status_id === 1 ? (
+            {transaksi.transaksi_status.status_id === 1 ? (
               <p className="font-bold text-emerald-light">Sudah dibayar</p>
             ) : distance < 0 ? (
               <p className="text-gray-800 font-medium">
@@ -173,7 +173,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
       </div>
 
       {isExpanded && (
-        <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed z-50 -top-8 inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="max-w-3xl z-50 mx-auto my-4 p-2 bg-[#F3F5FF] rounded-lg shadow-sm overflow-y-auto max-h-[90vh] w-full sm:w-auto">
             <div className="relative p-6 bg-[#F3F5FF rounded-lg space-y-4">
               <button

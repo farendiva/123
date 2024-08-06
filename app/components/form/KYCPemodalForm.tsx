@@ -97,6 +97,13 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     resolver: zodResolver(KycPemodalFormSchema),
   });
 
+  const minimalPdf = new Blob(
+    [
+      "%PDF-1.4\n%âãÏÓ\n1 0 obj\n<</Type/Catalog/Pages 2 0 R>>\nendobj\n2 0 obj\n<</Type/Pages/Kids[3 0 R]/Count 1>>\nendobj\n3 0 obj\n<</Type/Page/MediaBox[0 0 3 3]>>\nendobj\nxref\n0 4\n0000000000 65535 f\n0000000009 00000 n\n0000000052 00000 n\n0000000101 00000 n\ntrailer\n<</Size 4/Root 1 0 R>>\nstartxref\n149\n%%EOF\n",
+    ],
+    { type: "application/pdf" }
+  );
+
   const processForm: SubmitHandler<Inputs> = async (data) => {
     if (!formData) {
       console.error("Form data is undefined");
@@ -149,8 +156,6 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       Object.entries(personal).filter(([_, v]) => v != null && v !== "")
     );
 
-    console.log("Cleaned personal data being sent:", cleanPersonal);
-
     const account = {
       nomor_rekening: data.nomor_rekening,
       nama_pemilik_rekening: data.nama_pemilik_rekening,
@@ -163,13 +168,16 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     const document = new FormData();
     document.append("ktp", data.ktp);
     document.append("swa_photo", data.swa_photo);
-    if (data.slip_gaji && data.slip_gaji) {
+    if (data.slip_gaji) {
       document.append("slip_gaji", data.slip_gaji);
+    } else {
+      document.append("slip_gaji", minimalPdf, "empty.pdf");
     }
-    document.append("npwp", data.ktp);
-    document.append("kartu_keluarga", data.ktp);
 
-    console.log(personal);
+    // Append minimal PDF files for npwp and kartu_keluarga
+    document.append("npwp", minimalPdf, "empty.pdf");
+    document.append("kartu_keluarga", minimalPdf, "empty.pdf");
+
     try {
       const responsePersonal = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${pemodal_id}?_method=PUT`,
