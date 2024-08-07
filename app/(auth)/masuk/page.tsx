@@ -8,7 +8,7 @@ import { LoginDataSchema } from "../../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
 import { ToastAction } from "@/components/ui/toast";
@@ -29,6 +29,9 @@ export default function Masuk() {
     resolver: zodResolver(LoginDataSchema),
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();
@@ -189,28 +192,39 @@ export default function Masuk() {
                 </div>
               </div>
             </div>
-            <div className="col-span-8">
+            <div className="sm:col-span-4 lg:col-span-8">
               <label
                 htmlFor="password"
-                className="block text-sm leading-6 font-bold"
+                className="block text-sm font-bold leading-6"
               >
                 Kata Sandi
               </label>
-              <div className="">
+              <div className="relative">
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   {...register("password")}
-                  autoComplete="password"
-                  className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                  autoComplete="new-password"
+                  className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 />
-                <div className="mt-1 h-1">
-                  {errors.password?.message && (
-                    <p className="text-sm text-red-400">
-                      {errors.password.message}
-                    </p>
+                <button
+                  type="button"
+                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <EyeOff className="h-5 w-5 text-gray-400" />
+                  ) : (
+                    <Eye className="h-5 w-5 text-gray-400" />
                   )}
-                </div>
+                </button>
+              </div>
+              <div className="mt-1 h-1">
+                {errors.password?.message && (
+                  <p className="text-sm text-red-400">
+                    {errors.password.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>

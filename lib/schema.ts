@@ -21,16 +21,34 @@ export const RegistrationDataSchema = z
       .min(8, "Kata Sandi harus minimal 8 karakter")
       .max(128, "Kata Sandi harus maksimal 128 karakter")
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Kata Sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu karakter spesial"
+        /(?=.*[a-z])/,
+        "Kata Sandi harus mengandung setidaknya satu huruf kecil"
+      )
+      .regex(
+        /(?=.*[A-Z])/,
+        "Kata Sandi harus mengandung setidaknya satu huruf besar"
+      )
+      .regex(/(?=.*\d)/, "Kata Sandi harus mengandung setidaknya satu angka")
+      .regex(
+        /(?=.*[\W_])/,
+        "Kata Sandi harus mengandung setidaknya satu karakter spesial"
       ),
     passwordConfirmation: z
       .string()
       .min(8, "Kata Sandi harus minimal 8 karakter")
       .max(128, "Kata Sandi harus maksimal 128 karakter")
       .regex(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-        "Kata Sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu karakter spesial"
+        /(?=.*[a-z])/,
+        "Kata Sandi harus mengandung setidaknya satu huruf kecil"
+      )
+      .regex(
+        /(?=.*[A-Z])/,
+        "Kata Sandi harus mengandung setidaknya satu huruf besar"
+      )
+      .regex(/(?=.*\d)/, "Kata Sandi harus mengandung setidaknya satu angka")
+      .regex(
+        /(?=.*[\W_])/,
+        "Kata Sandi harus mengandung setidaknya satu karakter spesial"
       ),
     terms: z.literal(true, {
       errorMap: () => ({
@@ -58,8 +76,17 @@ export const LoginDataSchema = z.object({
     .min(8, "Kata Sandi harus minimal 8 karakter")
     .max(128, "Kata Sandi harus maksimal 128 karakter")
     .regex(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      "Kata Sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu karakter spesial"
+      /(?=.*[a-z])/,
+      "Kata Sandi harus mengandung setidaknya satu huruf kecil"
+    )
+    .regex(
+      /(?=.*[A-Z])/,
+      "Kata Sandi harus mengandung setidaknya satu huruf besar"
+    )
+    .regex(/(?=.*\d)/, "Kata Sandi harus mengandung setidaknya satu angka")
+    .regex(
+      /(?=.*[\W_])/,
+      "Kata Sandi harus mengandung setidaknya satu karakter spesial"
     ),
 });
 

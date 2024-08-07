@@ -136,7 +136,7 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
 
             <ExpireButton
               expire={data.va_expiry_time}
-              status={data.transaksi_status.status_id}
+              status={data.transaksi_status?.status_id}
             />
           </div>
         )}
@@ -151,7 +151,7 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
           <a
-            href="https://api.whatsapp.com/send?phone=6282299996862&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
+            href="https://api.whatsapp.com/send?phone=681299900150&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
             className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
           >
             Hubungi Kami
