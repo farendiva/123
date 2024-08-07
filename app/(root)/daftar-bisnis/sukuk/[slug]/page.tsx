@@ -96,6 +96,8 @@ export default async function ProductDetailPageSukuk({
     unitPrice
   );
 
+  console.log(data);
+
   return (
     <>
       <Head>
@@ -160,34 +162,41 @@ export default async function ProductDetailPageSukuk({
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
-              <div className="flex justify-between gap-2">
-                <Progress
-                  value={
-                    data.nilai_pendanaan
-                      ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
-                          data.nilai_proyek) *
-                        100
-                      : 0
-                  }
-                  type={data.kampanye.status}
-                  className="w-full mx-auto"
-                />
-                <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
-                  {data.nilai_pendanaan
-                    ? Math.round(
-                        ((data.summary_transaksi?.total_pendanaan ?? 0) /
-                          data.nilai_proyek) *
+              {data.kampanye.status_label !== "Selesai" && (
+                <div className="flex justify-between gap-2">
+                  <Progress
+                    value={
+                      data.nilai_pendanaan
+                        ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                            data.nilai_proyek) *
                           100
-                      )
-                    : 0}
-                  %
-                </p>
-              </div>
+                        : 0
+                    }
+                    type={data.kampanye.status}
+                    className="w-full mx-auto"
+                  />
+                  <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
+                    {data.nilai_pendanaan
+                      ? Math.round(
+                          ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                            data.nilai_pendanaan) *
+                            100
+                        )
+                      : 0}
+                    %
+                  </p>
+                </div>
+              )}
+
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
-                <h3>
-                  {formatRupiah(data.summary_transaksi?.total_pendanaan ?? 0)}
-                </h3>
+                {data.kampanye.status_label !== "Selesai" ? (
+                  <h3>
+                    {formatRupiah(data.summary_transaksi?.total_pendanaan ?? 0)}
+                  </h3>
+                ) : (
+                  <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+                )}
               </section>
             </section>
 
@@ -230,7 +239,10 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
-                <h3>{data.proyeksi_bagi_hasil_min} %</h3>
+                <h3>
+                  {data.proyeksi_bagi_hasil_min}% -{" "}
+                  {data.proyeksi_bagi_hasil_max}%
+                </h3>
               </section>
             </section>
 
@@ -238,7 +250,7 @@ export default async function ProductDetailPageSukuk({
             <section className="w-4/5 mx-auto flex justify-center items-center gap-1 lg:last-of-type:gap-8 text-xs font-medium py-2">
               <SimulasiComponent
                 data={data.satuan_pemindahan_buku}
-                roi={data.imbal_hasil_pemodal}
+                roi={data.proyeksi_bagi_hasil_min}
               />
               <ShareComponent
                 text={data.nama_efek}
@@ -270,9 +282,12 @@ export default async function ProductDetailPageSukuk({
             {/* Kontak */}
             <p className="text-sm text-center text-sky">
               Butuh Pertanyaan?{" "}
-              <span className="font-bold cursor-pointer hover:underline decoration-2 underline-offset-4">
+              <a
+                href="https://api.whatsapp.com/send?phone=681299900150&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
+                className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
+              >
                 Hubungi Kami
-              </span>{" "}
+              </a>{" "}
             </p>
           </section>
         </section>

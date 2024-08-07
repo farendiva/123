@@ -6,7 +6,7 @@ import { RegistrationDataSchema } from "../../lib/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, SubmitHandler, Controller } from "react-hook-form";
 import Link from "next/link";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Eye, EyeOff } from "lucide-react";
 import {
   InputOTP,
   InputOTPGroup,
@@ -54,6 +54,9 @@ export default function Form() {
   const delta = currentStep - previousStep;
   const [time, setTime] = useState(600);
   const [resend, setResend] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showPasswordConfirmation, setShowPasswordConfirmation] =
+    useState(false);
 
   useEffect(() => {
     if (time <= 0) {
@@ -553,21 +556,32 @@ export default function Form() {
                 >
                   Kata Sandi
                 </label>
-                <div className="">
+                <div className="relative">
                   <input
                     id="password"
-                    type="password"
+                    type={showPassword ? "text" : "password"}
                     {...register("password")}
                     autoComplete="new-password"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
-                  <div className="mt-1 h-1">
-                    {errors.password?.message && (
-                      <p className="text-sm text-red-400">
-                        {errors.password.message}
-                      </p>
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400" />
                     )}
-                  </div>
+                  </button>
+                </div>
+                <div className="mt-1 h-1">
+                  {errors.password?.message && (
+                    <p className="text-sm text-red-400">
+                      {errors.password.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -578,21 +592,34 @@ export default function Form() {
                 >
                   Ulangi Kata Sandi
                 </label>
-                <div className="">
+                <div className="relative">
                   <input
                     id="passwordConfirmation"
-                    type="password"
+                    type={showPasswordConfirmation ? "text" : "password"}
                     {...register("passwordConfirmation")}
                     autoComplete="new-password"
                     className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
-                  <div className="mt-1 h-1">
-                    {errors.passwordConfirmation?.message && (
-                      <p className="text-sm text-red-400">
-                        {errors.passwordConfirmation.message}
-                      </p>
+                  <button
+                    type="button"
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                    onClick={() =>
+                      setShowPasswordConfirmation(!showPasswordConfirmation)
+                    }
+                  >
+                    {showPasswordConfirmation ? (
+                      <EyeOff className="h-5 w-5 text-gray-400" />
+                    ) : (
+                      <Eye className="h-5 w-5 text-gray-400" />
                     )}
-                  </div>
+                  </button>
+                </div>
+                <div className="mt-1 h-1">
+                  {errors.passwordConfirmation?.message && (
+                    <p className="text-sm text-red-400">
+                      {errors.passwordConfirmation.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -654,7 +681,7 @@ export default function Form() {
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
           <a
-            href="https://api.whatsapp.com/send?phone=6282299996862&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
+            href="https://api.whatsapp.com/send?phone=681299900150&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
             className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
           >
             Hubungi Kami

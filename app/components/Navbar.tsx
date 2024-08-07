@@ -1,21 +1,48 @@
 "use client";
 
+import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import { ChevronDown } from "lucide-react"; // Make sure to import this
+
+interface User {
+  name: string;
+  pemodal_status?: number;
+  profile: {
+    nama_depan: string;
+    nama_belakang: string;
+    swa_photo?: string;
+  };
+}
 
 const Navbar = () => {
   const pathname = usePathname();
+  const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
+  const menuItems = [
+    { href: "/", label: "Beranda" },
+    { href: "/daftar-bisnis", label: "Daftar Bisnis" },
+    { href: "/tentang", label: "Tentang" },
+    { href: "/alur", label: "Alur Bisnis" },
+    { href: "/bantuan", label: "Bantuan" },
+  ];
+
+  const getProfileImage = (user: User | null): string => {
+    if (user?.profile?.swa_photo) {
+      return `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`;
+    }
+    return "/images/profile-placeholder.jpg";
+  };
+
   return (
-    <nav
-      className={`z-50  w-11/12 relative flex justify-between items-center mx-auto py-2 lg:py-8 font-semibold`}
-    >
+    <nav className="z-50 w-11/12 relative flex justify-between items-center mx-auto py-2 lg:py-8 font-semibold">
       <Link href="/" className="flex">
         {pathname === "/" || pathname === "/tentang" ? (
           <img
@@ -37,7 +64,7 @@ const Navbar = () => {
           <span className="line line-bottom"></span>
         </span>
       </button>
-      <ul className="hidden lg:flex gap-10">
+      <ul className="hidden lg:flex lg:items-center gap-10">
         {menuItems.map(({ href, label }) => (
           <li key={href}>
             <Link
@@ -53,16 +80,56 @@ const Navbar = () => {
                   : "text-white"
               }`}
             >
-              {label === "Masuk" ? (
-                <span className="bg-emerald rounded-3xl py-3 px-7 !text-white">
-                  {label}
-                </span>
-              ) : (
-                label
-              )}
+              {label}
             </Link>
           </li>
         ))}
+        {user ? (
+          <li className="relative">
+            <Link
+              href="/dashboard"
+              className="flex items-center gap-2 cursor-pointer"
+            >
+              <img
+                className="w-12 h-12 rounded-full"
+                src={getProfileImage(user)}
+                alt={`${user.name} Foto Profile`}
+              />
+              <h2
+                className={`font-bold ${
+                  pathname === "/" || pathname === "/tentang"
+                    ? "text-white"
+                    : "text-black"
+                }`}
+              >
+                {user.profile.nama_depan + " " + user.profile.nama_belakang}
+              </h2>
+            </Link>
+          </li>
+        ) : (
+          <>
+            <li>
+              <Link
+                href="/masuk"
+                className="bg-emerald rounded-3xl py-3 px-7 text-white"
+              >
+                Masuk
+              </Link>
+            </li>
+            <li>
+              <Link
+                href="/daftar"
+                className={`hover:text-emerald-light font-bold ${
+                  pathname === "/" || pathname === "/tentang"
+                    ? "text-white"
+                    : "text-black"
+                }`}
+              >
+                Daftar
+              </Link>
+            </li>
+          </>
+        )}
       </ul>
       {isOpen && (
         <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
@@ -81,51 +148,41 @@ const Navbar = () => {
               </Link>
             </li>
           ))}
+          {user ? (
+            <li className="relative">
+              <Link
+                href="/dashboard"
+                className="flex font-medium items-center gap-2 cursor-pointer"
+              >
+                Dashboard
+              </Link>
+            </li>
+          ) : (
+            <>
+              <li>
+                <Link
+                  href="/masuk"
+                  className="block hover:text-green-700 text-black/90 font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Masuk
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/daftar"
+                  className="block hover:text-green-700 text-black/90 font-medium"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Daftar
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       )}
     </nav>
   );
 };
-
-const menuItems = [
-  {
-    href: "/",
-    label: "Beranda",
-
-    as: "https://web-app-dev.khalifahdev.biz.id/",
-  },
-  {
-    href: "/daftar-bisnis",
-    label: "Daftar Bisnis",
-
-    as: "https://web-app-dev.khalifahdev.biz.id/daftar-bisnis",
-  },
-  {
-    href: "/tentang",
-    label: "Tentang",
-    as: "https://web-app-dev.khalifahdev.biz.id/tentang",
-  },
-  {
-    href: "/alur",
-    label: "Alur Bisnis",
-
-    as: "https://web-app-dev.khalifahdev.biz.id/alur",
-  },
-  {
-    href: "/bantuan",
-    label: "Bantuan",
-    as: "https://web-app-dev.khalifahdev.biz.id/bantuan",
-  },
-  {
-    href: "/masuk",
-    label: "Masuk",
-    as: "https://web-app-dev.khalifahdev.biz.id/masuk",
-  },
-  {
-    href: "/daftar",
-    label: "Daftar",
-    as: "https://web-app-dev.khalifahdev.biz.id/daftar",
-  },
-];
 
 export default Navbar;

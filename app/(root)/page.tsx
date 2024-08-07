@@ -101,7 +101,7 @@ export default async function Home() {
             <section className="">
               <h3 className="">Dana Tersalurkan</h3>
               <h4 className="text-base lg:text-2xl font-bold">
-                Rp 250.665.000.000
+                Rp 902.050.000
               </h4>
             </section>
           </section>
@@ -109,7 +109,7 @@ export default async function Home() {
             <img src="/icons/check.svg" alt="Check Icon" />
             <section className="">
               <h3 className="">Investor Aktif</h3>
-              <h4 className="text-base lg:text-2xl font-bold">25.1rb</h4>
+              <h4 className="text-base lg:text-2xl font-bold">50</h4>
             </section>
           </section>
           <section className="flex items-center gap-16 lg:gap-2">
@@ -118,7 +118,7 @@ export default async function Home() {
               <h3 className="">Pengembalian Dana</h3>
               <h4 className="text-base lg:text-2xl font-bold">
                 {" "}
-                Rp 1.305.595.000
+                Rp 180.410.000
               </h4>
             </section>
           </section>
@@ -126,7 +126,7 @@ export default async function Home() {
             <img src="/icons/stats.svg" alt="Stats Icon" />
             <section className="">
               <h3 className="">Rata-rata Realisasi ROI</h3>
-              <h4 className="text-base lg:text-2xl font-bold">15%</h4>
+              <h4 className="text-base lg:text-2xl font-bold">20%</h4>
             </section>
           </section>
         </section>
@@ -187,12 +187,12 @@ export default async function Home() {
           </section>
         </section>
         <img
-          src="/images/phone.png"
+          src="/images/preview.png"
           alt="Fulusme Aplikasi Preview"
           className="h-full block lg:hidden"
         />
         <img
-          src="/images/phone2.png"
+          src="/images/preview.png"
           alt="Fulusme Aplikasi Preview"
           className="h-full hidden lg:block"
         />
