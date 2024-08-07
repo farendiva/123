@@ -140,7 +140,7 @@ const TransactionList: React.FC<TransactionCardProps> = ({
           </div>
         </div>
       )}
-      <section className="space-y-4 h-full rounded-xl">
+      <section className="space-y-4 h-full lg:h-[700px] overflow-y-auto rounded-xl">
         {filteredData.map((item, index) => (
           <TransactionCard key={index} transaksi={item} />
         ))}
