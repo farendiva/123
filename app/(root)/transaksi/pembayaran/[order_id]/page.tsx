@@ -134,10 +134,7 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
               </div>
             </div>
 
-            <ExpireButton
-              expire={data.va_expiry_time}
-              status={data.transaksi_status?.status_id}
-            />
+            <ExpireButton expire={data.va_expiry_time} status={data.status} />
           </div>
         )}
       </main>

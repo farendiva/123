@@ -200,9 +200,9 @@ export async function getDetailOrder(id: number, token: string) {
   return response.json();
 }
 
-export async function getTransaksiPemodal(token: string) {
+export async function getTransaksiPemodal(token: string, page: number = 1) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/transaksi`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/transaksi?page=${page}`,
     {
       method: "POST",
       headers: {

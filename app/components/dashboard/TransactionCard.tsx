@@ -39,7 +39,7 @@ export interface Transaksi {
   deleted_at: string | null;
   created_at: string;
   updated_at: string;
-  va_bank: string | null;
+  va_bank: string;
   va_number: string;
   va_expiry_time: string;
   transaction_id: string;
@@ -87,7 +87,6 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   }, [transaksi.va_expiry_time, distance]);
 
   const ppn = transaksi.biaya_layanan * 0.11;
-
   return (
     <>
       <div className="max-w-4xl mb-4 mx-auto bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 p-6 space-y-3">
@@ -125,10 +124,8 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
           </div>
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
             <p className="font-bold">Metode Pembayaran</p>
-            <p className="font-medium">
-              {transaksi.va_bank
-                ? `${transaksi.va_bank.toUpperCase()} VIRTUAL ACCOUNT`
-                : "VIRTUAL ACCOUNT"}
+            <p className="font-medium capitalize">
+              {transaksi.va_bank} Virtual Account
             </p>
           </div>
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
@@ -143,7 +140,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                 ? "Status Pembayaran"
                 : "Batas Pembayaran"}
             </p>
-            {distance < 0 && transaksi.status === 1 ? (
+            {transaksi.status === 1 ? (
               <p className="font-bold text-emerald-light">Sudah dibayar</p>
             ) : distance < 0 ? (
               <p className="text-gray-800 font-medium">
@@ -167,15 +164,16 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                     minute: "2-digit",
                   }
                 )}{" "}
-                · <span className="text-[#E09400] font-bold">{timeLeft}</span>
+                <span className="text-[#E09400] font-bold">{timeLeft}</span>
               </p>
             )}
           </div>
+          {/* <h1>{transaksi.va_expiry_time}</h1> */}
         </div>
       </div>
 
       {isExpanded && (
-        <div className="fixed z-50 inset-0 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed z-50 inset-0 -top-4 flex items-center justify-center bg-black bg-opacity-50">
           <div className="max-w-3xl z-50 mx-auto my-4 p-2 bg-[#F3F5FF] rounded-lg shadow-sm overflow-y-auto max-h-[90vh] w-full sm:w-auto">
             <div className="relative p-6 bg-[#F3F5FF rounded-lg space-y-4">
               <button
@@ -262,9 +260,8 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                       Metode Pembayaran
                     </h1>
                     <p className="font-medium">
-                      {transaksi.va_bank
-                        ? `${transaksi.va_bank.toUpperCase()} VIRTUAL ACCOUNT`
-                        : "VIRTUAL ACCOUNT"}
+                      {transaksi.va_bank ? transaksi.va_bank.toUpperCase() : ""}{" "}
+                      VIRTUAL ACCOUNT
                     </p>
                   </div>
                   <div className="bg-white flex justify-between">
