@@ -206,7 +206,7 @@ export async function getTransaksiPemodal(
   page: number = 1
 ) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${id}/transaksi?page=${page}`,
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/transaksi?page=${page}`,
     {
       method: "GET",
       headers: {

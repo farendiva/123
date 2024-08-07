@@ -8,6 +8,16 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
+interface User {
+  name: string;
+  pemodal_status?: number;
+  profile: {
+    nama_depan: string;
+    nama_belakang: string;
+    swa_photo?: string;
+  };
+}
+
 const Nav = () => {
   const pathname = usePathname();
   const router = useRouter();
@@ -29,6 +39,14 @@ const Nav = () => {
     setIsOpen(false);
     setIsDropdownOpen(false);
   };
+
+  const getProfileImage = (user: User | null): string => {
+    if (user?.profile?.swa_photo) {
+      return `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`;
+    }
+    return "/images/profile-placeholder.jpg";
+  };
+
   return (
     <nav
       className={`z-50 w-4/5 relative flex justify-between items-center mx-auto py-2 font-semibold`}
@@ -79,7 +97,7 @@ const Nav = () => {
         <div className="relative hidden  lg:flex items-center gap-2">
           <img
             className="w-12 h-12 rounded-full"
-            src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`}
+            src={getProfileImage(user)}
             alt={`${user.name} Foto Profile`}
           />
           <div className="text-base">
@@ -156,27 +174,27 @@ const menuItems = [
   {
     href: "/",
     label: "Beranda",
-    as: "https://web-app-dev.khalifahdev.biz.id/",
+    as: "https://fulusme.id/",
   },
   {
     href: "/daftar-bisnis",
     label: "Daftar Bisnis",
-    as: "https://web-app-dev.khalifahdev.biz.id/daftar-bisnis",
+    as: "https://fulusme.id/daftar-bisnis",
   },
   {
     href: "/tentang",
     label: "Tentang",
-    as: "https://web-app-dev.khalifahdev.biz.id/tentang",
+    as: "https://fulusme.id/tentang",
   },
   {
     href: "/alur",
     label: "Alur Bisnis",
-    as: "https://web-app-dev.khalifahdev.biz.id/alur",
+    as: "https://fulusme.id/alur",
   },
   {
     href: "/bantuan",
     label: "Bantuan",
-    as: "https://web-app-dev.khalifahdev.biz.id/bantuan",
+    as: "https://fulusme.id/bantuan",
   },
 ];
 

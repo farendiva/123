@@ -158,16 +158,11 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 
   const handleJumlahPendanaanChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.replace(/[^0-9]/g, "");
-    const numValue = parseInt(value, 10);
-    if (!isNaN(numValue) && numValue >= data.minimal_investasi) {
-      setJumlahPendanaan(value);
-    } else {
-      setJumlahPendanaan(data.minimal_investasi.toString());
-    }
+    setJumlahPendanaan(value);
   };
 
   const adjustJumlahPendanaan = () => {
-    const value = parseInt(jumlahPendanaan, 10);
+    const value = parseInt(jumlahPendanaan.replace(/[^0-9]/g, ""), 10);
     if (!isNaN(value) && data.satuan_pemindahan_buku) {
       const adjustedValue = Math.max(
         data.minimal_investasi,
