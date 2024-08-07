@@ -164,7 +164,8 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
               <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
                 {project.nilai_pendanaan
                   ? Math.round(
-                      ((project.total_pendanaan ?? 0) / project.nilai_proyek) *
+                      ((project.total_pendanaan ?? 0) /
+                        project.nilai_pendanaan) *
                         100
                     )
                   : 0}
