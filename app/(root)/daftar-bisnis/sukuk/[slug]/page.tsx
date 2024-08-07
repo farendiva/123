@@ -96,8 +96,6 @@ export default async function ProductDetailPageSukuk({
     unitPrice
   );
 
-  console.log(data);
-
   return (
     <>
       <Head>
