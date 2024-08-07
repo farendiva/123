@@ -1,11 +1,3 @@
-"use client";
-
-import TransactionList from "@/app/components/dashboard/TransactionList";
-import { getTransaksiPemodal } from "@/lib/preferences";
-import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-
 export interface Transaksi {
   id: number;
   user_id: number;
@@ -36,54 +28,56 @@ export interface Transaksi {
   bill_key: string | null;
   transaksi_status: TransaksiStatus;
 }
+import TransactionCard from "@/app/components/dashboard/TransactionCard";
+import { getTransaksiPemodal } from "@/lib/preferences";
+import { FilterIcon } from "lucide-react";
+import { cookies } from "next/headers";
 
 export interface TransaksiStatus {
   status_id: number;
   description: string;
 }
 
-export default function TransaksiPage() {
-  const token = Cookies.get("authToken");
-  const user_id = Cookies.get("user_id");
-  const [transactions, setTransactions] = useState<Transaksi[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const router = useRouter();
-
-  useEffect(() => {
-    fetchTransactions();
-  }, []);
-
-  const fetchTransactions = async () => {
-    if (!token || !user_id) {
-      router.push("/login"); // Redirect to login if no token or user_id
-      return;
-    }
-
-    try {
-      const { data } = await getTransaksiPemodal(user_id, token, page);
-      if (data.data.length === 0) {
-        setHasMore(false);
-      } else {
-        setTransactions((prev) => [...prev, ...data.data]);
-        setPage((prevPage) => prevPage + 1);
-      }
-    } catch (error) {
-      console.error("Error fetching transactions:", error);
-    }
-  };
-
-  const handleLoadMore = () => {
-    fetchTransactions();
-  };
+export default async function TransaksiPage() {
+  const cookieStore = cookies();
+  const token = cookieStore.get("authToken")?.value;
+  const { data } = await getTransaksiPemodal(token as string);
 
   return (
     <main className="w-full mx-auto rounded-xl">
-      <TransactionList
-        data={transactions}
-        onLoadMore={handleLoadMore}
-        hasMore={hasMore}
-      />
+      <form className="w-full mb-4 mx-auto flex items-center gap-4">
+        <div className="w-full relative">
+          <input
+            type="search"
+            className="block w-full p-4 ps-4 text-sm text-gray-900 rounded-3xl bg-white focus:ring-blue-500 focus:border-blue-500"
+            placeholder="Cari Bisnis..."
+            required
+          />
+          <div className="absolute inset-y-0 end-4 flex items-center pointer-events-none">
+            <svg
+              className="w-4 h-4 text-gray-500 dark:text-gray-400"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 20 20"
+            >
+              <path
+                stroke="currentColor"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+              />
+            </svg>
+          </div>
+        </div>
+        <FilterIcon fill="black" />
+      </form>
+      {data.data.map((transaksi: Transaksi) => (
+        <TransactionCard key={transaksi.id} transaksi={transaksi} />
+      ))}
     </main>
   );
 }
+
+export const revalidate = 60; // Revalidate every 60 seconds
