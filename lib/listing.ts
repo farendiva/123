@@ -6,6 +6,7 @@ export async function getListing() {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     }
   );
   return response.json();
@@ -19,6 +20,7 @@ export async function getDetailSaham(id: string) {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     }
   );
   return response.json();
@@ -32,6 +34,7 @@ export async function getDetailSukuk(id: string) {
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
     }
   );
   return response.json();
