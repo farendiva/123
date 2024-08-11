@@ -17,15 +17,22 @@ const Footer = () => {
           <ul className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             <li>
               Nomor Telefon <br />
-              <span className="font-bold">+62 21 2520 934</span>
+              <span className="font-bold">+62 21 388 20 133</span>
             </li>
             <li>
-              Whatsapp <br />
-              <span className="font-bold">+62 822 9999 6862</span>
+              <a
+                target="__blank"
+                href="https://api.whatsapp.com/send?phone=681299900150&text=Assalamu%27alaikum%2C%0A%0Amohon%20info%20terbaru%20tentang%20Fulusme%20Urun%20Dana"
+              >
+                Whatsapp <br />
+                <span className="font-bold">+62 812 9990 0150</span>
+              </a>
             </li>
             <li>
-              Email <br />
-              <span className="font-bold">info@fulusme.id</span>
+              <a href="mailto:info@fulusme.id">
+                Email <br />
+                <span className="font-bold">info@fulusme.id</span>
+              </a>
             </li>
             <li>
               Follow Us <br />
@@ -36,7 +43,7 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a href="">
+                  <a href="https://www.instagram.com/fulusme/" target="__blank">
                     <img src="/icons/instagram.svg" alt="Instagram Logo" />
                   </a>
                 </li>

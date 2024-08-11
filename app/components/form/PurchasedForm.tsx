@@ -111,6 +111,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const [selectedBank, setSelectedBank] = useState<string>("");
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isStockAvailable, setIsStockAvailable] = useState<boolean>(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -125,10 +126,51 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
     );
   }, [data.minimal_investasi, data.satuan_pemindahan_buku]);
 
+  const checkStockAvailability = async (jumlahLembar: number) => {
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/cek-stok`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            efek_id: data.id,
+            tipe_efek: data.jenis_efek,
+            total_saham: jumlahLembar,
+          }),
+        }
+      );
+
+      const result = await response.json();
+      if (result.success) {
+        setIsStockAvailable(true);
+      } else {
+        setIsStockAvailable(false);
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "destructive",
+          title: "Stok Tidak Tersedia",
+          description:
+            "Jumlah lembar yang Anda pilih melebihi stok yang tersedia.",
+        });
+      }
+    } catch (error) {
+      console.error("Error checking stock availability:", error);
+      setIsStockAvailable(false);
+    }
+  };
+
   const handleIncrement = () => {
     setJumlahLembar((prevJumlah) => {
       const newJumlah = prevJumlah + 1;
       setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+      checkStockAvailability(newJumlah);
       return newJumlah;
     });
   };
@@ -140,20 +182,38 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
         prevJumlah - 1
       );
       setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+      checkStockAvailability(newJumlah);
       return newJumlah;
     });
   };
 
   const handleJumlahChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value, 10);
-    const newJumlah = isNaN(value)
-      ? 0
-      : Math.max(
-          Math.ceil(data.minimal_investasi / data.satuan_pemindahan_buku),
-          value
-        );
-    setJumlahLembar(newJumlah);
-    setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+    let value = e.target.value;
+
+    // Allow empty input
+    if (value === "") {
+      setJumlahLembar(0);
+      setJumlahPendanaan("");
+      return;
+    }
+
+    // Remove non-numeric characters
+    value = value.replace(/[^0-9]/g, "");
+
+    let newJumlah = parseInt(value, 10);
+
+    // If the new value is less than the minimum, don't update yet
+    if (
+      newJumlah <
+      Math.ceil(data.minimal_investasi / data.satuan_pemindahan_buku)
+    ) {
+      setJumlahLembar(newJumlah);
+      setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+    } else {
+      setJumlahLembar(newJumlah);
+      setJumlahPendanaan(formatRupiah(newJumlah * data.satuan_pemindahan_buku));
+      checkStockAvailability(newJumlah);
+    }
   };
 
   const handleJumlahPendanaanChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +245,14 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   };
 
   const handleBlur = () => {
-    adjustJumlahPendanaan();
+    const minJumlah = Math.ceil(
+      data.minimal_investasi / data.satuan_pemindahan_buku
+    );
+    if (jumlahLembar < minJumlah) {
+      setJumlahLembar(minJumlah);
+      setJumlahPendanaan(formatRupiah(minJumlah * data.satuan_pemindahan_buku));
+      checkStockAvailability(minJumlah);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -202,7 +269,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const tanggal = new Date();
 
   const nilaiInvestasi = jumlahLembar * data.satuan_pemindahan_buku;
-  const biayaPlatform = nilaiInvestasi * 0.05;
+  const biayaPlatform = nilaiInvestasi * 0.005;
   const ppn = biayaPlatform * 0.11;
   const totalPembayaran = nilaiInvestasi + biayaPlatform + ppn;
 
@@ -232,11 +299,11 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
       nama_depan: user.profile.nama_depan,
       nama_belakang: user.profile.nama_belakang,
       no_handphone: user.profile.no_handphone,
-      harga_perlembar_saham: data.satuan_pemindahan_buku,
+      // harga_perlembar_saham: data.satuan_pemindahan_buku,
       total_saham: jumlahLembar,
-      nilai_investasi: nilaiInvestasi,
-      biaya_layanan: biayaPlatform,
-      total_pembayaran: totalPembayaran,
+      // nilai_investasi: nilaiInvestasi,
+      // biaya_layanan: biayaPlatform,
+      // total_pembayaran: totalPembayaran,
       metode_pembayaran: "transfer",
       tanggal_pembelian: tanggal,
       bank: selectedBank,
@@ -380,6 +447,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
                   type="text"
                   id="quantity-input"
                   value={jumlahLembar}
+                  onBlur={handleBlur}
                   onChange={handleJumlahChange}
                   aria-describedby="helper-text-explanation"
                   className="bg-[#f2f5ff] rounded-lg border-x-0 border-gray-300 h-11 text-center text-black font-bold text-[15px] focus:ring-blue-500 focus:border-blue-500 block w-full py-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -555,7 +623,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
           <button
             className="w-full mb-2 block text-center bg-emerald-light hover:bg-green-700 rounded-4xl text-white text-sm font-semibold py-4 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500 disabled:font-bold"
             onClick={toggleModal}
-            disabled={!selectedBank}
+            disabled={!selectedBank || !isStockAvailable}
           >
             Beli Efek
           </button>

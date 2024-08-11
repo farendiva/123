@@ -109,7 +109,7 @@ export default async function ProductDetailPageSukuk({
           property="og:description"
           content={`Detail for ${data.nama_efek}. Learn more about ${data.nama_efek}, its features, and investment opportunities.`}
         />
-        <meta property="og:image" content={data.berkas[0]} />
+        {/* <meta property="og:image" content={data.berkas} /> */}
         <meta
           property="og:url"
           content={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
