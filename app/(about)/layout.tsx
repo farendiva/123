@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Open_Sans } from "next/font/google";
+// import { Open_Sans } from "next/font/google";
 import "../globals.css";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -7,11 +7,11 @@ import StickyButton from "../components/StickyButton";
 import { UserProvider } from "@/context/UserContext";
 import { getUserData } from "@/lib/auth";
 
-const openSans = Open_Sans({
-  subsets: ["latin"],
-  display: "swap",
-  adjustFontFallback: false,
-});
+// const openSans = Open_Sans({
+//   subsets: ["latin"],
+//   display: "swap",
+//   adjustFontFallback: false,
+// });
 
 export const metadata: Metadata = {
   title: "Fulusme",
@@ -27,7 +27,7 @@ export default async function AboutLayout({
 
   return (
     <html lang="en">
-      <body className={`${openSans.className} w-full mx-auto bg-sky`}>
+      <body className={` w-full mx-auto bg-sky`}>
         <UserProvider initialUser={userData.data}>
           <Navbar />
           {children}
