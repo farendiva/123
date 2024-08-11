@@ -282,14 +282,10 @@ const SimulasiComponent: React.FC<SimulasiProps> = ({ data, roi }) => {
                   </p>
                 </div>
                 <button className="bg-[#f2f5ff] cursor-default text-[20px] w-full text-left text-sky font-bold p-3 rounded-xl">
-                  {formatRupiah(nilaiInvestasi)}
+                  {formatRupiah(nilaiInvestasi + (nilaiInvestasi / 100) * roi)}
                 </button>
                 <ul className="text-xs text-sky list-disc mx-4">
-                  <li>
-                    Jumlah yang dibayarkan belum termasuk 0.5% biaya platform
-                  </li>
-                  <li>Belum termasuk PPN berdasarkan hukum yang berlaku</li>
-                  <li>Masa lalu tidak menjamin kinerja masa depan</li>
+                  <li>Kinerja Masa lalu tidak menjamin Kinerja Masa depan</li>
                 </ul>
               </div>
             )}

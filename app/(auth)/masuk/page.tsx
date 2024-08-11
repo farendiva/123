@@ -85,6 +85,16 @@ export default function Masuk() {
             description: "Silahkan verifikasi email Anda terlebih dahulu.",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
+        } else if (result.user.user_type !== "pemodal") {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "Login gagal",
+            description: "Akun anda tidak cocok dengan data kami",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
         } else {
           Cookies.set("authToken", result.token.token, {
             expires: 1,
@@ -92,11 +102,6 @@ export default function Masuk() {
             sameSite: "Strict",
           });
           Cookies.set("user_id", result.user.id, {
-            expires: 1,
-            secure: true,
-            sameSite: "Strict",
-          });
-          Cookies.set("penerbit_id", result.user.penerbit_id, {
             expires: 1,
             secure: true,
             sameSite: "Strict",
@@ -192,7 +197,7 @@ export default function Masuk() {
                 </div>
               </div>
             </div>
-            <div className="sm:col-span-4 lg:col-span-8">
+            <div className="col-span-8">
               <label
                 htmlFor="password"
                 className="block text-sm font-bold leading-6"
@@ -205,7 +210,7 @@ export default function Masuk() {
                   type={showPassword ? "text" : "password"}
                   {...register("password")}
                   autoComplete="new-password"
-                  className="block w-full rounded-md border-0 py-3 px-3 bg-[#f7f7ff] shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                  className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                 />
                 <button
                   type="button"
