@@ -140,10 +140,10 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
       </main>
       <div className="flex justify-center items-center my-4 gap-2 flex-col">
         <Link
-          href="/"
+          href="/dashboard/transaksi"
           className="bg-emerald-light rounded-5xl text-white font-bold px-32 py-4"
         >
-          Beranda
+          Daftar Transaksi
         </Link>
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
