@@ -166,7 +166,7 @@ export default async function ProductDetailPageSukuk({
                     value={
                       data.nilai_pendanaan
                         ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
-                            data.nilai_proyek) *
+                            data.nilai_pendanaan) *
                           100
                         : 0
                     }
@@ -238,8 +238,8 @@ export default async function ProductDetailPageSukuk({
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
                 <h3>
-                  {data.proyeksi_bagi_hasil_min}% -{" "}
-                  {data.proyeksi_bagi_hasil_max}%
+                  {data.proyeksi_bagi_hasil_min}% (
+                  {data.proyeksi_bagi_hasil_max}% p.a)
                 </h3>
               </section>
             </section>
