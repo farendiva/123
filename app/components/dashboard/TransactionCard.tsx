@@ -118,10 +118,23 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             <p className="font-bold">Kode Efek</p>
             <p className="font-medium">{transaksi.efek_id}</p>
           </div>
-          <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
-            <p className="font-bold">Nomor Virtual Account</p>
-            <p className="font-medium">{transaksi.va_number}</p>
-          </div>
+          {transaksi.va_bank !== "mandiri" ? (
+            <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
+              <p className="font-bold">Nomor Virtual Account</p>
+              <p className="font-medium">{transaksi.va_number}</p>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
+                <p className="font-bold">Biller Code</p>
+                <p className="font-medium">{transaksi.biller_code}</p>
+              </div>
+              <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
+                <p className="font-bold">Bill Key</p>
+                <p className="font-medium">{transaksi.bill_key}</p>
+              </div>
+            </>
+          )}
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
             <p className="font-bold">Metode Pembayaran</p>
             <p className="font-medium capitalize">
@@ -264,14 +277,33 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                       VIRTUAL ACCOUNT
                     </p>
                   </div>
-                  <div className="bg-white flex justify-between">
-                    <h1 className="text-[#667AB9] font-bold">
-                      Nomor Virtual Account
-                    </h1>
-                    <div>
-                      <CopyToClipboard text={transaksi.va_number} />
+                  {transaksi.va_bank !== "mandiri" ? (
+                    <div className="bg-white flex justify-between">
+                      <h1 className="text-[#667AB9] font-bold">
+                        Nomor Virtual Account
+                      </h1>
+                      <div>
+                        <CopyToClipboard text={transaksi.va_number ?? ""} />
+                      </div>
                     </div>
-                  </div>
+                  ) : (
+                    <>
+                      <div className="bg-white flex justify-between">
+                        <h1 className="text-[#667AB9] font-bold">
+                          Biller Code
+                        </h1>
+                        <div>
+                          <CopyToClipboard text={transaksi.biller_code ?? ""} />
+                        </div>
+                      </div>
+                      <div className="bg-white flex justify-between">
+                        <h1 className="text-[#667AB9] font-bold">Bill Key</h1>
+                        <div>
+                          <CopyToClipboard text={transaksi.bill_key ?? ""} />
+                        </div>
+                      </div>
+                    </>
+                  )}
                 </div>
 
                 <ExpireButton

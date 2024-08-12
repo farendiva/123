@@ -8,9 +8,10 @@ import { usePathname } from "next/navigation";
 type SimulasiProps = {
   data: number;
   roi: number;
+  tenor: number;
 };
 
-const SimulasiComponent: React.FC<SimulasiProps> = ({ data, roi }) => {
+const SimulasiComponent: React.FC<SimulasiProps> = ({ data, roi, tenor }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [jumlahLembar, setJumlahLembar] = useState<number>(1);
   const [jumlahPendanaan, setJumlahPendanaan] = useState<string>("");
@@ -221,7 +222,7 @@ const SimulasiComponent: React.FC<SimulasiProps> = ({ data, roi }) => {
                 </div>
                 <div className="text-sky text-sm lg:text-[15px]">
                   <p>Tenor</p>
-                  <p className="font-bold">6 Bulan</p>
+                  <p className="font-bold">{tenor} Bulan</p>
                 </div>
                 <div className="text-sky text-sm lg:text-[15px]">
                   <p>Estimasi Keuntungan (Berdasarkan Proyeksi)</p>
@@ -273,7 +274,7 @@ const SimulasiComponent: React.FC<SimulasiProps> = ({ data, roi }) => {
                 </div>
                 <div className="text-sky text-sm lg:text-[15px]">
                   <p>Tenor</p>
-                  <p className="font-bold">6 Bulan</p>
+                  <p className="font-bold">{tenor} Bulan</p>
                 </div>
                 <div className="text-sky text-sm lg:text-[15px]">
                   <p>Estimasi Keuntungan (Berdasarkan Proyeksi)</p>
