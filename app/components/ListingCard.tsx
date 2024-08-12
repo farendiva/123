@@ -194,9 +194,9 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
-            <h4 className="">
-              {project.proyeksi_bagi_hasil_min}% -{" "}
-              {project.proyeksi_bagi_hasil_max}%
+            <h4>
+              {project.proyeksi_bagi_hasil_min}% (
+              {project.proyeksi_bagi_hasil_max}% p.a)
             </h4>
           </section>
         </section>
