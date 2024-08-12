@@ -247,6 +247,7 @@ export default async function ProductDetailPageSukuk({
             {/* Tombol Aksi */}
             <section className="w-4/5 mx-auto flex justify-center items-center gap-1 lg:last-of-type:gap-8 text-xs font-medium py-2">
               <SimulasiComponent
+                tenor={data.tenor_efek}
                 data={data.satuan_pemindahan_buku}
                 roi={data.proyeksi_bagi_hasil_min}
               />
