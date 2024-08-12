@@ -132,7 +132,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           </div>
         )}
 
-        <section className="w-11/12 mx-auto my-4 px-1">
+        <section className="w-11/12 mx-auto my-4">
           <section className="max-h-20 h-14 flex justify-start items-center">
             <h2 className="font-bold text-left text-sm">{project.nama_efek}</h2>
           </section>

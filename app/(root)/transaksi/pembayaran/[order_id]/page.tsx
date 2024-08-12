@@ -124,14 +124,31 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                   {data.va_bank.toUpperCase()} VIRTUAL ACCOUNT
                 </p>
               </div>
-              <div className="bg-white flex justify-between">
-                <h1 className="text-[#667AB9] font-bold">
-                  Nomor Virtual Account
-                </h1>
-                <div>
-                  <CopyToClipboard text={data.va_number} />
+              {data.va_bank !== "mandiri" ? (
+                <div className="bg-white flex justify-between">
+                  <h1 className="text-[#667AB9] font-bold">
+                    Nomor Virtual Account
+                  </h1>
+                  <div>
+                    <CopyToClipboard text={data.va_number} />
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <>
+                  <div className="bg-white flex justify-between">
+                    <h1 className="text-[#667AB9] font-bold">Biller Code</h1>
+                    <div>
+                      <CopyToClipboard text={data.biller_code} />
+                    </div>
+                  </div>
+                  <div className="bg-white flex justify-between">
+                    <h1 className="text-[#667AB9] font-bold">Bill Key</h1>
+                    <div>
+                      <CopyToClipboard text={data.bill_key} />
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
 
             <ExpireButton expire={data.va_expiry_time} status={data.status} />
