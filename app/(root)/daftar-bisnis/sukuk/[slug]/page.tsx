@@ -96,6 +96,7 @@ export default async function ProductDetailPageSukuk({
     unitPrice
   );
 
+  const remainDay = data.periode_penawaran_efek - data.kampanye.penawaran_berjalan
   return (
     <>
       <Head>
@@ -127,7 +128,7 @@ export default async function ProductDetailPageSukuk({
               images={data.berkas}
               tipe={data.jenis_efek}
               akad={data.akad}
-              periode={data.periode_penawaran_efek}
+              periode={remainDay.toString()}
             />
             <div>
               <h2 className="my-2 font-bold">Tentang Bisnis</h2>

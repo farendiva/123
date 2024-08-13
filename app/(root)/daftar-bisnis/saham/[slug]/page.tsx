@@ -61,6 +61,9 @@ type Props = {
       foto_utama: number;
       created_at: string;
       updated_at: string;
+    };
+    kampanye: {
+      penawaran_berjalan: number;
     }[];
   };
 };
@@ -103,6 +106,7 @@ const steps = [
   },
 ];
 
+
 export default async function ProductDetailPageSaham({
   params,
 }: {
@@ -129,6 +133,7 @@ export default async function ProductDetailPageSaham({
       <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
     );
   }
+  
   const user = await getUserData();
   const industriData = [
     { id: 1, industri_pekerjaan: "retail" },
@@ -159,6 +164,8 @@ export default async function ProductDetailPageSaham({
     const industri = industriData.find((item) => item.id === id);
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
+
+  const remainDay = data.periode_penawaran_efek - data.kampanye.penawaran_berjalan
   return (
     <>
       <Head>
@@ -186,11 +193,12 @@ export default async function ProductDetailPageSaham({
       <main>
         <section className="flex flex-col justify-between w-4/5 gap-8 mx-auto my-4 lg:mt-4 lg:mb-16 lg:w-2/3 lg:flex-row">
           <section className="flex flex-col w-full gap-20 space-y-4 lg:w-1/2">
+          
             <ImageSlider
               images={data.berkas}
               tipe={data.jenis_efek}
               akad={3}
-              periode={data.periode_penawaran_efek}
+              periode={remainDay.toString()}
             />
             <div>
               <h2 className="my-2 font-bold">Tentang Bisnis</h2>
