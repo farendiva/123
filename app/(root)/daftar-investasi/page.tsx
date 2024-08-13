@@ -115,7 +115,7 @@ const ProductDetailPage = (props: Props) => {
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan?{" "}
           <a
-            href="https://api.whatsapp.com/send?phone=681299900150"
+            href="https://api.whatsapp.com/send?phone=6281299900150"
             className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
           >
             Hubungi Kami
