@@ -48,6 +48,7 @@ interface Project {
   nama_penerbit: string;
   // status_kampanye: string;
   idlisting: number;
+  penawaran_berjalan: number;
 }
 
 interface ListingCardProps {
@@ -127,7 +128,7 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
                 : "Saham"}
             </button>
             <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">
-              {project.periode_penawaran_efek} Hari lagi
+              {project.periode_penawaran_efek-project.penawaran_berjalan} Hari lagi
             </button>
           </div>
         )}

@@ -49,6 +49,7 @@ interface Project {
   nama_penerbit: string;
   // status_kampanye: string;
   idlisting: number;
+  penawaran_berjalan: number;
 }
 
 export default async function Home() {
