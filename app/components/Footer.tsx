@@ -22,7 +22,7 @@ const Footer = () => {
             <li>
               <a
                 target="__blank"
-                href="https://api.whatsapp.com/send?phone=681299900150"
+                href="https://api.whatsapp.com/send?phone=6281299900150"
               >
                 Whatsapp <br />
                 <span className="font-bold">+62 812 9990 0150</span>

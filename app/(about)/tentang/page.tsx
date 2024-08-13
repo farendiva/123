@@ -14,20 +14,12 @@ export default async function Tentang() {
               Anda.
             </p>
           </section>
-          <section className="flex flex-col lg:flex-row justify-between items-center leading-relaxed gap-6 lg:gap-2">
-            <section className="space-y-1">
+          <section className="flex flex-col lg:flex-row items-center leading-relaxed gap-6 lg:gap-2">
+            <section>
               <img src="/images/ojk2.png" alt="Otoritas Jasa Keuangan Logo" />
-              <p>
-                Fulusme telah Berizin dan Diawasi Oleh{" "}
-                <span className="font-bold">Otoritas Jasa Keuangan RI</span>
-              </p>
             </section>
-            <section className="mt-4 lg:mt-0">
+            <section>
               <img src="/images/iso-badge.png" alt="InfoSec Management Badge" />
-              <p>
-                Keamanan Data Terjamin dengan Sertifikasi
-                <span className="font-bold"> ISO 27001:2013</span>
-              </p>
             </section>
           </section>
         </section>
@@ -56,7 +48,7 @@ export default async function Tentang() {
         <h1 className="text-3xl lg:text-4xl text-center font-bold mx-auto">
           <span className="text-emerald-light">Fulusme</span> Sinergi
         </h1>
-        <section className="w-11/12 mx-auto flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-4">
+        <section className="mt-4 w-11/12 mx-auto flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-4">
           <section className="w-full lg:w-1/4 flex flex-col justify-center items-start">
             <img src="/icons/portrait.svg" alt="Penerbit Logo" />
             <div className="h-1 bg-emerald-light mt-2 w-8"></div>
