@@ -72,7 +72,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
     const interval = setInterval(() => {
       if (distance < 0) {
         clearInterval(interval);
-        setTimeLeft("Expired");
+        setTimeLeft("Kadaluarsa");
       } else {
         const hours = Math.floor(
           (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
@@ -148,16 +148,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             </p>
           </div>
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
-            <p className="text-[#667AB9] font-bold">
-              {distance < 0 || transaksi.status === 1
-                ? "Status Pembayaran"
-                : "Batas Pembayaran"}
-            </p>
+            <p className=" font-bold">Status Pembayaran</p>
             {transaksi.status === 1 ? (
-              <p className="font-bold text-emerald-light">Sudah dibayar</p>
+              <p className="font-bold text-emerald-light">Sudah Dibayar</p>
             ) : distance < 0 ? (
               <p className="text-gray-800 font-medium">
-                <span className="text-[#E09400] font-bold">{timeLeft}</span>
+                <span className="text-[#E09400] font-bold">Kadaluarsa</span>
               </p>
             ) : (
               <p className="text-gray-800 font-medium">
@@ -177,11 +173,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                     minute: "2-digit",
                   }
                 )}{" "}
-                <span className="text-[#E09400] font-bold">{timeLeft}</span>
+                <span className="text-[#667AB9] font-bold">
+                  Menunggu Pembayaran
+                </span>
               </p>
             )}
           </div>
-          {/* <h1>{transaksi.va_expiry_time}</h1> */}
         </div>
       </div>
 

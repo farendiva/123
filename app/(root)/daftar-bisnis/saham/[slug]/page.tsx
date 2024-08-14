@@ -106,7 +106,6 @@ const steps = [
   },
 ];
 
-
 export default async function ProductDetailPageSaham({
   params,
 }: {
@@ -133,7 +132,7 @@ export default async function ProductDetailPageSaham({
       <h1 className="text-4xl font-bold text-center">Bisnis Tidak Ditemukan</h1>
     );
   }
-  
+
   const user = await getUserData();
   const industriData = [
     { id: 1, industri_pekerjaan: "retail" },
@@ -165,7 +164,8 @@ export default async function ProductDetailPageSaham({
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
 
-  const remainDay = data.periode_penawaran_efek - data.kampanye.penawaran_berjalan
+  const remainDay =
+    data.periode_penawaran_efek - data.kampanye.penawaran_berjalan;
   return (
     <>
       <Head>
@@ -193,11 +193,11 @@ export default async function ProductDetailPageSaham({
       <main>
         <section className="flex flex-col justify-between w-4/5 gap-8 mx-auto my-4 lg:mt-4 lg:mb-16 lg:w-2/3 lg:flex-row">
           <section className="flex flex-col w-full gap-20 space-y-4 lg:w-1/2">
-          
             <ImageSlider
               images={data.berkas}
               tipe={data.jenis_efek}
               akad={3}
+              status={data.kampanye.status}
               periode={remainDay.toString()}
             />
             <div>

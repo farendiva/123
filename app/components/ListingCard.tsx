@@ -128,52 +128,65 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
                 : "Saham"}
             </button>
             <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">
-              {project.periode_penawaran_efek-project.penawaran_berjalan} Hari lagi
+              {project.periode_penawaran_efek - project.penawaran_berjalan} Hari
+              lagi
             </button>
           </div>
         )}
 
-        <section className="w-11/12 mx-auto my-4">
-          <section className="max-h-20 h-14 flex justify-start items-center">
+        <section className="w-11/12 mx-auto">
+          <section className="max-h-20 h-16 flex justify-start items-center">
             <h2 className="font-bold text-left text-sm">{project.nama_efek}</h2>
           </section>
         </section>
         <section className="space-y-1.5 px-1">
           <section className="w-11/12 mx-auto text-xs flex justify-between items-center font-bold">
-            <h3>Dana Terkumpul</h3>
-            {project.status_kampanye !== "Selesai" ? (
-              <h3>{formatRupiah(project.total_pendanaan ?? 0)}</h3>
+            {project.status_kampanye === "Segera Dibuka" ? (
+              <>
+                <h3>Dana Dibutuhkan</h3>
+                <h3>{formatRupiah(project.nilai_pendanaan)}</h3>
+              </>
+            ) : project.status_kampanye !== "Selesai" ? (
+              <>
+                <h3>Dana Terkumpul</h3>
+                <h3>{formatRupiah(project.total_pendanaan ?? 0)}</h3>
+              </>
             ) : (
-              <h3>{formatRupiah(project.nilai_pendanaan)}</h3>
+              <>
+                <h3>Dana Terkumpul</h3>
+                <h3>{formatRupiah(project.nilai_pendanaan)}</h3>
+              </>
             )}
           </section>
-          {project.status_kampanye !== "Selesai" && (
-            <div className="w-11/12 flex items-center  mx-auto justify-between gap-2">
-              <Progress
-                value={
-                  project.nilai_pendanaan
-                    ? ((project.total_pendanaan ?? 0) /
-                        project.nilai_pendanaan) *
-                      100
-                    : 0
-                }
-                type={
-                  statusToTypeMap[project.status_kampanye as StatusType] || 0
-                }
-                className="w-full mx-auto"
-              />
-              <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
-                {project.nilai_pendanaan
-                  ? Math.round(
-                      ((project.total_pendanaan ?? 0) /
-                        project.nilai_pendanaan) *
+          {project.status_kampanye !== "Selesai" ? (
+            project.status_kampanye === "Segera Dibuka" ? null : (
+              <div className="w-11/12 flex items-center mx-auto justify-between gap-2">
+                <Progress
+                  value={
+                    project.nilai_pendanaan
+                      ? ((project.total_pendanaan ?? 0) /
+                          project.nilai_pendanaan) *
                         100
-                    )
-                  : 0}
-                %
-              </p>
-            </div>
-          )}
+                      : 0
+                  }
+                  type={
+                    statusToTypeMap[project.status_kampanye as StatusType] || 0
+                  }
+                  className="w-full mx-auto"
+                />
+                <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
+                  {project.nilai_pendanaan
+                    ? Math.round(
+                        ((project.total_pendanaan ?? 0) /
+                          project.nilai_pendanaan) *
+                          100
+                      )
+                    : 0}
+                  %
+                </p>
+              </div>
+            )
+          ) : null}
 
           {/* <Progress value={0} type={0} className="w-11/12 mx-auto" /> */}
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">

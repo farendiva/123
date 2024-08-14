@@ -18,7 +18,7 @@ const ExpireButton: React.FC<ExpireProps> = ({ expire, status }) => {
 
       if (distance < 0) {
         clearInterval(interval);
-        setTimeLeft("Expired");
+        setTimeLeft("Kadaluarsa");
       } else {
         const hours = Math.floor(
           (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)

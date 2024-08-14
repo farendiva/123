@@ -96,7 +96,8 @@ export default async function ProductDetailPageSukuk({
     unitPrice
   );
 
-  const remainDay = data.periode_penawaran_efek - data.kampanye.penawaran_berjalan
+  const remainDay =
+    data.periode_penawaran_efek - data.kampanye.penawaran_berjalan;
   return (
     <>
       <Head>
@@ -128,6 +129,7 @@ export default async function ProductDetailPageSukuk({
               images={data.berkas}
               tipe={data.jenis_efek}
               akad={data.akad}
+              status={data.kampanye.status}
               periode={remainDay.toString()}
             />
             <div>
@@ -161,40 +163,54 @@ export default async function ProductDetailPageSukuk({
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
-              {data.kampanye.status_label !== "Selesai" && (
-                <div className="flex justify-between gap-2">
-                  <Progress
-                    value={
-                      data.nilai_pendanaan
-                        ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
-                            data.nilai_pendanaan) *
-                          100
-                        : 0
-                    }
-                    type={data.kampanye.status}
-                    className="w-full mx-auto"
-                  />
-                  <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
-                    {data.nilai_pendanaan
-                      ? Math.round(
-                          ((data.summary_transaksi?.total_pendanaan ?? 0) /
-                            data.nilai_pendanaan) *
+              {data.kampanye.status !== 7 ? (
+                data.kampanye.status === 1 ? null : (
+                  <div className="flex justify-between gap-2">
+                    <Progress
+                      value={
+                        data.nilai_pendanaan
+                          ? ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                              data.nilai_pendanaan) *
                             100
-                        )
-                      : 0}
-                    %
-                  </p>
-                </div>
-              )}
+                          : 0
+                      }
+                      type={data.kampanye.status}
+                      className="w-full mx-auto"
+                    />
+                    <p className="h-4 px-1 py-0 bg-emerald-light text-xs text-white font-bold rounded-full">
+                      {data.nilai_pendanaan
+                        ? Math.round(
+                            ((data.summary_transaksi?.total_pendanaan ?? 0) /
+                              data.nilai_pendanaan) *
+                              100
+                          )
+                        : 0}
+                      %
+                    </p>
+                  </div>
+                )
+              ) : null}
 
               <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
-                {data.kampanye.status_label !== "Selesai" ? (
-                  <h3>
-                    {formatRupiah(data.summary_transaksi?.total_pendanaan ?? 0)}
-                  </h3>
+                {data.kampanye.status === 1 ? (
+                  <>
+                    <h3 className="text-[#677AB9]">Dana Dibutuhkan</h3>
+                    <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+                  </>
+                ) : data.kampanye.status !== 7 ? (
+                  <>
+                    <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
+                    <h3>
+                      {formatRupiah(
+                        data.summary_transaksi?.total_pendanaan ?? 0
+                      )}
+                    </h3>
+                  </>
                 ) : (
-                  <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+                  <>
+                    <h3 className="text-[#677AB9]">Dana Terkumpul</h3>
+                    <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
+                  </>
                 )}
               </section>
             </section>
@@ -224,10 +240,12 @@ export default async function ProductDetailPageSukuk({
                 <h3 className="text-[#677AB9]">Total Unit (Rp)</h3>
                 <h3>{formatRupiah(data.nilai_pendanaan)}</h3>
               </section>
-              <section className="flex justify-between text-sm">
-                <h3 className="text-[#677AB9]">Unit Tersisa</h3>
-                <h3>{remainingUnits}</h3>
-              </section>
+              {data.kampanye.status === 2 && (
+                <section className="flex justify-between text-sm">
+                  <h3 className="text-[#677AB9]">Unit Tersisa</h3>
+                  <h3>{remainingUnits}</h3>
+                </section>
+              )}
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Periode Pengembalian</h3>
                 <h3>Per {data.tenor_efek} Bulan</h3>
