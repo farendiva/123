@@ -148,6 +148,18 @@
   background: linear-gradient(#332685 23%, rgba(51, 77, 89, 0) 176.78%);
 }
 
+.logo-image {
+  width: 150px;
+  height: 75px;
+  object-fit: contain;
+  filter: grayscale(100%);
+  transition: filter 0.3s ease;
+}
+
+.logo-image:hover {
+  filter: grayscale(0%);
+}
+
 .rdp-vhidden {
   @apply hidden;
 }

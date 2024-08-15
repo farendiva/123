@@ -22,9 +22,9 @@ const TabsQuestions = () => {
               Apa itu Fulusme?
             </AccordionTrigger>
             <AccordionContent className="px-4">
-              Fulusme penyedia layanan Securities Crowd Funding (Layanan Urun
-              Dana ), yaitu tempat bertemunya Pemodal dan Penerbit dalam 1
-              marketplace (platform)..
+              FULUSME adalah Penyelenggara Layanan Urun Dana Berbasiskan
+              Teknologi Informasi (Securities Crowdfunding) yang merupakan
+              tempat bertemunya Pemodal dan Penerbit dalam satu wadah platform
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
@@ -173,20 +173,14 @@ const TabsQuestions = () => {
                   POJK Nomor 57/2020.
                 </li>
                 <li>
-                  Jika tidak terdapat minimum pendanaan, maka kerjasama akan
-                  tetap dilanjutkan sesuai dengan dana yang terkumpul.
+                  Jika penghimpunan dana tidak mencapai batas minimum pendanaan
+                  yang telah disepakati, maka proses kerjasama batal demi hukum
+                  dan dana investasi akan dikembalikan 100% kepada Pemodal.
                 </li>
                 <li>
-                  {" "}
-                  Jika terdapat minimum pendanaan dan minimum pendanaan
-                  tercapai, maka kerjasama akan tetap dilanjutkan sesuai dengan
-                  dana yang terkumpul.
-                </li>
-                <li>
-                  {" "}
-                  Jika terdapat minimum pendanaan namun minimum pendanaan tidak
-                  tercapai, maka proses kerjasama dibatalkan dan dana
-                  dikembalikan kepada Pemodal ke Dompet Fulusme.
+                  Jika penghimpunan dana telah mencapai batas minimum pendanaan
+                  yang telah disepakati, maka kerjasama akan tetap dilanjutkan
+                  sesuai minimum pendanaan yang terkumpul
                 </li>
               </ul>
             </AccordionContent>

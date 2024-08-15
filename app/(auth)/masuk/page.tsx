@@ -92,7 +92,7 @@ export default function Masuk() {
             ),
             variant: "destructive",
             title: "Login gagal",
-            description: "Akun anda tidak cocok dengan data kami",
+            description: "Akun anda tidak sesuai dengan data kami",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
         } else {
@@ -123,7 +123,7 @@ export default function Masuk() {
             ),
             variant: "destructive",
             title: "Login gagal",
-            description: "Password tidak sesuai",
+            description: "Akun anda tidak sesuai dengan data kami.",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
         } else {

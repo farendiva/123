@@ -38,7 +38,7 @@ const Footer = () => {
               Follow Us <br />
               <ul className="flex gap-4 mt-0.5">
                 <li>
-                  <a href="">
+                  <a href="https://www.facebook.com/fulusme/" target="__blank">
                     <img src="/icons/facebook.svg" alt="Facebook Logo" />
                   </a>
                 </li>
@@ -79,31 +79,47 @@ const Footer = () => {
           </section>
           <section className="space-y-8">
             <h6 className="font-bold">DIDUKUNG OLEH</h6>
-            <ul className="w-full grid grid-cols-4 justify-center items-center">
+            <ul className="w-full grid grid-cols-4 justify-center items-center space-x-2">
               <li>
-                <img src="/icons/kominfo.svg" alt="Kominfo Logo" />
-              </li>
-              <li>
-                <img src="/images/Danamon.png" alt="Danamon Logo" />
-              </li>
-              <li>
-                <img src="/images/Aludi.png" alt="Aludi Logo" />
-              </li>
-              <li>
-                <img src="/images/Ksei.png" alt="Ksei Logo" />
-              </li>
-              <li>
-                <img src="/images/pse.png" alt="PSE Logo" />
+                <img
+                  src="/icons/kominfo.svg"
+                  alt="Kominfo Logo"
+                  className="w-12"
+                />
               </li>
               <li>
                 <img
-                  className="pl-6"
-                  src="/images/Pefindo.png"
+                  src="/images/MUFG_Danamon.png"
+                  alt="Danamon Logo"
+                  className="w-20"
+                />
+              </li>
+              <li>
+                <img
+                  src="/images/logo_aludi.png"
+                  alt="Aludi Logo"
+                  className="w-20"
+                />
+              </li>
+              <li>
+                <img src="/icons/Ksei.svg" alt="Ksei Logo" className="w-20" />
+              </li>
+              <li>
+                <img src="/icons/pse.svg" alt="PSE Logo" className="w-16" />
+              </li>
+              <li>
+                <img
+                  className="w-16"
+                  src="/icons/Pefindo.svg"
                   alt="Pefindo Logo"
                 />
               </li>
               <li>
-                <img src="/images/rapid-ssl.png" alt="Rapid SSL Logo" />
+                <img
+                  src="/icons/Rapid SSL.svg"
+                  alt="Rapid SSL Logo"
+                  className="w-16"
+                />
               </li>
             </ul>
           </section>

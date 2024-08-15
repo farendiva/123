@@ -8,6 +8,7 @@ interface Profile {
   position: string;
   description: string;
   imageSrc: string;
+  grid: number;
 }
 
 const ProfileCard: React.FC<Profile> = ({
@@ -15,6 +16,7 @@ const ProfileCard: React.FC<Profile> = ({
   position,
   description,
   imageSrc,
+  grid,
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -47,7 +49,11 @@ const ProfileCard: React.FC<Profile> = ({
       />
       <h2 className="text-2xl font-bold text-center">{name}</h2>
       <h3 className="text-xl text-center text-emerald-500">{position}</h3>
-      <p className="text-center">
+      <p
+        className={`h-24 text-justify ${
+          grid === 4 ? "w-4/5 lg:w-full" : "w-4/5"
+        }`}
+      >
         {description.split(" ").length > limitWords ? (
           <>
             {truncateDescription(description, limitWords)}

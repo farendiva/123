@@ -69,13 +69,14 @@ export default async function Home() {
       {/* HERO GRADIENT */}
       <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>
       <section className="w-4/5 lg:w-11/12 mx-auto mb-52 md:mb-24 lg:mb-32 2xl:mb-60 py-8 md:py-16 xl:py-24 flex flex-col lg:flex-row justify-between items-center gap-12 md:gap-24 lg:gap-32">
-        <section className="w-full lg:w-1/2 text-white space-y-6 lg:space-y-3 z-20 ">
+        <section className="w-full lg:w-1/2 text-white space-y-6 z-20 ">
           <section className="flex flex-col gap-4">
-            <h1 className="text-2xl font-bold">Selamat Datang di Fulusme</h1>
+            <h1 className="text-2xl font-bold">Selamat Datang di FULUSME</h1>
             <p className="text-base text-justify lg:text-left font-normal">
-              Selamat datang di Jaman Now. Dimana Kecepatan dan instan sudah
-              menjadi keseharian kita. Dimana Berinvestasi dan usaha tidak lagi
-              dibatasi ruang dan waktu. Saatnya bergabung bersama Fulusme.
+              FULUSME adalah Penyelenggara Layanan Urun Dana Berbasiskan
+              Teknologi Informasi (Securities Crowdfunding) yang telah
+              mendapatkan izin dari OJK melalui Surat Keputusan Anggota
+              DewanKomisioner OJK Nomor KEP-45/D.04/2022 pada 4 Juli 2022.
             </p>
           </section>
 
@@ -199,32 +200,68 @@ export default async function Home() {
         />
       </section>
       <section className="w-full bg-[#f8f8ff]">
-        <section className="w-4/5 mx-auto py-24 gap-16 flex justify-between">
-          <ul className="list-disc hidden lg:block w-2/3 text-xl text-justify lowercase">
-            <li>
-              OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN MENYETUJUI ATAU
-              TIDAK MENYETUJUI EFEK INI, TIDAK JUGA MENYATAKAN KEBENARAN ATAU
-              KECUKUPAN INFORMASI DALAM LAYANAN URUN DANA INI. SETIAP PERNYATAAN
-              YANG BERTENTANGAN DENGAN HAL TERSEBUT ADALAH PERBUATAN MELANGGAR
-              HUKUM
-            </li>
-            <li>
-              INFORMASI DALAM LAYANAN URUN DANA INI PENTING DAN PERLU MENDAPAT
-              PERHATIAN SEGERA. APABILA TERDAPAT KERAGUAN PADA TINDAKAN YANG
-              AKAN DIAMBIL, SEBAIKNYA BERKONSULTASI DENGAN PENYELENGGARA.
-            </li>
-            <li>
-              PENERBIT DAN PENYELENGGARA, BAIK SENDIRI-SENDIRI MAUPUN
-              BERSAMA-SAMA, BERTANGGUNG JAWAB SEPENUHNYA ATAS KEBENARAN SEMUA
-              INFORMASI YANG TERCANTUM DALAM LAYANAN URUN DANA INI.
-            </li>
-          </ul>
-          <section className="w-full flex flex-col justify-center items-center  lg:w-1/3 mt-8">
+        <ul className="list-disc w-4/5 mx-auto py-32 text-xl text-justify lowercase">
+          <li>
+            OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN MENYETUJUI ATAU
+            TIDAK MENYETUJUI EFEK INI, TIDAK JUGA MENYATAKAN KEBENARAN ATAU
+            KECUKUPAN INFORMASI DALAM LAYANAN URUN DANA INI. SETIAP PERNYATAAN
+            YANG BERTENTANGAN DENGAN HAL TERSEBUT ADALAH PERBUATAN MELANGGAR
+            HUKUM
+          </li>
+          <li>
+            INFORMASI DALAM LAYANAN URUN DANA INI PENTING DAN PERLU MENDAPAT
+            PERHATIAN SEGERA. APABILA TERDAPAT KERAGUAN PADA TINDAKAN YANG AKAN
+            DIAMBIL, SEBAIKNYA BERKONSULTASI DENGAN PENYELENGGARA.
+          </li>
+          <li>
+            PENERBIT DAN PENYELENGGARA, BAIK SENDIRI-SENDIRI MAUPUN
+            BERSAMA-SAMA, BERTANGGUNG JAWAB SEPENUHNYA ATAS KEBENARAN SEMUA
+            INFORMASI YANG TERCANTUM DALAM LAYANAN URUN DANA INI.
+          </li>
+        </ul>
+        {/* <section className="w-full flex flex-col justify-center items-center  lg:w-1/3 mt-8">
             <h2 className="text-xl md:text-2xl font-bold">
               BERIZIN DAN DIAWASI OLEH
             </h2>
             <img src="/images/ojk.png" alt="Otoritas Jasa Keuangan Logo" />
-          </section>
+          </section> */}
+      </section>
+      <section className="w-full bg-white p-16">
+        <h1 className="text-[#767676] text-center text-xl font-bold mb-4">
+          TELAH DILIPUT OLEH
+        </h1>
+        <section className="flex flex-wrap justify-center items-center gap-6 py-8">
+          <img
+            src="/images/kompas.png"
+            alt="KOMPAS LOGO"
+            className="logo-image"
+          />
+          <img
+            src="/images/detik.png"
+            alt="DETIK LOGO"
+            className="logo-image"
+          />
+          <img src="/images/cnbc.png" alt="CNBC LOGO" className="logo-image" />
+          <img
+            src="/images/salaam.png"
+            alt="SALAAM LOGO"
+            className="logo-image"
+          />
+          <img
+            src="/images/kontan.webp"
+            alt="KONTAN LOGO"
+            className="logo-image"
+          />
+          <img
+            src="/images/dailysocial.png"
+            alt="DAILY SOCIAL LOGO"
+            className="logo-image"
+          />
+          <img
+            src="/images/bisnis.png"
+            alt="BISNIS INDONESIA LOGO"
+            className="logo-image"
+          />
         </section>
       </section>
       <TabsQuestions />

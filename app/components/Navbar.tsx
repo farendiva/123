@@ -3,7 +3,7 @@
 import { useUser } from "@/context/UserContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronDown } from "lucide-react"; // Make sure to import this
 
 interface User {
@@ -21,6 +21,18 @@ const Navbar = () => {
   const { user } = useUser();
   const [isOpen, setIsOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isSticky, setIsSticky] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsSticky(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -42,107 +54,55 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="z-50 w-11/12 relative flex justify-between items-center mx-auto py-2 lg:py-8 font-semibold">
-      <Link href="/" className="flex">
-        {pathname === "/" || pathname === "/tentang" ? (
-          <img
-            className="scale-75 lg:scale-100"
-            src="/images/fulusme-white.png"
-            alt="Fulusme Icon"
-          />
-        ) : (
-          <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
-        )}
-      </Link>
-      <button
-        className="block lg:hidden focus:outline-none"
-        onClick={toggleMenu}
+    <header
+      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+        isSticky ? "bg-white shadow-lg" : "bg-transparent"
+      }`}
+    >
+      <nav
+        className={`w-11/12 flex justify-between items-center mx-auto py-2  lg:py-6  font-semibold`}
       >
-        <span className={`hamburger-icon ${isOpen ? "open" : ""}`}>
-          <span className="line line-top"></span>
-          <span className="line line-middle"></span>
-          <span className="line line-bottom"></span>
-        </span>
-      </button>
-      <ul className="hidden lg:flex lg:items-center gap-10">
-        {menuItems.map(({ href, label }) => (
-          <li key={href}>
-            <Link
-              href={href}
-              className={`hover:text-emerald-light font-bold ${
-                (pathname === "/" && href === "/") ||
-                (pathname === "/tentang" && href === "/tentang")
-                  ? "text-emerald-light"
-                  : pathname === href
-                  ? "text-emerald-light"
-                  : pathname !== "/" && pathname !== "/tentang"
-                  ? "text-sky"
-                  : "text-white"
+        <Link href="/" className="flex">
+          {pathname === "/" || pathname === "/tentang" ? (
+            <img
+              className="scale-75 lg:scale-100"
+              src={` ${
+                isSticky ? "/icons/fulusme.svg" : "/images/fulusme-white.png"
               }`}
-            >
-              {label}
-            </Link>
-          </li>
-        ))}
-        {user ? (
-          <li className="relative">
-            <Link
-              href="/dashboard"
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <img
-                className="w-12 h-12 rounded-full"
-                src={getProfileImage(user)}
-                alt={`${user.name} Foto Profile`}
-              />
-              <h2
-                className={`font-bold ${
-                  pathname === "/" || pathname === "/tentang"
-                    ? "text-white"
-                    : "text-black"
-                }`}
-              >
-                {user.profile.nama_depan + " " + user.profile.nama_belakang}
-              </h2>
-            </Link>
-          </li>
-        ) : (
-          <>
-            <li>
-              <Link
-                href="/masuk"
-                className="bg-emerald rounded-3xl py-3 px-7 text-white"
-              >
-                Masuk
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/daftar"
-                className={`hover:text-emerald-light font-bold ${
-                  pathname === "/" || pathname === "/tentang"
-                    ? "text-white"
-                    : "text-black"
-                }`}
-              >
-                Daftar
-              </Link>
-            </li>
-          </>
-        )}
-      </ul>
-      {isOpen && (
-        <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
+              alt="Fulusme Icon"
+            />
+          ) : (
+            <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+          )}
+        </Link>
+        <button
+          className="block lg:hidden focus:outline-none"
+          onClick={toggleMenu}
+        >
+          <span className={`hamburger-icon ${isOpen ? "open" : ""}`}>
+            <span className="line line-top"></span>
+            <span className="line line-middle"></span>
+            <span className="line line-bottom"></span>
+          </span>
+        </button>
+        <ul className="hidden lg:flex lg:items-center gap-10">
           {menuItems.map(({ href, label }) => (
             <li key={href}>
               <Link
                 href={href}
-                className={`block hover:text-green-700 ${
-                  pathname === href
-                    ? "text-green-500 font-semibold"
-                    : "text-black/90 font-medium"
-                }`}
-                onClick={() => setIsOpen(false)}
+                className={`font-bold ${
+                  isSticky
+                    ? pathname === href
+                      ? "text-emerald hover:text-emerald"
+                      : "text-sky hover:text-emerald"
+                    : (pathname === "/" && href === "/") ||
+                      (pathname === "/tentang" && href === "/tentang") ||
+                      pathname === href
+                    ? "text-emerald-light"
+                    : pathname !== "/" && pathname !== "/tentang"
+                    ? "text-sky"
+                    : "text-white"
+                } hover:text-emerald-light`}
               >
                 {label}
               </Link>
@@ -152,9 +112,24 @@ const Navbar = () => {
             <li className="relative">
               <Link
                 href="/dashboard"
-                className="flex font-medium items-center gap-2 cursor-pointer"
+                className="flex items-center gap-2 cursor-pointer"
               >
-                Dashboard
+                <img
+                  className="w-12 h-12 rounded-full"
+                  src={getProfileImage(user)}
+                  alt={`${user.name} Foto Profile`}
+                />
+                <h2
+                  className={`font-bold ${
+                    isSticky
+                      ? "text-sky"
+                      : pathname === "/" || pathname === "/tentang"
+                      ? "text-white"
+                      : "text-black"
+                  }`}
+                >
+                  {user.profile.nama_depan + " " + user.profile.nama_belakang}
+                </h2>
               </Link>
             </li>
           ) : (
@@ -162,8 +137,7 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/masuk"
-                  className="block hover:text-green-700 text-black/90 font-medium"
-                  onClick={() => setIsOpen(false)}
+                  className="bg-emerald rounded-3xl py-3 px-7 text-white"
                 >
                   Masuk
                 </Link>
@@ -171,8 +145,13 @@ const Navbar = () => {
               <li>
                 <Link
                   href="/daftar"
-                  className="block hover:text-green-700 text-black/90 font-medium"
-                  onClick={() => setIsOpen(false)}
+                  className={`hover:text-emerald-light font-bold ${
+                    isSticky
+                      ? "text-sky"
+                      : pathname === "/" || pathname === "/tentang"
+                      ? "text-white"
+                      : "text-black"
+                  }`}
                 >
                   Daftar
                 </Link>
@@ -180,8 +159,58 @@ const Navbar = () => {
             </>
           )}
         </ul>
-      )}
-    </nav>
+        {isOpen && (
+          <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
+            {menuItems.map(({ href, label }) => (
+              <li key={href}>
+                <Link
+                  href={href}
+                  className={`block hover:text-green-700 ${
+                    pathname === href
+                      ? "text-green-500 font-semibold"
+                      : "text-black/90 font-medium"
+                  }`}
+                  onClick={() => setIsOpen(false)}
+                >
+                  {label}
+                </Link>
+              </li>
+            ))}
+            {user ? (
+              <li className="relative">
+                <Link
+                  href="/dashboard"
+                  className="flex font-medium items-center gap-2 cursor-pointer"
+                >
+                  Dashboard
+                </Link>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link
+                    href="/masuk"
+                    className="block hover:text-green-700 text-black/90 font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Masuk
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/daftar"
+                    className="block hover:text-green-700 text-black/90 font-medium"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Daftar
+                  </Link>
+                </li>
+              </>
+            )}
+          </ul>
+        )}
+      </nav>
+    </header>
   );
 };
 

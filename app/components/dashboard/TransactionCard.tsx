@@ -55,6 +55,7 @@ interface TransactionCardProps {
 const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState(false);
+  console.log(transaksi);
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
@@ -69,41 +70,65 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   const expiryTime = new Date(transaksi.va_expiry_time).getTime();
   const distance = expiryTime - now;
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (distance < 0) {
-        clearInterval(interval);
-        setTimeLeft("Kadaluarsa");
-      } else {
-        const hours = Math.floor(
-          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-        );
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-        setTimeLeft(`${hours}:${minutes}:${seconds}`);
-      }
-    }, 1000);
+    if (transaksi.status === 0 && distance > 0) {
+      const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const expiryTime = new Date(transaksi.va_expiry_time).getTime();
+        const distance = expiryTime - now;
 
-    return () => clearInterval(interval);
-  }, [transaksi.va_expiry_time, distance]);
+        if (distance < 0) {
+          clearInterval(interval);
+          setTimeLeft("Kedaluwarsa");
+        } else {
+          const hours = Math.floor(
+            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+          );
+          const minutes = Math.floor(
+            (distance % (1000 * 60 * 60)) / (1000 * 60)
+          );
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          setTimeLeft(
+            `${hours.toString().padStart(2, "0")}:${minutes
+              .toString()
+              .padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`
+          );
+        }
+      }, 1000);
+
+      return () => clearInterval(interval);
+    }
+  }, [transaksi.va_expiry_time, transaksi.status]);
 
   const ppn = transaksi.biaya_layanan * 0.11;
   return (
     <>
-      <div className="max-w-4xl mb-4 mx-auto bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 p-6 space-y-3">
-        <div className="flex justify-between items-center">
-          <div
-            className={`${
-              transaksi.tipe_efek === "Saham"
-                ? "bg-emerald-light"
-                : "bg-[#FF1F00]"
-            } text-white px-8 py-1 rounded-md text-sm font-semibold`}
-          >
-            {transaksi.tipe_efek}
+      <div className="max-w-4xl mb-4 mx-auto bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 p-6 space-y-4">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
+          <div className="flex gap-2 items-start justify-between">
+            <p
+              className={`${
+                transaksi.tipe_efek === "Saham"
+                  ? "bg-emerald-light"
+                  : "bg-[#FF1F00]"
+              } text-white px-4 sm:px-8 py-1 rounded-md text-xs sm:text-sm font-semibold`}
+            >
+              {transaksi.tipe_efek}
+            </p>
+            <p className="text-xs sm:text-sm">
+              {new Date(transaksi.tanggal_pembelian).toLocaleDateString(
+                "id-ID",
+                {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                }
+              )}
+            </p>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 w-full sm:w-auto justify-between sm:justify-start">
             <button
               onClick={toggleExpanded}
-              className="bg-[#667AB9] hover:bg-[#475da9] text-sm font-bold text-white px-3 lg:px-6 py-1 rounded-3xl  transition duration-300"
+              className="bg-[#667AB9] hover:bg-[#475da9] text-xs sm:text-sm font-bold text-white px-3 sm:px-6 py-1 rounded-3xl transition duration-300"
             >
               Lihat Detil
             </button>
@@ -153,33 +178,31 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
               <p className="font-bold text-emerald-light">Sudah Dibayar</p>
             ) : distance < 0 ? (
               <p className="text-gray-800 font-medium">
-                <span className="text-[#E09400] font-bold">Kadaluarsa</span>
+                <span className="text-[#FF1F00] font-bold">Kedaluwarsa</span>
               </p>
             ) : (
-              <p className="text-gray-800 font-medium">
-                {new Date(transaksi.va_expiry_time).toLocaleDateString(
-                  "id-ID",
-                  {
-                    weekday: "long",
-                    day: "numeric",
-                    month: "long",
-                  }
-                )}
-                ,{" "}
-                {new Date(transaksi.va_expiry_time).toLocaleTimeString(
-                  "id-ID",
-                  {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }
-                )}{" "}
-                <span className="text-[#667AB9] font-bold">
-                  Menunggu Pembayaran
-                </span>
-              </p>
+              <p className="text-[#FBB400] font-bold">Menunggu Pembayaran</p>
             )}
           </div>
         </div>
+        {transaksi.status === 0 && distance > 0 && (
+          <div className="text-sm text-[#595959] inline-flex gap-1 bg-[#E0E7FF] py-2 px-6 border border-dashed rounded-md border-sky">
+            <p>Harap Melakukan Pembayaran sebelum</p>
+            <span>
+              {new Date(transaksi.va_expiry_time).toLocaleDateString("id-ID", {
+                weekday: "long",
+                day: "numeric",
+                month: "long",
+              })}
+              ,{" "}
+              {new Date(transaksi.va_expiry_time).toLocaleTimeString("id-ID", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}{" "}
+            </span>
+            <span className="font-bold ">: {timeLeft}</span>
+          </div>
+        )}
       </div>
 
       {isExpanded && (
