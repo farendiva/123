@@ -983,8 +983,8 @@ const TermServices: FC<TermProps> = ({ handleScroll, register, errors }) => {
         kendala ataupun terdapat aduan lainnya melalui
       </p>
       <ul className="space-y-1">
-        <li>Telepon : 0212 38820133</li>
-        <li>Whatsapp : 085771618422</li>
+        <li>Telepon : +62 21 388 20 133</li>
+        <li>Whatsapp : +6281299900150</li>
         <li>Email : info@fulusme.id</li>
       </ul>
       <p>

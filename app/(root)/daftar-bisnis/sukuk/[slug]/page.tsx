@@ -256,10 +256,14 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
-                <h3>
-                  {data.proyeksi_bagi_hasil_min}% (
-                  {data.proyeksi_bagi_hasil_max}% p.a)
-                </h3>
+                {data.kampanye.status === 7 ? (
+                  <h3>{data.proyeksi_bagi_hasil_max}% p.a</h3>
+                ) : (
+                  <h3>
+                    {data.proyeksi_bagi_hasil_min}% (
+                    {data.proyeksi_bagi_hasil_max}% p.a)
+                  </h3>
+                )}
               </section>
             </section>
 

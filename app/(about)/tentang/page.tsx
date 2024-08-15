@@ -17,7 +17,10 @@ export default async function Tentang() {
           </section>
           <section className="flex flex-col lg:flex-row items-center leading-relaxed gap-6 lg:gap-2">
             <section>
-              <img src="/images/ojk2.png" alt="Otoritas Jasa Keuangan Logo" />
+              <img
+                src="/images/ojk_white.png"
+                alt="Otoritas Jasa Keuangan Logo"
+              />
             </section>
             <section>
               <img src="/images/iso-badge.png" alt="InfoSec Management Badge" />
@@ -73,7 +76,8 @@ export default async function Tentang() {
             <div className="h-1 bg-emerald-light mt-2 w-8"></div>
             <h2 className="text-xl font-bold">Pemodal</h2>
             <p>
-              Secara konsisten menampilkan proyek dengan dividen yang menarik
+              Secara konsisten menampilkan jumlah nilai pokok dan bagi hasil
+              yang menarik
             </p>
           </section>
         </section>

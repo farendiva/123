@@ -36,8 +36,6 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
     setCurrentIndex(index);
   };
 
-  console.log(status);
-
   return (
     <div className="relative w-full h-56 lg:h-72">
       <div className="relative w-full overflow-hidden rounded-md h-56 lg:h-72">

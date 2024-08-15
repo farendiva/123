@@ -60,12 +60,12 @@ const Navbar = () => {
       }`}
     >
       <nav
-        className={`w-11/12 flex justify-between items-center mx-auto py-2  lg:py-6  font-semibold`}
+        className={`w-11/12 flex justify-between items-center mx-auto py-2 font-semibold`}
       >
         <Link href="/" className="flex">
           {pathname === "/" || pathname === "/tentang" ? (
             <img
-              className="scale-75 lg:scale-100"
+              className="scale-90"
               src={` ${
                 isSticky ? "/icons/fulusme.svg" : "/images/fulusme-white.png"
               }`}

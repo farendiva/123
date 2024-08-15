@@ -16,7 +16,7 @@ const Footer = () => {
           <h5 className="font-bold">HUBUNGI KAMI</h5>
           <ul className="flex flex-col lg:flex-row gap-4 lg:gap-6">
             <li>
-              Nomor Telefon <br />
+              Nomor Telepon <br />
               <span className="font-bold">+62 21 388 20 133</span>
             </li>
             <li>

@@ -64,7 +64,6 @@ const formatTitleForUrl = (title: string) => {
 
 const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
   const formattedNamaEfek = formatTitleForUrl(project.nama_efek);
-  // project.status_kampanye = "Penawaran";
 
   return (
     <Link
@@ -208,10 +207,14 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
-            <h4>
-              {project.proyeksi_bagi_hasil_min}% (
-              {project.proyeksi_bagi_hasil_max}% p.a)
-            </h4>
+            {project.status_kampanye === "Selesai" ? (
+              <h4>{project.proyeksi_bagi_hasil_max}% p.a</h4>
+            ) : (
+              <h4>
+                {project.proyeksi_bagi_hasil_min}% (
+                {project.proyeksi_bagi_hasil_max}% p.a)
+              </h4>
+            )}
           </section>
         </section>
       </section>

@@ -92,15 +92,30 @@ export default function Form() {
     handleSubmit,
     watch,
     control,
+    setError,
     getValues,
     reset,
     trigger,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(RegistrationDataSchema),
+    mode: "onChange",
   });
 
   const termsAgreed = watch("terms");
+  const password = watch("password");
+  const passwordConfirmation = watch("passwordConfirmation");
+
+  useEffect(() => {
+    if (password && passwordConfirmation) {
+      if (password !== passwordConfirmation) {
+        setError("passwordConfirmation", {
+          type: "manual",
+          message: "Kata Sandi Konfirmasi Harus Sama",
+        });
+      }
+    }
+  }, [password, passwordConfirmation, setError]);
 
   function convertPhoneNumber(phone: string) {
     if (phone.startsWith("0")) {
@@ -285,6 +300,19 @@ export default function Form() {
             variant: "destructive",
             title: "Email Tidak Valid",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
+          return;
+        }
+      }
+
+      if (currentStep === 1) {
+        // Assuming step 1 is the password step
+        const password = getValues("password");
+        const passwordConfirmation = getValues("passwordConfirmation");
+        if (password !== passwordConfirmation) {
+          setError("passwordConfirmation", {
+            type: "manual",
+            message: "Kata Sandi Konfirmasi Harus Sama",
           });
           return;
         }
@@ -615,9 +643,13 @@ export default function Form() {
                   </button>
                 </div>
                 <div className="mt-1 h-1">
-                  {errors.passwordConfirmation?.message && (
+                  {(errors.passwordConfirmation?.message ||
+                    (passwordConfirmation && password !== passwordConfirmation
+                      ? "Kata Sandi Konfirmasi Harus Sama"
+                      : "")) && (
                     <p className="text-sm text-red-400">
-                      {errors.passwordConfirmation.message}
+                      {errors.passwordConfirmation?.message ||
+                        "Kata Sandi Konfirmasi Harus Sama"}
                     </p>
                   )}
                 </div>

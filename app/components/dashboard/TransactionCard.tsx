@@ -55,7 +55,6 @@ interface TransactionCardProps {
 const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState(false);
-  console.log(transaksi);
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);

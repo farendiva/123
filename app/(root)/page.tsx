@@ -199,7 +199,7 @@ export default async function Home() {
           className="h-full hidden lg:block"
         />
       </section>
-      <section className="w-full bg-[#f8f8ff]">
+      {/* <section className="w-full bg-[#f8f8ff]">
         <ul className="list-disc w-4/5 mx-auto py-32 text-xl text-justify lowercase">
           <li>
             OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN MENYETUJUI ATAU
@@ -219,13 +219,7 @@ export default async function Home() {
             INFORMASI YANG TERCANTUM DALAM LAYANAN URUN DANA INI.
           </li>
         </ul>
-        {/* <section className="w-full flex flex-col justify-center items-center  lg:w-1/3 mt-8">
-            <h2 className="text-xl md:text-2xl font-bold">
-              BERIZIN DAN DIAWASI OLEH
-            </h2>
-            <img src="/images/ojk.png" alt="Otoritas Jasa Keuangan Logo" />
-          </section> */}
-      </section>
+      </section> */}
       <section className="w-full bg-white p-16">
         <h1 className="text-[#767676] text-center text-xl font-bold mb-4">
           TELAH DILIPUT OLEH
@@ -260,6 +254,40 @@ export default async function Home() {
           <img
             src="/images/bisnis.png"
             alt="BISNIS INDONESIA LOGO"
+            className="logo-image"
+          />
+        </section>
+      </section>
+      <section className="w-full bg-white p-16">
+        <h1 className="text-[#767676] text-center text-xl font-bold mb-4">
+          DIDUKUNG OLEH
+        </h1>
+        <section className="flex flex-wrap justify-center items-center gap-12 py-8">
+          <img
+            src="/icons/kominfo.svg"
+            alt="KOMINFO LOGO"
+            className="logo-image"
+          />
+          <img
+            src="/images/MUFG_Danamon.png"
+            alt="Danamon Logo"
+            className="logo-image"
+          />
+          <img
+            src="/images/logo_aludi.png"
+            alt="Aludi Logo"
+            className="logo-image"
+          />
+          <img src="/icons/Ksei.svg" alt="Ksei Logo" className="logo-image" />
+          <img src="/icons/pse.svg" alt="PSE Logo" className="logo-image" />
+          <img
+            className="logo-image"
+            src="/icons/Pefindo.svg"
+            alt="Pefindo Logo"
+          />
+          <img
+            src="/icons/Rapid SSL.svg"
+            alt="Rapid SSL Logo"
             className="logo-image"
           />
         </section>
