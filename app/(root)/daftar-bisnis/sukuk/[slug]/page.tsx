@@ -11,6 +11,50 @@ import LokasiComponent from "@/app/components/LokasiComponent";
 import { Progress } from "@/components/ui/progress";
 import PurchaseButton from "@/app/components/PurchaseButton";
 import { getUserData } from "@/lib/auth";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const { slug } = params;
+  let id = slug.split("-").pop();
+  if (!id) {
+    return {
+      title: "Bisnis Tidak Ditemukan",
+    };
+  }
+
+  let data;
+  try {
+    data = await getDetailSukuk(id);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return {
+      title: "Error Memuat Produk",
+    };
+  }
+
+  if (!data) {
+    return {
+      title: "Bisnis Tidak Ditemukan",
+    };
+  }
+
+  const description = `Detail untuk ${data.nama_efek}. Pelajari lebih lanjut tentang ${data.nama_efek}, fitur-fiturnya, dan peluang investasinya.`;
+
+  return {
+    title: data.nama_efek,
+    description: description,
+    openGraph: {
+      title: data.nama_efek,
+      description: description,
+      url: `https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`,
+      type: "website",
+    },
+  };
+}
 
 export default async function ProductDetailPageSukuk({
   params,

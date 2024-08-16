@@ -2,6 +2,13 @@ import Link from "next/link";
 import TabsQuestions from "../components/TabsQuestions";
 import { getListing } from "@/lib/listing";
 import ListingCard from "../components/ListingCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "FULUSME",
+  description:
+    "PT Fintek Andalan Solusi Teknologi atau FULUSME adalah Penyelenggara Layanan Urun Dana Berbasiskan Teknologi Informasi",
+};
 
 const statusToTypeMap = {
   "Segera Dibuka": 1,

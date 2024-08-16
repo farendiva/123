@@ -1,3 +1,9 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Alur Bisnis | FULUSME",
+  description: "Alur Bisnis di FULUSME",
+};
 export default async function Alur() {
   return (
     <main className="w-full flex flex-col justify-center items-center bg-white mx-auto rounded-xl h-screen p-4">

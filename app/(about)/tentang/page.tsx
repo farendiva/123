@@ -1,4 +1,10 @@
 import ProfileCard from "@/app/components/ProfileCard";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Tentang | FULUSME",
+  description: "Semua Tentang FULUSME",
+};
 
 export default async function Tentang() {
   return (

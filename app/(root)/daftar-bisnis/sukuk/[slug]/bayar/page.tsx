@@ -5,7 +5,12 @@ import { getDetailSukuk } from "@/lib/listing";
 import { getBanks } from "@/lib/preferences";
 import { User } from "lucide-react";
 import { cookies } from "next/headers";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Bayar | FULUSME",
+  description: "Halaman Pembayaran Pembelian Efek",
+};
 type Props = {
   data: {
     id: number;

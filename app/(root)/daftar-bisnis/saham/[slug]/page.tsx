@@ -11,6 +11,51 @@ import ShareComponent from "@/app/components/ShareComponent";
 import LokasiComponent from "@/app/components/LokasiComponent";
 import { getUserData } from "@/lib/auth";
 import PurchaseButton from "@/app/components/PurchaseButton";
+import { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { slug: string };
+}): Promise<Metadata> {
+  const { slug } = params;
+  let id = slug.split("-").pop();
+  if (!id) {
+    return {
+      title: "Bisnis Tidak Ditemukan",
+    };
+  }
+
+  let data;
+  try {
+    data = await getDetailSaham(id);
+  } catch (error) {
+    console.error("Error fetching product details:", error);
+    return {
+      title: "Error Memuat Produk",
+    };
+  }
+
+  if (!data) {
+    return {
+      title: "Bisnis Tidak Ditemukan",
+    };
+  }
+
+  const description = `Detail untuk ${data.nama_efek}. Pelajari lebih lanjut tentang ${data.nama_efek}, fitur-fiturnya, dan peluang investasinya.`;
+
+  return {
+    title: data.nama_efek,
+    description: description,
+    openGraph: {
+      title: data.nama_efek,
+      description: description,
+      url: `https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`,
+      type: "website",
+    },
+  };
+}
+
 type Props = {
   data: {
     id: number;
@@ -67,44 +112,6 @@ type Props = {
     }[];
   };
 };
-
-const steps = [
-  {
-    title: "Pre Listing",
-    description: "Complete your profile and business information.",
-    icon: <i className="fas fa-user-circle"></i>,
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    title: "Listing",
-    description: "Upload your products and set prices.",
-    icon: <i className="fas fa-store"></i>,
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    title: "Pendanaan",
-    description: "Collect funds from potential investors.",
-    icon: <i className="fas fa-money-bill-wave"></i>,
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    title: "Terpenuhi",
-    description: "Your funding goal has been reached.",
-    icon: <i className="fas fa-check-circle"></i>,
-    isActive: false,
-    isComplete: false,
-  },
-  {
-    title: "Berjalan",
-    description: "Your business is now operational.",
-    icon: <i className="fas fa-rocket"></i>,
-    isActive: false,
-    isComplete: false,
-  },
-];
 
 export default async function ProductDetailPageSaham({
   params,
@@ -184,7 +191,6 @@ export default async function ProductDetailPageSaham({
           property="og:url"
           content={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}
         />
-        <meta property="og:type" content="product" />
         <link
           rel="canonical"
           href={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}

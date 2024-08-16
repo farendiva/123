@@ -12,7 +12,12 @@ import {
 import { CircleAlert } from "lucide-react";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Detail Transaksi | FULUSME",
+  description: "Halaman Detail Transaksi Efek",
+};
 interface OrderDetailProps {
   params: { order_id: number };
 }

@@ -1,6 +1,11 @@
 import ListingGrid from "@/app/components/ListingGrid";
 import { getListing } from "@/lib/listing";
+import { Metadata } from "next";
 
+export const metadata: Metadata = {
+  title: "Daftar Bisnis | FULUSME",
+  description: "Daftar Bisnis di FULUSME",
+};
 export default async function DaftarBisnis() {
   const listing = await getListing();
   return (

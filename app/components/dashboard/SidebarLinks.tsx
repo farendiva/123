@@ -22,7 +22,6 @@ const links = [
   },
   { name: "Transaksi", href: "/dashboard/transaksi", icon: CreditCard },
   { name: "Profile", href: "/dashboard/profile", icon: User2Icon },
-  { name: "Bisnis Saya", href: "/dashboard/bisnis", icon: Briefcase },
   { name: "Laporan", href: "/dashboard/laporan", icon: FileText },
   { name: "Bantuan", href: "/dashboard/bantuan", icon: CircleHelp },
 ];
