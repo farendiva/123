@@ -27,7 +27,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`w-full mx-auto max-w-[1800px]`}>
+      <body className={`w-full mx-auto`}>
         <UserProvider initialUser={userData.data}>
           <Navbar />
           {children}

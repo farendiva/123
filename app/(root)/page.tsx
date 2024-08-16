@@ -60,11 +60,11 @@ export default async function Home() {
       {/* HERO SECTION */}
       <div className="w-full absolute top-0">
         <img
-          className="w-full max-w-[1800px] hidden lg:block relative rounded-b-5xl -z-50"
+          className="w-full hidden lg:block relative rounded-b-5xl -z-50"
           src="/images/cover.png"
           alt="Background image Cover"
         />
-        <div className="absolute inset-0 max-w-[1800px] bg-custom-gradient rounded-b-5xl z-10"></div>
+        <div className="absolute inset-0 bg-custom-gradient rounded-b-5xl z-10"></div>
       </div>
       {/* HERO GRADIENT */}
       <div className="block lg:hidden absolute inset-0 bg-custom-gradient z-10"></div>

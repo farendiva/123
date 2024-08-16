@@ -72,7 +72,11 @@ const Navbar = () => {
               alt="Fulusme Icon"
             />
           ) : (
-            <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+            <img
+              className="scale-75"
+              src="/icons/fulusme.svg"
+              alt="Fulusme Icon"
+            />
           )}
         </Link>
         <button

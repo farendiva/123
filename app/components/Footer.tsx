@@ -2,8 +2,8 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full bg-[#f8f8ff] py-16 text-sm lg:text-base">
-      <section className="w-4/5 lg:w-11/12 mx-auto flex flex-col gap-8 lg:gap-0 lg:flex-row justify-between items-center">
+    <footer className="w-full bg-[#f8f8ff] py-8 text-sm lg:text-base">
+      <section className="w-11/12 mx-auto flex flex-col gap-8 md:gap-0 md:flex-row justify-between items-center">
         <section className="space-y-4">
           <img src="/icons/fulusme.svg" alt="Fulusme Logo" />
           <h5 className="font-bold">ALAMAT</h5>
@@ -77,7 +77,7 @@ const Footer = () => {
               />
             </section>
           </section>
-          <section className="space-y-8">
+          {/* <section className="space-y-8">
             <h6 className="font-bold">DIDUKUNG OLEH</h6>
             <ul className="w-full grid grid-cols-4 justify-center items-center space-x-2">
               <li>
@@ -122,7 +122,7 @@ const Footer = () => {
                 />
               </li>
             </ul>
-          </section>
+          </section> */}
         </section>
       </section>
     </footer>
