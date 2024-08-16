@@ -274,20 +274,22 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
   const totalPembayaran = nilaiInvestasi + biayaPlatform + ppn;
 
   const handleSubmit = async () => {
-    const maxInvestment =
-      user.profile.pendapatan < 6 ? 500000000 * 0.05 : 500000000 * 0.1;
-    const nilaiInvestasi = jumlahLembar * data.satuan_pemindahan_buku;
+    if (data.jenis_efek === "Saham") {
+      const maxInvestment =
+        user.profile.pendapatan < 6 ? 500000000 * 0.05 : 500000000 * 0.1;
+      const nilaiInvestasi = jumlahLembar * data.satuan_pemindahan_buku;
 
-    if (nilaiInvestasi > maxInvestment) {
-      toast({
-        className: cn(
-          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-        ),
-        variant: "destructive",
-        title: "Investasi Melebihi Batas",
-        description: `Maksimal investasi Anda adalah ${maxInvestment.toLocaleString()} rupiah.`,
-      });
-      return;
+      if (nilaiInvestasi > maxInvestment) {
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "destructive",
+          title: "Investasi Melebihi Batas",
+          description: `Maksimal investasi Anda adalah ${maxInvestment.toLocaleString()} rupiah.`,
+        });
+        return;
+      }
     }
 
     const postData = {

@@ -72,11 +72,11 @@ export default async function Home() {
         <section className="w-full lg:w-1/2 text-white space-y-6 z-20 ">
           <section className="flex flex-col gap-4">
             <h1 className="text-2xl font-bold">Selamat Datang di FULUSME</h1>
-            <p className="text-base text-justify lg:text-left font-normal">
+            <p className="text-base text-justify font-normal">
               FULUSME adalah Penyelenggara Layanan Urun Dana Berbasiskan
               Teknologi Informasi (Securities Crowdfunding) yang telah
-              mendapatkan izin dari OJK melalui Surat Keputusan Anggota
-              DewanKomisioner OJK Nomor KEP-45/D.04/2022 pada 4 Juli 2022.
+              mendapatkan izin dari OJK melalui Surat Keputusan Anggota Dewan
+              Komisioner OJK Nomor KEP-45/D.04/2022 pada 4 Juli 2022.
             </p>
           </section>
 
@@ -199,27 +199,6 @@ export default async function Home() {
           className="h-full hidden lg:block"
         />
       </section>
-      {/* <section className="w-full bg-[#f8f8ff]">
-        <ul className="list-disc w-4/5 mx-auto py-32 text-xl text-justify lowercase">
-          <li>
-            OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN MENYETUJUI ATAU
-            TIDAK MENYETUJUI EFEK INI, TIDAK JUGA MENYATAKAN KEBENARAN ATAU
-            KECUKUPAN INFORMASI DALAM LAYANAN URUN DANA INI. SETIAP PERNYATAAN
-            YANG BERTENTANGAN DENGAN HAL TERSEBUT ADALAH PERBUATAN MELANGGAR
-            HUKUM
-          </li>
-          <li>
-            INFORMASI DALAM LAYANAN URUN DANA INI PENTING DAN PERLU MENDAPAT
-            PERHATIAN SEGERA. APABILA TERDAPAT KERAGUAN PADA TINDAKAN YANG AKAN
-            DIAMBIL, SEBAIKNYA BERKONSULTASI DENGAN PENYELENGGARA.
-          </li>
-          <li>
-            PENERBIT DAN PENYELENGGARA, BAIK SENDIRI-SENDIRI MAUPUN
-            BERSAMA-SAMA, BERTANGGUNG JAWAB SEPENUHNYA ATAS KEBENARAN SEMUA
-            INFORMASI YANG TERCANTUM DALAM LAYANAN URUN DANA INI.
-          </li>
-        </ul>
-      </section> */}
       <section className="w-full bg-white p-16">
         <h1 className="text-[#767676] text-center text-xl font-bold mb-4">
           TELAH DILIPUT OLEH
@@ -303,7 +282,7 @@ export default async function Home() {
         <h4 className="text-xl lg:text-2xl font-bold mx-auto mt-12 mb-16 text-center">
           DISCLAIMER
         </h4>
-        <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-scroll space-y-2 text-justify">
+        <section className="flex flex-col gap-4 h-72 lg:h-128 overflow-y-scroll space-y-2 text-justify pr-4">
           <p>
             PT Fintek Andalan Solusi Teknologi (“Fulusme”) adalah Penyelenggara
             Layanan Urun Dana melalui Penawaran Efek Berbasis Teknologi

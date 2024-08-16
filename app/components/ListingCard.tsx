@@ -207,12 +207,19 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
-            {project.status_kampanye === "Selesai" ? (
-              <h4>{project.proyeksi_bagi_hasil_max}% p.a</h4>
-            ) : (
+            {project.jenis_efek === "Sukuk" &&
+            project.proyeksi_bagi_hasil_min !== null &&
+            project.proyeksi_bagi_hasil_min > 0 ? (
               <h4>
                 {project.proyeksi_bagi_hasil_min}% (
                 {project.proyeksi_bagi_hasil_max}% p.a)
+              </h4>
+            ) : project.jenis_efek === "Sukuk" ? (
+              <h4>{project.proyeksi_bagi_hasil_max}% p.a</h4>
+            ) : (
+              <h4>
+                {project.proyeksi_bagi_hasil_min}% -{" "}
+                {project.proyeksi_bagi_hasil_max}%
               </h4>
             )}
           </section>

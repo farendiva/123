@@ -132,12 +132,16 @@ export default async function ProductDetailPageSukuk({
               status={data.kampanye.status}
               periode={remainDay.toString()}
             />
-            <div>
+            <div className="flex flex-col">
               <h2 className="my-2 font-bold">Tentang Bisnis</h2>
-              <section
-                className="h-full space-y-2 text-sm text-justify lg:max-h-[400px] lg:overflow-y-scroll"
-                dangerouslySetInnerHTML={{ __html: data.tentang_proyek }}
-              />
+              <div className="relative h-auto lg:h-[400px]">
+                <div className="lg:absolute lg:inset-0 lg:overflow-hidden">
+                  <section
+                    className="space-y-2 text-sm text-justify lg:h-full lg:pr-4 lg:overflow-y-scroll"
+                    dangerouslySetInnerHTML={{ __html: data.tentang_proyek }}
+                  />
+                </div>
+              </div>
             </div>
           </section>
 
@@ -256,13 +260,20 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>
-                {data.kampanye.status === 7 ? (
-                  <h3>{data.proyeksi_bagi_hasil_max}% p.a</h3>
-                ) : (
-                  <h3>
+                {data.jenis_efek === "Sukuk" &&
+                data.proyeksi_bagi_hasil_min !== null &&
+                data.proyeksi_bagi_hasil_min > 0 ? (
+                  <h4>
                     {data.proyeksi_bagi_hasil_min}% (
                     {data.proyeksi_bagi_hasil_max}% p.a)
-                  </h3>
+                  </h4>
+                ) : data.jenis_efek === "Sukuk" ? (
+                  <h4>{data.proyeksi_bagi_hasil_max}% p.a</h4>
+                ) : (
+                  <h4>
+                    {data.proyeksi_bagi_hasil_min}% -{" "}
+                    {data.proyeksi_bagi_hasil_max}%
+                  </h4>
                 )}
               </section>
             </section>

@@ -65,7 +65,7 @@ const Navbar = () => {
         <Link href="/" className="flex">
           {pathname === "/" || pathname === "/tentang" ? (
             <img
-              className="scale-90"
+              className="scale-75"
               src={` ${
                 isSticky ? "/icons/fulusme.svg" : "/images/fulusme-white.png"
               }`}

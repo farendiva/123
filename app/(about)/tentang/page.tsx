@@ -86,7 +86,7 @@ export default async function Tentang() {
         Board Of Commissioner
       </h1>
       <section className="w-full bg-white text-black text-justify flex justify-center items-center">
-        <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center gap-8 lg:gap-16">
+        <section className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
           <ProfileCard
             name="Donald Akbar"
             grid={3}
@@ -114,7 +114,7 @@ export default async function Tentang() {
         <h1 className="text-3xl lg:text-5xl font-bold my-10 lg:my-16">
           Board Of Director
         </h1>
-        <section className="w-full mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <ProfileCard
             name="Emil Dharma"
             grid={4}
