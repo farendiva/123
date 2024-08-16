@@ -91,7 +91,7 @@ export default async function Tentang() {
             name="Donald Akbar"
             grid={3}
             position="President Commissioner"
-            imageSrc="images/commisioner_donaldakbar.png"
+            imageSrc="images/Donald Akbar Photo.jpg"
             description="Berkecimpung sebagai komisaris dan komisaris utama di beberapa perusahaan multi industri, membuatnya memiliki pengalaman yang panjang dan tajam sebagai pengawas jalannya FuLusme . Dengan memiliki visi dan misi untuk memajukan bisnis dengan konsep Urun Dana/ securities Crowdfunding bagi seluruh masyarakat, diharapkan FuLusme dapat bermanfaat bagi dunia bisnis di Indonesia."
           />
           <ProfileCard
@@ -105,7 +105,7 @@ export default async function Tentang() {
             name="Chris Agustono W"
             grid={3}
             position="Commissioner"
-            imageSrc="/images/commisioner_chris.png"
+            imageSrc="/images/Chris Agustono Photo.jpg"
             description="Berpengalaman lebih dari 20 tahun sebagai praktisi, konsultan dan Auditor IT. Beberapa kali menjadi pembicara dan moderator untuk event IT nasional. Pengalamannya menjadi dasar bagi pengembangan finansial berbasis teknologi saat ini dengan membangun platform Securities Crowd Funding, utamanya utk memenuhi kebutuhan akan Pendanaan dan Pemodalan yang tepat sasaran dan memberikan kontribusi bagi seluruh lapisan masyarakat tanpa dibatasi oleh ruang dan waktu."
           />
         </section>
@@ -133,7 +133,7 @@ export default async function Tentang() {
             name="Eva Marlina"
             grid={4}
             position="Chief Finance Officer"
-            imageSrc="/images/cfo_evamarlina.jpg"
+            imageSrc="/images/Eva Marlina Photo.jpg"
             description="Berpengalaman di industri telekomunikasi sebagai Associate director dan Chief of Corporate Relation Affairs, dan memiliki pengalaman finansial yang mumpuni untuk mendukung jalannya Fulusme."
           />
           <ProfileCard
