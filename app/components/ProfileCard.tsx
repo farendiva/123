@@ -50,7 +50,7 @@ const ProfileCard: React.FC<Profile> = ({
       <h2 className="text-2xl font-bold text-center">{name}</h2>
       <h3 className="text-xl text-center text-emerald-500">{position}</h3>
       <p
-        className={`h-24 text-justify ${
+        className={`h-full lg:h-24 text-justify ${
           grid === 4 ? "w-4/5 lg:w-full" : "w-4/5"
         }`}
       >
@@ -70,7 +70,7 @@ const ProfileCard: React.FC<Profile> = ({
       </p>
 
       {isExpanded && (
-        <div className="fixed inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
+        <div className="fixed z-50 inset-0 flex items-center justify-center p-4 bg-black bg-opacity-50">
           <div className="relative flex flex-col items-center justify-center w-full max-w-lg p-8 bg-white rounded-lg">
             <img
               className="mb-4 rounded-full w-44 aspect-square"

@@ -33,7 +33,7 @@ export default async function DashboardLayout({
     <html lang="en">
       <body className={` w-full mx-auto min-h-screen bg-[#F4F7FE]`}>
         <UserProvider initialUser={userData.data}>
-          <header className="sticky top-0 shadow-md bg-white">
+          <header className="sticky z-50 top-0 shadow-md bg-white">
             <Nav />
           </header>
           <main className="w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-6">

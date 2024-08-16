@@ -55,7 +55,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full transition-colors duration-300 ${
+      className={`sticky top-0 z-40 w-full transition-colors duration-300 ${
         isSticky ? "bg-white shadow-lg" : "bg-transparent"
       }`}
     >
