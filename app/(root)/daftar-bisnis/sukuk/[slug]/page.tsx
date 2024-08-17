@@ -115,20 +115,27 @@ export default async function ProductDetailPageSukuk({
 
   function calculateRemainingUnits(
     summary_transaksi: {
-      total_pendanaan: string;
+      total_pendanaan: string | null;
       total_pemodal: number;
       penawaran_berakhir: string;
     } | null,
     totalUnit: number,
     unitPrice: number
-  ) {
-    if (!summary_transaksi) {
+  ): number {
+    if (!summary_transaksi || summary_transaksi.total_pendanaan === null) {
       return totalUnit;
     }
+
     const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
+
+    if (isNaN(totalPendanaan)) {
+      return totalUnit;
+    }
+
     const investedUnits = totalPendanaan / unitPrice;
     const remainingUnits = totalUnit - investedUnits;
-    return remainingUnits;
+
+    return Math.max(0, remainingUnits);
   }
 
   const totalUnit = data.jumlah_unit_yang_ditawarkan; // Total unit yang ditawarkan
