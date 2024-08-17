@@ -113,39 +113,39 @@ export default async function ProductDetailPageSukuk({
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
 
-  function calculateRemainingUnits(
-    summary_transaksi: {
-      total_pendanaan: string | null;
-      total_pemodal: number;
-      penawaran_berakhir: string;
-    } | null,
-    totalUnit: number,
-    unitPrice: number
-  ): number {
-    if (!summary_transaksi || summary_transaksi.total_pendanaan === null) {
-      return totalUnit;
-    }
+  // function calculateRemainingUnits(
+  //   summary_transaksi: {
+  //     total_pendanaan: string | null;
+  //     total_pemodal: number;
+  //     penawaran_berakhir: string;
+  //   } | null,
+  //   totalUnit: number,
+  //   unitPrice: number
+  // ): number {
+  //   if (!summary_transaksi || summary_transaksi.total_pendanaan === null) {
+  //     return totalUnit;
+  //   }
 
-    const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
+  //   const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
 
-    if (isNaN(totalPendanaan)) {
-      return totalUnit;
-    }
+  //   if (isNaN(totalPendanaan)) {
+  //     return totalUnit;
+  //   }
 
-    const investedUnits = totalPendanaan / unitPrice;
-    const remainingUnits = totalUnit - investedUnits;
+  //   const investedUnits = totalPendanaan / unitPrice;
+  //   const remainingUnits = totalUnit - investedUnits;
 
-    return Math.max(0, remainingUnits);
-  }
+  //   return Math.max(0, remainingUnits);
+  // }
 
-  const totalUnit = data.jumlah_unit_yang_ditawarkan; // Total unit yang ditawarkan
-  const unitPrice = data.satuan_pemindahan_buku; // Harga per unit
+  // const totalUnit = data.jumlah_unit_yang_ditawarkan; // Total unit yang ditawarkan
+  // const unitPrice = data.satuan_pemindahan_buku; // Harga per unit
 
-  const remainingUnits = calculateRemainingUnits(
-    data.summary_transaksi || null,
-    totalUnit,
-    unitPrice
-  );
+  // const remainingUnits = calculateRemainingUnits(
+  //   data.summary_transaksi || null,
+  //   totalUnit,
+  //   unitPrice
+  // );
 
   const remainDay =
     data.periode_penawaran_efek - data.kampanye.penawaran_berjalan;
@@ -298,7 +298,7 @@ export default async function ProductDetailPageSukuk({
               {data.kampanye.status === 2 && (
                 <section className="flex justify-between text-sm">
                   <h3 className="text-[#677AB9]">Unit Tersisa</h3>
-                  <h3>{remainingUnits}</h3>
+                  <h3>{data.summary_transaksi.unit_tersisa}</h3>
                 </section>
               )}
               <section className="flex justify-between text-sm">
