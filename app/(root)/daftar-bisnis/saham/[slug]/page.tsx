@@ -338,6 +338,7 @@ export default async function ProductDetailPageSaham({
               Butuh Pertanyaan?{" "}
               <a
                 href="https://api.whatsapp.com/send?phone=6281299900150"
+                target="__blank"
                 className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
               >
                 Hubungi Kami

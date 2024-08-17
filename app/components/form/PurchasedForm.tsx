@@ -631,9 +631,13 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
           </button>
           <p className="text-sky text-sm text-center">
             Butuh Pertanyaan?{" "}
-            <span className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer">
+            <a
+              href="https://api.whatsapp.com/send?phone=6281299900150"
+              target="__blank"
+              className="font-bold hover:underline decoration-2 underline-offset-4 cursor-pointer"
+            >
               Hubungi Kami
-            </span>{" "}
+            </a>{" "}
           </p>
         </section>
       </section>
