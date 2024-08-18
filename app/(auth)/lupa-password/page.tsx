@@ -29,7 +29,8 @@ export default function ForgetPassword() {
       );
 
       if (response.ok) {
-        // Handle successful response
+        // Handle successful respons
+        console.log(response);
         Cookies.set("resetEmail", email);
         toast({
           className: cn(
@@ -41,6 +42,8 @@ export default function ForgetPassword() {
             "Link untuk reset kata sandi telah dikirim ke email Anda.",
         });
       } else {
+        console.log(response);
+
         // Handle error response
         toast({
           className: cn(
@@ -82,7 +85,7 @@ export default function ForgetPassword() {
       </h2>
       <p className="text-base my-4 lg:text-xl leading-relaxed">
         Lupa Kata sandi? Mohon masukkan email yang anda daftarkan pada akun
-        anda. Anda akan mendaptakan link untuk membuat kata sandi baru melalui
+        anda. Anda akan mendapatkan link untuk membuat kata sandi baru melalui
         email.
       </p>
       <form

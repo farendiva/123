@@ -1,130 +1,159 @@
-import React from "react";
-
 const Footer = () => {
+  const menuItems = [
+    { href: "/", label: "Beranda" },
+    { href: "/daftar-bisnis", label: "Daftar Bisnis" },
+    { href: "/tentang", label: "Tentang Kami" },
+    { href: "#", label: "Pasar Sekunder" },
+    { href: "#", label: "Berita" },
+  ];
+
   return (
-    <footer className="w-full bg-[#f8f8ff] py-8 text-sm lg:text-base">
-      <section className="w-11/12 mx-auto flex flex-col gap-8 md:gap-0 md:flex-row justify-between items-center">
-        <section className="space-y-4">
-          <img src="/icons/fulusme.svg" alt="Fulusme Logo" />
-          <h5 className="font-bold">ALAMAT</h5>
-          <p>
-            Gedung Menara 165 Lt. 3 <br />
-            Jl. TB Simatupang Kav. 1 <br />
-            Cilandak, Pasar Minggu, Kota Jakarta Selatan <br /> Daerah Khusus
-            Ibukota Jakarta 12560
-          </p>
-          <h5 className="font-bold">HUBUNGI KAMI</h5>
-          <ul className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+    <footer className="w-full bg-sky text-white text-xs lg:text-sm rounded-t-5xl">
+      <div className="w-4/5 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <section className="lg:col-span-1">
+          <img
+            src="/icons/fulusme-white.svg"
+            alt="Fulusme Logo"
+            className="h-18"
+          />
+          <ul className="space-y-2">
             <li>
-              Nomor Telepon <br />
+              <a href="#" className="hover:underline">
+                Syarat dan Ketentuan
+              </a>
+            </li>
+            <li>
+              <a href="#" className="hover:underline">
+                Kebijakan Privasi
+              </a>
+            </li>
+            <li>
+              <a href="#faq" className="hover:underline">
+                FAQ
+              </a>
+            </li>
+          </ul>
+        </section>
+
+        <section className="lg:col-span-1">
+          <h5 className="font-bold mb-4">ALAMAT</h5>
+          <p className="leading-relaxed">
+            Gedung Menara 165 Lt. 3<br />
+            Jl. Tahi Bonar Simatupang <br />
+            No.Kav.1, Cilandak, Pasar Minggu,
+            <br />
+            Kota Jakarta Selatan <br /> Daerah Khusus Ibukota Jakarta 12560
+          </p>
+        </section>
+
+        <nav className="lg:col-span-1">
+          <h6 className="font-bold mb-4">INFORMASI</h6>
+          <ul className="space-y-2">
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                <a href={item.href} className="hover:underline">
+                  {item.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <section className="lg:col-span-1">
+          <h5 className="font-bold mb-4">HUBUNGI KAMI</h5>
+          <ul className="space-y-4">
+            <li>
+              Nomor Telepon
+              <br />
               <span className="font-bold">+62 21 388 20 133</span>
             </li>
             <li>
               <a
-                target="__blank"
                 href="https://api.whatsapp.com/send?phone=6281299900150"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:underline"
               >
-                Whatsapp <br />
+                Whatsapp
+                <br />
                 <span className="font-bold">+62 812 9990 0150</span>
               </a>
             </li>
             <li>
-              <a href="mailto:info@fulusme.id">
-                Email <br />
+              <a href="mailto:info@fulusme.id" className="hover:underline">
+                Email
+                <br />
                 <span className="font-bold">info@fulusme.id</span>
               </a>
             </li>
-            <li>
-              Follow Us <br />
-              <ul className="flex gap-4 mt-0.5">
-                <li>
-                  <a href="https://www.facebook.com/fulusme/" target="__blank">
-                    <img src="/icons/facebook.svg" alt="Facebook Logo" />
-                  </a>
-                </li>
-                <li>
-                  <a href="https://www.instagram.com/fulusme/" target="__blank">
-                    <img src="/icons/instagram.svg" alt="Instagram Logo" />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/icons/twitter.svg" alt="Twitter Logo" />
-                  </a>
-                </li>
-                <li>
-                  <a href="">
-                    <img src="/icons/youtube.svg" alt="Youtube Logo" />
-                  </a>
-                </li>
-              </ul>
-            </li>
           </ul>
-        </section>
-        <section className="flex flex-col space-y-12 lg:space-y-20">
-          <section className="space-y-4">
-            <h6 className="font-bold">BERIZIN DAN DIAWASI OLEH</h6>
-            <section className="flex items-center gap-8">
-              <img
-                className=""
-                src="/images/ojk2.png"
-                alt="Otoritas Jasa Keuangan Logo"
-              />
-              <img
-                className=""
-                src="/images/iso-badge.png"
-                alt="InfoSec Management ISO 2013 Badge"
-              />
-            </section>
-          </section>
-          {/* <section className="space-y-8">
-            <h6 className="font-bold">DIDUKUNG OLEH</h6>
-            <ul className="w-full grid grid-cols-4 justify-center items-center space-x-2">
+          <div className="mt-4">
+            <p className="mb-2">Follow Us</p>
+            <ul className="flex gap-4">
               <li>
-                <img
-                  src="/icons/kominfo.svg"
-                  alt="Kominfo Logo"
-                  className="w-12"
-                />
+                <a
+                  href="https://www.facebook.com/fulusme/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="/icons/facebook-logo.svg"
+                    alt="Facebook Logo"
+                    className="h-6"
+                  />
+                </a>
               </li>
               <li>
-                <img
-                  src="/images/MUFG_Danamon.png"
-                  alt="Danamon Logo"
-                  className="w-20"
-                />
+                <a
+                  href="https://www.instagram.com/fulusme/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    src="/icons/instagram-logo.svg"
+                    alt="Instagram Logo"
+                    className="h-6"
+                  />
+                </a>
               </li>
               <li>
-                <img
-                  src="/images/logo_aludi.png"
-                  alt="Aludi Logo"
-                  className="w-20"
-                />
+                <a href="#">
+                  <img
+                    src="/icons/telegram-logo.svg"
+                    alt="Twitter Logo"
+                    className="h-6"
+                  />
+                </a>
               </li>
               <li>
-                <img src="/icons/Ksei.svg" alt="Ksei Logo" className="w-20" />
-              </li>
-              <li>
-                <img src="/icons/pse.svg" alt="PSE Logo" className="w-16" />
-              </li>
-              <li>
-                <img
-                  className="w-16"
-                  src="/icons/Pefindo.svg"
-                  alt="Pefindo Logo"
-                />
-              </li>
-              <li>
-                <img
-                  src="/icons/Rapid SSL.svg"
-                  alt="Rapid SSL Logo"
-                  className="w-16"
-                />
+                <a href="#">
+                  <img
+                    src="/icons/youtube-logo.svg"
+                    alt="Youtube Logo"
+                    className="h-6"
+                  />
+                </a>
               </li>
             </ul>
-          </section> */}
+          </div>
         </section>
-      </section>
+
+        <section className="lg:col-span-1">
+          <h6 className="font-bold mb-4">BERIZIN DAN DIAWASI OLEH</h6>
+          <div className="flex flex-col lg:flex-row items-start gap-4">
+            <img
+              src="/images/ojk_white.png"
+              alt="Otoritas Jasa Keuangan Logo"
+              className="h-16"
+            />
+            <img
+              src="/images/iso-badge.png"
+              alt="InfoSec Management ISO 2013 Badge"
+              className="h-16"
+            />
+          </div>
+        </section>
+      </div>
     </footer>
   );
 };

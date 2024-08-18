@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Bantuan",
-  description: "Halaman Bantuan Dashboard FULUSME",
+  title: "Pasar Sekunder | FULUSME",
+  description: "Halaman Pasar Sekunder di FULUSME",
 };
 
-export default async function BantuanPage() {
+export default function ComingSoon() {
   return (
     <main className="w-full flex flex-col justify-center items-center bg-white mx-auto rounded-xl min-h-screen p-4">
       <img

@@ -41,9 +41,8 @@ const Navbar = () => {
   const menuItems = [
     { href: "/", label: "Beranda" },
     { href: "/daftar-bisnis", label: "Daftar Bisnis" },
-    { href: "/tentang", label: "Tentang" },
-    { href: "/alur", label: "Alur Bisnis" },
-    { href: "/bantuan", label: "Bantuan" },
+    { href: "/tentang", label: "Tentang Kami" },
+    { href: "#", label: "Pasar Sekunder" },
   ];
 
   const getProfileImage = (user: User | null): string => {

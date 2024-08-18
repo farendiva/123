@@ -183,18 +183,13 @@ const menuItems = [
   },
   {
     href: "/tentang",
-    label: "Tentang",
+    label: "Tentang Kami",
     as: "https://fulusme.id/tentang",
   },
   {
-    href: "/alur",
-    label: "Alur Bisnis",
-    as: "https://fulusme.id/alur",
-  },
-  {
-    href: "/bantuan",
-    label: "Bantuan",
-    as: "https://fulusme.id/bantuan",
+    href: "#",
+    label: "Pasar Sekunder",
+    as: "https://fulusme.id/pasar-sekunder",
   },
 ];
 

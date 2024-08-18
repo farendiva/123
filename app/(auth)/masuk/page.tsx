@@ -235,9 +235,9 @@ export default function Masuk() {
           </div>
           <div className="my-4 lg:my-8 flex flex-col lg:flex-row justify-between w-full">
             <div>
-              {/* <Link href="/lupa-password" className="hover:underline ">
+              <Link href="/lupa-password" className="hover:underline ">
                 Lupa Kata Sandi
-              </Link> */}
+              </Link>
               <p>
                 Belum Punya Akun?{" "}
                 <Link
