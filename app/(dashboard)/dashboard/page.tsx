@@ -16,12 +16,12 @@ const Dashboard = () => {
         className="mb-8"
       />
       <h1 className="text-4xl font-bold mb-6">Coming Soon</h1>
-      <div className="flex flex-col items-center">
+      {/* <div className="flex flex-col items-center">
         <div className="flex items-center mb-4">
           <div className="h-3 w-3 bg-emerald-500 rounded-full mr-2 animate-ping"></div>
           <span className="text-2xl">We're launching soon!</span>
         </div>
-      </div>
+      </div> */}
     </main>
   );
 };
