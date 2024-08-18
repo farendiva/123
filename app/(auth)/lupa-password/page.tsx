@@ -30,7 +30,6 @@ export default function ForgetPassword() {
 
       if (response.ok) {
         // Handle successful respons
-        console.log(response);
         Cookies.set("resetEmail", email);
         toast({
           className: cn(
@@ -42,8 +41,6 @@ export default function ForgetPassword() {
             "Link untuk reset kata sandi telah dikirim ke email Anda.",
         });
       } else {
-        console.log(response);
-
         // Handle error response
         toast({
           className: cn(
