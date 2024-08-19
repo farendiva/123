@@ -110,7 +110,7 @@ export default async function Home() {
             <section className="">
               <h3 className="">Dana Tersalurkan</h3>
               <h4 className="text-base lg:text-2xl font-bold">
-                Rp 902.050.000
+                Rp 900.000.000
               </h4>
             </section>
           </section>
@@ -127,7 +127,7 @@ export default async function Home() {
               <h3 className="">Pengembalian Dana</h3>
               <h4 className="text-base lg:text-2xl font-bold">
                 {" "}
-                Rp 902.050.000
+                Rp 900.000.000
               </h4>
             </section>
           </section>

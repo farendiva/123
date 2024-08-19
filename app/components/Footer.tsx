@@ -9,8 +9,8 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-sky text-white text-xs lg:text-sm rounded-t-5xl">
-      <div className="w-4/5 max-w-7xl mx-auto px-4 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
-        <section className="lg:col-span-1">
+      <div className="w-4/5 max-w-7xl mx-auto px-4 py-8 flex flex-col md:flex-row justify-between items-start gap-8">
+        <section className="">
           <img
             src="/icons/fulusme-white.svg"
             alt="Fulusme Logo"
@@ -18,24 +18,24 @@ const Footer = () => {
           />
           <ul className="space-y-2">
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/syarat-dan-ketentuan" className="hover:underline">
                 Syarat dan Ketentuan
               </a>
             </li>
             <li>
-              <a href="#" className="hover:underline">
+              <a href="/kebijakan-privasi" className="hover:underline">
                 Kebijakan Privasi
               </a>
             </li>
             <li>
-              <a href="#faq" className="hover:underline">
+              <a href="/faq" className="hover:underline">
                 FAQ
               </a>
             </li>
           </ul>
         </section>
 
-        <section className="lg:col-span-1">
+        <section className="">
           <h5 className="font-bold mb-4">ALAMAT</h5>
           <p className="leading-relaxed">
             Gedung Menara 165 Lt. 3<br />
@@ -46,7 +46,7 @@ const Footer = () => {
           </p>
         </section>
 
-        <nav className="lg:col-span-1">
+        <nav className="">
           <h6 className="font-bold mb-4">INFORMASI</h6>
           <ul className="space-y-2">
             {menuItems.map((item, index) => (
@@ -59,7 +59,7 @@ const Footer = () => {
           </ul>
         </nav>
 
-        <section className="lg:col-span-1">
+        <section className="">
           <h5 className="font-bold mb-4">HUBUNGI KAMI</h5>
           <ul className="space-y-4">
             <li>
@@ -138,7 +138,7 @@ const Footer = () => {
           </div>
         </section>
 
-        <section className="lg:col-span-1">
+        <section className="">
           <h6 className="font-bold mb-4">BERIZIN DAN DIAWASI OLEH</h6>
           <div className="flex flex-col lg:flex-row items-start gap-4">
             <img
