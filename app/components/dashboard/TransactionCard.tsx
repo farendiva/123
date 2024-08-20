@@ -192,6 +192,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                 weekday: "long",
                 day: "numeric",
                 month: "long",
+                year: "numeric",
               })}
               ,{" "}
               {new Date(transaksi.va_expiry_time).toLocaleTimeString("id-ID", {

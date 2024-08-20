@@ -42,6 +42,7 @@ const ExpireButton: React.FC<ExpireProps> = ({ expire, status }) => {
             weekday: "long",
             day: "numeric",
             month: "long",
+            year: "numeric",
           })}
           ,{" "}
           {new Date(expire).toLocaleTimeString("id-ID", {

@@ -374,13 +374,15 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
 
   return (
     <section className="w-full mx-auto flex flex-col lg:flex-row justify-center items-center gap-8 lg:gap-16">
-      <section className="w-full max-w-xl space-y-4">
-        <section className="space-y-4 my-4 lg:my-7">
-          <h1 className="text-xl lg:text-2xl font-bold">{data.nama_efek}</h1>
+      <section id="form" className="w-full max-w-xl space-y-4">
+        <section className="space-y-4">
+          <h1 className="text-xl lg:text-2xl xl:h-32 font-bold">
+            {data.nama_efek}
+          </h1>
           <p>Kode efek: {data.kode_penerbit}</p>
         </section>
         <div className="w-full mx-auto my-8 lg:my-16">
-          <section className="py-6 space-y-6">
+          <section className="py-6 space-y-2">
             <div>
               <label
                 htmlFor="harga_per_lembar"
@@ -483,18 +485,21 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
             <div>
               <label
                 htmlFor="nilai_investasi"
-                className="block mb-2 text-sm lg:text-[15px] font-medium text-sky dark:text-white"
+                className="block text-sm lg:text-[15px] font-medium text-sky dark:text-white"
               >
                 Nilai Investasi
               </label>
-              <button className="bg-[#677AB9] hover:bg-[#4a5886] font-bold py-3 px-3 w-full text-white text-left rounded-xl">
+              <button
+                id="investasi"
+                className="bg-[#677AB9] hover:bg-[#4a5886] font-bold py-3 px-3 w-full text-white text-left rounded-xl"
+              >
                 {formatRupiah(nilaiInvestasi)}
               </button>
             </div>
           </section>
         </div>
       </section>
-      <section className="w-full max-w-xl mx-auto">
+      <section id="detail" className="w-full max-w-xl mx-auto">
         <section className="w-full h-[460px] mb-2 py-4 flex flex-col justify-start items-center gap-2 bg-[#f2f5ff] rounded-3xl">
           <section className="w-11/12 p-4 flex flex-col bg-white rounded-3xl text-[#677AB9] text-sm lg:text-[15px] font-bold space-y-4">
             <h3>Rincian Pembayaran</h3>
@@ -623,6 +628,7 @@ const PurchaseForm: React.FC<PurchaseFormProps> = ({
         </section>
         <section className="relative top-4 mb-8 lg:mb-0">
           <button
+            id="purchase"
             className="w-full mb-2 block text-center bg-emerald-light hover:bg-green-700 rounded-4xl text-white text-sm font-semibold py-4 disabled:bg-gray-200 disabled:cursor-not-allowed disabled:text-gray-500 disabled:font-bold"
             onClick={toggleModal}
             disabled={!selectedBank || !isStockAvailable}
