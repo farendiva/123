@@ -59,11 +59,18 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
               tipe === "Sukuk" ? "bg-[#FF1F00]" : "bg-emerald-light"
             }  px-4 md:px-8 py-1.5 rounded-md z-10`}
           >
-            {tipe === "Sukuk"
+            {/* {tipe === "Sukuk"
               ? akad === 1
                 ? "Sukuk Mudharabah"
                 : akad === 2
                 ? "Sukuk Musyarakah"
+                : "Saham"
+              : "Saham"} */}
+            {tipe === "Sukuk"
+              ? akad === 1
+                ? "Obligasi"
+                : akad === 2
+                ? "Obligasi"
                 : "Saham"
               : "Saham"}
           </span>

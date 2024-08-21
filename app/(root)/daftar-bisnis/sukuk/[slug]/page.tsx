@@ -113,42 +113,9 @@ export default async function ProductDetailPageSukuk({
     return industri ? industri.industri_pekerjaan : "Unknown";
   }
 
-  // function calculateRemainingUnits(
-  //   summary_transaksi: {
-  //     total_pendanaan: string | null;
-  //     total_pemodal: number;
-  //     penawaran_berakhir: string;
-  //   } | null,
-  //   totalUnit: number,
-  //   unitPrice: number
-  // ): number {
-  //   if (!summary_transaksi || summary_transaksi.total_pendanaan === null) {
-  //     return totalUnit;
-  //   }
-
-  //   const totalPendanaan = parseFloat(summary_transaksi.total_pendanaan);
-
-  //   if (isNaN(totalPendanaan)) {
-  //     return totalUnit;
-  //   }
-
-  //   const investedUnits = totalPendanaan / unitPrice;
-  //   const remainingUnits = totalUnit - investedUnits;
-
-  //   return Math.max(0, remainingUnits);
-  // }
-
-  // const totalUnit = data.jumlah_unit_yang_ditawarkan; // Total unit yang ditawarkan
-  // const unitPrice = data.satuan_pemindahan_buku; // Harga per unit
-
-  // const remainingUnits = calculateRemainingUnits(
-  //   data.summary_transaksi || null,
-  //   totalUnit,
-  //   unitPrice
-  // );
-
   const remainDay =
     data.periode_penawaran_efek - data.kampanye.penawaran_berjalan;
+
   return (
     <>
       <Head>
@@ -214,7 +181,8 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Jenis Akad</h3>
-                <h3>{data.akad === 1 ? "Mudharabah" : "Musyarakah"}</h3>
+                {/* <h3>{data.akad === 1 ? "Mudharabah" : "Musyarakah"}</h3> */}
+                <h3>{data.akad === 1 ? "Obligasi" : "Obligasi"}</h3>
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
@@ -303,7 +271,7 @@ export default async function ProductDetailPageSukuk({
               )}
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Periode Pengembalian</h3>
-                <h3>Per {data.tenor_efek} Bulan</h3>
+                <h3>{data.skema_pembayaran}</h3>
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Tenor</h3>

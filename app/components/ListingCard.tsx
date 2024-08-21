@@ -120,10 +120,15 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
                   : "bg-emerald-light"
               } text-white px-3 py-1 z-10 rounded-5xl`}
             >
-              {project.jenis_efek === "Sukuk"
+              {/* {project.jenis_efek === "Sukuk"
                 ? project.akad === 1
                   ? "Sukuk Mudharabah"
                   : "Sukuk Musyarakah"
+                : "Saham"} */}
+              {project.jenis_efek === "Sukuk"
+                ? project.akad === 1
+                  ? "Obligasi"
+                  : "Obligasi"
                 : "Saham"}
             </button>
             <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">

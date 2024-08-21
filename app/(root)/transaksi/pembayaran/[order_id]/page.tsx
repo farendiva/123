@@ -44,11 +44,15 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                     : "bg-emerald-light"
                 } text-sm rounded-xl text-white px-8 py-1`}
               >
-                {/* {data.tipe_efek} */}
-                {data.tipe_efek === "Sukuk"
+                {/* {data.tipe_efek === "Sukuk"
                   ? data.akad === 1
                     ? "Sukuk Mudharabah"
                     : "Sukuk Musyarakah"
+                  : "Saham"} */}
+                {data.tipe_efek === "Sukuk"
+                  ? data.akad === 1
+                    ? "Obligasi"
+                    : "Obligasi"
                   : "Saham"}
               </button>
               <div className="space-y-2">

@@ -137,10 +137,14 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
         <h2 className="text-lg font-bold text-gray-800">
           {transaksi.nama_efek}
         </h2>
-        <div className="flex space-y-2 lg:space-y-0 flex-wrap text-sm text-[#595959] justify-between items-center">
+        <div className="flex space-y-2 lg:space-y-0 flex-wrap text-xs text-[#595959] justify-between items-center">
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
             <p className="font-bold">Kode Efek</p>
             <p className="font-medium">{transaksi.efek_id}</p>
+          </div>
+          <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
+            <p className="font-bold">Order Id</p>
+            <p className="font-medium">{transaksi.id}</p>
           </div>
           {transaksi.va_bank !== "mandiri" ? (
             <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
