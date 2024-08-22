@@ -25,19 +25,16 @@ const ProfileCard: React.FC<Profile> = ({
     document.body.style.overflow = isExpanded ? "auto" : "hidden";
   };
 
-  const characterLimit = 80; // Character limit for the description
+  const limitWords = 18; // Word limit for the description
 
+  // Function to truncate description to specified words
   const truncateDescription = (text: string, limit: number) => {
-    if (text.length <= limit) return text;
-
-    const truncated = text.slice(0, limit);
-    const lastSpaceIndex = truncated.lastIndexOf(" ");
-
-    if (lastSpaceIndex === -1) return truncated + "...";
-
-    return truncated.slice(0, lastSpaceIndex) + "...";
+    const words = text.split(" ");
+    if (words.length > limit) {
+      return words.slice(0, limit).join(" ") + "...";
+    }
+    return text;
   };
-
   return (
     <div className="flex flex-col items-center justify-between gap-3 p-4 m-4 bg-white rounded-lg">
       <img
@@ -48,13 +45,13 @@ const ProfileCard: React.FC<Profile> = ({
       <h2 className="text-xl font-bold text-center">{name}</h2>
       <h3 className="text-lg text-center text-emerald-500">{position}</h3>
       <p
-        className={`text-sm h-full lg:h-24 text-justify ${
-          grid === 4 ? "w-4/5 lg:w-full" : "w-4/5"
+        className={`h-full text-sm lg:h-24 text-justify ${
+          grid === 4 ? "w-4/5 lg:w-full" : "w-3/4"
         }`}
       >
-        {description.length > characterLimit ? (
+        {description.split(" ").length > limitWords ? (
           <>
-            {truncateDescription(description, characterLimit)}
+            {truncateDescription(description, limitWords)}
             <button
               className="font-bold text-sky hover:underline"
               onClick={toggleExpanded}

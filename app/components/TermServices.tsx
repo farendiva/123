@@ -22,7 +22,7 @@ const TermServices: FC<TermProps> = ({ handleScroll, register, errors }) => {
         Selamat datang di Fulusme, Platform layanan urun dana berbasis teknologi
         informasi atau securities crowdfunding, yang telah memiliki izin OJK
         sebagai penyelenggara Securities Crowdfunding (SCF) berdasarkan SK Nomor
-        KEP-45/D.04/2021 Tanggal 4 Juli 2022 Izin Usaha Penyelenggara Penawaran
+        KEP-45/D.04/2022 Tanggal 4 Juli 2022 Izin Usaha Penyelenggara Penawaran
         Efek Melalui Layanan Urun Dana Berbasis Teknologi Informasi.
       </p>
       <p>

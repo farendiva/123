@@ -33,9 +33,7 @@ export default function Sidebar() {
           <Clock9 fill="#677AB9" color="white" />
           <div className="w-4/5">
             <h2 className="mb-2">Anda Sudah Melengkapi Data Diri</h2>
-            <p className="font-bold text-[#E09400] text-sm">
-              Menunggu Verifikasi
-            </p>
+            <p className="font-bold text-[#E09400] text-sm">Menunggu Review</p>
           </div>
         </div>
       ) : null}
