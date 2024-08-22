@@ -84,7 +84,7 @@ export default async function BeliSukuk({
     <UserProvider initialUser={user.data}>
       <main className="w-11/12 lg:w-3/5 mx-auto my-8 lg:my-16">
         <section className="w-full max-w-xl lg:max-w-full mx-auto flex-shrink-0">
-          <button className="bg-[#FF1F00] text-sm text-white py-1 px-7 rounded-3xl">
+          <button className="bg-[#FF1F00] text-sm text-white py-1 px-7 rounded-5xl">
             {/* {data.jenis_efek === "Sukuk"
               ? data.akad === 1
                 ? "Sukuk Mudharabah"

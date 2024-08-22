@@ -57,7 +57,7 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
           <span
             className={`relative ${
               tipe === "Sukuk" ? "bg-[#FF1F00]" : "bg-emerald-light"
-            }  px-4 md:px-8 py-1.5 rounded-md z-10`}
+            }  px-4 md:px-8 py-1.5 rounded-5xl z-10`}
           >
             {/* {tipe === "Sukuk"
               ? akad === 1

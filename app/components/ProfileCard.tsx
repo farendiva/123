@@ -22,41 +22,39 @@ const ProfileCard: React.FC<Profile> = ({
 
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
-    if (isExpanded) {
-      document.body.style.overflow = "auto";
-    } else {
-      document.body.style.overflow = "hidden";
-    }
+    document.body.style.overflow = isExpanded ? "auto" : "hidden";
   };
 
-  const limitWords = 20; // Word limit for the description
+  const characterLimit = 80; // Character limit for the description
 
-  // Function to truncate description to specified words
   const truncateDescription = (text: string, limit: number) => {
-    const words = text.split(" ");
-    if (words.length > limit) {
-      return words.slice(0, limit).join(" ") + "...";
-    }
-    return text;
+    if (text.length <= limit) return text;
+
+    const truncated = text.slice(0, limit);
+    const lastSpaceIndex = truncated.lastIndexOf(" ");
+
+    if (lastSpaceIndex === -1) return truncated + "...";
+
+    return truncated.slice(0, lastSpaceIndex) + "...";
   };
 
   return (
     <div className="flex flex-col items-center justify-between gap-3 p-4 m-4 bg-white rounded-lg">
       <img
-        className="mb-4 rounded-full w-44 aspect-square"
+        className="mb-4 rounded-full w-36 aspect-square"
         src={imageSrc}
         alt={`${name} Foto Profil`}
       />
-      <h2 className="text-2xl font-bold text-center">{name}</h2>
-      <h3 className="text-xl text-center text-emerald-500">{position}</h3>
+      <h2 className="text-xl font-bold text-center">{name}</h2>
+      <h3 className="text-lg text-center text-emerald-500">{position}</h3>
       <p
-        className={`h-full lg:h-24 text-justify ${
+        className={`text-sm h-full lg:h-24 text-justify ${
           grid === 4 ? "w-4/5 lg:w-full" : "w-4/5"
         }`}
       >
-        {description.split(" ").length > limitWords ? (
+        {description.length > characterLimit ? (
           <>
-            {truncateDescription(description, limitWords)}
+            {truncateDescription(description, characterLimit)}
             <button
               className="font-bold text-sky hover:underline"
               onClick={toggleExpanded}

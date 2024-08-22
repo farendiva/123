@@ -82,7 +82,7 @@ const PortfolioCard: React.FC<PorfolioProps> = ({ portfolio }) => {
             {portfolio.business.nama_proyek}
           </h3>
           <span
-            className={`h-7 px-6 flex items-center justify-center text-xs rounded-xl mt-2 md:mt-0 ${
+            className={`h-7 px-6 flex items-center justify-center text-xs rounded-5xl mt-2 md:mt-0 ${
               portfolio.business.jenis_efek === "Saham"
                 ? "bg-emerald-light"
                 : "bg-[#FF1F00]"

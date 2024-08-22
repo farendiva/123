@@ -42,7 +42,7 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                   data.tipe_efek === "Sukuk"
                     ? "bg-[#FF1F00]"
                     : "bg-emerald-light"
-                } text-sm rounded-xl text-white px-8 py-1`}
+                } text-sm rounded-5xl text-white px-8 py-1`}
               >
                 {/* {data.tipe_efek === "Sukuk"
                   ? data.akad === 1

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 export default async function Tentang() {
   return (
     <main className="bg-sky text-white">
-      <section className="w-11/12 lg:w-10/12 mx-auto py-16 lg:py-28 flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-20 text-justify">
+      <section className="w-11/12 lg:w-4/5 mx-auto py-16 lg:py-28 flex flex-col lg:flex-row justify-between items-center gap-10 lg:gap-20 text-justify">
         <section className="space-y-8">
           <section className="space-y-2">
             <h1 className="text-xl text-emerald-light font-bold">
@@ -53,33 +53,33 @@ export default async function Tentang() {
           </section>
         </section>
       </section>
-      <section className="bg-sky-dark py-10 lg:py-28">
-        <h1 className="text-3xl lg:text-4xl text-center font-bold mx-auto">
+      <section className="bg-sky-dark py-10 lg:py-16">
+        <h1 className="text-3xl lg:text-4xl text-center font-bold mx-auto mb-0 lg:mb-24">
           <span className="text-emerald-light">Fulusme</span> Sinergi
         </h1>
-        <section className="mt-8 w-11/12 mx-auto flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-4">
-          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start">
+        <section className="mt-16 w-11/12 lg:w-4/5 mx-auto flex flex-col lg:flex-row justify-between items-start gap-8 lg:gap-4">
+          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start space-y-2">
             <img src="/icons/portrait.svg" alt="Penerbit Logo" />
-            <div className="h-1 bg-emerald-light mt-2 w-8"></div>
+            <div className="h-1 bg-emerald-light w-8"></div>
             <h2 className="text-xl font-bold">Penerbit</h2>
             <p>Memprioritaskan calon penerbit yang potensial</p>
           </section>
-          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start">
+          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start space-y-2">
             <img
               className="w-6 h-6"
               src="/icons/fulusme-small.svg"
               alt="Fulusme Logo"
             />
-            <div className="h-1 bg-emerald-light mt-2 w-8"></div>
+            <div className="h-1 bg-emerald-light w-8"></div>
             <h2 className="text-xl font-bold">Fulusme</h2>
             <p>
               Selalu menjaga keseimbangan, kebutuhan kenyamanan dan keamanan
               pemodal dan penerbit
             </p>
           </section>
-          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start">
+          <section className="w-full lg:w-1/4 flex flex-col justify-center items-start space-y-2">
             <img src="/icons/tulip.svg" alt="Pemodal Logo" />
-            <div className="h-1 bg-emerald-light mt-2 w-8"></div>
+            <div className="h-1 bg-emerald-light w-8"></div>
             <h2 className="text-xl font-bold">Pemodal</h2>
             <p>
               Secara konsisten menampilkan jumlah nilai pokok dan bagi hasil
@@ -120,7 +120,7 @@ export default async function Tentang() {
         <h1 className="text-3xl lg:text-5xl font-bold my-10 lg:my-16">
           Board Of Director
         </h1>
-        <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <section className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           <ProfileCard
             name="Emil Dharma"
             grid={4}
@@ -131,7 +131,7 @@ export default async function Tentang() {
           <ProfileCard
             name="Nandana Pawitra"
             grid={4}
-            position="Chief Business Officer"
+            position="Chief Corporate Affair"
             imageSrc="/images/cbo_nandana.png"
             description="Berpengalaman lebih dari 20 tahun sebagai profesional, pelaku pasar di Bursa Efek dan pemilik Anggota Bursa Berjangka Jakarta. Juga pendiri The Jakarta Commodity Exchange. Pengalaman yang cukup dalam industri Capital Market dapat menjadi landasan dalam mengembangkan industri Securities Crowdfunding yang Insya AlLah dapat menjadi manfaat bagi sebanyak-banyak umat."
           />

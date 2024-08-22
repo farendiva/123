@@ -43,6 +43,7 @@ const Navbar = () => {
     { href: "/daftar-bisnis", label: "Daftar Bisnis" },
     { href: "/tentang", label: "Tentang Kami" },
     { href: "#", label: "Pasar Sekunder" },
+    { href: "#", label: "Berita" },
   ];
 
   const getProfileImage = (user: User | null): string => {

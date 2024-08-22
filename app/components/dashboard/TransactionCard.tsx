@@ -109,9 +109,9 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                 transaksi.tipe_efek === "Saham"
                   ? "bg-emerald-light"
                   : "bg-[#FF1F00]"
-              } text-white px-4 sm:px-8 py-1 rounded-md text-xs sm:text-sm font-semibold`}
+              } text-white px-4 sm:px-8 py-1 rounded-5xl text-xs sm:text-sm font-semibold`}
             >
-              {transaksi.tipe_efek}
+              {transaksi.tipe_efek === "Sukuk" ? "Obligasi" : "Saham"}
             </p>
             <p className="text-xs sm:text-sm">
               {new Date(transaksi.tanggal_pembelian).toLocaleDateString(
@@ -222,7 +222,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
               <div className="space-y-4 bg-[#F3F5FF] text-[15px]">
                 <div className="bg-white p-4 rounded-lg space-y-2">
                   <button className="bg-sky text-sm rounded-xl text-white px-8 py-1">
-                    {transaksi.tipe_efek}
+                    {transaksi.tipe_efek === "Sukuk" ? "Obligasi" : "Saham"}
                   </button>
                   <div className="space-y-2">
                     <h1 className="text-xl lg:text-2xl font-bold">

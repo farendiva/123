@@ -191,6 +191,11 @@ const menuItems = [
     label: "Pasar Sekunder",
     as: "https://fulusme.id/pasar-sekunder",
   },
+  {
+    href: "#",
+    label: "Berita",
+    as: "https://fulusme.id/berita",
+  },
 ];
 
 export default Nav;
