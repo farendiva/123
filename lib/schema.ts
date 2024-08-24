@@ -199,41 +199,41 @@ export const KycPemodalFormSchema = z
       .min(1, "Nama pemilik rekening Harus Diisi."),
     swa_photo: z.instanceof(File),
     ktp: z.instanceof(File),
-    pep: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    relationshipPep: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    relationshipWna: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    legalIssues: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    suspect: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    relationshipSuspect: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
-    illegalFunds: z
-      .union([z.enum(["Ya", "Tidak"]), z.null()])
-      .refine((val) => val !== null, {
-        message: "Pertanyaan harus diisi",
-      }),
+    // pep: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // relationshipPep: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // relationshipWna: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // legalIssues: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // suspect: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // relationshipSuspect: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
+    // illegalFunds: z
+    //   .union([z.enum(["Ya", "Tidak"]), z.null()])
+    //   .refine((val) => val !== null, {
+    //     message: "Pertanyaan harus diisi",
+    //   }),
   })
   .refine(
     (data) => {

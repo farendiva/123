@@ -43,14 +43,14 @@ const steps = [
     fields: incomeFields,
     component: IncomeForm,
   },
+  // {
+  //   id: "Step 5",
+  //   name: "APU PPT",
+  //   fields: APUFields,
+  //   component: APUForm,
+  // },
   {
     id: "Step 5",
-    name: "APU PPT",
-    fields: APUFields,
-    component: APUForm,
-  },
-  {
-    id: "Step 6",
     name: "Completed",
     component: Completion,
   },

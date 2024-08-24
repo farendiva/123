@@ -267,7 +267,7 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
   return (
     <section className="mx-auto flex w-full flex-col my-2">
       {/* Steps */}
-      {currentStep < 5 && (
+      {currentStep < 4 && (
         <header
           className={`w-full flex justify-between items-center my-8 lg:my-10`}
         >
@@ -370,7 +370,7 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       </form>
       <div
         className={`flex w-1/2 mx-auto  ${
-          (currentStep === 0 || currentStep === 1 || currentStep === 5) &&
+          (currentStep === 0 || currentStep === 1 || currentStep === 4) &&
           "hidden"
         }`}
       >

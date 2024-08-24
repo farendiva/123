@@ -40,7 +40,7 @@ const Footer = () => {
             <h5 className="font-bold mb-4">ALAMAT</h5>
             <p className="leading-relaxed">
               Gedung Menara 165 Lt. 3<br />
-              Jl. Tahi Bonar Simatupang <br />
+              Jl. TB. Simatupang <br />
               No.Kav.1, Cilandak, Pasar Minggu,
               <br />
               Kota Jakarta Selatan <br /> Daerah Khusus Ibukota Jakarta 12560

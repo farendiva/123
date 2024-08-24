@@ -303,9 +303,9 @@ const ProfileTabs: React.FC = () => {
                 </div>
               </div>
               <div className="py-4">
-                <button className="w-full text-start font-bold block border p-2 rounded-lg bg-[#ECF0FF]">
-                  <Download className="inline mx-2" strokeWidth={2} /> Dokumen
-                  Perjanjian
+                <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
+                  <Download className="inline mx-2" strokeWidth={2} />
+                  Unduh Dokumen Perjanjian
                 </button>
               </div>
             </div>
