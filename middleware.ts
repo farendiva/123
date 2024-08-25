@@ -13,6 +13,7 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    "/change-password",
     "/kyc/pemodal",
     "/kyc/penerbit",
     "/daftar-bisnis/saham/:slug/bayar",

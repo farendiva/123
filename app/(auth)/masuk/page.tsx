@@ -30,8 +30,6 @@ export default function Masuk() {
   });
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [showPasswordConfirmation, setShowPasswordConfirmation] =
-    useState(false);
   const { toast } = useToast();
   const router = useRouter();
   const { executeRecaptcha } = useGoogleReCaptcha();

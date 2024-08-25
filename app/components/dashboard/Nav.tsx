@@ -108,6 +108,8 @@ const Nav = () => {
               className={`${
                 user?.pemodal_status === 3
                   ? "text-emerald-light"
+                  : user?.pemodal_status === 4
+                  ? "text-red-500"
                   : "text-[#E09400]"
               } flex items-center gap-2 cursor-pointer`}
               onClick={toggleDropdown}
@@ -117,6 +119,8 @@ const Nav = () => {
                 ? "Terverifikasi"
                 : user?.pemodal_status === 1
                 ? "Menunggu Review"
+                : user?.pemodal_status === 4
+                ? "Tidak Terverifikasi"
                 : "Belum Terverifikasi"}
             </span>
             {isDropdownOpen && (

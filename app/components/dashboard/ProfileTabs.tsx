@@ -241,12 +241,20 @@ const ProfileTabs: React.FC = () => {
     }
   };
 
+  const getProfileImage = (user: any): string => {
+    if (user?.profile?.swa_photo) {
+      return `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`;
+    }
+    return "/images/profile-placeholder.jpg";
+  };
+
   return (
     <div className="w-full bg-white mx-auto p-8 border rounded-xl">
       <div className="flex flex-col md:flex-row items-center w-full gap-4 md:gap-8 my-4">
         <img
           className="w-16 h-16 rounded-full"
-          src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user?.profile.swa_photo}`}
+          src={getProfileImage(user)}
+          // src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user?.profile.swa_photo}`}
           alt="Profile"
         />
         <div className="text-center md:text-left text-xl">
@@ -257,14 +265,18 @@ const ProfileTabs: React.FC = () => {
             className={`${
               user?.pemodal_status === 3
                 ? "text-emerald-light"
+                : user?.pemodal_status === 4
+                ? "text-red-500"
                 : "text-[#E09400]"
-            } flex items-center justify-center md:justify-start gap-2`}
+            } flex font-semibold items-center justify-center md:justify-start gap-2`}
           >
             {user?.pemodal_status === 3 && <CircleCheckBig />}
             {user?.pemodal_status === 3
               ? "Terverifikasi"
               : user?.pemodal_status === 1
               ? "Menunggu Review"
+              : user?.pemodal_status === 4
+              ? "Tidak Terverifikasi"
               : "Belum Terverifikasi"}
           </span>
         </div>
