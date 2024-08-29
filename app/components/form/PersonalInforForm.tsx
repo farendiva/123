@@ -121,6 +121,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   const kecamatan_ktp = watch("kecamatan_ktp");
   const kelurahan_ktp = watch("kelurahan_ktp");
   const kodePos_ktp = watch("kodePos_ktp");
+  const rt_ktp = watch("rt_ktp");
+  const rw_ktp = watch("rw_ktp");
   const provinsi_domisili = watch("provinsi_domisili");
   const kabupaten_domisili = watch("kabupaten_domisili");
   const kecamatan_domisili = watch("kecamatan_domisili");
@@ -133,6 +135,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("kecamatan_domisili", kecamatan_ktp);
       setValue("kelurahan_domisili", kelurahan_ktp);
       setValue("kodePos_domisili", kodePos_ktp);
+      setValue("rt_domisili", rt_ktp);
+      setValue("rw_domisili", rw_ktp);
     }
   }, [
     isChecked,
@@ -760,6 +764,44 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </div>
           </div>
         </div>
+        <div className="sm:col-span-4">
+          <label htmlFor="rt_ktp" className="block text-sm font-bold leading-6">
+            RT Sesuai KTP
+          </label>
+          <div className="">
+            <input
+              type="text"
+              id="rt_ktp"
+              {...register("rt_ktp")}
+              autoComplete="given-name"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            />
+            <div className="h-1 mt-1">
+              {errors.rt_ktp?.message && (
+                <p className="text-sm text-red-400">{errors.rt_ktp.message}</p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="sm:col-span-4">
+          <label htmlFor="rw_ktp" className="block text-sm font-bold leading-6">
+            RW Sesuai KTP
+          </label>
+          <div className="">
+            <input
+              type="text"
+              id="rw_ktp"
+              {...register("rw_ktp")}
+              autoComplete="given-name"
+              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            />
+            <div className="h-1 mt-1">
+              {errors.rw_ktp?.message && (
+                <p className="text-sm text-red-400">{errors.rw_ktp.message}</p>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="flex items-center gap-2 my-4">
@@ -955,6 +997,54 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 {errors.kodePos_domisili?.message && (
                   <p className="text-sm text-red-400">
                     {errors.kodePos_domisili.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="sm:col-span-4">
+            <label
+              htmlFor="rt_domisili"
+              className="block text-sm font-bold leading-6"
+            >
+              RT Sesuai Domisili
+            </label>
+            <div className="">
+              <input
+                type="text"
+                id="rt_domisili"
+                {...register("rt_domisili")}
+                autoComplete="given-name"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              />
+              <div className="h-1 mt-1">
+                {errors.rt_domisili?.message && (
+                  <p className="text-sm text-red-400">
+                    {errors.rt_domisili.message}
+                  </p>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="sm:col-span-4">
+            <label
+              htmlFor="rw_domisili"
+              className="block text-sm font-bold leading-6"
+            >
+              RW Sesuai Domisili
+            </label>
+            <div className="">
+              <input
+                type="text"
+                id="rw_domisili"
+                {...register("rw_domisili")}
+                autoComplete="given-name"
+                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              />
+              <div className="h-1 mt-1">
+                {errors.rw_domisili?.message && (
+                  <p className="text-sm text-red-400">
+                    {errors.rw_domisili.message}
                   </p>
                 )}
               </div>

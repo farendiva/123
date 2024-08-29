@@ -122,6 +122,12 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       "kecamatan_ktp",
       "kabupaten_ktp",
       "provinsi_ktp",
+      // "rt_ktp",
+      // "rw_ktp",
+      // "rt_domisili",
+      // "rw_domisili",
+      // "kodepos_ktp",
+      // "kodepos_domisili",
       "alamat_domisili",
       "kelurahan_domisili",
       "kecamatan_domisili",
@@ -160,9 +166,9 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       nomor_rekening: data.nomor_rekening,
       nama_pemilik_rekening: data.nama_pemilik_rekening,
       nama_bank: data.nama_bank,
-      nama_bank_kustodian: "",
       nama_ibu_kandung: data.nama_ibu_kandung,
-      nama_pemilik_rekening_kustodian: data.nama_pemilik_rekening_kustodian,
+      nama_rekening_custodian: data.nama_pemilik_rekening_kustodian,
+      nomor_rekening_custodian: data.nomor_rekening_kustodian,
     };
 
     const document = new FormData();

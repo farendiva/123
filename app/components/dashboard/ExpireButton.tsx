@@ -10,13 +10,34 @@ interface ExpireProps {
 const ExpireButton: React.FC<ExpireProps> = ({ expire, status }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
 
+  const labelVerifikasi = () => {
+    switch (status) {
+      case 0:
+        return "Menunggu Pembayaran";
+      case 1:
+        return "Pembayaran Diterima";
+      case 2:
+        return "Pembayaran Kedaluwarsa";
+      case 3:
+        return "Dibatalkan oleh admin";
+      case 4:
+        return "Dibatalkan oleh User";
+      case 5:
+        return "Dikembalikan";
+      case 6:
+        return "Ditolak oleh admin";
+      default:
+        return "Menunggu Pembayaran";
+    }
+  };
+
   useEffect(() => {
     const interval = setInterval(() => {
       const now = new Date().getTime();
       const expiryTime = new Date(expire).getTime();
       const distance = expiryTime - now;
 
-      if (distance < 0) {
+      if (distance < 0 && status === 2) {
         clearInterval(interval);
         setTimeLeft("Kedaluwarsa");
       } else {
@@ -36,21 +57,27 @@ const ExpireButton: React.FC<ExpireProps> = ({ expire, status }) => {
       <p className="text-[#667AB9] font-bold">Batas Pembayaran</p>
       {status === 1 ? (
         <p className="font-bold text-emerald-light">Sudah dibayar</p>
+      ) : status === 0 ? (
+        <div className="flex items-center gap-3">
+          <p className="bg-[#E09400] px-3 py-0.5 rounded-xl text-white font-semibold focus:outline-none">
+            {timeLeft}
+          </p>
+          <p className="text-[#667AB9] font-bold">
+            {new Date(expire).toLocaleDateString("id-ID", {
+              weekday: "long",
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+            ,{" "}
+            {new Date(expire).toLocaleTimeString("id-ID", {
+              hour: "2-digit",
+              minute: "2-digit",
+            })}{" "}
+          </p>
+        </div>
       ) : (
-        <p className="text-gray-800 font-medium">
-          {new Date(expire).toLocaleDateString("id-ID", {
-            weekday: "long",
-            day: "numeric",
-            month: "long",
-            year: "numeric",
-          })}
-          ,{" "}
-          {new Date(expire).toLocaleTimeString("id-ID", {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}{" "}
-          · <span className="text-[#E09400] font-bold">{timeLeft}</span>
-        </p>
+        <p className="font-bold text-[#FF1F00]">{labelVerifikasi()}</p>
       )}
     </div>
   );

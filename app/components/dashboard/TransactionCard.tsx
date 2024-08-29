@@ -56,6 +56,27 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [isExpanded, setIsExpanded] = useState(false);
 
+  const labelVerifikasi = () => {
+    switch (transaksi.status) {
+      case 0:
+        return "Menunggu Pembayaran";
+      case 1:
+        return "Pembayaran Diterima";
+      case 2:
+        return "Pembayaran Kedaluwarsa";
+      case 3:
+        return "Dibatalkan oleh admin";
+      case 4:
+        return "Dibatalkan oleh User";
+      case 5:
+        return "Dikembalikan";
+      case 6:
+        return "Ditolak oleh admin";
+      default:
+        return "Menunggu Pembayaran";
+    }
+  };
+
   const toggleExpanded = () => {
     setIsExpanded(!isExpanded);
     if (isExpanded) {
@@ -75,7 +96,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
         const expiryTime = new Date(transaksi.va_expiry_time).getTime();
         const distance = expiryTime - now;
 
-        if (distance < 0) {
+        if (distance < 0 && transaksi.status === 2) {
           clearInterval(interval);
           setTimeLeft("Kedaluwarsa");
         } else {
@@ -179,12 +200,12 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             <p className=" font-bold">Status Pembayaran</p>
             {transaksi.status === 1 ? (
               <p className="font-bold text-emerald-light">Sudah Dibayar</p>
-            ) : distance < 0 ? (
-              <p className="text-gray-800 font-medium">
-                <span className="text-[#FF1F00] font-bold">Kedaluwarsa</span>
-              </p>
+            ) : transaksi.status === 2 && distance < 0 ? (
+              <p className="text-[#FF1F00] font-bold">Kedaluwarsa</p>
+            ) : transaksi.status === 0 ? (
+              <p className="font-bold text-[#FBB400]">Menunggu Pembayaran</p>
             ) : (
-              <p className="text-[#FBB400] font-bold">Menunggu Pembayaran</p>
+              <p className="font-bold text-[#FF1F00]">{labelVerifikasi()}</p>
             )}
           </div>
         </div>

@@ -5,6 +5,7 @@ import { CircleCheckBig, CircleX, Download, SquarePen } from "lucide-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import usePreferences from "@/hooks/usePreferences";
+import { getUserData } from "@/lib/auth";
 
 interface Province {
   province: string;
@@ -102,12 +103,13 @@ interface ProfileTabsProps {
 }
 
 const ProfileTabs: React.FC = () => {
-  const { user } = useUser();
+  const { user, updateUser } = useUser();
   const [activeTab, setActiveTab] = useState(0);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [formData, setFormData] = useState<Partial<Profile> | undefined>(
     user?.profile
   );
+  console.log(user);
   const [originalData, setOriginalData] = useState<
     Partial<Profile> | undefined
   >(user?.profile);
@@ -232,9 +234,9 @@ const ProfileTabs: React.FC = () => {
       }
     );
     if (response.ok) {
-      const result = await response.json();
+      const updateData = await getUserData();
+      setOriginalData(updateData); // Update originalData with the latest changes
       setIsEditing(false);
-      setOriginalData(formData); // Update originalData with the latest changes
     } else {
       const errorData = await response.json();
       console.error("Error:", errorData);
@@ -314,10 +316,22 @@ const ProfileTabs: React.FC = () => {
                   <span className="text-sm">{user?.profile.no_handphone}</span>
                 </div>
               </div>
+              <div className="flex justify-between items-center py-3">
+                <div>
+                  <label className="font-bold">Tanggal Lahir</label> <br />
+                  <span className="text-sm">{user?.profile.tanggal_lahir}</span>
+                </div>
+              </div>
+              <div className="flex justify-between items-center py-3">
+                <div>
+                  <label className="font-bold">Nik KTP</label> <br />
+                  <span className="text-sm">{user?.profile.no_ktp}</span>
+                </div>
+              </div>
               <div className="py-4">
                 <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
                   <Download className="inline mx-2" strokeWidth={2} />
-                  Unduh Dokumen Perjanjian
+                  Unduh Dokumen Perjanjian Pemodal
                 </button>
               </div>
             </div>
@@ -642,7 +656,7 @@ const ProfileTabs: React.FC = () => {
               <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div className="flex items-center py-3">
                   <div className="w-full">
-                    <label className="block text-sm font-semibold">KTP</label>
+                    <label className="block font-bold">KTP</label>
                     <input
                       type="file"
                       accept="image/*"
@@ -654,9 +668,7 @@ const ProfileTabs: React.FC = () => {
                 </div>
                 <div className="flex items-center py-3">
                   <div className="w-full">
-                    <label className="block text-sm font-semibold">
-                      Slip Gaji
-                    </label>
+                    <label className="block font-bold">Slip Gaji</label>
                     <input
                       type="file"
                       accept="image/*"
@@ -666,6 +678,48 @@ const ProfileTabs: React.FC = () => {
                     />
                   </div>
                 </div>
+                <div className="flex justify-between items-center py-3">
+                  <div className="w-full">
+                    <label className="font-bold">Nomor SID</label> <br />
+                    <input
+                      type="text"
+                      name="no_sid"
+                      value={formData?.no_sid || ""}
+                      onChange={handleInputChange}
+                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+                    />
+                  </div>
+                </div>
+                {/* <div className="flex justify-between items-center py-3">
+                  <div className="w-full">
+                    <label className="font-bold">
+                      Nomor Rekening Kustodian
+                    </label>{" "}
+                    <br />
+                    <input
+                      type="text"
+                      name="nomor_rekening_custodian"
+                      value={formData?.nomor_rekening_custodian || ""}
+                      onChange={handleInputChange}
+                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+                    />
+                  </div>
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div className="w-full">
+                    <label className="font-bold">
+                      Nama Pemilik Rekening Kustodian
+                    </label>{" "}
+                    <br />
+                    <input
+                      type="text"
+                      name="nama_rekening_custodian"
+                      value={formData?.nama_rekening_custodian || ""}
+                      onChange={handleInputChange}
+                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+                    />
+                  </div>
+                </div> */}
                 <div className="flex justify-end gap-4">
                   <button
                     type="button"
@@ -692,7 +746,7 @@ const ProfileTabs: React.FC = () => {
               <div className="my-8 divide-y divide-gray-300">
                 <div className="flex justify-between items-center py-3">
                   <div>
-                    <label className="block text-sm font-semibold">KTP</label>
+                    <label className="block font-bold">KTP</label>
                     <a
                       className="text-sm text-blue-600"
                       href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
@@ -712,9 +766,7 @@ const ProfileTabs: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center py-3">
                   <div>
-                    <label className="block text-sm font-semibold">
-                      Slip Gaji
-                    </label>
+                    <label className="block font-bold">Slip Gaji</label>
                     <a
                       className="text-sm text-blue-600"
                       href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
@@ -734,6 +786,49 @@ const ProfileTabs: React.FC = () => {
                     className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
                   />
                 </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="font-bold">Nomor SID</label> <br />
+                    <span className="text-sm">{user?.profile.no_sid}</span>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="cursor-pointer"
+                  />
+                </div>
+                {/* <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="font-bold">
+                      Nomor Rekening Kustodian
+                    </label>{" "}
+                    <br />
+                    <span className="text-sm">
+                      {user?.profile.nomor_rekening_custodian}
+                    </span>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="cursor-pointer"
+                  />
+                </div>
+                <div className="flex justify-between items-center py-3">
+                  <div>
+                    <label className="font-bold">
+                      Nama Pemilik Rekening Kustodian
+                    </label>{" "}
+                    <br />
+                    <span className="text-sm">
+                      {user?.profile.nama_rekening_custodian}
+                    </span>
+                  </div>
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="cursor-pointer"
+                  />
+                </div> */}
               </div>
             )}
           </div>
