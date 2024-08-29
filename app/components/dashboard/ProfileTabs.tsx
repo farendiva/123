@@ -109,7 +109,6 @@ const ProfileTabs: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Profile> | undefined>(
     user?.profile
   );
-  console.log(user);
   const [originalData, setOriginalData] = useState<
     Partial<Profile> | undefined
   >(user?.profile);
