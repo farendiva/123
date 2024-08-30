@@ -42,11 +42,6 @@ interface Salary {
   pendapatan: string;
 }
 
-interface Nationality {
-  id: number;
-  kewarganegaraan: string;
-}
-
 interface Profile {
   nama_depan: string;
   nama_belakang: string;
@@ -123,8 +118,6 @@ const ProfileTabs: React.FC = () => {
     profession,
     industries,
     salaries,
-    nationalities,
-    religions,
     cities,
     districts,
     subdistricts,
@@ -355,11 +348,15 @@ const ProfileTabs: React.FC = () => {
                         <option value="" disabled>
                           Pilih Kewarganegaraan
                         </option>
-                        {nationalities.map((nationality: Nationality) => (
-                          <option key={nationality.id} value={nationality.id}>
-                            {nationality.kewarganegaraan.toUpperCase()}
-                          </option>
-                        ))}
+                        <option key="1" value="1">
+                          WNI TINGGAL DI INDONESIA
+                        </option>
+                        <option key="2" value="2">
+                          WNI TINGGAL DI LUAR NEGERI
+                        </option>
+                        <option key="3" value="3">
+                          WNA TINGGAL DI INDONESIA
+                        </option>
                       </select>
                     </div>
                   </div>
@@ -375,11 +372,24 @@ const ProfileTabs: React.FC = () => {
                         <option value="" disabled>
                           Pilih Agama
                         </option>
-                        {religions.slice(0, 6).map(({ id, agama }, index) => (
-                          <option key={index} value={id}>
-                            {agama}
-                          </option>
-                        ))}
+                        <option key="1" value="1">
+                          Islam
+                        </option>
+                        <option key="2" value="2">
+                          Kristen
+                        </option>
+                        <option key="3" value="3">
+                          Katolik
+                        </option>
+                        <option key="4" value="4">
+                          Hindu
+                        </option>
+                        <option key="5" value="5">
+                          Budha
+                        </option>
+                        <option key="6" value="6">
+                          Konghucu
+                        </option>
                       </select>
                     </div>
                   </div>
