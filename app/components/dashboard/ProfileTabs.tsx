@@ -42,6 +42,11 @@ interface Salary {
   pendapatan: string;
 }
 
+interface Nationality {
+  id: number;
+  kewarganegaraan: string;
+}
+
 interface Profile {
   nama_depan: string;
   nama_belakang: string;
@@ -118,6 +123,8 @@ const ProfileTabs: React.FC = () => {
     profession,
     industries,
     salaries,
+    nationalities,
+    religions,
     cities,
     districts,
     subdistricts,
@@ -303,36 +310,166 @@ const ProfileTabs: React.FC = () => {
         {activeTab === 0 && (
           <>
             <div className="my-8 divide-y-2">
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Email</label> <br />
-                  <span className="text-sm">{user?.email}</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Nomor Handphone</label> <br />
-                  <span className="text-sm">{user?.profile.no_handphone}</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Tanggal Lahir</label> <br />
-                  <span className="text-sm">{user?.profile.tanggal_lahir}</span>
-                </div>
-              </div>
-              <div className="flex justify-between items-center py-3">
-                <div>
-                  <label className="font-bold">Nik KTP</label> <br />
-                  <span className="text-sm">{user?.profile.no_ktp}</span>
-                </div>
-              </div>
-              <div className="py-4">
-                <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
-                  <Download className="inline mx-2" strokeWidth={2} />
-                  Unduh Dokumen Perjanjian Pemodal
-                </button>
-              </div>
+              {isEditing ? (
+                <form onSubmit={handleFormSubmit}>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Email</label> <br />
+                      <span className="text-sm">{user?.email}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Nomor Handphone</label>{" "}
+                      <br />
+                      <span className="text-sm">
+                        {user?.profile.no_handphone}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Tanggal Lahir</label> <br />
+                      <span className="text-sm">
+                        {user?.profile.tanggal_lahir}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Nik KTP</label> <br />
+                      <span className="text-sm">{user?.profile.no_ktp}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex justify-between items-center py-3">
+                    <div className="w-full">
+                      <label className="font-bold">Kewarganegaraan</label>{" "}
+                      <br />
+                      <select
+                        name="kewarganegaraan"
+                        value={formData?.kewarganegaraan || ""}
+                        onChange={handleSelectChange}
+                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+                      >
+                        <option value="" disabled>
+                          Pilih Kewarganegaraan
+                        </option>
+                        {nationalities.map((nationality: Nationality) => (
+                          <option key={nationality.id} value={nationality.id}>
+                            {nationality.kewarganegaraan.toUpperCase()}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div className="w-full">
+                      <label className="font-bold">Agama</label> <br />
+                      <select
+                        name="agama"
+                        value={formData?.agama || ""}
+                        onChange={handleSelectChange}
+                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+                      >
+                        <option value="" disabled>
+                          Pilih Agama
+                        </option>
+                        {religions.slice(0, 6).map(({ id, agama }, index) => (
+                          <option key={index} value={id}>
+                            {agama}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                  <div className="py-4">
+                    <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
+                      <Download className="inline mx-2" strokeWidth={2} />
+                      Unduh Dokumen Perjanjian Pemodal
+                    </button>
+                  </div>
+                  <div className="flex py-2 justify-end gap-2">
+                    <button
+                      onClick={() => setIsEditing(false)}
+                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
+                    >
+                      <CircleX />
+                      Batalkan
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
+                    >
+                      <img src="/icons/save.svg" alt="Save Icon" />
+                      Simpan
+                    </button>
+                  </div>
+                </form>
+              ) : (
+                <>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Email</label> <br />
+                      <span className="text-sm">{user?.email}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Nomor Handphone</label>{" "}
+                      <br />
+                      <span className="text-sm">
+                        {user?.profile.no_handphone}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Tanggal Lahir</label> <br />
+                      <span className="text-sm">
+                        {user?.profile.tanggal_lahir}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Nik KTP</label> <br />
+                      <span className="text-sm">{user?.profile.no_ktp}</span>
+                    </div>
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Kewarganegaraan</label>{" "}
+                      <br />
+                      <span className="text-sm uppercase">
+                        {user?.profile.kewarganegaraan}
+                      </span>
+                    </div>
+                    <SquarePen
+                      strokeWidth={1.5}
+                      onClick={handleEditClick}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                  <div className="flex justify-between items-center py-3">
+                    <div>
+                      <label className="font-bold">Agama</label> <br />
+                      <span className="text-sm">{user?.profile.agama}</span>
+                    </div>
+                    <SquarePen
+                      strokeWidth={1.5}
+                      onClick={handleEditClick}
+                      className="cursor-pointer"
+                    />
+                  </div>
+                  <div className="py-4">
+                    <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
+                      <Download className="inline mx-2" strokeWidth={2} />
+                      Unduh Dokumen Perjanjian Pemodal
+                    </button>
+                  </div>
+                </>
+              )}
             </div>
           </>
         )}
