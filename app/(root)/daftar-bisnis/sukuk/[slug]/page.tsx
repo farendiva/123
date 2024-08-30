@@ -44,6 +44,14 @@ export async function generateMetadata({
 
   const description = `Detail untuk ${data.nama_efek}. Pelajari lebih lanjut tentang ${data.nama_efek}, fitur-fiturnya, dan peluang investasinya.`;
 
+  const firstImage =
+    Array.isArray(data.berkas) && data.berkas.length > 0
+      ? new URL(
+          `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${data.berkas[0].nama_file}`,
+          "https://fulusme.id"
+        ).toString()
+      : null;
+
   return {
     title: data.nama_efek,
     description: description,
@@ -51,7 +59,25 @@ export async function generateMetadata({
       title: data.nama_efek,
       description: description,
       url: `https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`,
+      siteName: "Fulusme",
+      locale: "id_ID",
       type: "website",
+      images: firstImage
+        ? [
+            {
+              url: firstImage,
+              width: 1200,
+              height: 630,
+              alt: data.nama_efek,
+            },
+          ]
+        : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: data.nama_efek,
+      description: description,
+      images: firstImage ? [firstImage] : undefined,
     },
   };
 }
@@ -129,7 +155,6 @@ export default async function ProductDetailPageSukuk({
           property="og:description"
           content={`Detail for ${data.nama_efek}. Learn more about ${data.nama_efek}, its features, and investment opportunities.`}
         />
-        {/* <meta property="og:image" content={data.berkas} /> */}
         <meta
           property="og:url"
           content={`https://fulusme.id/daftar-bisnis/${data.jenis_efek.toLowerCase()}/${slug}`}

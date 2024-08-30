@@ -25,9 +25,9 @@ const formatTitleForUrl = (title: string) => {
 const ShareComponent: React.FC<ShareProps> = ({ text, tipe, id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCopied, setIsCopied] = useState(false);
-  const titleToShare = `Check out this amazing post: ${text}`;
+  const titleToShare = `Detail untuk ${text}. Pelajari lebih lanjut tentang ${text}, fitur-fiturnya, dan peluang investasinya.`;
   const formattedNamaEfek = formatTitleForUrl(text);
-  const shareUrl = `https://fulusme.id/${tipe.toLowerCase()}/${formattedNamaEfek}-${id}`;
+  const shareUrl = `https://fulusme.id/daftar-bisnis/${tipe.toLowerCase()}/${formattedNamaEfek}-${id}`;
 
   const toggleModal = () => {
     setIsModalOpen(!isModalOpen);
