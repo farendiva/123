@@ -39,11 +39,12 @@ const Footer = () => {
           <section className="">
             <h5 className="font-bold mb-4">ALAMAT</h5>
             <p className="leading-relaxed">
-              Gedung Menara 165 Lt. 3<br />
-              Jl. TB. Simatupang <br />
-              No.Kav.1, Cilandak, Pasar Minggu,
+              Gedung Menara 165
               <br />
-              Kota Jakarta Selatan <br /> Daerah Khusus Ibukota Jakarta 12560
+              Lantai 3, Jl. TB. Simatupang Kav 1<br />
+              Cilandak, Pasar Minggu,
+              <br />
+              Jakarta Selatan <br /> DKI Jakarta 12560
             </p>
           </section>
 

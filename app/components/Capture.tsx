@@ -67,15 +67,19 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
             }
 
             // Convert canvas to blob and then to file
-            canvas.toBlob((blob) => {
-              if (blob) {
-                const file = new File([blob], "cropped-image.jpeg", {
-                  type: "image/jpeg",
-                });
-                setCapturedImage(URL.createObjectURL(blob));
-                onCapture(file);
-              }
-            }, "image/jpeg");
+            canvas.toBlob(
+              (blob) => {
+                if (blob) {
+                  const file = new File([blob], "cropped-image.jpeg", {
+                    type: "image/jpeg",
+                  });
+                  setCapturedImage(URL.createObjectURL(blob));
+                  onCapture(file);
+                }
+              },
+              "image/jpeg",
+              1
+            );
           }
         };
       }
@@ -87,10 +91,13 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
       <Webcam
         audio={false}
         ref={webcamRef}
+        screenshotQuality={1}
         screenshotFormat="image/jpeg"
         className="absolute inset-0 w-full h-full object-cover rounded-5xl"
         videoConstraints={{
           facingMode: "user",
+          width: 1280, // Add this property
+          height: 720, // Add this property
         }}
       />
       {capturedImage && (
