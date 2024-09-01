@@ -159,9 +159,8 @@ export const KycPemodalFormSchema = z
     kabupaten_ktp: z.string().min(1, "Kota/Kabupaten Harus Diisi."),
     kecamatan_ktp: z.string().min(1, "Kecamatan Harus Diisi."),
     kelurahan_ktp: z.string().min(1, "Kelurahan Harus Diisi."),
-    rt_ktp: z.string().min(1, "RT Harus Diisi."),
-    rw_ktp: z.string().min(1, "RW Harus Diisi."),
-
+    // rt_ktp: z.string().min(1, "RT Harus Diisi."),
+    // rw_ktp: z.string().min(1, "RW Harus Diisi."),
     kodePos_ktp: z
       .string()
       .min(5, "Kode Pos harus terdiri dari 5 digit.")
@@ -175,8 +174,8 @@ export const KycPemodalFormSchema = z
       .string()
       .min(5, "Kode Pos harus terdiri dari 5 digit.")
       .regex(/^[0-9]+$/, "Kode Pos harus berupa angka."),
-    rt_domisili: z.string().min(1, "RT Harus Diisi."),
-    rw_domisili: z.string().min(1, "RW Harus Diisi."),
+    // rt_domisili: z.string().min(1, "RT Harus Diisi."),
+    // rw_domisili: z.string().min(1, "RW Harus Diisi."),
     pekerjaan: z.string().min(1, "Pekerjaan Harus Diisi."),
     industri_pekerjaan: z.string().min(1, "Bidang Pekerjaan Harus Diisi."),
     slip_gaji: z

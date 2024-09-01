@@ -66,20 +66,35 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
               );
             }
 
+            // Resize the canvas to a larger size
+            const resizedCanvas = document.createElement("canvas");
+            const resizedCtx = resizedCanvas.getContext("2d");
+            resizedCanvas.width = canvas.width * 2; // Double the width
+            resizedCanvas.height = canvas.height * 2; // Double the height
+            if (resizedCtx) {
+              resizedCtx.drawImage(
+                canvas,
+                0,
+                0,
+                canvas.width,
+                canvas.height,
+                0,
+                0,
+                resizedCanvas.width,
+                resizedCanvas.height
+              );
+            }
+
             // Convert canvas to blob and then to file
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  const file = new File([blob], "cropped-image.jpeg", {
-                    type: "image/jpeg",
-                  });
-                  setCapturedImage(URL.createObjectURL(blob));
-                  onCapture(file);
-                }
-              },
-              "image/jpeg",
-              1
-            );
+            resizedCanvas.toBlob((blob) => {
+              if (blob) {
+                const file = new File([blob], "cropped-image.png", {
+                  type: "image/png",
+                });
+                setCapturedImage(URL.createObjectURL(blob));
+                onCapture(file);
+              }
+            }, "image/png");
           }
         };
       }
@@ -92,12 +107,12 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
         audio={false}
         ref={webcamRef}
         screenshotQuality={1}
-        screenshotFormat="image/jpeg"
+        screenshotFormat="image/png"
         className="absolute inset-0 w-full h-full object-cover rounded-5xl"
         videoConstraints={{
           facingMode: "user",
-          width: 1280, // Add this property
-          height: 720, // Add this property
+          width: 3840, // Increased width for higher resolution
+          height: 2160, // Increased height for higher resolution
         }}
       />
       {capturedImage && (

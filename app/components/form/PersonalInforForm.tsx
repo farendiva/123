@@ -121,8 +121,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   const kecamatan_ktp = watch("kecamatan_ktp");
   const kelurahan_ktp = watch("kelurahan_ktp");
   const kodePos_ktp = watch("kodePos_ktp");
-  const rt_ktp = watch("rt_ktp");
-  const rw_ktp = watch("rw_ktp");
+  // const rt_ktp = watch("rt_ktp");
+  // const rw_ktp = watch("rw_ktp");
   const provinsi_domisili = watch("provinsi_domisili");
   const kabupaten_domisili = watch("kabupaten_domisili");
   const kecamatan_domisili = watch("kecamatan_domisili");
@@ -135,8 +135,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("kecamatan_domisili", kecamatan_ktp);
       setValue("kelurahan_domisili", kelurahan_ktp);
       setValue("kodePos_domisili", kodePos_ktp);
-      setValue("rt_domisili", rt_ktp);
-      setValue("rw_domisili", rw_ktp);
+      // setValue("rt_domisili", rt_ktp);
+      // setValue("rw_domisili", rw_ktp);
     }
   }, [
     isChecked,
@@ -764,7 +764,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             </div>
           </div>
         </div>
-        <div className="sm:col-span-4">
+        {/* <div className="sm:col-span-4">
           <label htmlFor="rt_ktp" className="block text-sm font-bold leading-6">
             RT Sesuai KTP
           </label>
@@ -801,7 +801,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               )}
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
 
       <div className="flex items-center gap-2 my-4">
@@ -1002,7 +1002,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               </div>
             </div>
           </div>
-          <div className="sm:col-span-4">
+          {/* <div className="sm:col-span-4">
             <label
               htmlFor="rt_domisili"
               className="block text-sm font-bold leading-6"
@@ -1049,7 +1049,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </>
