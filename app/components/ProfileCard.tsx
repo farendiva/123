@@ -46,7 +46,7 @@ const ProfileCard: React.FC<Profile> = ({
       <h3 className="text-lg text-center text-emerald-500">{position}</h3>
       <p
         className={`h-full text-sm lg:h-24 text-justify ${
-          grid === 4 ? "w-4/5 lg:w-full" : "w-3/4"
+          grid === 4 ? "w-4/5 lg:w-full" : "w-4/5 lg:w-1/2"
         }`}
       >
         {description.split(" ").length > limitWords ? (

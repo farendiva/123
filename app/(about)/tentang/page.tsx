@@ -92,7 +92,7 @@ export default async function Tentang() {
         Board Of Commissioner
       </h1>
       <section className="w-full bg-white text-black text-justify flex justify-center items-center">
-        <section className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 justify-center items-center">
+        <section className="w-4/5 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-center items-center">
           <ProfileCard
             name="Donald Akbar"
             grid={3}
@@ -100,13 +100,13 @@ export default async function Tentang() {
             imageSrc="images/Donald Akbar Photo.jpg"
             description="Berkecimpung sebagai komisaris dan komisaris utama di beberapa perusahaan multi industri, membuatnya memiliki pengalaman yang panjang dan tajam sebagai pengawas jalannya FuLusme . Dengan memiliki visi dan misi untuk memajukan bisnis dengan konsep Urun Dana/ securities Crowdfunding bagi seluruh masyarakat, diharapkan FuLusme dapat bermanfaat bagi dunia bisnis di Indonesia."
           />
-          <ProfileCard
+          {/* <ProfileCard
             name="Antasari Irawanto "
             grid={3}
             position="Commissioner"
             imageSrc="/images/comisionner_antasasri.png"
             description="Bachelor Of Engineering (B.ENG), lulusan New Mexico State University. Berpengalaman di telekomunikasi Industri, menduduki beberapa posisi sebagai presiden direktur dan co-founder di beberapa perusahaan telekomunikasi."
-          />
+          /> */}
           <ProfileCard
             name="Chris Agustono W"
             grid={3}
