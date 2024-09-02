@@ -96,7 +96,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             <X size={20} />
           </button>
         </div>
-        <div className="space-y-4 text-sm p-4 text-justify">
+        {/* <div className="space-y-4 text-sm p-4 text-justify">
           <p className="text-base font-bold text-center mx-auto">
             PERJANJIAN PENYELENGGARAAN PENAWARAN EFEK MELALUI LAYANAN URUN DANA
             BERBASIS TEKNOLOGI INFORMASI <br />
@@ -1665,8 +1665,1343 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
             isi Perjanjian ini, Perjanjian ini mengikat secara hukum dan berlaku
             sebagai undang-undang bagi Para Pihak.
           </p>
+        </div> */}
+        <div className="space-y-4 px-4 text-justify text-sm">
+          <h1 className="font-bold text-base">SYARAT DAN KETENTUAN PEMODAL</h1>
+          <p>
+            FULUSME adalah Platform layanan urun dana berbasiskan teknologi
+            informasi atau securities crowdfunding yang beroperasi berdasarkan
+            prinsip syariah, memiliki izin Otoritas Jasa Keuangan (OJK) sebagai
+            penyelenggara Securities Crowdfunding (SCF) berdasarkan SK Nomor
+            No.KEP-45/D.04/2022.
+          </p>
+          <p>
+            Kami mewajibkan setiap Pengguna Platform untuk membaca, mempelajari
+            dan memahami seluruh Syarat dan Ketentuan yang berlaku pada Platform
+            ini sebelum melakukan kegiatan investasi atau pembelian efek,
+            berikut ini adalah persyaratan dan ketentuan yang harus dipahami
+            oleh pengguna layanan FULUSME.{" "}
+          </p>
+          <ul className="space-y-4">
+            <li>
+              <p className="font-bold mb-4">I. DEFINISI</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  <span className="font-bold">“Layanan Urun Dana”</span> atau
+                  dikenal sebagai penyelenggaraan layanan urun dana melalui
+                  penawaran Efek berbasis Teknologi Informasi (securities
+                  crowdfunding) adalah penyelenggaraan layanan penawaran Efek
+                  yang dilakukan oleh Penerbit untuk menjual Efek secara
+                  langsung kepada Pemodal melalui jaringan Sistem Elektronik
+                  yang bersifat terbuka guna pendanaan suatu Proyek.
+                </li>
+                <li>
+                  <span className="font-bold">“Penyelenggara”</span> atau
+                  selanjutnya disebut “FULUSME” adalah PT FULUSME Digital
+                  Indonesia yang mempunyai kegiatan untuk menyediakan, mengelola
+                  dan mengoperasikan Layanan Urun Dana serta mempunyai ijin
+                  usaha dari Otoritas Jasa Keuangan serta terdaftar sebagai
+                  Penyelenggara Sistem Elektronik pada kementerian yang
+                  menyelenggarakan urusan pemerintahan di bidang komunikasi dan
+                  informatika.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Pengguna”</span> adalah pengguna
+                  Layanan Urun Dana yang terdiri dari Penerbit atau Pemodal.
+                </li>
+                <li>
+                  <span className="font-bold">“Penerbit”</span> adalah badan
+                  hukum Indonesia berbentuk perseroan terbatas yang menerbitkan
+                  dan menawarkan Efek melalui Penyelenggara yang telah memenuhi
+                  syarat-syarat yang berlaku dan ditetapkan oleh Otoritas Jasa
+                  Keuangan dan/atau badan regulator lainnya (jika ada).{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Pemodal”</span> adalah Pengguna
+                  situs web yang telah mendaftarkan dirinya untuk melakukan
+                  pembelian Efek Penerbit melalui Penyelenggara.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Akun”</span> adalah akun milik
+                  masing-masing Pemodal atau Penerbit yang digunakan untuk
+                  mengakses fitur-fitur di Platform Penyelenggara.
+                </li>
+                <li>
+                  <span className="font-bold">“POJK Layanan Urun Dana”</span>{" "}
+                  adalah Peraturan Otoritas Jasa Keuangan Nomor: 57/POJK.04/2020
+                  tanggal 11 Desember 2020, beserta perubahan-perubahannya.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Data Pribadi”</span> adalah
+                  informasi atau data yang digunakan secara langsung atau tidak
+                  langsung untuk mengidentifikasi seorang individu, termasuk
+                  namun tidak terbatas antara lain kartu tanda penduduk, foto
+                  kartu tanda penduduk, foto diri, nomor handphone, alamat
+                  e-mail, nomor pokok wajib pajak, akun bank, dan lain
+                  sebagainya.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Dokumen Elektronik”</span> adalah
+                  setiap informasi elektronik yang dibuat, diteruskan,
+                  dikirimkan, diterima atau disimpan dalam bentuk analog,
+                  digital, elektromagnetik, optikal atau sejenisnya, yang dapat
+                  dilihat, ditampilkan dan/atau didengar melalui komputer) atau
+                  Sistem Elektronik termasuk tetapi tidak terbatas pada tulisan,
+                  suara, gambar, peta, rancangan, foto atau sejenisnya, huruf,
+                  tanda, angka, kode akses, simbol atau perforasi yang memiliki
+                  makna atau arti atau dapat dipahami oleh orang yang mampu
+                  memahaminya.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“KSEI”</span> atau Kustodian
+                  Sentral Efek Indonesia merupakan Lembaga Penyimpanan dan
+                  Penyelesaian (LPP) di Pasar Modal Indonesia yang menyediakan
+                  layanan Kustodian sentral dan penyelesaian transaksi efek yang
+                  teratur, wajar, dan efisien, sesuai amanat Undang-Undang No. 8
+                  Tahun 1995 tentang Pasar Modal.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Bank Kustodian”</span> adalah
+                  bank umum yang telah memperoleh persetujuan Otoritas Jasa
+                  Keuangan untuk melakukan kegiatan usaha sebagai kustodian.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Masa Penawaran Efek”</span>{" "}
+                  adalah jangka waktu atau masa penawaran Efek yang diterbitkan
+                  oleh Penerbit kepada calon Pemodal yang dilakukan oleh
+                  Penyelenggara dengan jangka waktu paling lama 45 (empat puluh
+                  lima) hari Kalender. Masa Penawaran Efek akan berakhir dalam
+                  hal:{" "}
+                  <ul className="space-y-1 px-4">
+                    <li>
+                      a. Tanggal tertentu yang telah ditetapkan oleh Penerbit;
+                      atau
+                    </li>
+                    <li>
+                      b. Tanggal tertentu sebelum tanggal sebagaimana dimaksud
+                      dalam huruf a namun seluruh Efek yang ditawarkan melalui
+                      Layanan Urun Dana telah dibeli oleh Pemodal.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <span className="font-bold">“Proyek”</span> adalah kegiatan
+                  atau pekerjaan yang menghasilkan barang, jasa, dan/atau
+                  manfaat lain, baik yang sudah ada maupun yang akan ada,
+                  termasuk kegiatan investasi yang telah ditentukan yang menjadi
+                  dasar penerbitan efek yang diterbitkan oleh Penerbit melalui
+                  Layanan Urun Dana.
+                </li>
+                <li>
+                  <span className="font-bold">“Efek”</span> adalah surat
+                  berharga, yaitu surat pengakuan utang, surat berharga
+                  komersial, saham, obligasi, tanda bukti utang, unit penyertaan
+                  kontrak investasi kolektif, kontrak berjangka atas Efek, dan
+                  setiap derivative dari Efek.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Obligasi”</span> adalah Efek
+                  berupa sertifikat atau bukti kepemilikan yang bernilai sama
+                  dan mewakili bagian yang tidak terpisahkan atas aset yang
+                  mendasarinya..{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Saham”</span> adalah Efek berupa
+                  sertifikat atau bukti kepemilikan yang mewakili kepemilikan
+                  atas suatu perusahaan.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Pra-Listing”</span> adalah Waktu
+                  sebelum dimulainya masa penawaran Efek.
+                </li>
+                <li>
+                  <span className="font-bold">“Listing”</span> adalah masa
+                  penawaran Efek.
+                </li>
+                <li>
+                  <span className="font-bold">“Pemegang Efek”</span> adalah
+                  Pemodal yang telah melakukan pembelian Efek tertentu yang
+                  ditawarkan oleh Penerbit melalui FULUSME.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“RUPS”</span> adalah rapat umum
+                  pemegang efek berupa saham yang diselenggarakan oleh Penerbit
+                  dan difasilitasi oleh FULUSME sebagai penyelenggara layanan
+                  urun dana.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">RUPO</span> adalah Rapat Umum
+                  Pemegang Obligasi.
+                </li>
+                <li>
+                  <span className="font-bold">“Platform”</span> adalah situs web
+                  FULUSME.id dan/atau aplikasi mobile yang dikenal dengan nama
+                  FULUSME yang dibuat dan dioperasikan oleh Penyelenggara
+                  sehubungan dengan kegiatan Layanan Urun Dana.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Rekening Penampungan”</span> atau
+                  rekening escrow account adalah rekening penampungan untuk
+                  setiap dana Pengguna yang disediakan oleh Kustodian yang
+                  bekerja sama dengan Penyelenggara.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Saldo Akun”</span> adalah dana
+                  yang tersedia di setiap Akun Pemodal yang terdapat di
+                  masing-masing dasbor / papan instrumen (dashboard).{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Sistem Elektronik”</span> atau
+                  dikenal sebagai sistem elektronik layanan jasa keuangan adalah
+                  serangkaian perangkat dan prosedur elektronik yang berfungsi
+                  mempersiapkan, mengumpulkan, mengolah, menganalisis,
+                  menyimpan, menampilkan, mengumumkan, mengirimkan, dan/atau
+                  menyebarkan informasi elektronik sehubungan dengan kegiatan
+                  Layanan Urun Dana.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Syarat dan Ketentuan”</span>{" "}
+                  adalah syarat-syarat dan ketentuan-ketentuan yang dibuat oleh
+                  Penyelenggara dan dinyatakan di dalam Platform sehubungan
+                  dengan Penyelenggara Layanan Urun Dana, yang memuat mengenai
+                  peraturan, informasi, fungsi, tujuan dan manfaat atas fitur
+                  dan Efek yang dipasarkan oleh Penyelenggara dan sudah
+                  disetujui sebelumnya oleh Pemodal.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Teknologi Informasi”</span> atau
+                  dikenal sebagai teknologi informasi layanan jasa keuangan
+                  adalah suatu teknik untuk mengumpulkan, menyiapkan, menyimpan,
+                  memproses, mengumumkan, menganalisa dan/atau menyebarkan
+                  informasi di bidang layanan jasa keuangan.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Virtual Account”</span> adalah
+                  rekening atas nama masing-masing Pemodal atau Penerbit yang
+                  disediakan oleh payment gateway eksternal yang mendukung bank
+                  besar di Indonesia.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Otoritas Jasa Keuangan”</span>{" "}
+                  adalah Lembaga pemerintah yang dibentuk berdasarkan Undang-
+                  Undang Nomor 21 Tahun 2011 yang berfungsi menyelenggarakan
+                  sistem pengaturan dan pengawasan yang terintegrasi terhadap
+                  keseluruhan kegiatan di dalam sektor jasa keuangan, termasuk
+                  salah satunya adalah kegiatan Layanan Urun Dana.{" "}
+                </li>
+                <li>
+                  <span className="font-bold">“Dana Obligasi”</span> berarti
+                  jumlah keseluruhan dana yang wajib dikembalikan oleh Penerbit
+                  kepada Pemodal.
+                </li>
+                <li>
+                  <span className="font-bold">“Pendapatan Bagi Hasil”</span>{" "}
+                  berarti bagian dari laba bersih yang menjadi hak dan harus
+                  dibayarkan oleh Penerbit kepada Pemodal yang dihitung
+                  berdasarkan perkalian antara Nisbah Pemodal dengan laba
+                  bersih, yang perhitungannya didasarkan pada informasi dari
+                  Penerbit, berdasarkan laporan keuangan yang dipublikasikan
+                  melalui Platform FULUSME.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">II. JENIS EFEK</p>
+              <p>
+                Efek yang ditawarkan Penyelenggara berupa Efek Bersifat Ekuitas
+                (EBE) atau Saham dan Efek Bersifat Utang dan/atau Sukuk (EBUS)
+                atau Sukuk, dengan skema yang menerapkan prinsip profit-loss
+                sharing (prinsip bagi keuntungan dan siap menanggung kerugian)
+                dimana keduanya memiliki karakteristik yang berbeda, dijelaskan
+                sebagai berikut:
+              </p>
+              <ul className="space-y-2">
+                <li>
+                  1.{" "}
+                  <span className="underline mb-2">
+                    Efek Bersifat Ekuitas (EBE) atau Saham
+                  </span>{" "}
+                  <ul className="px-8 space-y-1">
+                    <li>
+                      a. Merupakan sertifikat atau bukti kepemilikan yang
+                      mewakili kepemilikan atas suatu perusahaan tertentu yang
+                      menerbitkan efek dalam bentuk saham.{" "}
+                    </li>
+                    <li>
+                      b. Merupakan saham yang diterbitkan oleh perusahaan skala
+                      kecil dan menengah.
+                    </li>
+                    <li>
+                      c. Kepemilikan Saham dapat dijual kembali melalui Pasar
+                      Sekunder yang diselenggarakan oleh FULUSME paling banyak 2
+                      (dua) kali dalam periode 1 (satu) tahun, yang dilaksanakan
+                      selama 10 (sepuluh) hari kerja, dimana harga pembukaan di
+                      Pasar Sekunder akan ditentukan berdasarkan kinerja laporan
+                      keuangan perusahaan Penerbit.{" "}
+                    </li>
+                    <li>
+                      d. Berhak memperoleh dividen dari laba bersih perusahaan
+                      berdasarkan laporan keuangan yang dipublikasikan.
+                    </li>
+                    <li>
+                      e. Efek disimpan pada Lembaga Penyimpan dan Penyelesaian
+                      (KSEI) dan dicatat pada Bank Kustodian yang ditunjuk oleh
+                      Penyelenggara.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  2.{" "}
+                  <span className="underline mb-2">
+                    Efek Bersifat Utang dan/atau Sukuk (EBUS) atau Sukuk
+                  </span>{" "}
+                  <ul className="px-8 space-y-1">
+                    <li>
+                      a. Bukti kepemilikan yang bernilai sama dan mewakili
+                      bagian tidak terpisahkan dari proyek atau bisnis tertentu
+                      yang menjadi dasar penerbitannya.
+                    </li>
+                    <li>b. Tidak dapat diperjualbelikan di Pasar Sekunder.</li>
+                    <li>
+                      c. Berhak memperoleh bagi hasil dari keuntungan proyek
+                      atau bisnis tertentu yang menjadi dasar penerbitan efek,
+                      serta berhak memperoleh kembali modalnya sesuai dengan
+                      realisasi pendapatan proyek atau bisnis yang menjadi dasar
+                      penerbitan efek.
+                    </li>
+                    <li>
+                      d. Dapat berubah menjadi utang apabila terjadi wanprestasi
+                      Penerbit yang mekanismenya disampaikan pada prospektus
+                      penerbitan Efek.
+                    </li>
+                    <li>
+                      e. Efek Bersifat Utang dan/atau Sukuk (EBUS) atau Sukuk
+                      yang telah berubah menjadi utang tidak dapat dialihkan
+                      kepada pihak ketiga, sehingga pemegang efek harus menunggu
+                      realisasi pembayaran (pengembalian) dari Penerbit.
+                    </li>
+                    <li>
+                      f. Penyelenggara dapat melakukan upaya-upaya untuk
+                      mempercepat realisasi pembayaran sesuai dengan prosedur
+                      hukum yang berlaku serta tidak bertentangan dengan aturan.{" "}
+                    </li>
+                    <li>
+                      g. Efek disimpan pada Lembaga Penyimpan dan Penyelesaian
+                      (KSEI) dan dicatat pada Bank Kustodian yang ditunjuk oleh
+                      Penyelenggara.{" "}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">III. MEKANISME PEMBELIAN EFEK</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  Pembelian Efek oleh Pemodal dalam penawaran Efek melalui
+                  Layanan Urun Dana dilakukan dengan menyetorkan sejumlah dana
+                  pada Escrow Account.{" "}
+                </li>
+                <li>
+                  Manfaat bersih dari penempatan dana sebagaimana dimaksud dalam
+                  ketentuan ini akan dikembalikan kepada Pemodal secara
+                  proporsional.{" "}
+                </li>
+                <li>
+                  Pemodal yang membeli Efek melalui Penyelenggara akan mendapat
+                  bukti kepemilikan berupa catatan kepemilikan Efek yang
+                  terdapat dalam rekening Efek pada Bank Kustodian. Laporan
+                  kepemilikan Efek sebagaimana dimaksud akan disampaikan oleh
+                  Bank Kustodian.
+                </li>
+                <li>
+                  Penyelenggara akan mendistribusikan Efek kepada Pemodal
+                  setelah penyerahan dana kepada Penerbit melalui mekanisme yang
+                  berlaku di Lembaga Penyimpan dan Penyelesaian (KSEI).
+                  Pendistribusian dimaksud dapat dilakukan secara elektronik
+                  melalui penitipan kolektif pada Kustodian.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">IV. DIVIDEN</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  Pemodal yang membeli Efek Bersifat Ekuitas (EBE) atau Saham
+                  akan menjadi “Pemegang Saham” perusahaan Penerbit dan berhak
+                  mendapatkan imbal hasil berupa Dividen.{" "}
+                </li>
+                <li>
+                  Pemodal mengerti dan memahami bahwa pembagian dividen kepada
+                  para pemegang Saham tidak bersifat lifetime, karena Penerbit
+                  merupakan badan usaha berbadan hukum yang dapat melakukan
+                  Buyback sebagaimana diatur dalam peraturan perundang-undangan
+                  yang berlaku.{" "}
+                </li>
+                <li>
+                  Mekanisme perhitungan dividen disampaikan melalui prospektus
+                  penerbitan saham dengan ketentuan sebagai berikut:{" "}
+                  <ul className="px-8 space-y-1">
+                    <li>
+                      a. Dividen interim, merupakan dividen yang dibagikan
+                      kepada para pemegang saham berdasarkan keuntungan bersih
+                      perusahaan tengah tahun setelah adanya publikasi kinerja
+                      laporan keuangan posisi 30 Juni, dengan besaran maksimal
+                      30% dari laba bersih perusahaan.{" "}
+                    </li>
+                    <li>
+                      b. Dividen, merupakan dividen sebenarnya yang dibagikan
+                      kepada para pemegang saham berdasarkan keuntungan bersih
+                      perusahaan selama periode satu tahun setelah adanya
+                      publikasi laporan keuangan posisi 31 Desember, dengan
+                      besaran sesuai dengan dividen payout ratio yang telah
+                      ditetapkan dan dikurangi dengan dividen interim yang telah
+                      dibagikan.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Pemodal mengerti dan memahami bahwa pembagian dividen Penerbit
+                  diinformasikan di dalam kebijakan dividen dan didasarkan pada
+                  laba bersih Penerbit setelah dikurangi dengan pencadangan.
+                </li>
+                <li>
+                  Pemodal mengerti dan memahami bahwa pembagian dividen final
+                  Penerbit mengacu pada persetujuan Rapat Umum Pemegang Saham
+                  (“RUPS”) Penerbit.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">V. IMBAL HASIL</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  Pemodal yang membeli Efek Bersifat Utang dan/atau Sukuk (EBUS)
+                  atau Sukuk akan mendapatkan imbal hasil berupa bagi hasil,
+                  margin, atau imbal jasa sesuai dengan perjanjian yang
+                  digunakan pada masing-masing penerbitan efek.{" "}
+                </li>
+                <li>
+                  Mekanisme skema perhitungan imbal hasil disampaikan melalui
+                  prospektus pada setiap penerbitan efek oleh Penerbit.{" "}
+                </li>
+                <li>
+                  Pemodal mengerti dan memahami bahwa Penerbit akan membayar
+                  harga jual efek kepada Pemodal, yang akan dibayarkan oleh
+                  Penerbit pada saat jatuh tempo sesuai dengan skema Perjanjian.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">VI. BIAYA-BIAYA</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  Penyelenggara membebankan biaya terkait dengan penggunaan
+                  Platform FULUSME pada kegiatan Layanan Urun Dana yaitu Biaya
+                  Platform.{" "}
+                </li>
+                <li>
+                  Jika terdapat perubahan kebijakan dari Penyelenggara terkait
+                  biaya-biaya ini, akan diinformasikan kemudian kepada Pemodal
+                  melalui Platform.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">VII. PASAR SEKUNDER</p>
+              <ul className="space-y-2 list-decimal pl-4">
+                <li>
+                  Penyelenggara dapat menyediakan sistem bagi Pemodal untuk
+                  memperdagangkan Efek Penerbit yang telah dijual melalui
+                  Layanan Urun Dana yang diselenggarakan Penyelenggara.{" "}
+                </li>
+                <li>
+                  Pelaksanaan perdagangan Efek sebagaimana dimaksud diatas wajib
+                  dilakukan dengan ketentuan:{" "}
+                  <ul className="space-y-1 px-3">
+                    <li>
+                      a. Perdagangan Efek hanya berlaku bagi Efek Bersifat
+                      Ekuitas (EBE) atau Saham yang telah didistribusikan di
+                      KSEI paling singkat 1 (satu) tahun sebelum perdagangan
+                      Efek;{" "}
+                    </li>
+                    <li>
+                      b. Hanya dapat dilakukan antar sesama Pemodal yang
+                      terdaftar pada Penyelenggara;
+                    </li>
+                    <li>
+                      c. Dalam jangka waktu 12 (dua belas) bulan hanya dapat
+                      dilakukan 2 (dua) kali perdagangan Efek; dan{" "}
+                    </li>
+                    <li>
+                      d. Jangka waktu pelaksanaan perdagangan Efek dengan
+                      perdagangan Efek lainnya paling singkat 6 (enam) bulan.{" "}
+                    </li>
+                    <li>
+                      e. Pelaksanaan perdagangan Efek paling lama dilakukan
+                      selama 10 (sepuluh) hari kerja.
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Sistem sebagaimana dimaksud pada ketentuan ini dapat:
+                  <ul className="space-y-1 px-3">
+                    <li>
+                      a. Menyediakan harga wajar sebagai referensi penjual dan
+                      pembeli; dan
+                    </li>
+                    <li>
+                      b. Menyediakan sistem komunikasi bagi Pengguna yang dapat
+                      digunakan sebagai sarana komunikasi antar Pengguna untuk
+                      membeli atau menjual Efek.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Ketentuan terkait perdagangan Efek ini{" "}
+                  <span className="underline">tidak berlaku</span> bagi Efek
+                  Bersifat Utang dan/atau Sukuk (EBUS) atau Sukuk.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">
+                VIII. HAK DAN KEWAJIBAN PARA PIHAK
+              </p>
+              <p className="mb-2">
+                Masing-masing Pihak mempunyai hak dan kewajiban sebagai berikut:
+              </p>
+              <p className="font-bold underline">HAK DAN KEWAJIBAN PEMODAL</p>
+              <ul className="p-4 space-y-2">
+                <li>
+                  <p className="font-bold">a. HAK PEMODAL</p>
+                  <ul className="list-disc space-y-2">
+                    <li>
+                      Pemodal dapat memperoleh informasi mengenai rencana
+                      penjualan Efek Penerbit melalui situs web Penyelenggara,
+                      berita email, sosial media Penyelenggara atau media
+                      informasi lainnya yang digunakan.{" "}
+                    </li>
+                    <li>
+                      Pemodal dapat membeli Efek Penerbit melalui situs web
+                      Penyelenggara selama masa penawaran Efek berlangsung.{" "}
+                    </li>
+                    <li>
+                      Pemodal dapat membatalkan pembelian Efek paling lambat
+                      dalam waktu 48 (empat puluh delapan) jam setelah melakukan
+                      pembelian Efek dan sebelum masa penjualan Efek ditutup.{" "}
+                    </li>
+                    <li>
+                      Dalam hal terjadi pembatalan pembelian Efek, maka Pemodal
+                      akan menerima pengembalian dana paling lambat 2 (dua) Hari
+                      Kerja setelah pembatalan, namun dapat dikenakan biaya riil
+                      terkait dengan adanya pembatalan atas Efek dimaksud atau
+                      pengembalian dana tersebut.{" "}
+                    </li>
+                    <li>
+                      Pemodal yang telah membeli suatu Efek Penerbit tertentu
+                      berhak untuk menerima laporan atau informasi dari
+                      Penyelenggara ketika masa penawaran Efek tersebut telah
+                      selesai.{" "}
+                    </li>
+                    <li>
+                      Pemodal yang telah membeli suatu Efek Penerbit tertentu
+                      berhak untuk menerima laporan atau informasi dari
+                      Penyelenggara ketika sudah dilakukan akad antara
+                      Penyelenggara dan Penerbit, serta penyerahan dana kepada
+                      Penerbit Efek tersebut.{" "}
+                    </li>
+                    <li>
+                      Pemegang Efek Bersifat Utang dan/atau Sukuk (EBUS) atau
+                      Sukuk penerbit berhak menerima laporan dari penerbit
+                      melalui Platform website atas penggunaan dana,
+                      perkembangan dan progress proyek/ bisnis yang menjadi
+                      dasar penerbitan sukuk tersebut.{" "}
+                    </li>
+                    <li>
+                      Pemegang Efek Bersifat Ekuitas (EBE) atau Saham penerbit
+                      berhak menerima laporan keuangan perusahaan Penerbit
+                      paling sedikit berupa laporan neraca dan laba-rugi
+                      triwulanan.{" "}
+                    </li>
+                    <li>
+                      Pemegang Efek Bersifat Utang dan/atau Sukuk (EBUS) atau
+                      Sukuk penerbit berhak memperoleh bagi hasil dari Penerbit
+                      atas realisasi keuntungan bersih atas proyek/ bisnis yang
+                      menjadi dasar penerbitan sukuk tersebut setelah ada
+                      laporan dari Penerbit.{" "}
+                    </li>
+                    <li>
+                      Pemegang Efek Bersifat Ekuitas (EBE) atau Saham penerbit
+                      berhak memperoleh dividen dari keuntungan bersih
+                      perusahaan sesuai dengan dividen payout ratio yang telah
+                      ditetapkan, sebagai berikut:{" "}
+                      <ul className="px-4 list-decimal space-y-2 mt-2">
+                        <li>
+                          Dividen interim, merupakan dividen yang dibagikan
+                          kepada para pemegang saham berdasarkan keuntungan
+                          bersih perusahaan tengah tahun setelah adanya
+                          publikasi kinerja laporan keuangan posisi 30 Juni,
+                          dengan besaran maksimal 30% dari laba bersih
+                          perusahaan.
+                        </li>
+                        <li>
+                          Dividen, merupakan dividen sebenarnya yang dibagikan
+                          kepada para pemegang saham berdasarkan keuntungan
+                          bersih perusahaan selama periode satu tahun setelah
+                          adanya publikasi laporan keuangan posisi 31 Desember,
+                          dengan besaran sesuai dengan dividen payout ratio yang
+                          telah ditetapkan dan dikurangi dengan dividen interim
+                          yang telah dibagikan.
+                        </li>
+                        <li>
+                          Pemegang Efek Bersifat Ekuitas (EBE) atau Saham
+                          Syariah penerbit berhak melakukan penjualan saham yang
+                          dimiliki melalui pasar sekunder yang diselenggarakan
+                          oleh FULUSME, paling cepat 1 (satu) tahun setelah efek
+                          tersebut terdistribusi di KSEI.{" "}
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <p className="font-bold"> b. KEWAJIBAN PEMODAL </p>
+                  <ul className="list-disc space-y-2">
+                    <li>Pemodal wajib membayar Biaya Platform.</li>
+                    <li>
+                      Pemodal wajib membayar seluruh biaya yang dibebankan oleh
+                      Pihak Ketiga.
+                    </li>
+                    <li>
+                      Di dalam pembelian Efek, Pemodal wajib untuk memiliki dan
+                      menjaga kemampuan untuk membeli Efek, memiliki kemampuan
+                      analisis risiko terhadap Efek, dan memenuhi kriteria
+                      Pemodal sebagai berikut:{" "}
+                      <ul className="px-4 list-decimal mt-2 space-y-2">
+                        <li>
+                          Apabila Pemodal mempunyai penghasilan sampai dengan
+                          Rp500.000.000 (lima ratus juta Rupiah) per tahun, maka
+                          Pemodal dapat membeli Efek melalui Layanan Urun Dana
+                          paling banyak sebesar 5% (lima persen) dari
+                          penghasilannya per tahun; dan{" "}
+                        </li>
+                        <li>
+                          Apabila Pemodal mempunyai penghasilan lebih dari
+                          Rp500.000.000 (lima ratus juta Rupiah), maka Pemodal
+                          dapat membeli Efek melalui Layanan Urun Dana paling
+                          banyak sebesar 10% (sepuluh persen) dari
+                          penghasilannya per tahun.{" "}
+                        </li>
+                        <li>
+                          Kriteria Pemodal dan batasan pembelian Efek oleh
+                          Pemodal di atas tidak berlaku dalam hal Pemodal
+                          merupakan badan hukum dan pihak yang mempunyai
+                          pengalaman berinvestasi di pasar modal yang dibuktikan
+                          dengan bukti kepemilikan rekening Efek paling sedikit
+                          2 (dua) tahun sebelum penawaran Efek.{" "}
+                        </li>
+                      </ul>
+                    </li>
+                    <li>
+                      Pemodal wajib untuk memberikan dokumen dan/atau informasi
+                      yang sah / valid dan dapat dipertanggungjawabkan atas diri
+                      Pemodal, termasuk Pemodal ataupun wakilnya telah mempunyai
+                      kapasitas hukum dan/atau ijin yang diperlukan dari lembaga
+                      pemerintah yang berwenang.
+                    </li>
+                    <li>
+                      Pemodal wajib untuk memahami, menerima dan menyetujui
+                      segala hal yang diatur dalam Syarat dan Ketentuan ini.{" "}
+                    </li>
+                    <li>
+                      Bersedia untuk diawasi oleh Penyelenggara atas segala
+                      bentuk transaksi yang dilakukan oleh Pemodal, dilakukan
+                      proses autentikasi, verifikasi dan validasi yang mendukung
+                      kenirsangkalan (tidak dapat disangkalnya) dalam mengakses,
+                      memproses dan mengeksekusi Data Pribadi, data transaksi
+                      dan data keuangan Pemodal yang dikelola oleh Penyelenggara
+                      dan pihak ketiga yang telah bekerja sama dengan
+                      Penyelenggara terkait dengan Layanan Urun Dana ini.{" "}
+                    </li>
+                    <li>
+                      Menyetujui penggunaan, pemanfaatan, dan pengungkapan Data
+                      Pribadi, dan data keuangan oleh Penyelenggara sesuai
+                      dengan ketentuan yang berlaku.{" "}
+                    </li>
+                    <li>
+                      Menjamin dan bersedia untuk diverifikasi oleh
+                      Penyelenggara guna memastikan dana milik Pemodal yang
+                      digunakan dalam investasi di Layanan Urun Dana adalah
+                      memang benar dana milik Pemodal dan bukan diperoleh dari
+                      tindakan yang melanggar peraturan perundang- undangan,
+                      termasuk di antara lain korupsi, penggelapan, pencurian,
+                      ataupun pencucian uang ataupun pendanaan dari dan/atau
+                      untuk tindakan terorisme.{" "}
+                    </li>
+                    <li>
+                      Pemodal wajib mengijinkan Penyelenggara menyampaikan detil
+                      data Pemodal ke Bank Kustodian dan Lembaga Penyimpanan dan
+                      Penyelesaian sehubungan dengan kegiatan Layanan Urun Dana
+                      ini.{" "}
+                    </li>
+                    <li>
+                      Pemodal wajib memahami semua risiko investasi yang dapat
+                      terjadi pada proyek yang diinvestasikan.
+                    </li>
+                    <li>
+                      Pemodal menanggung semua risiko investasi yang terjadi dan
+                      membebaskan Penyelenggara dari segala tuntutan dan risiko
+                      yang ada.{" "}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              <p className="font-bold underline">
+                HAK DAN KEWAJIBAN PENYELENGGARA{" "}
+              </p>
+              <ul className="p-4 space-y-2">
+                <li className="font-bold">a. HAK PENYELENGGARA</li>
+                <ul className="list-disc space-y-2">
+                  <li>Pemodal wajib membayar Biaya Platform.</li>
+                  <li>
+                    Dalam hal Penerbit melakukan pembatalan penawaran Efek
+                    sebelum masa penawaran paling lama 45 (empat puluh lima)
+                    hari kalender, maka Pemodal membebaskan Penyelenggara atas
+                    denda atau suatu biaya lainnya jika ada, namun Pemodal
+                    berhak untuk meminta biaya pemindahbukuan terkait
+                    pengembalian dana, jika ada, kepada Penerbit.{" "}
+                  </li>
+                  <li>
+                    Penyelenggara berhak untuk melakukan kerjasama dan
+                    pertukaran data dengan penyelenggara layanan pendukung
+                    berbasis Teknologi Informasi dan pihak ketiga yang telah
+                    bekerja sama dengan Penyelenggara dalam rangka meningkatkan
+                    kualitas Layanan Urun Dana.
+                  </li>
+                </ul>
+                <li className="font-bold">b. KEWAJIBAN PENYELENGGARA</li>
+                <ul className="list-disc space-y-2">
+                  <li>
+                    Melaksanakan reviu terhadap Pemodal dan Penerbit, dari segi
+                    legalitas, dokumentasi dan informasi yang wajib dipenuhi
+                    oleh Pemodal dan Penerbit sesuai dengan peraturan Otoritas
+                    Jasa Keuangan, termasuk kewajiban untuk mengunggah dokumen
+                    dan/atau informasi tersebut secara daring di Platform.{" "}
+                  </li>
+                  <li>
+                    Menginformasikan kepada Pemodal mengenai penerimaan dan
+                    penggunaan dana investasi dan saldo yang diinvestasikan oleh
+                    Pemodal, termasuk pengkinian atas dana investasi dan/atau
+                    saldo akun.{" "}
+                  </li>
+                  <li>
+                    Menyampaikan informasi kepada Pemodal mengenai penerimaan,
+                    penundaan atau penolakan permohonan Layanan Urun Dana,
+                    termasuk alasan penundaan dan penolakan dimaksud.
+                  </li>
+                  <li>
+                    Menyediakan fasilitas komunikasi secara daring antara
+                    Pemodal dengan Penerbit.{" "}
+                  </li>
+                  <li>
+                    Menyampaikan informasi mengenai risiko, setidaknya meliputi
+                    risiko usaha, investasi, likuiditas, kelangkaan pembagian
+                    dividen, dilusi kepemilikan Efek dan kegagalan Sistem
+                    Elektronik.{" "}
+                  </li>
+                  <li>
+                    Memiliki sistem untuk memastikan hanya Pemodal yang telah
+                    memberikan konfirmasi mengenai pemenuhan persyaratan Pemodal
+                    yang dapat berinvestasi melalui Layanan Urun Dana.{" "}
+                  </li>
+                  <li>Menyediakan layanan pengaduan.</li>
+                  <li>
+                    Memuat dalam Platform mengenai biaya yang dikenakan atau
+                    dibebankan kepada Pemodal.{" "}
+                  </li>
+                  <li>
+                    Mempunyai mekanisme pengembalian dana dalam hal penawaran
+                    Efek melalui Layanan Urun Dana batal demi hukum.
+                  </li>
+                  <li>
+                    Wajib memiliki sumber daya manusia yang memiliki keahlian
+                    dan/atau latar belakang di bidang Teknologi Informasi
+                    ataupun keahlian dalam melakukan reviu terhadap Penerbit.
+                  </li>
+                  <li>
+                    Mempunyai pengamanan dan mitigasi risiko atas pelaksanaan
+                    Layanan Urun Dana, termasuk terkait dengan teknologi
+                    informasi, pusat data dan pusat pemulihan bencana.
+                  </li>
+                  <li>
+                    Menyediakan cara pembayaran melalui bank yang bersifat unik
+                    untuk setiap Pemodal yang melakukan pembelian Efek melalui
+                    Layanan Urun Dana.{" "}
+                  </li>
+                  <li>
+                    Menjaga kerahasiaan, keutuhan dan ketersediaan Data Pribadi,
+                    data transaksi dan data keuangan yang dikelola Penyelenggara
+                    sejak data diperoleh hingga data tersebut dimusnahkan.
+                  </li>
+                  <li>
+                    Memastikan tersedianya proses autentikasi, verifikasi, dan
+                    validasi yang mendukung kenirsangkalan dalam mengakses,
+                    memproses, dan mengeksekusi Data Pribadi, data transaksi,
+                    dan data keuangan yang dikelola Penyelenggara;{" "}
+                  </li>
+                  <li>
+                    Menyediakan media komunikasi lain selain Sistem Elektronik
+                    Layanan Urun Dana untuk memastikan kelangsungan layanan
+                    Pemodal yang dapat berupa surat elektronik, call center,
+                    atau media komunikasi lainnya.{" "}
+                  </li>
+                  <li>
+                    Melaporkan setiap pengaduan Pengguna disertai dengan tindak
+                    lanjut penyelesaian pengaduan dimaksud kepada Otoritas Jasa
+                    Keuangan.
+                  </li>
+                  <li>
+                    Memiliki catatan secara terpisah detil kepemilikan dana
+                    untuk setiap Pemodal yang disimpan dalam Rekening
+                    Penampungan.{" "}
+                  </li>
+                </ul>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">IX. PEMBERIAN KUASA</p>
+              <ul className="px-4 space-y-2 list-decimal">
+                <li>
+                  Pemodal memberikan kuasa kepada FULUSME untuk melakukan
+                  pembukaan sub rekening efek di Bank Kustodian dan pembuatan
+                  Single Investor Identification (SID) di KSEI.{" "}
+                </li>
+                <li>
+                  Pemodal memberikan kuasa kepada FULUSME terhadap administrasi
+                  rekening efek atas nama Pemodal termasuk namun tidak terbatas
+                  untuk melakukan pemindahbukuan efek dan/atau dana dalam rangka
+                  transaksi Layanan Urun Dana atau kepentingan lain atas nama
+                  Pemodal.
+                </li>
+                <li>
+                  Selama Pemodal menjadi pemegang efek Penerbit di FULUSME,
+                  Pemodal sepakat dan setuju untuk memberikan kuasa kepada
+                  FULUSME untuk menyampaikan kelengkapan data Pemodal kepada
+                  Lembaga Penyimpanan dan Penyelesaian dan Bank Kustodian dengan
+                  tujuan pencatatan nama Pemodal dalam Rekening Efek pada
+                  kustodian dan/atau segala kebutuhan administrasi yang
+                  diperlukan lainnya termasuk namun tidak terbatas untuk
+                  melakukan pemindahbukuan Efek dan/atau dana dalam rangka
+                  Transaksi Securities Crowdfunding atau kepentingan lain atas
+                  nama Pemodal.{" "}
+                </li>
+                <li>
+                  Selama Pemodal menjadi pemegang efek Penerbit di FULUSME,
+                  dengan ini Pemodal sepakat dan setuju untuk memberikan kuasa
+                  kepada FULUSME untuk dapat menghadiri Rapat Umum Pemegang
+                  Saham (RUPS) dan atau Rapat Umum Pemegang Obligasi (RUPO) yang
+                  diselenggarakan oleh Penerbit dan memberikan suara; dalam hal
+                  Pemodal berhalangan untuk menghadiri Rapat Umum Pemegang Saham
+                  (RUPS) dan atau Rapat Umum Pemegang Obligasi (RUPO).{" "}
+                </li>
+                <li>
+                  Selama Pemodal menjadi pemegang efek Penerbit di FULUSME,
+                  dengan ini Pemodal sepakat dan setuju untuk memberikan kuasa
+                  kepada FULUSME untuk bertindak mewakili kepentingan pemegang
+                  Efek dalam hal memberikan persetujuan perubahan jadwal
+                  pembayaran efek sukuk penerbit, perubahan underlying
+                  penerbitan sukuk, perubahan nisbah bagi hasil dan perubahan
+                  struktur lainnya yang diajukan oleh penerbit.
+                </li>
+                <li>
+                  Pemodal sepakat dan setuju untuk memberikan kuasa kepada
+                  FULUSME untuk melakukan pengurusan segala aspek legalitas,
+                  termasuk namun tidak terbatas menghadap dan/atau hadir di
+                  hadapan Notaris, untuk menandatangani, menyerahkan segala
+                  surat/ akta/ kelengkapan dokumen yang diperlukan, dan
+                  memberikan segala keterangan yang diperlukan untuk pengurusan
+                  dokumen legal, (jika diperlukan).{" "}
+                </li>
+                <li>
+                  Pemodal sepakat dan setuju untuk memberikan kuasa kepada
+                  FULUSME untuk melakukan pengurusan segala aspek perbankan dari
+                  Penerbit dalam konteks layanan kustodian, termasuk namun tidak
+                  terbatas pada pembukaan rekening atas nama Penerbit;
+                </li>
+                <li>
+                  Pemodal setuju untuk memberikan kuasa kepada FULUSME untuk
+                  melakukan administrasi dan penyimpanan seluruh dokumentasi dan
+                  legalitas Penerbit (apabila diperlukan);
+                </li>
+                <li>
+                  Selama Pemodal menjadi pemegang efek Penerbit, Pemodal sepakat
+                  dan setuju untuk memberikan kuasa kepada FULUSME untuk
+                  melakukan settlement instruction kepada partisipan Lembaga
+                  Penyimpanan dan Penyelesaian untuk melakukan dan menyelesaikan
+                  pemindahbukuan termasuk transaksi pada Pasar Sekunder;{" "}
+                </li>
+                <li>
+                  {" "}
+                  Selama Pemodal menjadi pemegang Efek Penerbit, Pemodal sepakat
+                  dan setuju untuk memberikan kuasa kepada FULUSME untuk
+                  melakukan termasuk namun tidak terbatas untuk memantau
+                  perkembangan pengelolaan Proyek berdasarkan data dan/atau
+                  informasi yang diperoleh baik langsung maupun tidak langsung;
+                  melakukan pembagian imbal hasil; mengawasi dan memantau
+                  pelaksanaan kewajiban Penerbit berdasarkan perjanjian;
+                  mengawasi, melakukan inspeksi, dan mengadministrasikan jaminan
+                  bagi pembayaran kewajiban kepada pemegang Efek (jika terdapat
+                  jaminan); dan memantau pembayaran yang dilakukan Penerbit
+                  kepada pemegang Efek;{" "}
+                </li>
+                <li>
+                  Selama Pemodal menjadi pemegang Efek Penerbit, maka Pemodal
+                  dapat memberikan kuasa kepada FULUSME untuk melakukan segala
+                  urusan yang diperlukan dan mewakili kepentingan pemegang Efek
+                  Penerbit yang berkaitan dengan tanggung jawab, berlaku selama
+                  Pemodal memiliki Efek Penerbit, termasuk namun tidak terbatas
+                  untuk mengurus kepentingan dalam hal terjadinya gagal bayar
+                  oleh Penerbit, dan menyelenggarakan Rapat Umum Pemegang
+                  Obligasi (RUPO) jika diperlukan sesuai dengan peraturan yang
+                  berlaku.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">X. RAPAT PEMEGANG EFEK</p>
+              <p>
+                Rapat pemegang efek merupakan pertemuan antara para pemegang
+                efek dengan penerbit efek yang diselenggarakan secara tatap muka
+                atau online/ daring dan dapat difasilitasi oleh FULUSME sebagai
+                penyelenggara layanan urun dana.
+              </p>
+              <ul className="pl-8 space-y-2 list-decimal">
+                <li>
+                  Rapat Umum Pemegang Saham (RUPS) merupakan rapat yang
+                  diselenggarakan untuk memaparkan, membahas dan atau memutuskan
+                  agenda tertentu yang berkaitan dengan keberlangsungan usaha
+                  penerbit serta rencana strategis perusahaan.{" "}
+                </li>
+                <li>
+                  Rapat Umum Pemegang Obligasi (RUPO) merupakan rapat yang
+                  diselenggarakan untuk memaparkan, membahas dan atau memutuskan
+                  agenda tertentu yang berkaitan dengan keberlangsungan proyek
+                  yang menjadi dasar penerbitan sukuk serta rencana strategis
+                  perusahaan penerbit.{" "}
+                </li>
+                <li>
+                  Rapat umum pemegang efek dapat diselenggarakan atas permintaan
+                  penerbit sukuk atau saham, penyelenggara layanan urun dana
+                  FULUSME, OJK atau pemegang efek secara bersama sama yang
+                  mewakili paling sedikit lebih dari 50% (lima puluh persen)
+                  dari jumlah efek dengan mengajukan permohonan tertulis kepada
+                  penyelenggara untuk diselenggarakan rapat umum pemegang efek,
+                  permohonan tersebut harus memuat agenda yang diminta serta
+                  melampirkan identitas KTP dan bukti persetujuan para pemegang
+                  efek yang mengajukan permohonan tersebut.{" "}
+                </li>
+                <li>
+                  Penyelenggara dapat menolak permohonan rapat umum pemegang
+                  efek dan akan memberitahukan secara tertulis alasan penolakan
+                  tersebut kepada pemohon paling lambat 14 (empat belas) Hari
+                  Kalender setelah diterimanya surat permohonan.{" "}
+                </li>
+                <li>
+                  Pengumuman rapat umum pemegang efek akan disampaikan oleh
+                  penyelenggara layanan urun dana FULUSME paling lambat 1 (satu)
+                  hari kerja sebelum rapat dilakukan.{" "}
+                </li>
+                <li>
+                  Pemegang efek yang berhak hadir dalam RUPS atau RUPO adalah
+                  pemegang efek yang namanya tercatat dalam Daftar Pemegang efek
+                  sukuk atau saham syariah penyelenggara layanan urun dana
+                  FULUSME dan wajib menunjukkan nama atau identitas yang asli
+                  yang terdaftar dalam platform FULUSME.{" "}
+                </li>
+                <li>
+                  Pemegang efek yang berhalangan hadir pada rapat umum pemegang
+                  efek dapat mengirimkan perwakilan atau diwakilkan oleh FULUSME
+                  sesuai dengan yang telah diatur dalam syarat dan ketentuan
+                  ini.
+                </li>
+                <li>
+                  Dalam hal pemegang efek memberikan kuasa kepada orang lain,
+                  wajib menyampaikan permohonan kepada FULUSME dan menunjukan
+                  surat kuasa tertulis dengan melampirkan copy kartu identitas
+                  KTP. FULUSME sebagai penyelenggara layanan urun dana dapat
+                  menolak permohonan kuasa apabila dinilai tidak valid.{" "}
+                </li>
+                <li>
+                  Setiap 1 (satu) unit penyertaan efek berhak mengeluarkan 1
+                  (satu) suara dalam rapat umum pemegang efek, dengan demikian
+                  setiap Pemegang efek dalam rapat umum mempunyai hak untuk
+                  mengeluarkan suara sejumlah efek yang dimilikinya.{" "}
+                </li>
+                <li>
+                  Teknis tata cara pelaksanaan rapat umum pemegang efek,
+                  pemungutan suara dan pelaporan hasil rapat disampaikan secara
+                  tersendiri pada setiap pelaksanaan rapat umum pemegang efek.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XI. HARGA EFEK </p>
+              <ul className="pl-8 space-y-2 list-decimal">
+                <li>
+                  Harga Efek akan ditentukan dan diinformasikan oleh
+                  Penyelenggara kepada Pemodal di{" "}
+                  <span className="italic">Platform</span> yang dapat berubah
+                  dari waktu ke waktu.{" "}
+                </li>
+                <li>
+                  Harga Efek belum termasuk dengan biaya-biaya yang timbul
+                  terkait dengan layanan Kustodian yang wajib dipenuhi oleh
+                  Pemodal.{" "}
+                </li>
+                <li>
+                  Khusus untuk transaksi di pasar sekunder, maka Pemodal akan
+                  dikenakan biaya tambahan, selain dari harga Efek, berupa biaya
+                  transaksi jual beli.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XII. PAJAK</p>
+              <p>
+                Seluruh aspek perpajakan yang timbul atas transaksi dalam
+                Layanan Urun Dana ini menjadi beban masing-masing pihak sesuai
+                dengan Undang-Undang Perpajakan yang berlaku.{" "}
+              </p>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XIII. INFORMASI RISIKO</p>
+              <p>
+                Investasi pada Layanan Urun Dana Berbasis Teknologi merupakan
+                aktivitas berisiko tinggi, investasi yang Pemodal sertakan pada
+                suatu Efek tertentu memiliki potensi mengalami kenaikan,
+                penurunan, bahkan kegagalan. Beberapa risiko yang terkandung
+                pada aktivitas ini diantaranya:{" "}
+              </p>
+              <ul className="pl-8 space-y-2 list-decimal font-bold">
+                <li>
+                  <h2>Risiko Usaha </h2>
+                  <p className="font-normal">
+                    Risiko usaha adalah kemungkinan terjadinya ketidakberhasilan
+                    suatu bisnis atau proyek tertentu karena faktor-faktor
+                    internal maupun eksternal sehingga proyeksi keuntungan yang
+                    direncanakan tidak tercapai atau bahkan dapat terjadi
+                    kerugian.{" "}
+                  </p>
+                </li>
+                <li>
+                  <h2>Risiko Kerugian Investasi </h2>
+                  <p className="font-normal">
+                    Risiko kerugian investasi adalah kemungkinan terjadinya
+                    penurunan nilai atau kehilangan sebagian atau seluruh modal
+                    yang diinvestasikan dalam suatu instrumen keuangan atau aset
+                    tertentu.
+                  </p>
+                </li>
+                <li>
+                  <h2>Risiko Likuiditas </h2>
+                  <p className="font-normal">
+                    Investasi melalui layanan urun dana FULUSME bukan merupakan
+                    instrumen investasi yang likuid, karena efek yang ditawarkan
+                    melalui FULUSME berupa sukuk tidak dapat diperdagangkan di
+                    pasar sekunder dan efek berupa saham syariah hanya dapat
+                    diperjualbelikan melalui mekanisme pasar sekunder pada
+                    Platform FULUSME, dimana periode pelaksanaan pasar sekunder
+                    tersebut juga dibatasi oleh peraturan OJK.
+                  </p>
+                </li>
+                <li>
+                  <h2>Risiko Pembagian Dividen </h2>
+                  <p className="font-normal">
+                    Kelangkaan dividen mengacu pada situasi di mana suatu
+                    perusahaan atau entitas yang biasanya membayar dividen
+                    kepada pemegang sahamnya tidak dapat melakukannya dalam
+                    jangka waktu tertentu. Ini dapat terjadi karena berbagai
+                    alasan, termasuk kinerja keuangan yang buruk, perubahan
+                    dalam kondisi pasar, ketidakstabilan ekonomi, tekanan
+                    likuiditas, atau keputusan manajemen untuk mengalokasikan
+                    dana untuk investasi lain. Kelangkaan dividen dapat
+                    menyebabkan harga saham menurun dan mengurangi daya tarik
+                    bagi investor yang mencari pendapatan dividen.
+                  </p>
+                </li>
+                <li>
+                  <h2>Dilusi Kepemilikan Saham </h2>
+                  <p className="font-normal">
+                    Dilusi kepemilikan saham terjadi ketika ada pertambahan
+                    total jumlah saham yang beredar sehingga terjadi
+                    perubahan/penurunan persentase kepemilikan saham.
+                  </p>
+                </li>
+                <li>
+                  <h2>Risiko Kegagalan Sistem Elektronik </h2>
+                  <p className="font-normal">
+                    Platform FULUSME sudah menerapkan sistem elektronik dan
+                    keamanan data yang handal. Namun, tetap dimungkinkan terjadi
+                    gangguan sistem teknologi informasi dan kegagalan sistem,
+                    yang dapat menyebabkan aktivitas anda di Platform menjadi
+                    gagal atau tertunda.
+                  </p>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XIV. PERNYATAAN DAN JAMINAN</p>
+              <ul className="pl-8 space-y-2 list-decimal">
+                <li>
+                  Penyelenggara dilarang untuk:
+                  <ul className="pl-4 space-y-1">
+                    <li>
+                      a. Memiliki hubungan afiliasi dengan Penerbit yang
+                      menggunakan Layanan Urun Dana;
+                    </li>
+                    <li>
+                      b. Memberikan bantuan keuangan kepada Pemodal untuk
+                      berinvestasi pada Efek Penerbit yang menggunakan Layanan
+                      Urun Dana;{" "}
+                    </li>
+                    <li>
+                      c. Memberikan nasihat investasi dan/atau rekomendasi
+                      kepada Pemodal dan/atau calon Pemodal untuk berinvestasi
+                      pada Penerbit;{" "}
+                    </li>
+                    <li>
+                      d. Memberikan hadiah/kompensasi kepada pihak yang
+                      memberikan informasi mengenai Pemodal potensial;{" "}
+                    </li>
+                    <li>e. Menerima dan/atau menyimpan dana Pemodal;</li>
+                    <li>
+                      f. Memberikan perlakuan yang berbeda kepada setiap
+                      Pengguna;{" "}
+                    </li>
+                    <li>
+                      g. Mempublikasikan informasi yang tidak benar terkait
+                      Layanan Urun Dana yang diselenggarakan;{" "}
+                    </li>
+                    <li>
+                      h. Melakukan penawaran Layanan Urun Dana kepada Pengguna
+                      dan/atau masyarakat melalui sarana komunikasi pribadi
+                      tanpa persetujuan Pengguna; dan
+                    </li>
+                    <li>
+                      i. Mengenakan biaya apapun kepada Pengguna atas pengajuan
+                      pengaduan.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Para Pihak telah mengerti, memahami dan menerima adanya
+                  ketentuan yang disyaratkan oleh Otoritas Jasa Keuangan dan
+                  dicantumkan oleh Penyelenggara di Platform terkait dengan
+                  pemasaran suatu Efek yang diterbitkan oleh Penerbit berupa:
+                  <ul className="pl-4 space-y-1">
+                    <li>
+                      a. “OTORITAS JASA KEUANGAN TIDAK MEMBERIKAN PERNYATAAN
+                      MENYETUJUI ATAU TIDAK MENYETUJUI EFEK INI, TIDAK JUGA
+                      MENYATAKAN KEBENARAN ATAU KECUKUPAN INFORMASI DALAM
+                      LAYANAN URUN DANA INI. SETIAP PERNYATAAN YANG BERTENTANGAN
+                      DENGAN HAL TERSEBUT ADALAH PERBUATAN MELANGGAR HUKUM.”;
+                    </li>
+                    <li>
+                      b. “INFORMASI DALAM LAYANAN URUN DANA INI PENTING DAN
+                      PERLU MENDAPAT PERHATIAN SEGERA. APABILA TERDAPAT KERAGUAN
+                      PADA TINDAKAN YANG AKAN DIAMBIL, SEBAIKNYA BERKONSULTASI
+                      DENGAN PENYELENGGARA”; dan
+                    </li>
+                    <li>
+                      c. “PENERBIT DAN PENYELENGGARA, BAIK SENDIRI-SENDIRI
+                      MAUPUN BERSAMA-SAMA, BERTANGGUNG JAWAB SEPENUHNYA ATAS
+                      KEBENARAN SEMUA INFORMASI YANG TERCANTUM DALAM LAYANAN
+                      URUN DANA INI.”.{" "}
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  Masing-masing Pihak menyatakan dan menjamin bahwa Pihak
+                  tersebut, termasuk wakil/kuasanya, maupun direktur, komisaris
+                  dan karyawannya ataupun pihak terkait, apabila ada, tidak
+                  mempunyai ataupun menjaga dari kemungkinan terjadinya
+                  perbenturan kepentingan (conflict of interest) dengan Pihak
+                  lainnya, ataupun pihak ketiga lainnya termasuk dengan
+                  Kustodian.
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XV. KEJADIAN KELALAIAN</p>
+              <ul className="list-decimal pl-4">
+                <li>
+                  Kejadian kelalaian timbul apabila salah satu atau lebih dari
+                  kejadian-kejadian berikut ini dilaksanakan, yaitu:{" "}
+                  <ul className="space-y-1 pl-4">
+                    <li>
+                      a. Masing-masing Pihak tidak memenuhi kewajibannya dan
+                      melanggar ketentuan-ketentuan yang terdapat di dalam terms
+                      and conditions;{" "}
+                    </li>
+                    <li>
+                      b. Pernyataan-pernyataan dan/atau jaminan-jaminan yang
+                      diberikan oleh masing-masing Pihak ternyata dikemudian
+                      hari diketahui tidak benar dan yang tidak dapat diperbaiki
+                      sehingga menimbulkan kerugian langsung yang diderita oleh
+                      salah satu Pihak;{" "}
+                    </li>
+                    <li>
+                      c. Masing-masing Pihak mengajukan permohonan kepada
+                      instansi yang berwenang untuk dinyatakan pailit atau untuk
+                      diberikan penundaan membayar hutang-hutang (surseance van
+                      betaling) atau bilamana orang/pihak lain mengajukan
+                      permohonan kepada instansi yang berwenang agar Pihak
+                      dimaksud dinyatakan dalam keadaan pailit;{" "}
+                    </li>
+                    <li>
+                      d. Salah satu Pihak dibubarkan atau dilikuidasi atau
+                      menghentikan atau mengabaikan kegiatan operasional
+                      perusahaan;{" "}
+                    </li>
+                    <li>
+                      e. Izin usaha dari salah satu Pihak dicabut oleh
+                      pemerintah sehingga tidak mampu memenuhi
+                      kewajiban-kewajibannya berdasarkan Syarat dan Ketentuan
+                      ini;{" "}
+                    </li>
+                    <li>
+                      f. Setiap kejadian, selain dari kejadian-kejadian yang
+                      diuraikan di atas, yang mempunyai pengaruh terhadap para
+                      Pihak.{" "}
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XVI. KEADAAN MEMAKSA</p>
+              <ul className="list-decimal pl-4 space-y-2">
+                <li>
+                  FULUSME tidak bertanggung jawab atas penundaan atau kegagalan
+                  dalam pelaksanaan kewajibannya berdasarkan Syarat dan
+                  Ketentuan ini yang disebabkan oleh suatu keadaan yang memaksa,
+                  yaitu setiap peristiwa atau kejadian di luar kekuasaan manusia
+                  yang terbatas pada bencana alam, kebakaran, aksi mogok kerja,
+                  epidemi, peperangan atau huru-hara yang secara langsung dan
+                  nyata mempengaruhi kemampuan salah satu Pihak untuk memenuhi
+                  kewajibannya berdasarkan Syarat dan Ketentuan ini.{" "}
+                </li>
+                <li>
+                  Segala permasalahan yang timbul sebagai akibat dari adanya
+                  suatu keadaan memaksa akan diselesaikan terlebih dahulu secara
+                  musyawarah.{" "}
+                </li>
+                <li>
+                  Dalam hal terjadinya suatu keadaan memaksa, FULUSME dapat
+                  memberitahukan secara tertulis mengenai terjadinya keadaan
+                  memaksa tersebut dengan menyampaikan bukti-bukti yang relevan
+                  kepada Pemodal selambat-lambatnya 30 (tiga puluh) Hari
+                  Kalender terhitung sejak tanggal terjadinya keadaan memaksa
+                  yang dimaksud.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">
+                XVII. HUKUM YANG MENGATUR DAN PENYELESAIAN PERSELISIHAN
+              </p>
+              <ul className="list-decimal pl-4 space-y-2">
+                <li>
+                  Layanan Urun Dana ini dibuat, ditafsirkan, dan dilaksanakan
+                  serta segala akibat yang ditimbulkannya diatur dan tunduk pada
+                  hukum Negara Republik Indonesia.{" "}
+                </li>
+                <li>
+                  Setiap perselisihan yang timbul antara Pemodal dan
+                  Penyelenggara atas pelaksanaan Layanan Urun Dana ini maka Para
+                  Pihak setuju untuk menyelesaikannya terlebih dahulu secara
+                  musyawarah untuk mufakat dalam waktu 30 (tiga puluh Hari
+                  Kalender).{" "}
+                </li>
+                <li>
+                  Apabila perselisihan tidak dapat diselesaikan dalam jangka
+                  waktu dimaksud maka Para Pihak dengan ini sepakat untuk
+                  menyelesaikannya melalui Pengadilan Agama Jakarta Selatan.{" "}
+                </li>
+              </ul>
+            </li>
+            <li>
+              <p className="font-bold mb-4">XVIII. HAK KEKAYAAN INTELEKTUAL</p>
+              <ul className="list-decimal pl-4 space-y-2">
+                <li>
+                  Seluruh kepemilikan dan hak kekayaan intelektual suatu Pihak
+                  atas spesifikasi, gambar, cetak ulang, rancangan atau karya
+                  seni yang disediakan dan/atau dibuat untuk pelaksanaan Layanan
+                  Urun Dana, pekerjaan pencetakan, informasi atau data teknis
+                  dan setiap informasi lain (termasuk, namun tidak terbatas
+                  pada, informasi yang terkait dengan bisnis masing- masing
+                  Pihak atau anak perusahaan atau afiliasinya) (secara
+                  keseluruhan disebut sebagai “Informasi”) yang dibuat dan
+                  diserahkan oleh salah satu Pihak kepada Pihak lain setiap saat
+                  tetap menjadi milik Pihak dimaksud.{" "}
+                </li>
+                <li>
+                  Informasi milik suatu Pihak yang diserahkan oleh Pihak
+                  tersebut kepada Pihak lain sehubungan dengan Layanan Urun Dana
+                  ini maka akan dijaga kerahasiaannya oleh Pihak lain (termasuk
+                  setiap dari para pejabat, karyawan atau agennya) dan Pihak
+                  lain tidak akan mengungkapkan atau membuka atau menyerahkan
+                  kepada pihak ketiga dan Informasi yang diterima dimaksud akan
+                  dikembalikan atas permintaan Pihak pemilik Informasi dengan
+                  biaya yang ditanggung sepenuhnya oleh Pihak lain.{" "}
+                </li>
+                <li>
+                  Informasi hanya digunakan untuk pelaksanaan Layanan Urun Dana
+                  ini dan tidak boleh digunakan untuk tujuan lain kecuali
+                  disepakati oleh Para Pihak secara tertulis. Terutama, hak
+                  kekayaan intelektual yang terdapat dalam rancangan, alat,
+                  pola, gambar, data, informasi dan peralatan yang diserahkan
+                  oleh suatu Pihak pemilik hak kekayaan intelektual kepada Pihak
+                  lain berdasarkan Layanan Urun Dana ini, maka hak eksklusif
+                  untuk penggunaan dan reproduksi atas hak kekayaan intelektual
+                  adalah milik Pihak pemilik hak kekayaan intelektual dimaksud
+                  sepenuhnya, tanpa adanya kewajiban atas royalti dan/atau suatu
+                  pembayaran lain kepada Pihak lain. Adanya pelanggaran atas
+                  ketentuan ini yang dilakukan oleh suatu Pihak akan memberikan
+                  hak ganti rugi kepada Pihak yang mengalami kerugian.{" "}
+                </li>
+              </ul>
+            </li>
+            <li className="space-y-4">
+              <p>
+                Setelah Pemodal membubuhkan{" "}
+                <span className="font-bold">tanda centang (✔) </span>
+                pada kotak persetujuan secara elektronik atas syarat dan
+                ketentuan ini, maka dengan ini Pemodal{" "}
+                <span className="font-bold underline">
+                  menyatakan setuju, telah membaca, mengerti, memahami serta
+                  tunduk
+                </span>{" "}
+                pada setiap syarat dan ketentuan serta tunduk pada peraturan
+                Otoritas Jasa Keuangan Nomor 57/POJK.04/2020 beserta
+                perubahan-perubahannya.{" "}
+              </p>
+              <p>
+                Oleh karena itu, dalam pelaksanaannya, Pemodal menyatakan dan
+                menjamin untuk selalu tetap mematuhi setiap ketentuan yang ada
+                dalam syarat dan ketentuan ini dengan penuh tanggung jawab dan
+                profesional.{" "}
+              </p>
+              <p>
+                Syarat dan Ketentuan ini dibuat dan diberikan persetujuan secara
+                elektronik oleh Pemodal dalam keadaan sehat jasmani dan sadar
+                secara penuh serta tanpa adanya paksaan dari pihak manapun.{" "}
+              </p>
+            </li>
+          </ul>
         </div>
-        <div className="p-4 space-y-24 my-16">
+        {/* <div className="p-4 space-y-24 my-16">
           <div className="flex justify-between w-full">
             <div>
               <p className="font-bold">Penyelenggara</p>
@@ -1687,7 +3022,7 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
               </p>
             </div>
           </div>
-        </div>
+        </div> */}
         <div className="p-4 flex justify-between text-sm items-center">
           <div>
             <input
