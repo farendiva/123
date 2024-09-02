@@ -133,19 +133,13 @@ export const KycPemodalFormSchema = z
     no_handphone: z
       .string()
       .min(1, "Nomor Handphone Diisi")
-      .regex(
-        /^(\+62|62)?[\s-]?0?8[1-9]{1}\d{1}[\s-]?\d{4}[\s-]?\d{2,5}$/,
-        "Nomor Handphone Tidak Valid"
-      ),
+      .regex(/^(62|0)[8][1-9]\d{7,11}$/, "Nomor Handphone Tidak Valid"),
     no_ktp: z
       .string()
       .length(16, "Nomor KTP harus terdiri dari 16 digit.")
       .regex(/^[0-9]+$/, "Nomor KTP harus berupa angka."),
     tempat_lahir: z.string().min(2, "Tempat Lahir Harus Diisi."),
-    tanggal_lahir: z.date({
-      required_error: "Tanggal Lahir Harus Diisi.",
-      invalid_type_error: "Tanggal Lahir Tidak Valid.",
-    }),
+    tanggal_lahir: z.string().min(2, "Tanggal Lahir Harus Diisi."),
     agama: z.string().min(1, "Agama Harus Diisi."),
     pendidikan_terakhir: z.string().min(1, "Pendidikan Harus Diisi."),
     noDarurat: z

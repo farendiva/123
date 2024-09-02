@@ -2,6 +2,8 @@
 
 import * as React from "react";
 import { format } from "date-fns";
+import { id } from "date-fns/locale"; // Import the Indonesian locale
+
 import { Calendar as CalendarIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -13,16 +15,23 @@ import {
 } from "@/components/ui/popover";
 
 interface DatePickerProps {
-  value: Date | undefined;
-  onChange: (date: Date | undefined) => void;
+  value: string | undefined; // Change type to string to hold formatted date
+  onChange: (date: string | undefined) => void;
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
-  const [date, setDate] = React.useState<Date | undefined>(value);
+  const [date, setDate] = React.useState<string | undefined>(value);
 
   const handleDateChange = (selectedDate: Date | undefined) => {
-    setDate(selectedDate);
-    onChange(selectedDate);
+    if (selectedDate) {
+      const formattedDate = format(selectedDate, "yyyy-MM-dd");
+      setDate(formattedDate);
+      onChange(formattedDate);
+      console.log(formattedDate); // Log the formatted date as a string
+    } else {
+      setDate(undefined);
+      onChange(undefined);
+    }
   };
 
   return (
@@ -36,14 +45,18 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
-          {date ? format(date, "PPP") : <span>Pilih Tanggal Lahir</span>}
+          {date ? (
+            format(date, "d MMMM yyyy", { locale: id }) // Format date in Indonesian
+          ) : (
+            <span>Pilih Tanggal Lahir</span>
+          )}{" "}
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className=" w-auto p-0">
         <Calendar
           mode="single"
           captionLayout="dropdown-buttons"
-          selected={date}
+          selected={date ? new Date(date) : undefined}
           onSelect={handleDateChange}
           fromYear={1920}
           toYear={2030}
