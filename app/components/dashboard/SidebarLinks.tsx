@@ -21,7 +21,7 @@ const links = [
     icon: Archive,
   },
   { name: "Transaksi", href: "/dashboard/transaksi", icon: CreditCard },
-  { name: "Profile", href: "/dashboard/profile", icon: User2Icon },
+  { name: "Profil", href: "/dashboard/profil", icon: User2Icon },
   { name: "Laporan", href: "/dashboard/laporan", icon: FileText },
   { name: "Bantuan", href: "/dashboard/bantuan", icon: CircleHelp },
 ];

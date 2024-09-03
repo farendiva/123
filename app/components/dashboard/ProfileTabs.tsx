@@ -255,7 +255,6 @@ const ProfileTabs: React.FC = () => {
         <img
           className="w-16 h-16 rounded-full"
           src={getProfileImage(user)}
-          // src={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user?.profile.swa_photo}`}
           alt="Profile"
         />
         <div className="text-center md:text-left text-xl">

@@ -17,16 +17,17 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
         const image = new Image();
         image.src = imageSrc;
         image.onload = () => {
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
           const { width, height } = image;
 
-          if (ctx) {
-            if (captureType === "face") {
-              // Crop for face (circle)
-              const cropSize = Math.min(width, height) * 0.6;
-              canvas.width = cropSize;
-              canvas.height = cropSize;
+          if (captureType === "face") {
+            // Crop for face (circle) using canvas
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            const cropSize = Math.min(width, height) * 0.6;
+            canvas.width = cropSize;
+            canvas.height = cropSize;
+
+            if (ctx) {
               ctx.drawImage(
                 image,
                 (width - cropSize) / 2,
@@ -38,63 +39,51 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
                 cropSize,
                 cropSize
               );
-            } else {
-              // Crop for KTP (rectangle with specific aspect ratio)
-              const aspectRatio = 85.6 / 53.98; // KTP aspect ratio ~1.585
-              let cropHeight;
 
-              if (window.innerWidth >= 1024) {
-                // LG (large) screens and above
-                cropHeight = height * 0.47;
-              } else {
-                // Smaller screens (mobile)
-                cropHeight = height * 0.35; // Adjust this value as needed
+              // Resize the canvas to a larger size
+              const resizedCanvas = document.createElement("canvas");
+              const resizedCtx = resizedCanvas.getContext("2d");
+              resizedCanvas.width = canvas.width * 2; // Double the width
+              resizedCanvas.height = canvas.height * 2; // Double the height
+
+              if (resizedCtx) {
+                resizedCtx.drawImage(
+                  canvas,
+                  0,
+                  0,
+                  canvas.width,
+                  canvas.height,
+                  0,
+                  0,
+                  resizedCanvas.width,
+                  resizedCanvas.height
+                );
               }
-              const cropWidth = cropHeight * aspectRatio;
-              canvas.width = cropWidth;
-              canvas.height = cropHeight;
-              ctx.drawImage(
-                image,
-                (width - cropWidth) / 2,
-                (height - cropHeight) / 2,
-                cropWidth,
-                cropHeight,
-                0,
-                0,
-                cropWidth,
-                cropHeight
-              );
-            }
 
-            // Resize the canvas to a larger size
-            const resizedCanvas = document.createElement("canvas");
-            const resizedCtx = resizedCanvas.getContext("2d");
-            resizedCanvas.width = canvas.width * 2; // Double the width
-            resizedCanvas.height = canvas.height * 2; // Double the height
-            if (resizedCtx) {
-              resizedCtx.drawImage(
-                canvas,
-                0,
-                0,
-                canvas.width,
-                canvas.height,
-                0,
-                0,
-                resizedCanvas.width,
-                resizedCanvas.height
-              );
+              // Convert canvas to blob and then to file
+              resizedCanvas.toBlob((blob) => {
+                if (blob) {
+                  const file = new File([blob], "cropped-face.png", {
+                    type: "image/png",
+                  });
+                  setCapturedImage(URL.createObjectURL(blob));
+                  onCapture(file);
+                }
+              }, "image/png");
             }
+          } else {
+            // For KTP capture, use the original image source
+            setCapturedImage(imageSrc);
 
-            // Convert canvas to blob and then to file
-            resizedCanvas.toBlob((blob) => {
-              if (blob) {
-                const file = new File([blob], "cropped-image.png", {
+            // Convert image to blob and then to file
+            fetch(imageSrc)
+              .then((res) => res.blob())
+              .then((blob) => {
+                const file = new File([blob], "ktp-image.png", {
                   type: "image/png",
                 });
-                setCapturedImage(URL.createObjectURL(blob));
                 onCapture(file);
-              }
-            }, "image/png");
+              });
           }
         };
       }
@@ -129,7 +118,7 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
           </div>
         ) : (
           <div className="relative">
-            <div className="h-44 w-80 lg:h-56 lg:w-96 border-4 border-white bg-white bg-transparent"></div>
+            <div className="mb-10 h-[360px] w-[650px] border-4 border-white bg-white bg-transparent"></div>
           </div>
         )}
       </div>
@@ -141,7 +130,7 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
           className="cursor-pointer h-16 w-16"
         />
       </div>
-      <div className="absolute top-4 left-1/2 transform -translate-x-1/2 text-white text-center text-sm md:text-base">
+      <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-white text-center text-sm md:text-base">
         {captureType === "face"
           ? "Posisikan wajah anda pada lingkaran"
           : "Posisikan Kartu KTP anda masuk ke dalam frame"}
