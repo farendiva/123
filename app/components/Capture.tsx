@@ -72,18 +72,41 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
               }, "image/png");
             }
           } else {
-            // For KTP capture, use the original image source
-            setCapturedImage(imageSrc);
+            // For KTP capture, crop the image using Image object
+            const image = new Image();
+            image.src = imageSrc;
+            image.onload = () => {
+              const { width, height } = image;
+              const cropSize = Math.min(width, height) * 0.6;
+              const croppedWidth = width - (width - cropSize) / 2;
+              const croppedHeight = height - (height - cropSize) / 2;
 
-            // Convert image to blob and then to file
-            fetch(imageSrc)
-              .then((res) => res.blob())
-              .then((blob) => {
-                const file = new File([blob], "ktp-image.png", {
-                  type: "image/png",
-                });
-                onCapture(file);
-              });
+              const canvas = document.createElement("canvas");
+              canvas.width = croppedWidth;
+              canvas.height = croppedHeight;
+              const ctx = canvas.getContext("2d");
+              ctx?.drawImage(
+                image,
+                (width - croppedWidth) / 2,
+                (height - croppedHeight) / 2,
+                croppedWidth,
+                croppedHeight,
+                0,
+                0,
+                croppedWidth,
+                croppedHeight
+              );
+
+              canvas.toBlob((blob) => {
+                if (blob) {
+                  const file = new File([blob], "ktp-image.png", {
+                    type: "image/png",
+                  });
+                  setCapturedImage(URL.createObjectURL(blob));
+                  onCapture(file);
+                }
+              }, "image/png");
+            };
           }
         };
       }
