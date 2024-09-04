@@ -73,8 +73,8 @@ export const personalInfoFields: (keyof Inputs)[] = [
   "tanggal_lahir",
   "agama",
   "pendidikan_terakhir",
-  "noDarurat",
-  "ahliWaris",
+  "handphone_kontak_darurat",
+  "nama_kontak_darurat",
   "kewarganegaraan",
   "alamat_ktp",
   "provinsi_ktp",
@@ -86,8 +86,11 @@ export const personalInfoFields: (keyof Inputs)[] = [
   "kabupaten_domisili",
   "kecamatan_domisili",
   "kelurahan_domisili",
-  "kodePos_ktp",
-  "kodePos_domisili",
+  "kodepos_ktp",
+  "kodepos_domisili",
+  "status_pernikahan",
+  "rt_rw_domisili",
+  "rt_rw_ktp",
 ];
 
 const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
@@ -120,9 +123,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
   const kabupaten_ktp = watch("kabupaten_ktp");
   const kecamatan_ktp = watch("kecamatan_ktp");
   const kelurahan_ktp = watch("kelurahan_ktp");
-  const kodePos_ktp = watch("kodePos_ktp");
-  // const rt_ktp = watch("rt_ktp");
-  // const rw_ktp = watch("rw_ktp");
+  const kodepos_ktp = watch("kodepos_ktp");
+  const rt_rw_ktp = watch("rt_rw_ktp");
   const provinsi_domisili = watch("provinsi_domisili");
   const kabupaten_domisili = watch("kabupaten_domisili");
   const kecamatan_domisili = watch("kecamatan_domisili");
@@ -134,9 +136,8 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("kabupaten_domisili", kabupaten_ktp);
       setValue("kecamatan_domisili", kecamatan_ktp);
       setValue("kelurahan_domisili", kelurahan_ktp);
-      setValue("kodePos_domisili", kodePos_ktp);
-      // setValue("rt_domisili", rt_ktp);
-      // setValue("rw_domisili", rw_ktp);
+      setValue("kodepos_domisili", kodepos_ktp);
+      setValue("rt_rw_domisili", rt_rw_ktp);
     }
   }, [
     isChecked,
@@ -145,7 +146,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     kabupaten_ktp,
     kecamatan_ktp,
     kelurahan_ktp,
-    kodePos_ktp,
+    kodepos_ktp,
     setValue,
   ]);
 
@@ -499,23 +500,23 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
         <div className="sm:col-span-4 lg:col-span-4">
           <label
-            htmlFor="noDarurat"
+            htmlFor="handphone_kontak_darurat"
             className="block text-sm font-bold leading-6"
           >
             Nomor Telefon Darurat
           </label>
           <div className="">
             <input
-              id="noDarurat"
+              id="handphone_kontak_darurat"
               type="tel"
-              {...register("noDarurat")}
+              {...register("handphone_kontak_darurat")}
               autoComplete="tel"
               className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
-              {errors.noDarurat?.message && (
+              {errors.handphone_kontak_darurat?.message && (
                 <p className="text-sm text-red-400">
-                  {errors.noDarurat.message}
+                  {errors.handphone_kontak_darurat.message}
                 </p>
               )}
             </div>
@@ -523,23 +524,85 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
         <div className="sm:col-span-4 lg:col-span-4">
           <label
-            htmlFor="ahliWaris"
+            htmlFor="nama_kontak_darurat"
             className="block text-sm font-bold leading-6"
           >
-            Nama Ahli Waris
+            Nama Kontak Darurat
           </label>
           <div className="">
             <input
-              id="ahliWaris"
+              id="nama_kontak_darurat"
               type="tel"
-              {...register("ahliWaris")}
+              {...register("nama_kontak_darurat")}
               autoComplete="tel"
               className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
-              {errors.ahliWaris?.message && (
+              {errors.nama_kontak_darurat?.message && (
                 <p className="text-sm text-red-400">
-                  {errors.ahliWaris.message}
+                  {errors.nama_kontak_darurat.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="sm:col-span-4">
+          <label
+            htmlFor="status_pernikahan"
+            className="block text-sm font-bold leading-6"
+          >
+            Status Pernikahan
+          </label>
+          <div className="w-full">
+            <select
+              value={watch("status_pernikahan") || ""}
+              className="block w-full py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              id="status_pernikahan"
+              {...register("status_pernikahan")}
+            >
+              <option value="" disabled>
+                Pilih Status Nikah
+              </option>
+              <option key={1} value={1}>
+                Kawin
+              </option>
+              <option key={2} value={2}>
+                Belum Kawin
+              </option>
+              <option key={3} value={3}>
+                Cerai Mati
+              </option>
+              <option key={4} value={4}>
+                Cerai Hidup
+              </option>
+            </select>
+            <div className="h-1 mt-1">
+              {errors.status_pernikahan?.message && (
+                <p className="text-sm text-red-400">
+                  {errors.status_pernikahan.message}
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="sm:col-span-4">
+          <label
+            htmlFor="nama_ibu_kandung"
+            className="block text-sm leading-6 font-bold"
+          >
+            Nama Ibu Kandung
+          </label>
+          <div className="w-full">
+            <input
+              type="text"
+              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+              id="nama_ibu_kandung"
+              {...register("nama_ibu_kandung")}
+            />
+            <div className="mt-1 h-1">
+              {errors.nama_ibu_kandung && (
+                <p className="text-sm text-red-400">
+                  {errors.nama_ibu_kandung.message}
                 </p>
               )}
             </div>
@@ -734,17 +797,17 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
         </div>
         <div className="sm:col-span-4">
           <label
-            htmlFor="kodePos_ktp"
+            htmlFor="kodepos_ktp"
             className="block text-sm font-bold leading-6"
           >
             Kode Pos
           </label>
           <div className="w-full">
             <select
-              value={watch("kodePos_ktp") || ""}
+              value={watch("kodepos_ktp") || ""}
               className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="kodePos_ktp"
-              {...register("kodePos_ktp")}
+              id="kodepos_ktp"
+              {...register("kodepos_ktp")}
             >
               <option value="" disabled>
                 Pilih Kode Pos
@@ -756,52 +819,38 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
               ))}
             </select>
             <div className="h-1 mt-1">
-              {errors.kodePos_ktp?.message && (
+              {errors.kodepos_ktp?.message && (
                 <p className="text-sm text-red-400">
-                  {errors.kodePos_ktp.message}
+                  {errors.kodepos_ktp.message}
                 </p>
               )}
             </div>
           </div>
         </div>
-        {/* <div className="sm:col-span-4">
-          <label htmlFor="rt_ktp" className="block text-sm font-bold leading-6">
-            RT Sesuai KTP
+        <div className="sm:col-span-4">
+          <label
+            htmlFor="rt_rw_ktp"
+            className="block text-sm font-bold leading-6"
+          >
+            RT/RW Sesuai KTP (contoh: 001/001)
           </label>
           <div className="">
             <input
               type="text"
-              id="rt_ktp"
-              {...register("rt_ktp")}
+              id="rt_rw_ktp"
+              {...register("rt_rw_ktp")}
               autoComplete="given-name"
               className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
             />
             <div className="h-1 mt-1">
-              {errors.rt_ktp?.message && (
-                <p className="text-sm text-red-400">{errors.rt_ktp.message}</p>
+              {errors.rt_rw_ktp?.message && (
+                <p className="text-sm text-red-400">
+                  {errors.rt_rw_ktp.message}
+                </p>
               )}
             </div>
           </div>
         </div>
-        <div className="sm:col-span-4">
-          <label htmlFor="rw_ktp" className="block text-sm font-bold leading-6">
-            RW Sesuai KTP
-          </label>
-          <div className="">
-            <input
-              type="text"
-              id="rw_ktp"
-              {...register("rw_ktp")}
-              autoComplete="given-name"
-              className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-            />
-            <div className="h-1 mt-1">
-              {errors.rw_ktp?.message && (
-                <p className="text-sm text-red-400">{errors.rw_ktp.message}</p>
-              )}
-            </div>
-          </div>
-        </div> */}
       </div>
 
       <div className="flex items-center gap-2 my-4">
@@ -972,17 +1021,17 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </div>
           <div className="sm:col-span-4">
             <label
-              htmlFor="kodePos_domisili"
+              htmlFor="kodepos_domisili"
               className="block text-sm font-bold leading-6"
             >
               Kode Pos
             </label>
             <div className="w-full">
               <select
-                value={watch("kodePos_domisili") || ""}
+                value={watch("kodepos_domisili") || ""}
                 className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-                id="kodePos_domisili"
-                {...register("kodePos_domisili")}
+                id="kodepos_domisili"
+                {...register("kodepos_domisili")}
               >
                 <option value="" disabled>
                   Pilih Kode Pos
@@ -994,33 +1043,9 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 ))}
               </select>
               <div className="h-1 mt-1">
-                {errors.kodePos_domisili?.message && (
+                {errors.kodepos_domisili?.message && (
                   <p className="text-sm text-red-400">
-                    {errors.kodePos_domisili.message}
-                  </p>
-                )}
-              </div>
-            </div>
-          </div>
-          {/* <div className="sm:col-span-4">
-            <label
-              htmlFor="rt_domisili"
-              className="block text-sm font-bold leading-6"
-            >
-              RT Sesuai Domisili
-            </label>
-            <div className="">
-              <input
-                type="text"
-                id="rt_domisili"
-                {...register("rt_domisili")}
-                autoComplete="given-name"
-                className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              />
-              <div className="h-1 mt-1">
-                {errors.rt_domisili?.message && (
-                  <p className="text-sm text-red-400">
-                    {errors.rt_domisili.message}
+                    {errors.kodepos_domisili.message}
                   </p>
                 )}
               </div>
@@ -1028,28 +1053,28 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
           </div>
           <div className="sm:col-span-4">
             <label
-              htmlFor="rw_domisili"
+              htmlFor="rt_rw_domisili"
               className="block text-sm font-bold leading-6"
             >
-              RW Sesuai Domisili
+              RT/RW Sesuai Domisili (contoh: 001/001)
             </label>
             <div className="">
               <input
                 type="text"
-                id="rw_domisili"
-                {...register("rw_domisili")}
+                id="rt_rw_domisili"
+                {...register("rt_rw_domisili")}
                 autoComplete="given-name"
                 className="block w-full px-3 py-3 border-0 rounded-md shadow-sm bg-slate-100 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               />
               <div className="h-1 mt-1">
-                {errors.rw_domisili?.message && (
+                {errors.rt_rw_domisili?.message && (
                   <p className="text-sm text-red-400">
-                    {errors.rw_domisili.message}
+                    {errors.rt_rw_domisili.message}
                   </p>
                 )}
               </div>
             </div>
-          </div> */}
+          </div>
         </div>
       )}
     </>

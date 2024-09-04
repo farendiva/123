@@ -117,17 +117,16 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       "no_ktp",
       "agama",
       "kewarganegaraan",
+      "status_pernikahan",
       "alamat_ktp",
       "kelurahan_ktp",
       "kecamatan_ktp",
       "kabupaten_ktp",
       "provinsi_ktp",
-      // "rt_ktp",
-      // "rw_ktp",
-      // "rt_domisili",
-      // "rw_domisili",
-      // "kodepos_ktp",
-      // "kodepos_domisili",
+      "rt_rw_ktp",
+      "rt_rw_domisili",
+      "kodepos_ktp",
+      "kodepos_domisili",
       "alamat_domisili",
       "kelurahan_domisili",
       "kecamatan_domisili",
@@ -167,8 +166,8 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       nama_pemilik_rekening: data.nama_pemilik_rekening,
       nama_bank: data.nama_bank,
       nama_ibu_kandung: data.nama_ibu_kandung,
-      nama_rekening_custodian: data.nama_pemilik_rekening_kustodian,
-      nomor_rekening_custodian: data.nomor_rekening_kustodian,
+      nama_rekening_custodian: data.nama_rekening_custodian,
+      nomor_rekening_custodian: data.nomor_rekening_custodian,
     };
 
     const document = new FormData();
@@ -176,14 +175,14 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     document.append("swa_photo", data.swa_photo);
     if (data.slip_gaji) {
       document.append("slip_gaji", data.slip_gaji);
-    } else {
-      document.append("slip_gaji", minimalPdf, "empty.pdf");
     }
+    // else {
+    //   document.append("slip_gaji", minimalPdf, "empty.pdf");
+    // }
 
-    // Append minimal PDF files for npwp and kartu_keluarga
-    document.append("npwp", minimalPdf, "empty.pdf");
-    document.append("kartu_keluarga", minimalPdf, "empty.pdf");
-
+    // document.append("npwp", minimalPdf, "empty.pdf");
+    // document.append("kartu_keluarga", minimalPdf, "empty.pdf");
+    console.log(data);
     try {
       const responsePersonal = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${pemodal_id}?_method=PUT`,

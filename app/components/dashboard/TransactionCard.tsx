@@ -1,7 +1,7 @@
 "use client";
 
 import { formatRupiah } from "@/lib/rupiah";
-import { CircleAlert, EllipsisVertical, X } from "lucide-react";
+import { CircleAlert, Download, EllipsisVertical, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Tooltip,
@@ -11,6 +11,12 @@ import {
 } from "@/components/ui/tooltip";
 import ExpireButton from "./ExpireButton";
 import CopyToClipboard from "@/components/ui/CopyToClipboard";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export interface TransaksiStatus {
   status_id: number;
@@ -152,7 +158,18 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             >
               Lihat Detil
             </button>
-            <EllipsisVertical className="cursor-pointer" />
+            {transaksi.status === 3 && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <EllipsisVertical className="cursor-pointer" />
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56">
+                  <DropdownMenuItem>
+                    Unduh Dokumen Perjanjian Pemodal
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
         <h2 className="text-lg font-bold text-gray-800">
@@ -355,6 +372,14 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                   expire={transaksi.va_expiry_time}
                   status={transaksi.status}
                 />
+                {transaksi.status === 1 && (
+                  <div className="flex items-center justify-center mx-auto my-4">
+                    <button className="flex items-center gap-3 font-bold  bg-emerald-light py-2 px-4 rounded-xl">
+                      <Download />
+                      Unduh Dokumen Perjanjian Pemodal
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

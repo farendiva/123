@@ -142,20 +142,33 @@ export const KycPemodalFormSchema = z
     tanggal_lahir: z.string().min(2, "Tanggal Lahir Harus Diisi."),
     agama: z.string().min(1, "Agama Harus Diisi."),
     pendidikan_terakhir: z.string().min(1, "Pendidikan Harus Diisi."),
-    noDarurat: z
+    handphone_kontak_darurat: z
       .string()
       .min(10, "Nomor darurat harus terdiri dari minimal 10 digit.")
       .regex(/^[0-9]+$/, "Nomor darurat harus berupa angka."),
-    ahliWaris: z.string().min(2, "Ahli waris Harus Diisi."),
+    nama_kontak_darurat: z.string().min(2, "Ahli waris Harus Diisi."),
+    status_pernikahan: z.string().min(1, "Status Nikah Harus Diisi."),
     kewarganegaraan: z.string().min(1, "Kewarganegaraan Harus Diisi."),
     alamat_ktp: z.string().min(1, "Alamat Harus Diisi."),
     provinsi_ktp: z.string().min(1, "Provinsi Harus Diisi."),
     kabupaten_ktp: z.string().min(1, "Kota/Kabupaten Harus Diisi."),
     kecamatan_ktp: z.string().min(1, "Kecamatan Harus Diisi."),
     kelurahan_ktp: z.string().min(1, "Kelurahan Harus Diisi."),
-    // rt_ktp: z.string().min(1, "RT Harus Diisi."),
-    // rw_ktp: z.string().min(1, "RW Harus Diisi."),
-    kodePos_ktp: z
+    rt_rw_ktp: z
+      .string()
+      .min(1, "RT/RW KTP Harus Diisi")
+      .regex(
+        /^\d{1,3}\/\d{1,3}$/,
+        "Format harus dalam bentuk RT/RW dan hanya boleh berisi angka, contoh: 001/001"
+      ),
+    rt_rw_domisili: z
+      .string()
+      .min(1, "RT/RW Domisili Harus Diisi")
+      .regex(
+        /^\d{1,3}\/\d{1,3}$/,
+        "Format harus dalam bentuk RT/RW dan hanya boleh berisi angka, contoh: 001/001"
+      ),
+    kodepos_ktp: z
       .string()
       .min(5, "Kode Pos harus terdiri dari 5 digit.")
       .regex(/^[0-9]+$/, "Kode Pos harus berupa angka."),
@@ -164,12 +177,10 @@ export const KycPemodalFormSchema = z
     kabupaten_domisili: z.string().min(1, "Kota/Kabupaten Harus Diisi."),
     kecamatan_domisili: z.string().min(1, "Kecamatan Harus Diisi."),
     kelurahan_domisili: z.string().min(1, "Kelurahan Harus Diisi."),
-    kodePos_domisili: z
+    kodepos_domisili: z
       .string()
       .min(5, "Kode Pos harus terdiri dari 5 digit.")
       .regex(/^[0-9]+$/, "Kode Pos harus berupa angka."),
-    // rt_domisili: z.string().min(1, "RT Harus Diisi."),
-    // rw_domisili: z.string().min(1, "RW Harus Diisi."),
     pekerjaan: z.string().min(1, "Pekerjaan Harus Diisi."),
     industri_pekerjaan: z.string().min(1, "Bidang Pekerjaan Harus Diisi."),
     slip_gaji: z
@@ -189,8 +200,8 @@ export const KycPemodalFormSchema = z
     pendapatan_per_bulan: z.string().min(1, "Total Gaji Harus Diisi."),
     nama_ibu_kandung: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
     nama_bank: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
-    nomor_rekening_kustodian: z.string().optional(),
-    nama_pemilik_rekening_kustodian: z.string().optional(),
+    nomor_rekening_custodian: z.string().optional(),
+    nama_rekening_custodian: z.string().optional(),
     nomor_rekening: z.string().min(1, "Nomor rekening Harus Diisi."),
     nama_pemilik_rekening: z
       .string()

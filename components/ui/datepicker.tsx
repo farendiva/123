@@ -27,7 +27,6 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
       const formattedDate = format(selectedDate, "yyyy-MM-dd");
       setDate(formattedDate);
       onChange(formattedDate);
-      console.log(formattedDate); // Log the formatted date as a string
     } else {
       setDate(undefined);
       onChange(undefined);

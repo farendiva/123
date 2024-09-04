@@ -46,8 +46,8 @@ export const incomeFields: (keyof Inputs)[] = [
   "nomor_rekening",
   "nama_ibu_kandung",
   "nama_pemilik_rekening",
-  "nomor_rekening_kustodian",
-  "nama_pemilik_rekening_kustodian",
+  "nomor_rekening_custodian",
+  "nama_rekening_custodian",
 ];
 
 const IncomeForm: FC<IncomeFormProps> = ({
@@ -240,7 +240,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="nomor_rekening_kustodian"
+            htmlFor="nomor_rekening_custodian"
             className="block text-sm leading-6 font-bold"
           >
             Nomor Rekening Kustodian (Opsional)
@@ -249,13 +249,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="nomor_rekening_kustodian"
-              {...register("nomor_rekening_kustodian")}
+              id="nomor_rekening_custodian"
+              {...register("nomor_rekening_custodian")}
             />
             <div className="mt-1 h-1">
-              {errors.nomor_rekening_kustodian && (
+              {errors.nomor_rekening_custodian && (
                 <p className="text-sm text-red-400">
-                  {errors.nomor_rekening_kustodian.message}
+                  {errors.nomor_rekening_custodian.message}
                 </p>
               )}
             </div>
@@ -264,7 +264,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
 
         <div className="sm:col-span-4">
           <label
-            htmlFor="nama_pemilik_rekening_kustodian"
+            htmlFor="nama_rekening_custodian"
             className="block text-sm leading-6 font-bold"
           >
             Nama Pemilik Rekening Kustodian (Opsional)
@@ -273,13 +273,13 @@ const IncomeForm: FC<IncomeFormProps> = ({
             <input
               type="text"
               className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="nama_pemilik_rekening_kustodian"
-              {...register("nama_pemilik_rekening_kustodian")}
+              id="nama_rekening_custodian"
+              {...register("nama_rekening_custodian")}
             />
             <div className="mt-1 h-1">
-              {errors.nama_pemilik_rekening_kustodian && (
+              {errors.nama_rekening_custodian && (
                 <p className="text-sm text-red-400">
-                  {errors.nama_pemilik_rekening_kustodian.message}
+                  {errors.nama_rekening_custodian.message}
                 </p>
               )}
             </div>
@@ -351,29 +351,6 @@ const IncomeForm: FC<IncomeFormProps> = ({
               {errors.nama_bank && (
                 <p className="text-sm text-red-400">
                   {errors.nama_bank.message}
-                </p>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="sm:col-span-4">
-          <label
-            htmlFor="nama_ibu_kandung"
-            className="block text-sm leading-6 font-bold"
-          >
-            Nama Ibu Kandung
-          </label>
-          <div className="w-full">
-            <input
-              type="text"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
-              id="nama_ibu_kandung"
-              {...register("nama_ibu_kandung")}
-            />
-            <div className="mt-1 h-1">
-              {errors.nama_ibu_kandung && (
-                <p className="text-sm text-red-400">
-                  {errors.nama_ibu_kandung.message}
                 </p>
               )}
             </div>
