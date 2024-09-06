@@ -12,6 +12,7 @@ import {
 import { z } from "zod";
 import { KycPemodalFormSchema } from "../../../lib/schema";
 import usePreferences from "@/hooks/usePreferences";
+import banks from "@/app/data/bank.json";
 
 type Inputs = z.infer<typeof KycPemodalFormSchema>;
 
@@ -333,6 +334,7 @@ const IncomeForm: FC<IncomeFormProps> = ({
             </div>
           </div>
         </div>
+
         <div className="sm:col-span-4">
           <label
             htmlFor="nama_bank"
@@ -341,12 +343,21 @@ const IncomeForm: FC<IncomeFormProps> = ({
             Nama Bank
           </label>
           <div className="w-full">
-            <input
-              type="text"
-              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+            <select
+              className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
               id="nama_bank"
+              value={watch("nama_bank") || ""}
               {...register("nama_bank")}
-            />
+            >
+              <option value="" disabled>
+                Pilih Bank
+              </option>
+              {banks.map((bank, index) => (
+                <option key={index} value={bank.name}>
+                  {bank.name}
+                </option>
+              ))}
+            </select>
             <div className="mt-1 h-1">
               {errors.nama_bank && (
                 <p className="text-sm text-red-400">

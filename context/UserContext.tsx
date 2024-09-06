@@ -46,6 +46,8 @@ interface Profile {
   swa_photo: string;
   slip_gaji: string;
   kartu_keluarga: string;
+  nama_rekening_custodian: string;
+  nomor_rekening_custodian: string;
 }
 
 interface User {

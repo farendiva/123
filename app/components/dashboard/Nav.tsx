@@ -121,7 +121,7 @@ const Nav = () => {
                 ? "Menunggu Review"
                 : user?.pemodal_status === 4
                 ? "Tidak Terverifikasi"
-                : "Belum Terverifikasi"}
+                : "Lengkapi Identitas"}
             </span>
             {isDropdownOpen && (
               <form

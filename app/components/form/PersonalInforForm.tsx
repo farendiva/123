@@ -503,7 +503,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
             htmlFor="handphone_kontak_darurat"
             className="block text-sm font-bold leading-6"
           >
-            Nomor Telefon Darurat
+            Nomor Telepon Darurat
           </label>
           <div className="">
             <input

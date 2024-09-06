@@ -97,13 +97,6 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     resolver: zodResolver(KycPemodalFormSchema),
   });
 
-  const minimalPdf = new Blob(
-    [
-      "%PDF-1.4\n%âãÏÓ\n1 0 obj\n<</Type/Catalog/Pages 2 0 R>>\nendobj\n2 0 obj\n<</Type/Pages/Kids[3 0 R]/Count 1>>\nendobj\n3 0 obj\n<</Type/Page/MediaBox[0 0 3 3]>>\nendobj\nxref\n0 4\n0000000000 65535 f\n0000000009 00000 n\n0000000052 00000 n\n0000000101 00000 n\ntrailer\n<</Size 4/Root 1 0 R>>\nstartxref\n149\n%%EOF\n",
-    ],
-    { type: "application/pdf" }
-  );
-
   const processForm: SubmitHandler<Inputs> = async (data) => {
     if (!formData) {
       console.error("Form data is undefined");
@@ -136,6 +129,8 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
       "pekerjaan",
       "industri_pekerjaan",
       "pendapatan_per_bulan",
+      "handphone_kontak_darurat",
+      "nama_kontak_darurat",
     ] as const;
 
     const personal: Partial<Record<keyof Profile, string | number | File>> = {
@@ -176,12 +171,6 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     if (data.slip_gaji) {
       document.append("slip_gaji", data.slip_gaji);
     }
-    // else {
-    //   document.append("slip_gaji", minimalPdf, "empty.pdf");
-    // }
-
-    // document.append("npwp", minimalPdf, "empty.pdf");
-    // document.append("kartu_keluarga", minimalPdf, "empty.pdf");
     console.log(data);
     try {
       const responsePersonal = await fetch(

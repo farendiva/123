@@ -1667,7 +1667,9 @@ const PurchaseModal = ({ toggleModal, handleSubmit, user }: Props) => {
           </p>
         </div> */}
         <div className="space-y-4 px-4 text-justify text-sm">
-          <h1 className="font-bold text-base">SYARAT DAN KETENTUAN PEMODAL</h1>
+          <h1 className="font-bold text-base text-center">
+            SYARAT DAN KETENTUAN PEMODAL
+          </h1>
           <p>
             FULUSME adalah Platform layanan urun dana berbasiskan teknologi
             informasi atau securities crowdfunding yang beroperasi berdasarkan

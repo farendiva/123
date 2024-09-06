@@ -1,0 +1,82 @@
+[
+  {
+    "name": "BANK BRI",
+    "code": "002"
+  },
+  {
+    "name": "BANK MANDIRI",
+    "code": "008"
+  },
+  {
+    "name": "BANK BNI",
+    "code": "009"
+  },
+  {
+    "name": "BANK DANAMON",
+    "code": "011"
+  },
+  {
+    "name": "BANK PERMATA",
+    "code": "013"
+  },
+  {
+    "name": "BANK SYARIAH INDONESIA",
+    "code": "451"
+  },
+  {
+    "name": "BANK PERMATA SYARIAH",
+    "code": "013"
+  },
+  {
+    "name": "BANK BCA",
+    "code": "014"
+  },
+  {
+    "name": "BANK BCA SYARIAH",
+    "code": "536"
+  },
+  {
+    "name": "BANK BTN",
+    "code": "200"
+  },
+  {
+    "name": "BLL MAYBANK",
+    "code": "016"
+  },
+  {
+    "name": "MAYBANK SYARIAH",
+    "code": "016"
+  },
+  {
+    "name": "BANK PANIN",
+    "code": "019"
+  },
+  {
+    "name": "CIMB NIAGA",
+    "code": "022"
+  },
+  {
+    "name": "BANK UOB INDONESIA",
+    "code": "023"
+  },
+  {
+    "name": "BANK OCBC NISP",
+    "code": "028"
+  },
+  {
+    "name": "CITIBANK",
+    "code": "031"
+  },
+  {
+    "name": "BANK MUAMALAT",
+    "code": "147"
+  },
+  {
+    "name": "BANK MEGA",
+    "code": "426"
+  },
+  {
+    "name": "BANK SINARMAS",
+    "code": "153"
+  }
+]

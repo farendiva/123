@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import usePreferences from "@/hooks/usePreferences";
 import { getUserData } from "@/lib/auth";
+import banks from "@/app/data/bank.json";
 
 interface Province {
   province: string;
@@ -82,6 +83,8 @@ interface Profile {
   swa_photo: string | File;
   slip_gaji: string | File;
   kartu_keluarga: string | File;
+  nama_rekening_custodian: string;
+  nomor_rekening_custodian: string;
 }
 
 interface User {
@@ -278,7 +281,7 @@ const ProfileTabs: React.FC = () => {
               ? "Menunggu Review"
               : user?.pemodal_status === 4
               ? "Tidak Terverifikasi"
-              : "Belum Terverifikasi"}
+              : "Lengkapi Identitas"}
           </span>
         </div>
       </div>
@@ -393,12 +396,7 @@ const ProfileTabs: React.FC = () => {
                       </select>
                     </div>
                   </div>
-                  <div className="py-4">
-                    <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
-                      <Download className="inline mx-2" strokeWidth={2} />
-                      Unduh Dokumen Perjanjian Pemodal
-                    </button>
-                  </div>
+
                   <div className="flex py-2 justify-end gap-2">
                     <button
                       onClick={() => setIsEditing(false)}
@@ -471,12 +469,6 @@ const ProfileTabs: React.FC = () => {
                       onClick={handleEditClick}
                       className="cursor-pointer"
                     />
-                  </div>
-                  <div className="py-4">
-                    <button className="w-full text-start font-bold block border p-2 rounded-lg bg-gray-200 cursor-not-allowed">
-                      <Download className="inline mx-2" strokeWidth={2} />
-                      Unduh Dokumen Perjanjian Pemodal
-                    </button>
                   </div>
                 </>
               )}
@@ -943,7 +935,7 @@ const ProfileTabs: React.FC = () => {
                     className="cursor-pointer"
                   />
                 </div>
-                {/* <div className="flex justify-between items-center py-3">
+                <div className="flex justify-between items-center py-3">
                   <div>
                     <label className="font-bold">
                       Nomor Rekening Kustodian
@@ -974,7 +966,7 @@ const ProfileTabs: React.FC = () => {
                     onClick={handleEditClick}
                     className="cursor-pointer"
                   />
-                </div> */}
+                </div>
               </div>
             )}
           </div>
@@ -998,14 +990,19 @@ const ProfileTabs: React.FC = () => {
                 </div>
                 <div className="flex justify-between items-center py-3">
                   <div className="w-full">
-                    <label className="font-bold">Nama Bank</label> <br />
-                    <input
-                      type="text"
+                    <label className="font-bold">Pendapatan</label> <br />
+                    <select
                       name="nama_bank"
                       value={formData?.nama_bank || ""}
-                      onChange={handleInputChange}
+                      onChange={handleSelectChange}
                       className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
+                    >
+                      {banks.map((bank, index) => (
+                        <option key={index} value={bank.name}>
+                          {bank.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
                 <div className="flex justify-between items-center py-3">

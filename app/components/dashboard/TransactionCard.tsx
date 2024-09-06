@@ -158,18 +158,25 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             >
               Lihat Detil
             </button>
-            {transaksi.status === 3 && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <EllipsisVertical className="cursor-pointer" />
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuItem>
-                    Unduh Dokumen Perjanjian Pemodal
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+            {transaksi.status === 0 ||
+              (transaksi.status === 1 && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <EllipsisVertical className="cursor-pointer" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="w-56">
+                    <DropdownMenuItem
+                      className={`${
+                        Number(transaksi.status) === 0
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
+                    >
+                      Unduh Dokumen Perjanjian Pemodal
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ))}
           </div>
         </div>
         <h2 className="text-lg font-bold text-gray-800">
@@ -372,9 +379,16 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                   expire={transaksi.va_expiry_time}
                   status={transaksi.status}
                 />
-                {transaksi.status === 1 && (
+                {(transaksi.status === 0 || transaksi.status === 1) && (
                   <div className="flex items-center justify-center mx-auto my-4">
-                    <button className="flex items-center gap-3 font-bold  bg-emerald-light py-2 px-4 rounded-xl">
+                    <button
+                      className={`flex items-center gap-3 font-bold py-2 px-4 rounded-xl ${
+                        transaksi.status === 1
+                          ? "bg-emerald-light text-white"
+                          : "bg-gray-200 text-gray-500 cursor-not-allowed"
+                      }`}
+                      disabled={transaksi.status === 0}
+                    >
                       <Download />
                       Unduh Dokumen Perjanjian Pemodal
                     </button>

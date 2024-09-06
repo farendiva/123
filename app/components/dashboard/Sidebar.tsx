@@ -24,7 +24,7 @@ export default function Sidebar() {
               href="/kyc/pemodal"
               className="font-bold text-[#E09400] text-sm"
             >
-              Lengkapi KYC
+              Lengkapi Identitas
             </Link>
           </div>
         </div>
