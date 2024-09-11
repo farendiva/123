@@ -4,6 +4,8 @@ import Sidebar from "../components/dashboard/Sidebar";
 import "../globals.css";
 import { UserProvider } from "@/context/UserContext";
 import SidebarLinks from "../components/dashboard/SidebarLinks";
+import { Toaster } from "@/components/ui/toaster";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export const metadata = {
   title: "Transaksi",
@@ -16,18 +18,6 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const userData = await getUserData();
-
-  if (!userData.data) {
-    return (
-      <html lang="en">
-        <body className={` w-full mx-auto min-h-screen bg-[#F4F7FE]`}>
-          <div className="font-bold text-center text-2xl">
-            Failed to load user data.
-          </div>
-        </body>
-      </html>
-    );
-  }
 
   return (
     <html lang="en">
@@ -43,9 +33,18 @@ export default async function DashboardLayout({
             <div className="block lg:hidden">
               <SidebarLinks />
             </div>
-            <div className="w-full mx-auto rounded-xl">{children}</div>
+            <div className="w-full mx-auto rounded-xl">
+              {userData.data ? (
+                children
+              ) : (
+                <div className="flex items-center justify-center h-full w-full">
+                  <div className="h-24 w-24 border-8 border-emerald border-t-transparent rounded-full animate-spin"></div>
+                </div>
+              )}
+            </div>
           </main>
         </UserProvider>
+        <Toaster />
       </body>
     </html>
   );

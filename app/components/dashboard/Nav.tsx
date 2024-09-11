@@ -74,7 +74,7 @@ const Nav = () => {
       </button>
       <ul className="hidden lg:flex gap-10 ml-16">
         {menuItems.map(({ href, label }) => (
-          <li key={href}>
+          <li key={label}>
             <Link
               href={href}
               className={`hover:text-emerald-light font-bold ${
@@ -102,7 +102,7 @@ const Nav = () => {
           />
           <div className="text-base">
             <h2 className="font-bold">
-              {user.profile.nama_depan + " " + user.profile.nama_belakang}
+              {user?.profile?.nama_depan + " " + user?.profile?.nama_belakang}
             </h2>
             <span
               className={`${
@@ -146,7 +146,7 @@ const Nav = () => {
       {isOpen && (
         <ul className="absolute top-28 left-0 right-0 bg-white shadow-lg rounded-lg lg:hidden flex flex-col gap-4 p-4 transition-transform duration-300 ease-in-out transform">
           {menuItems.map(({ href, label }) => (
-            <li key={href}>
+            <li key={label}>
               <Link
                 href={href}
                 className={`block hover:text-green-700 ${

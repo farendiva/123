@@ -20,6 +20,7 @@ import TermServices from "./TermServices";
 import { usePathname } from "next/navigation";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 type Inputs = z.infer<typeof RegistrationDataSchema>;
 
@@ -29,18 +30,18 @@ const steps = [
     name: "Personal Information",
     fields: ["namaDepan", "namaBelakang", "email", "phone"],
   },
-  // {
-  //   id: "Step 2",
-  //   name: "OTP",
-  //   fields: ["pin"],
-  // },
   {
     id: "Step 2",
+    name: "OTP",
+    fields: ["pin"],
+  },
+  {
+    id: "Step 3",
     name: "Password",
     fields: ["password", "passwordConfirmation"],
   },
-  { id: "Step 3", name: "Terms and Conditions", fields: ["terms"] },
-  { id: "Step 4", name: "Complete" },
+  { id: "Step 4", name: "Terms and Conditions", fields: ["terms"] },
+  { id: "Step 5", name: "Complete" },
 ];
 
 export default function Form() {
@@ -57,6 +58,7 @@ export default function Form() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     if (time <= 0) {
@@ -171,10 +173,25 @@ export default function Form() {
 
       if (response.ok) {
         const result = await response.json();
+        console.log(result);
         reset();
+        return true;
       } else {
         const errorData = await response.json();
         console.error("Error:", errorData);
+        toast({
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "destructive",
+          title: "Pendaftararan Gagal",
+          description: "Terjadi Kesalahan ketika mendaftar",
+        });
+        setTimeout(() => {
+          setCurrentStep(0);
+        }, 1000);
+        reset();
+        return false; // Return false to indicate failure
       }
     } catch (error) {
       console.error("Error:", error);
@@ -286,7 +303,7 @@ export default function Form() {
       output = await trigger(fields as FieldName[], { shouldFocus: true });
     }
 
-    if (output) {
+    if (output && currentStep < steps.length - 1) {
       if (currentStep === 0) {
         // Check if email is available before moving to next step
         const email = watch("email");
@@ -303,9 +320,37 @@ export default function Form() {
           });
           return;
         }
+        await generatedOtp(phone);
       }
 
       if (currentStep === 1) {
+        const pin = watch("pin");
+        const result = await verifyOtp(otpId, pin);
+
+        if (result.status) {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "success",
+            title: "OTP Berhasil",
+            description: "Silahkan Masukkan Kata sandi untuk akun anda.",
+          });
+        } else {
+          toast({
+            className: cn(
+              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+            ),
+            variant: "destructive",
+            title: "OTP tidak valid.",
+            description: "Silakan coba lagi.",
+            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+          });
+          return;
+        }
+      }
+
+      if (currentStep === 2) {
         // Assuming step 1 is the password step
         const password = getValues("password");
         const passwordConfirmation = getValues("passwordConfirmation");
@@ -324,17 +369,20 @@ export default function Form() {
           setLoading(true);
           try {
             const formData = getValues();
-            await processForm(formData);
-            // If form submission is successful, move to the next step
-            setPreviousStep(currentStep);
-            setCurrentStep((step) => step + 1);
-            toast({
-              className: cn(
-                "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-              ),
-              variant: "success",
-              title: "Anda Berhasil Terdaftar",
-            });
+            const success = await processForm(formData);
+            if (success) {
+              // If form submission is successful, move to the next step
+              setPreviousStep(currentStep);
+              setCurrentStep((step) => step + 1);
+              toast({
+                className: cn(
+                  "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+                ),
+                variant: "success",
+                title: "Anda Berhasil Terdaftar",
+              });
+            }
+            // If not successful, the processForm function will have already shown an error toast
           } catch (error) {
             console.error("Error submitting form:", error);
             toast({
@@ -376,7 +424,7 @@ export default function Form() {
       >
         {currentStep === 0 && (
           <div
-            className="w-4/5 lg:w-2/5 mx-auto text-sky"
+            className="w-full lg:w-2/5 mx-auto text-sky"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             // animate={{ x: 0, opacity: 1 }}
             // transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -498,9 +546,9 @@ export default function Form() {
           </div>
         )}
 
-        {/* {currentStep === 1 && (
+        {currentStep === 1 && (
           <div
-            className="w-4/5 lg:w-2/5 mx-auto text-sky"
+            className="w-full lg:w-2/5 mx-auto text-sky"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             // animate={{ x: 0, opacity: 1 }}
             // transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -555,10 +603,10 @@ export default function Form() {
               </button>
             </section>
           </div>
-        )} */}
-        {currentStep === 1 && (
+        )}
+        {currentStep === 2 && (
           <div
-            className="w-4/5 lg:w-2/5 mx-auto text-sky space-y-6"
+            className="w-full lg:w-2/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             // animate={{ x: 0, opacity: 1 }}
             // transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -658,9 +706,9 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 2 && (
+        {currentStep === 3 && (
           <div
-            className="w-4/5 lg:w-3/5 mx-auto text-sky space-y-6"
+            className="w-full lg:w-3/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
             // animate={{ x: 0, opacity: 1 }}
             // transition={{ duration: 0.3, ease: "easeInOut" }}
@@ -681,7 +729,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 3 && (
+        {currentStep === 4 && (
           <div
             className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -690,28 +738,32 @@ export default function Form() {
           >
             <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
             <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
-              <h2 className="leading-7">Selamat anda sudah terdafar</h2>
+              <h2 className="leading-7">
+                Silahkan cek email anda untuk aktivasi akun anda, dan tekan
+                tombol
+                <span className="font-bold"> aktifkan akun.</span>
+              </h2>
+              <p className="mt-1 text-sm leading-6 ">
+                Tidak menerima Email?{" "}
+                <span className="text-emerald font-semibold hover:underline underline-offset-2 decoration-emerald-light">
+                  Kirim Ulang
+                </span>
+              </p>
             </div>
-            <Link
-              className="bg-emerald-light hover:bg-green-700 px-16 py-2 rounded-3xl text-white font-bold"
-              href="/masuk"
-            >
-              Masuk
-            </Link>
           </div>
         )}
       </form>
 
       {/* Navigation */}
       <div
-        className={`flex w-4/5 ${
-          currentStep === 2 ? "lg:w-3/5" : "lg:w-2/5"
+        className={`flex w-full ${
+          currentStep === 3 ? "lg:w-3/5" : "lg:w-2/5"
         } mx-auto items-center justify-between ${
-          currentStep === 3 && "hidden"
-        } ${currentStep === 2 ? "flex-row-reverse" : ""}`}
+          currentStep === 4 && "hidden"
+        } ${currentStep === 1 || currentStep === 3 ? "flex-row-reverse" : ""}`}
       >
         <p className="text-sky text-sm text-center">
-          Butuh Pertanyaan?{" "}
+          Butuh Pertanyaan? <br className="block sm:hidden" />
           <a
             href="https://api.whatsapp.com/send?phone=6281299900150"
             target="__blank"
@@ -736,7 +788,7 @@ export default function Form() {
           {loading
             ? "Loading..."
             : currentStep === steps.length - 2
-            ? "Submit"
+            ? "Kirim"
             : "Lanjutkan"}
         </button>
       </div>

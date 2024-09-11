@@ -1,47 +1,18 @@
 "use client";
 
 import { useUser } from "@/context/UserContext";
-import { CircleCheckBig, CircleX, Download, SquarePen } from "lucide-react";
+import { CircleCheckBig } from "lucide-react";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import usePreferences from "@/hooks/usePreferences";
 import { getUserData } from "@/lib/auth";
-import banks from "@/app/data/bank.json";
-
-interface Province {
-  province: string;
-  province_code: string;
-}
-
-interface City {
-  city: string;
-  city_code: string;
-}
-
-interface District {
-  district: string;
-  district_code: string;
-}
-
-interface Subdistrict {
-  sub_district: string;
-  sub_district_code: string;
-}
-
-interface Profession {
-  id: number;
-  pekerjaan: string;
-}
-
-interface Industry {
-  id: number;
-  industri_pekerjaan: string;
-}
-
-interface Salary {
-  id: number;
-  pendapatan: string;
-}
+import ProfileInfoTab from "./ProfileInfo";
+import AddressTab from "./AddressTab";
+import AccountTab from "./AccountTab";
+import ProfessionTab from "./ProfessionTab";
+import DocumentTab from "./DocumentTab";
+import { toast } from "@/components/ui/use-toast";
+import { cn } from "@/lib/utils";
 
 interface Profile {
   nama_depan: string;
@@ -56,15 +27,19 @@ interface Profile {
   agama: string;
   kewarganegaraan: string;
   alamat_ktp: string;
-  kelurahan_ktp: string | null;
-  kecamatan_ktp: string | null;
-  kabupaten_ktp: string | null;
-  provinsi_ktp: string | null;
-  alamat_domisili: string | null;
-  kelurahan_domisili: string | null;
-  kecamatan_domisili: string | null;
-  kabupaten_domisili: string | null;
-  provinsi_domisili: string | null;
+  kelurahan_ktp: string;
+  kecamatan_ktp: string;
+  kabupaten_ktp: string;
+  provinsi_ktp: string;
+  kodepos_ktp: string;
+  kodepos_domisili: string;
+  rt_rw_ktp: string;
+  rt_rw_domisili: string;
+  alamat_domisili: string;
+  kelurahan_domisili: string;
+  kecamatan_domisili: string;
+  kabupaten_domisili: string;
+  provinsi_domisili: string;
   pendidikan: string;
   pekerjaan: string;
   industri_pekerjaan: string;
@@ -75,7 +50,7 @@ interface Profile {
   status: string;
   nomor_rekening: string;
   nama_pemilik_rekening: string;
-  nama_bank: string | null;
+  nama_bank: string;
   nama_ibu_kandung: string;
   kabupaten_cabang_bank: string | null;
   ktp: string | File;
@@ -85,6 +60,8 @@ interface Profile {
   kartu_keluarga: string | File;
   nama_rekening_custodian: string;
   nomor_rekening_custodian: string;
+  telp_kontak_darurat: string;
+  nama_kontak_darurat: string;
 }
 
 interface User {
@@ -101,10 +78,6 @@ interface User {
   profile: Profile[];
 }
 
-interface ProfileTabsProps {
-  data: User;
-}
-
 const ProfileTabs: React.FC = () => {
   const { user, updateUser } = useUser();
   const [activeTab, setActiveTab] = useState(0);
@@ -112,10 +85,12 @@ const ProfileTabs: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Profile> | undefined>(
     user?.profile
   );
-  console.log(user?.profile);
+  console.log(user);
   const [originalData, setOriginalData] = useState<
     Partial<Profile> | undefined
   >(user?.profile);
+  const [isSameAsKTP, setIsSameAsKTP] = useState(false);
+
   const token = Cookies.get("authToken");
   const {
     provinces,
@@ -141,10 +116,15 @@ const ProfileTabs: React.FC = () => {
   };
 
   const handleFileUpload = (
-    e: React.ChangeEvent<HTMLInputElement>,
+    e: React.ChangeEvent<HTMLInputElement> | File,
     field: keyof Profile
   ) => {
-    const file = e.target.files?.[0];
+    let file: File | undefined;
+    if (e instanceof File) {
+      file = e;
+    } else {
+      file = e.target.files?.[0];
+    }
     if (file) {
       setFormData((prev) => ({
         ...(prev ?? {}),
@@ -169,6 +149,40 @@ const ProfileTabs: React.FC = () => {
     }));
   };
 
+  const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const checked = e.target.checked;
+    setIsSameAsKTP(checked);
+
+    if (checked) {
+      // Salin data dari KTP ke domisili
+      setFormData((prev) => ({
+        ...(prev ?? {}),
+        alamat_domisili: prev?.alamat_ktp || "",
+        provinsi_domisili: prev?.provinsi_ktp || "",
+        kabupaten_domisili: prev?.kabupaten_ktp || "",
+        kecamatan_domisili: prev?.kecamatan_ktp || "",
+        kelurahan_domisili: prev?.kelurahan_ktp || "",
+        kodepos_domisili: prev?.kodepos_ktp || "",
+        rt_rw_domisili: prev?.rt_rw_ktp || "",
+      }));
+    } else {
+      // Kosongkan data domisili jika checkbox di-uncheck
+      setFormData((prev) => ({
+        ...(prev ?? {}),
+        alamat_domisili: prev?.alamat_domisili || prev?.alamat_ktp || "",
+        provinsi_domisili: prev?.provinsi_domisili || prev?.provinsi_ktp || "",
+        kabupaten_domisili:
+          prev?.kabupaten_domisili || prev?.kabupaten_ktp || "",
+        kecamatan_domisili:
+          prev?.kecamatan_domisili || prev?.kecamatan_ktp || "",
+        kelurahan_domisili:
+          prev?.kelurahan_domisili || prev?.kelurahan_ktp || "",
+        kodepos_domisili: prev?.kodepos_domisili || prev?.kodepos_ktp || "",
+        rt_rw_domisili: prev?.rt_rw_domisili || prev?.rt_rw_ktp || "",
+      }));
+    }
+  };
+
   useEffect(() => {
     if (formData?.provinsi_ktp) {
       fetchCities(formData.provinsi_ktp);
@@ -188,6 +202,25 @@ const ProfileTabs: React.FC = () => {
     }
   }, [formData?.kecamatan_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  useEffect(() => {
+    if (formData?.provinsi_domisili) {
+      fetchCities(formData.provinsi_domisili);
+    }
+  }, [formData?.provinsi_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (formData?.kabupaten_domisili) {
+      fetchDistricts(formData.kabupaten_domisili);
+    }
+  }, [formData?.kabupaten_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (formData?.kecamatan_domisili) {
+      fetchSubDistricts(formData.kecamatan_domisili);
+      fetchPostalCodes(formData.kecamatan_domisili);
+    }
+  }, [formData?.kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formData) {
@@ -202,7 +235,8 @@ const ProfileTabs: React.FC = () => {
       "nomor_rekening",
       "nama_pemilik_rekening",
       "nama_bank",
-      "kabupaten_cabang_bank",
+      "telp_kontak_darurat",
+      "nama_kontak_darurat",
     ];
 
     // Add always include fields to changedData
@@ -237,8 +271,17 @@ const ProfileTabs: React.FC = () => {
       }
     );
     if (response.ok) {
-      const updateData = await getUserData();
-      setOriginalData(updateData); // Update originalData with the latest changes
+      // Re-fetch the updated user data
+      const updatedUserData = await getUserData();
+      updateUser(updatedUserData.data);
+      toast({
+        className: cn(
+          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        ),
+        variant: "success",
+        title: "Berhasil Edit Profile",
+        description: "Anda Berhasil Edit Profile.",
+      });
       setIsEditing(false);
     } else {
       const errorData = await response.json();
@@ -248,7 +291,7 @@ const ProfileTabs: React.FC = () => {
 
   const getProfileImage = (user: any): string => {
     if (user?.profile?.swa_photo) {
-      return `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user.profile.swa_photo}`;
+      return `${process.env.NEXT_PUBLIC_FILE_PATH}/images/${user?.profile?.swa_photo}`;
     }
     return "/images/profile-placeholder.jpg";
   };
@@ -263,7 +306,7 @@ const ProfileTabs: React.FC = () => {
         />
         <div className="text-center md:text-left text-xl">
           <h2 className="font-bold">
-            {user?.profile.nama_depan + " " + user?.profile.nama_belakang}
+            {user?.profile?.nama_depan + " " + user?.profile?.nama_belakang}
           </h2>
           <span
             className={`${
@@ -304,780 +347,72 @@ const ProfileTabs: React.FC = () => {
       </div>
       <div className="space-y-4 mt-4">
         {activeTab === 0 && (
-          <>
-            <div className="my-8 divide-y-2">
-              {isEditing ? (
-                <form onSubmit={handleFormSubmit}>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Email</label> <br />
-                      <span className="text-sm">{user?.email}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Nomor Handphone</label>{" "}
-                      <br />
-                      <span className="text-sm">
-                        {user?.profile.no_handphone}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Tanggal Lahir</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.tanggal_lahir}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Nik KTP</label> <br />
-                      <span className="text-sm">{user?.profile.no_ktp}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Kewarganegaraan</label>{" "}
-                      <br />
-                      <select
-                        name="kewarganegaraan"
-                        value={formData?.kewarganegaraan || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Kewarganegaraan
-                        </option>
-                        <option key="1" value="1">
-                          WNI TINGGAL DI INDONESIA
-                        </option>
-                        <option key="2" value="2">
-                          WNI TINGGAL DI LUAR NEGERI
-                        </option>
-                        <option key="3" value="3">
-                          WNA TINGGAL DI INDONESIA
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Agama</label> <br />
-                      <select
-                        name="agama"
-                        value={formData?.agama || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Agama
-                        </option>
-                        <option key="1" value="1">
-                          Islam
-                        </option>
-                        <option key="2" value="2">
-                          Kristen
-                        </option>
-                        <option key="3" value="3">
-                          Katolik
-                        </option>
-                        <option key="4" value="4">
-                          Hindu
-                        </option>
-                        <option key="5" value="5">
-                          Budha
-                        </option>
-                        <option key="6" value="6">
-                          Konghucu
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex py-2 justify-end gap-2">
-                    <button
-                      onClick={() => setIsEditing(false)}
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
-                    >
-                      <CircleX />
-                      Batalkan
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
-                    >
-                      <img src="/icons/save.svg" alt="Save Icon" />
-                      Simpan
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Email</label> <br />
-                      <span className="text-sm">{user?.email}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Nomor Handphone</label>{" "}
-                      <br />
-                      <span className="text-sm">
-                        {user?.profile.no_handphone}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Tanggal Lahir</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.tanggal_lahir}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Nik KTP</label> <br />
-                      <span className="text-sm">{user?.profile.no_ktp}</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Kewarganegaraan</label>{" "}
-                      <br />
-                      <span className="text-sm uppercase">
-                        {user?.profile.kewarganegaraan}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Agama</label> <br />
-                      <span className="text-sm">{user?.profile.agama}</span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </>
+          <ProfileInfoTab
+            user={user}
+            isEditing={isEditing}
+            formData={formData}
+            handleEditClick={handleEditClick}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
+            handleFormSubmit={handleFormSubmit}
+            setIsEditing={setIsEditing}
+          />
         )}
         {activeTab === 1 && (
-          <div>
-            <div className="my-8 divide-y-2">
-              {isEditing ? (
-                <form onSubmit={handleFormSubmit}>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Alamat KTP</label> <br />
-                      <input
-                        type="text"
-                        name="alamat_ktp"
-                        value={formData?.alamat_ktp || ""}
-                        onChange={handleInputChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      />
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Provinsi KTP</label> <br />
-                      <select
-                        name="provinsi_ktp"
-                        value={formData?.provinsi_ktp || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Provinsi KTP
-                        </option>
-                        {provinces.map((province: Province, index: number) => (
-                          <option key={index} value={province.province_code}>
-                            {province.province}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Kota/Kabupaten KTP</label>{" "}
-                      <br />
-                      <select
-                        name="kabupaten_ktp"
-                        value={formData?.kabupaten_ktp || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Kota/Kabupaten KTP
-                        </option>
-                        {cities.map((city: City, index: number) => (
-                          <option key={index} value={city.city_code}>
-                            {city.city}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Kecamatan KTP</label> <br />
-                      <select
-                        name="kecamatan_ktp"
-                        value={formData?.kecamatan_ktp || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Kecamatan KTP
-                        </option>
-                        {districts.map((district: District, index: number) => (
-                          <option key={index} value={district.district_code}>
-                            {district.district}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Kelurahan KTP</label> <br />
-                      <select
-                        name="kelurahan_ktp"
-                        value={formData?.kelurahan_ktp || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        <option value="" disabled>
-                          Pilih Kelurahan KTP
-                        </option>
-                        {subdistricts.map(
-                          (subdistrict: Subdistrict, index: number) => (
-                            <option
-                              key={index}
-                              value={subdistrict.sub_district_code}
-                            >
-                              {subdistrict.sub_district}
-                            </option>
-                          )
-                        )}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => setIsEditing(false)}
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
-                    >
-                      <CircleX />
-                      Batalkan
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
-                    >
-                      <img src="/icons/save.svg" alt="Save Icon" />
-                      Simpan
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Alamat KTP</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.alamat_ktp}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Provinsi KTP</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.provinsi_ktp}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Kota/Kabupaten KTP</label>{" "}
-                      <br />
-                      <span className="text-sm">
-                        {user?.profile.kabupaten_ktp}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Kecamatan KTP</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.kecamatan_ktp}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Kelurahan KTP</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.kelurahan_ktp}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+          <AddressTab
+            user={user}
+            isEditing={isEditing}
+            formData={formData}
+            handleEditClick={handleEditClick}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
+            handleFormSubmit={handleFormSubmit}
+            setIsEditing={setIsEditing}
+            provinces={provinces}
+            cities={cities}
+            districts={districts}
+            subdistricts={subdistricts}
+            isSameAsKTP={isSameAsKTP}
+            handleCheckboxChange={handleCheckboxChange}
+          />
         )}
         {activeTab === 2 && (
-          <div>
-            <div className="my-8 divide-y-2">
-              {isEditing ? (
-                <form onSubmit={handleFormSubmit}>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Pekerjaan</label> <br />
-                      <select
-                        name="pekerjaan"
-                        value={formData?.pekerjaan || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        {profession.map((item: Profession, index: number) => (
-                          <option key={index} value={item.id}>
-                            {item.pekerjaan}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Industri Pekerjaan</label>{" "}
-                      <br />
-                      <select
-                        name="industri_pekerjaan"
-                        value={formData?.industri_pekerjaan || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        {industries.map((item: Industry, index: number) => (
-                          <option key={index} value={item.id}>
-                            {item.industri_pekerjaan}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div className="w-full">
-                      <label className="font-bold">Pendapatan</label> <br />
-                      <select
-                        name="pendapatan_per_bulan"
-                        value={formData?.pendapatan_per_bulan || ""}
-                        onChange={handleSelectChange}
-                        className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                      >
-                        {salaries.map((item: Salary, index: number) => (
-                          <option key={index} value={item.id}>
-                            {item.pendapatan}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                  <div className="flex justify-end gap-2">
-                    <button
-                      onClick={() => setIsEditing(false)}
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
-                    >
-                      <CircleX />
-                      Batalkan
-                    </button>
-                    <button
-                      type="submit"
-                      className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
-                    >
-                      <img src="/icons/save.svg" alt="Save Icon" />
-                      Simpan
-                    </button>
-                  </div>
-                </form>
-              ) : (
-                <>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Pekerjaan</label> <br />
-                      <span className="text-sm">{user?.profile.pekerjaan}</span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Industri Pekerjaan</label>{" "}
-                      <br />
-                      <span className="text-sm">
-                        {user?.profile.industri_pekerjaan}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                  <div className="flex justify-between items-center py-3">
-                    <div>
-                      <label className="font-bold">Pendapatan</label> <br />
-                      <span className="text-sm">
-                        {user?.profile.pendapatan}
-                      </span>
-                    </div>
-                    <SquarePen
-                      strokeWidth={1.5}
-                      onClick={handleEditClick}
-                      className="cursor-pointer"
-                    />
-                  </div>
-                </>
-              )}
-            </div>
-          </div>
+          <ProfessionTab
+            user={user}
+            isEditing={isEditing}
+            formData={formData}
+            handleEditClick={handleEditClick}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
+            handleFormSubmit={handleFormSubmit}
+            setIsEditing={setIsEditing}
+            industries={industries}
+            profession={profession}
+            salaries={salaries}
+          />
         )}
         {activeTab === 3 && (
-          <div className="">
-            {isEditing ? (
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div className="flex items-center py-3">
-                  <div className="w-full">
-                    <label className="block font-bold">KTP</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="ktp"
-                      onChange={(e) => handleFileUpload(e, "ktp")}
-                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex items-center py-3">
-                  <div className="w-full">
-                    <label className="block font-bold">Slip Gaji</label>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      name="slip_gaji"
-                      onChange={(e) => handleFileUpload(e, "slip_gaji")}
-                      className="w-full text-sm border border-gray-300 rounded-lg p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">Nomor SID</label> <br />
-                    <input
-                      type="text"
-                      name="no_sid"
-                      value={formData?.no_sid || ""}
-                      onChange={handleInputChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
-                  </div>
-                </div>
-                {/* <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">
-                      Nomor Rekening Kustodian
-                    </label>{" "}
-                    <br />
-                    <input
-                      type="text"
-                      name="nomor_rekening_custodian"
-                      value={formData?.nomor_rekening_custodian || ""}
-                      onChange={handleInputChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">
-                      Nama Pemilik Rekening Kustodian
-                    </label>{" "}
-                    <br />
-                    <input
-                      type="text"
-                      name="nama_rekening_custodian"
-                      value={formData?.nama_rekening_custodian || ""}
-                      onChange={handleInputChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
-                  </div>
-                </div> */}
-                <div className="flex justify-end gap-4">
-                  <button
-                    type="button"
-                    onClick={() => setIsEditing(false)}
-                    className="px-6 py-3 bg-red-600 text-white rounded-lg flex items-center gap-2 hover:bg-red-700"
-                  >
-                    <CircleX className="h-5 w-5" />
-                    <span>Batalkan</span>
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 bg-green-600 text-white rounded-lg flex items-center gap-2 hover:bg-green-700"
-                  >
-                    <img
-                      src="/icons/save.svg"
-                      alt="Save Icon"
-                      className="h-5 w-5"
-                    />
-                    <span>Simpan</span>
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="my-8 divide-y divide-gray-300">
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="block font-bold">KTP</label>
-                    <a
-                      className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
-                        user?.profile.ktp || ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {user?.profile.ktp ? "Lihat Dokumen" : "Belum Upload"}
-                    </a>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="block font-bold">Slip Gaji</label>
-                    <a
-                      className="text-sm text-blue-600"
-                      href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
-                        user?.profile.slip_gaji || ""
-                      }`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {user?.profile.slip_gaji
-                        ? "Lihat Dokumen"
-                        : "Belum Upload"}
-                    </a>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">Nomor SID</label> <br />
-                    <span className="text-sm">{user?.profile.no_sid}</span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">
-                      Nomor Rekening Kustodian
-                    </label>{" "}
-                    <br />
-                    <span className="text-sm">
-                      {user?.profile.nomor_rekening_custodian}
-                    </span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">
-                      Nama Pemilik Rekening Kustodian
-                    </label>{" "}
-                    <br />
-                    <span className="text-sm">
-                      {user?.profile.nama_rekening_custodian}
-                    </span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+          <DocumentTab
+            user={user}
+            isEditing={isEditing}
+            handleEditClick={handleEditClick}
+            handleFileUpload={handleFileUpload}
+            handleFormSubmit={handleFormSubmit}
+            setIsEditing={setIsEditing}
+          />
         )}
 
         {activeTab === 4 && (
-          <div>
-            {isEditing ? (
-              <form onSubmit={handleFormSubmit} className="space-y-4">
-                <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">Nomor Rekening</label> <br />
-                    <input
-                      type="text"
-                      name="nomor_rekening"
-                      value={formData?.nomor_rekening || ""}
-                      onChange={handleInputChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">Pendapatan</label> <br />
-                    <select
-                      name="nama_bank"
-                      value={formData?.nama_bank || ""}
-                      onChange={handleSelectChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    >
-                      {banks.map((bank, index) => (
-                        <option key={index} value={bank.name}>
-                          {bank.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div className="w-full">
-                    <label className="font-bold">Nama Pemilik Rekening</label>{" "}
-                    <br />
-                    <input
-                      type="text"
-                      name="nama_pemilik_rekening"
-                      value={formData?.nama_pemilik_rekening || ""}
-                      onChange={handleInputChange}
-                      className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end gap-2">
-                  <button
-                    onClick={() => setIsEditing(false)}
-                    className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
-                  >
-                    <CircleX />
-                    Batalkan
-                  </button>
-                  <button
-                    type="submit"
-                    className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
-                  >
-                    <img src="/icons/save.svg" alt="Save Icon" />
-                    Simpan
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="my-8 divide-y-2">
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">Nomor Rekening</label> <br />
-                    <span className="text-sm">
-                      {user?.profile.nomor_rekening}
-                    </span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">Nama Bank</label> <br />
-                    <span className="text-sm">{user?.profile.nama_bank}</span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-                <div className="flex justify-between items-center py-3">
-                  <div>
-                    <label className="font-bold">Nama Pemilik Rekening</label>{" "}
-                    <br />
-                    <span className="text-sm">
-                      {user?.profile.nama_pemilik_rekening}
-                    </span>
-                  </div>
-                  <SquarePen
-                    strokeWidth={1.5}
-                    onClick={handleEditClick}
-                    className="cursor-pointer"
-                  />
-                </div>
-              </div>
-            )}
-          </div>
+          <AccountTab
+            user={user}
+            isEditing={isEditing}
+            formData={formData}
+            handleEditClick={handleEditClick}
+            handleInputChange={handleInputChange}
+            handleSelectChange={handleSelectChange}
+            handleFormSubmit={handleFormSubmit}
+            setIsEditing={setIsEditing}
+          />
         )}
       </div>
     </div>

@@ -25,6 +25,10 @@ interface Profile {
   kecamatan_ktp: string;
   kabupaten_ktp: string;
   provinsi_ktp: string;
+  kodepos_ktp: string;
+  kodepos_domisili: string;
+  rt_rw_ktp: string;
+  rt_rw_domisili: string;
   alamat_domisili: string;
   kelurahan_domisili: string;
   kecamatan_domisili: string;
@@ -41,6 +45,7 @@ interface Profile {
   nama_pemilik_rekening: string;
   nama_bank: string;
   kabupaten_cabang_bank: string;
+  nama_ibu_kandung: string;
   ktp: string;
   npwp: string;
   swa_photo: string;
@@ -48,6 +53,8 @@ interface Profile {
   kartu_keluarga: string;
   nama_rekening_custodian: string;
   nomor_rekening_custodian: string;
+  telp_kontak_darurat: string;
+  nama_kontak_darurat: string;
 }
 
 interface User {

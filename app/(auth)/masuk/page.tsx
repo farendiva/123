@@ -158,7 +158,7 @@ export default function Masuk() {
         onSubmit={handleSubmit(processForm)}
       >
         <div
-          className="w-4/5 lg:w-2/5 mx-auto text-sky"
+          className="w-full lg:w-2/5 mx-auto text-sky"
           // initial={{ x: "50%", opacity: 0 }}
           // animate={{ x: 0, opacity: 1 }}
           // transition={{ duration: 0.3, ease: "easeInOut" }}

@@ -156,7 +156,7 @@ const Capture: FC<CaptureProps> = ({ onCapture, captureType }) => {
       <div className="absolute top-2 left-1/2 transform -translate-x-1/2 text-white text-center text-sm md:text-base">
         {captureType === "face"
           ? "Posisikan wajah anda pada lingkaran"
-          : "Posisikan Kartu KTP anda masuk ke dalam frame"}
+          : "Pastikan KTP Anda dekat dengan kamera dan sepenuhnya masuk ke dalam frame."}
       </div>
     </div>
   );
