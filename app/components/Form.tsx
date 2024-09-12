@@ -173,7 +173,6 @@ export default function Form() {
 
       if (response.ok) {
         const result = await response.json();
-        console.log(result);
         reset();
         return true;
       } else {

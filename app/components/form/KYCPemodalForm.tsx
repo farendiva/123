@@ -171,7 +171,6 @@ const KYCPemodalForm: React.FC<StepProps> = ({ steps }) => {
     if (data.slip_gaji) {
       document.append("slip_gaji", data.slip_gaji);
     }
-    console.log(data);
     try {
       const responsePersonal = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${pemodal_id}?_method=PUT`,

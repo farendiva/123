@@ -85,7 +85,6 @@ const ProfileTabs: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Profile> | undefined>(
     user?.profile
   );
-  console.log(user);
   const [originalData, setOriginalData] = useState<
     Partial<Profile> | undefined
   >(user?.profile);
@@ -286,6 +285,14 @@ const ProfileTabs: React.FC = () => {
     } else {
       const errorData = await response.json();
       console.error("Error:", errorData);
+      toast({
+        className: cn(
+          "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        ),
+        variant: "destructive",
+        title: "Terjadi Kesalahan dalam Edit Profile",
+        description: "Silakan coba lagi.",
+      });
     }
   };
 
