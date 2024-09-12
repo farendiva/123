@@ -200,22 +200,26 @@ export default function Form() {
     }
   };
 
-  const checkEmailAvailability = async (email: any) => {
+  const checkEmailAvailability = async (
+    email: string,
+    no_handphone: string
+  ) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/register`,
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/validate-data`,
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            Accept: "application/json",
           },
-          body: JSON.stringify({ email }),
+          body: JSON.stringify({ email, no_handphone, user_type: "pemodal" }),
         }
       );
 
       const result = await response.json();
 
-      if (!result.status && result.message.email) {
+      if (!result.success) {
         return false;
       }
 
@@ -306,7 +310,7 @@ export default function Form() {
       if (currentStep === 0) {
         // Check if email is available before moving to next step
         const email = watch("email");
-        const isEmailAvailable = await checkEmailAvailability(email);
+        const isEmailAvailable = await checkEmailAvailability(email, phone);
 
         if (!isEmailAvailable) {
           toast({
@@ -314,7 +318,7 @@ export default function Form() {
               "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
             ),
             variant: "destructive",
-            title: "Email Tidak Valid",
+            title: "Email atau Nomor Handphone Tidak Valid",
             action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
           });
           return;
