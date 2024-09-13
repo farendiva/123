@@ -125,6 +125,12 @@ export default function Form() {
     }
     return phone;
   }
+  const capitalizeFirstLetter = (str: string) => {
+    return str
+      .split(" ")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1)) // Keep the rest of the word as is
+      .join(" ");
+  };
 
   const processForm: SubmitHandler<Inputs> = async (data) => {
     setLoading(true);
@@ -153,6 +159,10 @@ export default function Form() {
         return;
       }
 
+      // Transform nama_depan and nama_belakang
+      const formattedNamaDepan = capitalizeFirstLetter(data.namaDepan);
+      const formattedNamaBelakang = capitalizeFirstLetter(data.namaBelakang);
+
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/register`,
         {
@@ -161,8 +171,8 @@ export default function Form() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            nama_depan: `${data.namaDepan}`,
-            nama_belakang: `${data.namaBelakang}`,
+            nama_depan: formattedNamaDepan,
+            nama_belakang: formattedNamaBelakang,
             email: data.email,
             no_handphone: convertPhoneNumber(data.phone),
             password: data.password,

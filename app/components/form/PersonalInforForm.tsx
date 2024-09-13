@@ -138,6 +138,14 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
       setValue("kelurahan_domisili", kelurahan_ktp);
       setValue("kodepos_domisili", kodepos_ktp);
       setValue("rt_rw_domisili", rt_rw_ktp);
+    } else {
+      setValue("alamat_domisili", "");
+      setValue("provinsi_domisili", "");
+      setValue("kabupaten_domisili", "");
+      setValue("kecamatan_domisili", "");
+      setValue("kelurahan_domisili", "");
+      setValue("kodepos_domisili", "");
+      setValue("rt_rw_domisili", "");
     }
   }, [
     isChecked,
@@ -147,6 +155,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     kecamatan_ktp,
     kelurahan_ktp,
     kodepos_ktp,
+    rt_rw_ktp,
     setValue,
   ]);
 
