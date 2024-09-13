@@ -53,7 +53,7 @@ export default function Form() {
   const { toast } = useToast();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const delta = currentStep - previousStep;
-  const [time, setTime] = useState(600);
+  const [time, setTime] = useState(120);
   const [resend, setResend] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
@@ -84,7 +84,7 @@ export default function Form() {
 
   const handleResend = () => {
     if (resend) {
-      setTime(600);
+      setTime(120);
       setResend(false);
     }
   };
@@ -205,6 +205,7 @@ export default function Form() {
     no_handphone: string
   ) => {
     try {
+      const convertedPhoneNumber = convertPhoneNumber(no_handphone);
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/validate-data`,
         {
@@ -213,7 +214,11 @@ export default function Form() {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          body: JSON.stringify({ email, no_handphone, user_type: "pemodal" }),
+          body: JSON.stringify({
+            email,
+            no_handphone: convertedPhoneNumber,
+            user_type: "pemodal",
+          }),
         }
       );
 
