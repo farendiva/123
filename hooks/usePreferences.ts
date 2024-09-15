@@ -25,6 +25,10 @@ const usePreferences = () => {
   const [districts, setDistricts] = useState([]);
   const [subdistricts, setSubdistricts] = useState([]);
   const [postalCodes, setPostalCodes] = useState([]);
+  const [domisiliCities, setDomisiliCities] = useState([]);
+  const [domisiliDistricts, setDomisiliDistricts] = useState([]);
+  const [domisiliSubdistricts, setDomisiliSubdistricts] = useState([]);
+  const [domisiliPostalCodes, setDomisiliPostalCodes] = useState([]);
   const [profession, setProfession] = useState([]);
   const [industries, setIndustries] = useState([]);
   const [salaries, setSalaries] = useState([]);
@@ -75,9 +79,19 @@ const usePreferences = () => {
     setCities(data);
   };
 
+  const fetchDomisiliCities = async (provinceId: string) => {
+    const data = await getCities(provinceId);
+    setDomisiliCities(data);
+  };
+
   const fetchDistricts = async (cityId: string) => {
     const data = await getDistricts(cityId);
     setDistricts(data);
+  };
+
+  const fetchDomisiliDistricts = async (cityId: string) => {
+    const data = await getDistricts(cityId);
+    setDomisiliDistricts(data);
   };
 
   const fetchSubDistricts = async (districtId: string) => {
@@ -85,9 +99,19 @@ const usePreferences = () => {
     setSubdistricts(data);
   };
 
+  const fetchDomisiliSubDistricts = async (districtId: string) => {
+    const data = await getSubDistricts(districtId);
+    setDomisiliSubdistricts(data);
+  };
+
   const fetchPostalCodes = async (districtId: string) => {
     const data = await getPostalCodes(districtId);
     setPostalCodes(data);
+  };
+
+  const fetchDomisiliPostalCodes = async (districtId: string) => {
+    const data = await getPostalCodes(districtId);
+    setDomisiliPostalCodes(data);
   };
 
   return {
@@ -99,6 +123,10 @@ const usePreferences = () => {
     districts,
     subdistricts,
     postalCodes,
+    domisiliCities,
+    domisiliDistricts,
+    domisiliSubdistricts,
+    domisiliPostalCodes,
     profession,
     industries,
     salaries,
@@ -106,6 +134,10 @@ const usePreferences = () => {
     fetchDistricts,
     fetchSubDistricts,
     fetchPostalCodes,
+    fetchDomisiliCities,
+    fetchDomisiliDistricts,
+    fetchDomisiliSubDistricts,
+    fetchDomisiliPostalCodes,
   };
 };
 

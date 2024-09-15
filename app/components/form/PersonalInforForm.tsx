@@ -112,10 +112,18 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
     districts,
     subdistricts,
     postalCodes,
+    domisiliCities,
+    domisiliDistricts,
+    domisiliSubdistricts,
+    domisiliPostalCodes,
     fetchCities,
     fetchDistricts,
     fetchSubDistricts,
     fetchPostalCodes,
+    fetchDomisiliCities,
+    fetchDomisiliDistricts,
+    fetchDomisiliSubDistricts,
+    fetchDomisiliPostalCodes,
   } = usePreferences();
   const { user } = useUser();
   const alamat_ktp = watch("alamat_ktp");
@@ -180,20 +188,20 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
   useEffect(() => {
     if (provinsi_domisili) {
-      fetchCities(provinsi_domisili);
+      fetchDomisiliCities(provinsi_domisili);
     }
   }, [provinsi_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (kabupaten_domisili) {
-      fetchDistricts(kabupaten_domisili);
+      fetchDomisiliDistricts(kabupaten_domisili);
     }
   }, [kabupaten_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (kecamatan_domisili) {
-      fetchSubDistricts(kecamatan_domisili);
-      fetchPostalCodes(kecamatan_domisili);
+      fetchDomisiliSubDistricts(kecamatan_domisili);
+      fetchDomisiliPostalCodes(kecamatan_domisili);
     }
   }, [kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -864,7 +872,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
 
       <div className="flex items-center gap-2 my-4">
         <input
-          className="w-4 h-4 border-gray-300 rounded text-emerald-light bg-emerald-light checked:bg-emerald-light checked:border-emerald-light focus:ring-blue-500"
+          className="w-4 h-4 accent-emerald border-gray-300 rounded text-emerald-light bg-emerald-light checked:bg-emerald-light checked:border-emerald-light focus:ring-blue-500"
           type="checkbox"
           name="domisili"
           id="domisili"
@@ -949,7 +957,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 <option value="" disabled>
                   Pilih Kota/Kabupaten
                 </option>
-                {cities.map((city: City, index: number) => (
+                {domisiliCities.map((city: City, index: number) => (
                   <option key={index} value={city.city_code}>
                     {city.city}
                   </option>
@@ -981,7 +989,7 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 <option value="" disabled>
                   Pilih Kecamatan
                 </option>
-                {districts.map((district: District, index: number) => (
+                {domisiliDistricts.map((district: District, index: number) => (
                   <option key={index} value={district.district_code}>
                     {district.district}
                   </option>
@@ -1013,11 +1021,13 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 <option value="" disabled>
                   Pilih Kelurahan
                 </option>
-                {subdistricts.map((subdistrict: Subdistrict, index: number) => (
-                  <option key={index} value={subdistrict.sub_district_code}>
-                    {subdistrict.sub_district}
-                  </option>
-                ))}
+                {domisiliSubdistricts.map(
+                  (subdistrict: Subdistrict, index: number) => (
+                    <option key={index} value={subdistrict.sub_district_code}>
+                      {subdistrict.sub_district}
+                    </option>
+                  )
+                )}
               </select>
               <div className="h-1 mt-1">
                 {errors.kelurahan_domisili?.message && (
@@ -1045,11 +1055,13 @@ const PersonalInfoForm: FC<PersonalInfoFormProps> = ({
                 <option value="" disabled>
                   Pilih Kode Pos
                 </option>
-                {postalCodes.map((postalCode: PostalCode, index: number) => (
-                  <option key={index} value={postalCode.postal_code}>
-                    {postalCode.postal_code}
-                  </option>
-                ))}
+                {domisiliPostalCodes.map(
+                  (postalCode: PostalCode, index: number) => (
+                    <option key={index} value={postalCode.postal_code}>
+                      {postalCode.postal_code}
+                    </option>
+                  )
+                )}
               </select>
               <div className="h-1 mt-1">
                 {errors.kodepos_domisili?.message && (
