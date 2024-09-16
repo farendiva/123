@@ -123,8 +123,12 @@ export default function Form() {
     if (phone.startsWith("0")) {
       return "62" + phone.slice(1);
     }
+    if (!phone.startsWith("62")) {
+      return "62" + phone;
+    }
     return phone;
   }
+
   const capitalizeFirstLetter = (str: string) => {
     return str
       .split(" ")
@@ -535,7 +539,6 @@ export default function Form() {
                   </div>
                 </div>
               </div>
-
               <div className="sm:col-span-4 lg:col-span-8">
                 <label
                   htmlFor="phone"
@@ -543,21 +546,26 @@ export default function Form() {
                 >
                   Nomor Handphone
                 </label>
-                <div className="">
+                <div className="relative">
+                  <div className="absolute inset-y-0 left-0 flex items-center px-3 border-r-2  pointer-events-none">
+                    <span className="text-gray-500 font-semibold sm:text-sm">
+                      +62
+                    </span>
+                  </div>
                   <input
                     id="phone"
                     type="tel"
                     {...register("phone")}
                     autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 pl-14 pr-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
-                  <div className="mt-1 h-1">
-                    {errors.phone?.message && (
-                      <p className="text-sm text-red-400">
-                        {errors.phone.message}
-                      </p>
-                    )}
-                  </div>
+                </div>
+                <div className="mt-1 h-1">
+                  {errors.phone?.message && (
+                    <p className="text-sm text-red-400">
+                      {errors.phone.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
