@@ -58,6 +58,7 @@ export default function Form() {
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
+  const [isVerificationRequired, setIsVerificationRequired] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -188,6 +189,17 @@ export default function Form() {
       if (response.ok) {
         const result = await response.json();
         reset();
+
+        // Check the message in the response
+        if (
+          result.message ===
+          "registrasi berhasil, silakan periksa email anda untuk melakukan verifikasi"
+        ) {
+          setIsVerificationRequired(true); // Flag to show email verification message
+        } else {
+          setIsVerificationRequired(false); // No email verification needed in production
+        }
+
         return true;
       } else {
         const errorData = await response.json();
@@ -756,27 +768,47 @@ export default function Form() {
         )}
 
         {currentStep === 4 && (
-          <div
-            className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
-            // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
-            // animate={{ x: 0, opacity: 1 }}
-            // transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
-            <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
-              <h2 className="leading-7">
-                Silahkan cek email anda untuk aktivasi akun anda, dan tekan
-                tombol
-                <span className="font-bold"> aktifkan akun.</span>
-              </h2>
-              <p className="mt-1 text-sm leading-6 ">
-                Tidak menerima Email?{" "}
-                <span className="text-emerald font-semibold hover:underline underline-offset-2 decoration-emerald-light">
-                  Kirim Ulang
-                </span>
-              </p>
-            </div>
-          </div>
+          <>
+            {isVerificationRequired ? (
+              <div
+                className="w-11/12 lg:w-1/2 h-[60vh] flex flex-col justify-center items-center mx-auto text-sky space-y-6"
+                // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
+                // animate={{ x: 0, opacity: 1 }}
+                // transition={{ duration: 0.3, ease: "easeInOut" }}
+              >
+                <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+                <div className="text-center text-xl lg:text-2xl max-w-xl space-y-4">
+                  <h2 className="leading-7">
+                    Silahkan cek email anda untuk aktivasi akun anda, dan tekan
+                    tombol
+                    <span className="font-bold"> aktifkan akun.</span>
+                  </h2>
+                  <p className="mt-1 text-sm leading-6 ">
+                    Tidak menerima Email?{" "}
+                    <span className="text-emerald font-semibold hover:underline underline-offset-2 decoration-emerald-light">
+                      Kirim Ulang
+                    </span>
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <main className="h-[80vh] flex flex-col justify-center items-center gap-8">
+                <section className="space-y-1 lg:space-y-4 flex flex-col justify-center items-center text-sky">
+                  <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+                  <h1 className="text-2xl lg:text-[40px]">
+                    Selamat Datang{" "}
+                    <span className="font-bold">di Fulusme,</span>
+                  </h1>
+                </section>
+                <Link
+                  className="bg-emerald-light hover:bg-green-700 px-16 py-2 rounded-3xl text-white font-bold"
+                  href="/masuk"
+                >
+                  Masuk
+                </Link>
+              </main>
+            )}
+          </>
         )}
       </form>
 
