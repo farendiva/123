@@ -21,6 +21,10 @@ interface Subdistrict {
   sub_district: string;
 }
 
+interface PostalCode {
+  postal_code: string;
+}
+
 interface Profile {
   alamat_ktp?: string;
   provinsi_ktp?: string;
@@ -56,6 +60,7 @@ interface AddressTabProps {
   cities: City[];
   districts: District[];
   subdistricts: Subdistrict[];
+  postalCodes: PostalCode[];
   isSameAsKTP: boolean;
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -73,6 +78,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
   cities,
   districts,
   subdistricts,
+  postalCodes,
   isSameAsKTP,
   handleCheckboxChange,
 }) => {
@@ -175,13 +181,21 @@ const AddressTab: React.FC<AddressTabProps> = ({
           <div className="flex justify-between items-center py-3">
             <div className="w-full">
               <label className="font-bold">Kode Pos KTP</label> <br />
-              <input
-                type="text"
+              <select
                 name="kodepos_ktp"
                 value={formData?.kodepos_ktp || ""}
-                onChange={handleInputChange}
+                onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-              />
+              >
+                <option value="" disabled>
+                  Pilih Kode Pos KTP
+                </option>
+                {postalCodes.map((postalCode: PostalCode, index: number) => (
+                  <option key={index} value={postalCode.postal_code}>
+                    {postalCode.postal_code}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="flex justify-between items-center py-3">
@@ -313,13 +327,23 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <div className="flex justify-between items-center py-3">
                 <div className="w-full">
                   <label className="font-bold">Kode Pos Domisili</label> <br />
-                  <input
-                    type="text"
+                  <select
                     name="kodepos_domisili"
                     value={formData?.kodepos_domisili || ""}
-                    onChange={handleInputChange}
+                    onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-                  />
+                  >
+                    <option value="" disabled>
+                      Pilih Kode Pos Domisili
+                    </option>
+                    {postalCodes.map(
+                      (postalCode: PostalCode, index: number) => (
+                        <option key={index} value={postalCode.postal_code}>
+                          {postalCode.postal_code}
+                        </option>
+                      )
+                    )}
+                  </select>
                 </div>
               </div>
               <div className="flex justify-between items-center py-3">

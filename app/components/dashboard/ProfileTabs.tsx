@@ -99,6 +99,7 @@ const ProfileTabs: React.FC = () => {
     cities,
     districts,
     subdistricts,
+    postalCodes,
     fetchCities,
     fetchDistricts,
     fetchSubDistricts,
@@ -379,6 +380,7 @@ const ProfileTabs: React.FC = () => {
             cities={cities}
             districts={districts}
             subdistricts={subdistricts}
+            postalCodes={postalCodes}
             isSameAsKTP={isSameAsKTP}
             handleCheckboxChange={handleCheckboxChange}
           />

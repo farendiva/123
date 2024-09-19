@@ -49,6 +49,7 @@ export const incomeFields: (keyof Inputs)[] = [
   "nama_pemilik_rekening",
   "nomor_rekening_custodian",
   "nama_rekening_custodian",
+  "nama_bank",
 ];
 
 const IncomeForm: FC<IncomeFormProps> = ({

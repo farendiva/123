@@ -30,18 +30,18 @@ const steps = [
     name: "Personal Information",
     fields: ["namaDepan", "namaBelakang", "email", "phone"],
   },
+  // {
+  //   id: "Step 2",
+  //   name: "OTP",
+  //   fields: ["pin"],
+  // },
   {
     id: "Step 2",
-    name: "OTP",
-    fields: ["pin"],
-  },
-  {
-    id: "Step 3",
     name: "Password",
     fields: ["password", "passwordConfirmation"],
   },
-  { id: "Step 4", name: "Terms and Conditions", fields: ["terms"] },
-  { id: "Step 5", name: "Complete" },
+  { id: "Step 3", name: "Terms and Conditions", fields: ["terms"] },
+  { id: "Step 4", name: "Complete" },
 ];
 
 export default function Form() {
@@ -59,7 +59,7 @@ export default function Form() {
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
   const [isVerificationRequired, setIsVerificationRequired] = useState(false);
-  const router = useRouter();
+  // const router = useRouter();
 
   useEffect(() => {
     if (time <= 0) {
@@ -331,122 +331,127 @@ export default function Form() {
   const next = async () => {
     if (loading) return;
 
-    const fields = steps[currentStep].fields;
-    let output = true;
-    if (fields) {
-      output = await trigger(fields as FieldName[], { shouldFocus: true });
-    }
-
-    if (output && currentStep < steps.length - 1) {
-      if (currentStep === 0) {
-        // Check if email is available before moving to next step
-        const email = watch("email");
-        const isEmailAvailable = await checkEmailAvailability(email, phone);
-
-        if (!isEmailAvailable) {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "destructive",
-            title: "Email atau Nomor Handphone Tidak Valid",
-            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
-          });
-          return;
-        }
-        await generatedOtp(phone);
+    setLoading(true);
+    try {
+      const fields = steps[currentStep].fields;
+      let output = true;
+      if (fields) {
+        output = await trigger(fields as FieldName[], { shouldFocus: true });
       }
 
-      if (currentStep === 1) {
-        const pin = watch("pin");
-        const result = await verifyOtp(otpId, pin);
+      if (output && currentStep < steps.length - 1) {
+        if (currentStep === 0) {
+          // Check if email is available before moving to next step
+          const email = watch("email");
+          const isEmailAvailable = await checkEmailAvailability(email, phone);
 
-        if (result.status) {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "success",
-            title: "OTP Berhasil",
-            description: "Silahkan Masukkan Kata sandi untuk akun anda.",
-          });
-        } else {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "destructive",
-            title: "OTP tidak valid.",
-            description: "Silakan coba lagi.",
-            action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
-          });
-          return;
-        }
-      }
-
-      if (currentStep === 2) {
-        // Assuming step 1 is the password step
-        const password = getValues("password");
-        const passwordConfirmation = getValues("passwordConfirmation");
-        if (password !== passwordConfirmation) {
-          setError("passwordConfirmation", {
-            type: "manual",
-            message: "Kata Sandi Konfirmasi Harus Sama",
-          });
-          return;
-        }
-      }
-
-      if (currentStep === steps.length - 2) {
-        // This is now the Terms and Conditions step
-        if (isScrolledToBottom && termsAgreed) {
-          setLoading(true);
-          try {
-            const formData = getValues();
-            const success = await processForm(formData);
-            if (success) {
-              // If form submission is successful, move to the next step
-              setPreviousStep(currentStep);
-              setCurrentStep((step) => step + 1);
-              toast({
-                className: cn(
-                  "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-                ),
-                variant: "success",
-                title: "Anda Berhasil Terdaftar",
-              });
-            }
-            // If not successful, the processForm function will have already shown an error toast
-          } catch (error) {
-            console.error("Error submitting form:", error);
+          if (!isEmailAvailable) {
             toast({
               className: cn(
                 "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
               ),
               variant: "destructive",
-              title: "Error",
-              description: "Kesalahan pada pendaftaran",
+              title: "Email atau Nomor Handphone Tidak Valid",
+              action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
             });
-          } finally {
-            setLoading(false);
+            return;
           }
-        } else {
-          toast({
-            className: cn(
-              "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
-            ),
-            variant: "destructive",
-            title: "Anda harus menyetujui syarat dan ketentuan",
-            description: "Scroll kebawah dan setujui untuk melanjutkan.",
-          });
+          await generatedOtp(phone);
         }
-        return;
-      }
 
-      if (currentStep < steps.length - 1) {
-        setPreviousStep(currentStep);
-        setCurrentStep((step) => step + 1);
+        // if (currentStep === 1) {
+        //   const pin = watch("pin");
+        //   const result = await verifyOtp(otpId, pin);
+
+        //   if (result.status) {
+        //     toast({
+        //       className: cn(
+        //         "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        //       ),
+        //       variant: "success",
+        //       title: "OTP Berhasil",
+        //       description: "Silahkan Masukkan Kata sandi untuk akun anda.",
+        //     });
+        //   } else {
+        //     toast({
+        //       className: cn(
+        //         "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+        //       ),
+        //       variant: "destructive",
+        //       title: "OTP tidak valid.",
+        //       description: "Silakan coba lagi.",
+        //       action: <ToastAction altText="Coba lagi">Coba lagi</ToastAction>,
+        //     });
+        //     return;
+        //   }
+        // }
+
+        if (currentStep === 1) {
+          // Assuming step 1 is the password step
+          const password = getValues("password");
+          const passwordConfirmation = getValues("passwordConfirmation");
+          if (password !== passwordConfirmation) {
+            setError("passwordConfirmation", {
+              type: "manual",
+              message: "Kata Sandi Konfirmasi Harus Sama",
+            });
+            return;
+          }
+        }
+
+        if (currentStep === steps.length - 2) {
+          // This is now the Terms and Conditions step
+          if (isScrolledToBottom && termsAgreed) {
+            setLoading(true);
+            try {
+              const formData = getValues();
+              const success = await processForm(formData);
+              if (success) {
+                // If form submission is successful, move to the next step
+                setPreviousStep(currentStep);
+                setCurrentStep((step) => step + 1);
+                toast({
+                  className: cn(
+                    "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+                  ),
+                  variant: "success",
+                  title: "Anda Berhasil Terdaftar",
+                });
+              }
+              // If not successful, the processForm function will have already shown an error toast
+            } catch (error) {
+              console.error("Error submitting form:", error);
+              toast({
+                className: cn(
+                  "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+                ),
+                variant: "destructive",
+                title: "Error",
+                description: "Kesalahan pada pendaftaran",
+              });
+            } finally {
+              setLoading(false);
+            }
+          } else {
+            toast({
+              className: cn(
+                "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+              ),
+              variant: "destructive",
+              title: "Anda harus menyetujui syarat dan ketentuan",
+              description: "Scroll kebawah dan setujui untuk melanjutkan.",
+            });
+          }
+          return;
+        }
+
+        if (currentStep < steps.length - 1) {
+          setPreviousStep(currentStep);
+          setCurrentStep((step) => step + 1);
+        }
       }
+    } finally {
+      setLoading(false);
     }
   };
   return (
@@ -584,7 +589,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 1 && (
+        {/* {currentStep === 1 && (
           <div
             className="w-full lg:w-2/5 mx-auto text-sky"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -641,8 +646,8 @@ export default function Form() {
               </button>
             </section>
           </div>
-        )}
-        {currentStep === 2 && (
+        )} */}
+        {currentStep === 1 && (
           <div
             className="w-full lg:w-2/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -744,7 +749,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 3 && (
+        {currentStep === 2 && (
           <div
             className="w-full lg:w-3/5 mx-auto text-sky space-y-6"
             // initial={{ x: delta >= 0 ? "50%" : "-50%", opacity: 0 }}
@@ -767,7 +772,7 @@ export default function Form() {
           </div>
         )}
 
-        {currentStep === 4 && (
+        {currentStep === 3 && (
           <>
             {isVerificationRequired ? (
               <div
@@ -799,6 +804,9 @@ export default function Form() {
                     Selamat Datang{" "}
                     <span className="font-bold">di Fulusme,</span>
                   </h1>
+                  <p className="text-sm lg:text-2xl">
+                    Anda telah berhasil terdaftar
+                  </p>
                 </section>
                 <Link
                   className="bg-emerald-light hover:bg-green-700 px-16 py-2 rounded-3xl text-white font-bold"
@@ -815,10 +823,10 @@ export default function Form() {
       {/* Navigation */}
       <div
         className={`flex w-full ${
-          currentStep === 3 ? "lg:w-3/5" : "lg:w-2/5"
+          currentStep === 2 ? "lg:w-3/5" : "lg:w-2/5"
         } mx-auto items-center justify-between ${
-          currentStep === 4 && "hidden"
-        } ${currentStep === 1 || currentStep === 3 ? "flex-row-reverse" : ""}`}
+          currentStep === 3 && "hidden"
+        } ${currentStep === 2 ? "flex-row-reverse" : ""}`}
       >
         <p className="text-sky text-sm text-center">
           Butuh Pertanyaan? <br className="block sm:hidden" />

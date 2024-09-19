@@ -199,7 +199,7 @@ export const KycPemodalFormSchema = z
       .optional(),
     pendapatan_per_bulan: z.string().min(1, "Total Gaji Harus Diisi."),
     nama_ibu_kandung: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
-    nama_bank: z.string().min(1, "Nama Ibu Kandung Harus Diisi."),
+    nama_bank: z.string().min(1, "Nama Bank Harus Diisi."),
     nomor_rekening_custodian: z.string().optional(),
     nama_rekening_custodian: z.string().optional(),
     nomor_rekening: z.string().min(1, "Nomor rekening Harus Diisi."),
