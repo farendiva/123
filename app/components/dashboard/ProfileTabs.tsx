@@ -100,10 +100,18 @@ const ProfileTabs: React.FC = () => {
     districts,
     subdistricts,
     postalCodes,
+    domisiliCities,
+    domisiliDistricts,
+    domisiliSubdistricts,
+    domisiliPostalCodes,
     fetchCities,
     fetchDistricts,
     fetchSubDistricts,
     fetchPostalCodes,
+    fetchDomisiliCities,
+    fetchDomisiliDistricts,
+    fetchDomisiliSubDistricts,
+    fetchDomisiliPostalCodes,
   } = usePreferences();
 
   const handleTabClick = (index: number) => {
@@ -204,20 +212,20 @@ const ProfileTabs: React.FC = () => {
 
   useEffect(() => {
     if (formData?.provinsi_domisili) {
-      fetchCities(formData.provinsi_domisili);
+      fetchDomisiliCities(formData?.provinsi_domisili);
     }
   }, [formData?.provinsi_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (formData?.kabupaten_domisili) {
-      fetchDistricts(formData.kabupaten_domisili);
+      fetchDomisiliDistricts(formData?.kabupaten_domisili);
     }
   }, [formData?.kabupaten_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (formData?.kecamatan_domisili) {
-      fetchSubDistricts(formData.kecamatan_domisili);
-      fetchPostalCodes(formData.kecamatan_domisili);
+      fetchDomisiliSubDistricts(formData?.kecamatan_domisili);
+      fetchDomisiliPostalCodes(formData?.kecamatan_domisili);
     }
   }, [formData?.kecamatan_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -230,34 +238,20 @@ const ProfileTabs: React.FC = () => {
 
     const changedData = new FormData();
 
-    // Always include these fields
-    const alwaysIncludeFields: (keyof Profile)[] = [
-      "nomor_rekening",
-      "nama_pemilik_rekening",
-      "nama_bank",
-      "telp_kontak_darurat",
-      "nama_kontak_darurat",
-    ];
-
-    // Add always include fields to changedData
-    alwaysIncludeFields.forEach((key) => {
-      if (formData[key]) {
-        changedData.append(key, formData[key] as string);
-      }
-    });
-
     // Compare original data with formData and add only changed values to FormData
     (Object.keys(formData) as (keyof Profile)[]).forEach((key) => {
-      if (
-        formData[key] !== originalData?.[key] &&
-        !alwaysIncludeFields.includes(key)
-      ) {
+      if (formData[key] !== originalData?.[key]) {
         if (formData[key] instanceof File) {
           changedData.append(key, formData[key] as File);
         } else {
           changedData.append(key, formData[key] as string);
         }
       }
+    });
+
+    console.log("Changed Data:");
+    changedData.forEach((value, key) => {
+      console.log(`${key}: ${value}`);
     });
 
     const response = await fetch(
@@ -381,6 +375,10 @@ const ProfileTabs: React.FC = () => {
             districts={districts}
             subdistricts={subdistricts}
             postalCodes={postalCodes}
+            domisiliCities={domisiliCities}
+            domisiliDistricts={domisiliDistricts}
+            domisiliSubdistricts={domisiliSubdistricts}
+            domisiliPostalCodes={domisiliPostalCodes}
             isSameAsKTP={isSameAsKTP}
             handleCheckboxChange={handleCheckboxChange}
           />

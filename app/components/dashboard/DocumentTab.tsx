@@ -5,6 +5,7 @@ import CameraCapture from "./CameraCapture";
 interface Profile {
   ktp?: string | File;
   slip_gaji?: string | File;
+  pekerjaan?: string;
 }
 
 interface User {
@@ -33,6 +34,7 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
 }) => {
   const [showCamera, setShowCamera] = useState(false);
   const [capturedFileName, setCapturedFileName] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null); // Add error state for validation
 
   const handleCameraCapture = (file: File) => {
     handleFileUpload({ target: { files: [file] } } as any, "ktp");
@@ -42,6 +44,34 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
   const handleCancel = () => {
     setIsEditing(false);
     setCapturedFileName("");
+  };
+
+  const validateFile = (file: File, field: keyof Profile) => {
+    const maxFileSize = 5 * 1024 * 1024; // 5MB in bytes
+    const validFileType = "application/pdf";
+
+    if (file.size > maxFileSize) {
+      setError("Maksimal file 5MB.");
+      return false;
+    }
+
+    if (file.type !== validFileType) {
+      setError("Slip Gaji harus berupa file PDF.");
+      return false;
+    }
+
+    setError(null); // Clear error if the file is valid
+    return true;
+  };
+
+  const handleFileUploadWithValidation = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    field: keyof Profile
+  ) => {
+    const file = e.target.files?.[0];
+    if (file && validateFile(file, field)) {
+      handleFileUpload(e, field); // Call the original file upload handler if valid
+    }
   };
 
   return (
@@ -73,11 +103,13 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
               <label className="block font-bold">Slip Gaji</label>
               <input
                 type="file"
-                accept="image/*"
+                accept="application/pdf"
                 name="slip_gaji"
-                onChange={(e) => handleFileUpload(e, "slip_gaji")}
+                onChange={(e) => handleFileUploadWithValidation(e, "slip_gaji")}
                 className="w-full text-sm border border-gray-300 rounded-lg p-2"
               />
+              {error && <p className="text-red-500 text-sm">{error}</p>}{" "}
+              {/* Show error message */}
             </div>
           </div>
           <div className="flex justify-end gap-4">
@@ -90,8 +122,13 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
               <span>Batalkan</span>
             </button>
             <button
+              disabled={!!error} // Disable the button if there's an error
               type="submit"
-              className="px-6 py-3 bg-green-600 text-white rounded-lg flex items-center gap-2 hover:bg-green-700"
+              className={`px-6 py-3 ${
+                error
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700"
+              }   text-white rounded-lg flex items-center gap-2 `}
             >
               <img src="/icons/save.svg" alt="Save Icon" className="h-5 w-5" />
               <span>Simpan</span>
@@ -104,22 +141,21 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
             <div className="flex justify-between items-center py-3">
               <div>
                 <label className="block font-bold">KTP</label>
-                <a
-                  className="text-sm text-blue-600"
-                  href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
-                    user?.profile?.ktp || ""
-                  }`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  {user?.profile?.ktp ? "Lihat Dokumen" : "Belum Upload"}
-                </a>
+                {user?.profile?.ktp ? (
+                  <a
+                    className="text-sm text-blue-600"
+                    href={`${process.env.NEXT_PUBLIC_FILE_PATH}/images/${
+                      user?.profile?.ktp || ""
+                    }`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Lihat Dokumen
+                  </a>
+                ) : (
+                  <p>Belum Upload</p>
+                )}
               </div>
-              <SquarePen
-                strokeWidth={1.5}
-                onClick={handleEditClick}
-                className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-              />
             </div>
             <div className="flex justify-between items-center py-3">
               <div>
@@ -136,14 +172,23 @@ const DocumentTab: React.FC<DocumentTabProps> = ({
                     Lihat Dokumen
                   </a>
                 ) : (
-                  <p className="text-sm ">Belum Upload</p>
+                  <p className="text-sm">
+                    {user?.profile?.pekerjaan === "wiraswasta" ||
+                    user?.profile?.pekerjaan === "pensiunan"
+                      ? "Tidak Memerlukan Slip Gaji"
+                      : "Belum Upload"}
+                  </p>
                 )}
               </div>
-              <SquarePen
-                strokeWidth={1.5}
-                onClick={handleEditClick}
-                className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
-              />
+              {/* {user?.profile?.slip_gaji &&
+                user?.profile?.pekerjaan !== "wiraswasta" &&
+                user?.profile?.pekerjaan !== "pensiunan" && (
+                  <SquarePen
+                    strokeWidth={1.5}
+                    onClick={handleEditClick}
+                    className="h-6 w-6 text-gray-600 hover:text-gray-800 cursor-pointer"
+                  />
+                )} */}
             </div>
           </div>
         </>

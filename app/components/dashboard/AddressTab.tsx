@@ -61,6 +61,10 @@ interface AddressTabProps {
   districts: District[];
   subdistricts: Subdistrict[];
   postalCodes: PostalCode[];
+  domisiliCities: City[];
+  domisiliDistricts: District[];
+  domisiliSubdistricts: Subdistrict[];
+  domisiliPostalCodes: PostalCode[];
   isSameAsKTP: boolean;
   handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -79,12 +83,16 @@ const AddressTab: React.FC<AddressTabProps> = ({
   districts,
   subdistricts,
   postalCodes,
+  domisiliCities,
+  domisiliDistricts,
+  domisiliSubdistricts,
+  domisiliPostalCodes,
   isSameAsKTP,
   handleCheckboxChange,
 }) => {
   return (
     <div className="my-8 divide-y-2">
-      {isEditing ? (
+      {/* {isEditing ? (
         <form onSubmit={handleFormSubmit}>
           <div className="flex justify-between items-center py-3">
             <div className="w-full">
@@ -92,7 +100,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <input
                 type="text"
                 name="alamat_ktp"
-                value={formData?.alamat_ktp || ""}
+                value={formData?.alamat_ktp}
                 onChange={handleInputChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               />
@@ -103,7 +111,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <label className="font-bold">Provinsi KTP</label> <br />
               <select
                 name="provinsi_ktp"
-                value={formData?.provinsi_ktp || ""}
+                value={formData?.provinsi_ktp}
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
@@ -123,7 +131,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <label className="font-bold">Kota/Kabupaten KTP</label> <br />
               <select
                 name="kabupaten_ktp"
-                value={formData?.kabupaten_ktp || ""}
+                value={formData?.kabupaten_ktp}
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
@@ -143,7 +151,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <label className="font-bold">Kecamatan KTP</label> <br />
               <select
                 name="kecamatan_ktp"
-                value={formData?.kecamatan_ktp || ""}
+                value={formData?.kecamatan_ktp}
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
@@ -163,7 +171,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <label className="font-bold">Kelurahan KTP</label> <br />
               <select
                 name="kelurahan_ktp"
-                value={formData?.kelurahan_ktp || ""}
+                value={formData?.kelurahan_ktp}
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
@@ -183,7 +191,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <label className="font-bold">Kode Pos KTP</label> <br />
               <select
                 name="kodepos_ktp"
-                value={formData?.kodepos_ktp || ""}
+                value={formData?.kodepos_ktp}
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
@@ -207,7 +215,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
               <input
                 type="text"
                 name="rt_rw_ktp"
-                value={formData?.rt_rw_ktp || ""}
+                value={formData?.rt_rw_ktp}
                 onChange={handleInputChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               />
@@ -232,7 +240,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <input
                     type="text"
                     name="alamat_domisili"
-                    value={formData?.alamat_domisili || ""}
+                    value={formData?.alamat_domisili}
                     onChange={handleInputChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   />
@@ -243,7 +251,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <label className="font-bold">Provinsi Domisili</label> <br />
                   <select
                     name="provinsi_domisili"
-                    value={formData?.provinsi_domisili || ""}
+                    value={formData?.provinsi_domisili}
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
@@ -264,14 +272,14 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <br />
                   <select
                     name="kabupaten_domisili"
-                    value={formData?.kabupaten_domisili || ""}
+                    value={formData?.kabupaten_domisili}
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
                     <option value="" disabled>
                       Pilih Kota/Kabupaten Domisili
                     </option>
-                    {cities.map((city: City, index: number) => (
+                    {domisiliCities.map((city: City, index: number) => (
                       <option key={index} value={city.city_code}>
                         {city.city}
                       </option>
@@ -284,18 +292,20 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <label className="font-bold">Kecamatan Domisili</label> <br />
                   <select
                     name="kecamatan_domisili"
-                    value={formData?.kecamatan_domisili || ""}
+                    value={formData?.kecamatan_domisili}
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
                     <option value="" disabled>
                       Pilih Kecamatan Domisili
                     </option>
-                    {districts.map((district: District, index: number) => (
-                      <option key={index} value={district.district_code}>
-                        {district.district}
-                      </option>
-                    ))}
+                    {domisiliDistricts.map(
+                      (district: District, index: number) => (
+                        <option key={index} value={district.district_code}>
+                          {district.district}
+                        </option>
+                      )
+                    )}
                   </select>
                 </div>
               </div>
@@ -304,14 +314,14 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <label className="font-bold">Kelurahan Domisili</label> <br />
                   <select
                     name="kelurahan_domisili"
-                    value={formData?.kelurahan_domisili || ""}
+                    value={formData?.kelurahan_domisili}
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
                     <option value="" disabled>
                       Pilih Kelurahan Domisili
                     </option>
-                    {subdistricts.map(
+                    {domisiliSubdistricts.map(
                       (subdistrict: Subdistrict, index: number) => (
                         <option
                           key={index}
@@ -329,14 +339,14 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <label className="font-bold">Kode Pos Domisili</label> <br />
                   <select
                     name="kodepos_domisili"
-                    value={formData?.kodepos_domisili || ""}
+                    value={formData?.kodepos_domisili}
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
                     <option value="" disabled>
                       Pilih Kode Pos Domisili
                     </option>
-                    {postalCodes.map(
+                    {domisiliPostalCodes.map(
                       (postalCode: PostalCode, index: number) => (
                         <option key={index} value={postalCode.postal_code}>
                           {postalCode.postal_code}
@@ -355,7 +365,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                   <input
                     type="text"
                     name="rt_rw_domisili"
-                    value={formData?.rt_rw_domisili || ""}
+                    value={formData?.rt_rw_domisili}
                     onChange={handleInputChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   />
@@ -381,80 +391,80 @@ const AddressTab: React.FC<AddressTabProps> = ({
             </button>
           </div>
         </form>
-      ) : (
-        <>
-          <InfoItem
-            label="Alamat KTP"
-            value={user?.profile?.alamat_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi KTP"
-            value={user?.profile?.provinsi_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten KTP"
-            value={user?.profile?.kabupaten_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan KTP"
-            value={user?.profile?.kecamatan_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan KTP"
-            value={user?.profile?.kelurahan_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos KTP"
-            value={user?.profile?.kodepos_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai KTP (contoh: 001/001)"
-            value={user?.profile?.rt_rw_ktp}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Alamat Domisili"
-            value={user?.profile?.alamat_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi Domisili"
-            value={user?.profile?.provinsi_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten Domisili"
-            value={user?.profile?.kabupaten_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan Domisili"
-            value={user?.profile?.kecamatan_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan Domisili"
-            value={user?.profile?.kelurahan_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos Domisili"
-            value={user?.profile?.kodepos_domisili}
-            onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai Domisili (contoh: 001/001)"
-            value={user?.profile?.rt_rw_domisili}
-            onEditClick={handleEditClick}
-          />
-        </>
-      )}
+      ) : ( */}
+      <>
+        <InfoItem
+          label="Alamat KTP"
+          value={user?.profile?.alamat_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Provinsi KTP"
+          value={user?.profile?.provinsi_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kota/Kabupaten KTP"
+          value={user?.profile?.kabupaten_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kecamatan KTP"
+          value={user?.profile?.kecamatan_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kelurahan KTP"
+          value={user?.profile?.kelurahan_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kode Pos KTP"
+          value={user?.profile?.kodepos_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="RT/RW Sesuai KTP (contoh: 001/001)"
+          value={user?.profile?.rt_rw_ktp}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Alamat Domisili"
+          value={user?.profile?.alamat_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Provinsi Domisili"
+          value={user?.profile?.provinsi_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kota/Kabupaten Domisili"
+          value={user?.profile?.kabupaten_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kecamatan Domisili"
+          value={user?.profile?.kecamatan_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kelurahan Domisili"
+          value={user?.profile?.kelurahan_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="Kode Pos Domisili"
+          value={user?.profile?.kodepos_domisili}
+          // onEditClick={handleEditClick}
+        />
+        <InfoItem
+          label="RT/RW Sesuai Domisili (contoh: 001/001)"
+          value={user?.profile?.rt_rw_domisili}
+          // onEditClick={handleEditClick}
+        />
+      </>
+      {/* )} */}
     </div>
   );
 };
@@ -462,20 +472,20 @@ const AddressTab: React.FC<AddressTabProps> = ({
 interface InfoItemProps {
   label: string;
   value?: string;
-  onEditClick: () => void;
+  // onEditClick: () => void;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ label, value, onEditClick }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ label, value }) => (
   <div className="flex justify-between items-center py-3">
     <div>
       <label className="font-bold">{label}</label> <br />
       <span className="text-sm">{value}</span>
     </div>
-    <SquarePen
+    {/* <SquarePen
       strokeWidth={1.5}
       onClick={onEditClick}
       className="cursor-pointer"
-    />
+    /> */}
   </div>
 );
 
