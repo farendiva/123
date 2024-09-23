@@ -26,7 +26,7 @@ export default async function DashboardLayout({
           <header className="sticky z-50 top-0 shadow-md bg-white">
             <Nav />
           </header>
-          <main className="w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-6">
+          <main className="w-11/12 md:w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-6">
             <>
               <Sidebar />
             </>
