@@ -262,8 +262,9 @@ export default function Form() {
   };
 
   const generatedOtp = async (phone: string) => {
+    const convertedPhoneNumber = convertPhoneNumber(phone);
     const data = {
-      phone: phone,
+      phone: convertedPhoneNumber,
       brand: "FULUSME",
     };
 
@@ -563,26 +564,21 @@ export default function Form() {
                 >
                   Nomor Handphone
                 </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center px-3 border-r-2  pointer-events-none">
-                    <span className="text-gray-500 font-semibold sm:text-sm">
-                      +62
-                    </span>
-                  </div>
+                <div className="">
                   <input
                     id="phone"
                     type="tel"
                     {...register("phone")}
                     autoComplete="tel"
-                    className="block w-full rounded-md border-0 py-3 pl-14 pr-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
+                    className="block w-full rounded-md border-0 py-3 px-3 bg-slate-100 shadow-sm placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-sky-600 sm:text-sm sm:leading-6"
                   />
-                </div>
-                <div className="mt-1 h-1">
-                  {errors.phone?.message && (
-                    <p className="text-sm text-red-400">
-                      {errors.phone.message}
-                    </p>
-                  )}
+                  <div className="mt-1 h-1">
+                    {errors.phone?.message && (
+                      <p className="text-sm text-red-400">
+                        {errors.phone.message}
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
