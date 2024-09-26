@@ -17,6 +17,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useUser } from "@/context/UserContext";
+import Cookies from "js-cookie";
 
 export interface TransaksiStatus {
   status_id: number;
@@ -60,7 +62,10 @@ interface TransactionCardProps {
 
 const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { user } = useUser();
+  const token = Cookies.get("authToken");
 
   const labelVerifikasi = () => {
     switch (transaksi.status) {
@@ -126,6 +131,41 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
   }, [transaksi.va_expiry_time, transaksi.status]);
 
   const ppn = transaksi.biaya_layanan * 0.11;
+
+  const getDocumentPemodal = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${user?.pemodal_id}/perjanjian`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to fetch document");
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.style.display = "none";
+      a.href = url;
+      a.download = "dokumen_perjanjian_pemodal.pdf";
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error("Error downloading document:", error);
+      // Handle error (e.g., show an error message to the user)
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <>
       <div className="max-w-4xl mb-4 mx-auto bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 p-6 space-y-4">
@@ -387,10 +427,13 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                           ? "bg-emerald-light text-white"
                           : "bg-gray-200 text-gray-500 cursor-not-allowed"
                       }`}
-                      disabled={transaksi.status === 0}
+                      disabled={transaksi.status === 0 || isLoading}
+                      onClick={getDocumentPemodal}
                     >
                       <Download />
-                      Unduh Dokumen Perjanjian Pemodal
+                      {isLoading
+                        ? "Mengunduh..."
+                        : "Unduh Dokumen Perjanjian Pemodal"}
                     </button>
                   </div>
                 )}

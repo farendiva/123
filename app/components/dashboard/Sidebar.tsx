@@ -14,25 +14,25 @@ import Link from "next/link";
 export default function Sidebar() {
   const { user } = useUser();
   return (
-    <div className=" bg-white text-[#677AB9] flex flex-col h-full w-full lg:w-1/3 lg:flex-col px-3 py-4 md:px-2 lg:divide-y-2 rounded-xl">
-      <div className="flex lg:hidden justify-around w-full mx-auto my-4 ">
-        <div className="space-y-2">
-          <Album fill="#677AB9" color="white" />
+    <div className=" bg-white text-[#677AB9] flex flex-col-reverse h-full w-full lg:w-1/3 lg:flex-col px-3 py-3 md:px-2 lg:divide-y-2 rounded-t-xl">
+      <div className="flex lg:hidden justify-around w-full mx-auto my-2 border-b pb-4">
+        <div className="flex items-center gap-4 py-4">
+          <Album size={35} fill="#677AB9" color="white" />
           <div className="w-full">
-            <h2 className="font-bold text-black">Total Aset</h2>
+            <h2 className="font-bold text-[#677AB9]">Total Aset</h2>
             <p className="text-emerald-light text-base">Rp 0</p>
           </div>
         </div>
-        <div className="space-y-2">
-          <PieChart fill="#677AB9" color="white" />
+        <div className="flex items-center gap-4 py-4">
+          <PieChart size={35} fill="#677AB9" color="white" />
           <div className="w-full">
-            <h2 className="font-bold text-black">Dividen</h2>
+            <h2 className="font-bold text-[#677AB9]">Dividen</h2>
             <p className="text-emerald-light text-base">Rp 0</p>
           </div>
         </div>
       </div>
       {user?.pemodal_status === 0 ? (
-        <div className="flex justify-around border-t lg:border-none items-center lg:justify-between px-3 py-4 my-4 lg:my-0">
+        <div className="flex justify-around border-b lg:border-none items-center lg:justify-between px-3 py-4 my-2 lg:my-0">
           <FileText fill="#677AB9" color="white" />
           <div className="lg:w-4/5">
             <h2 className="mb-2">Anda Belum Melengkapi Data Diri</h2>
@@ -45,7 +45,7 @@ export default function Sidebar() {
           </div>
         </div>
       ) : user?.pemodal_status === 1 ? (
-        <div className="flex justify-around border-t lg:border-none items-center lg:justify-between px-3 py-4 my-4 lg:my-0">
+        <div className="flex justify-around border-b lg:border-none items-center lg:justify-between px-3 py-4 my-2 lg:my-0">
           <Clock9 fill="#677AB9" color="white" />
           <div className="lg:w-4/5">
             <h2 className="mb-2">Anda Sudah Melengkapi Data Diri</h2>
@@ -57,7 +57,7 @@ export default function Sidebar() {
       ) : null}
 
       <div>
-        <div className="hidden lg:flex items-center justify-between px-3 py-4 ">
+        <div className="hidden lg:flex items-center justify-between px-3 py-4">
           <Album fill="#677AB9" color="white" />
           <div className="w-4/5">
             <h2 className="font-bold text-black">Total Aset</h2>
