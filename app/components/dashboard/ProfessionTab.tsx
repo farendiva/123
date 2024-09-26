@@ -1,6 +1,6 @@
 import React from "react";
 import { SquarePen, CircleX } from "lucide-react";
-
+import { Profession, Industry, Salary } from "@/lib/types";
 interface Profile {
   no_handphone?: string;
   tanggal_lahir?: string;
@@ -14,21 +14,6 @@ interface Profile {
 
 interface User {
   profile?: Profile;
-}
-
-interface Profession {
-  id: number;
-  pekerjaan: string;
-}
-
-interface Industry {
-  id: number;
-  industri_pekerjaan: string;
-}
-
-interface Salary {
-  id: number;
-  pendapatan: string;
 }
 
 interface ProfessionTabProps {
@@ -77,7 +62,7 @@ const ProfessionTab: React.FC<ProfessionTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                {profession.map((item: Profession, index: number) => (
+                {profession.slice(0, 6).map((item, index: number) => (
                   <option key={index} value={item.id}>
                     {item.pekerjaan}
                   </option>

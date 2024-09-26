@@ -2,7 +2,7 @@
 
 import { useUser } from "@/context/UserContext";
 import { CircleCheckBig } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import usePreferences from "@/hooks/usePreferences";
 import { getUserData } from "@/lib/auth";
@@ -13,70 +13,22 @@ import ProfessionTab from "./ProfessionTab";
 import DocumentTab from "./DocumentTab";
 import { toast } from "@/components/ui/use-toast";
 import { cn } from "@/lib/utils";
+import { Profile } from "@/lib/types";
 
-interface Profile {
-  nama_depan: string;
-  nama_belakang: string;
-  jenis_kelamin: string;
-  tempat_lahir: string;
-  tanggal_lahir: string;
-  no_handphone: string;
-  no_ktp: string;
-  no_npwp: string | null;
-  no_sid: string | null;
-  agama: string;
-  kewarganegaraan: string;
-  alamat_ktp: string;
-  kelurahan_ktp: string;
-  kecamatan_ktp: string;
-  kabupaten_ktp: string;
-  provinsi_ktp: string;
-  kodepos_ktp: string;
-  kodepos_domisili: string;
-  rt_rw_ktp: string;
-  rt_rw_domisili: string;
-  alamat_domisili: string;
-  kelurahan_domisili: string;
-  kecamatan_domisili: string;
-  kabupaten_domisili: string;
-  provinsi_domisili: string;
-  pendidikan: string;
-  pekerjaan: string;
-  industri_pekerjaan: string;
-  pendapatan: string;
-  pendapatan_per_bulan: string;
-  sumber_pendapatan: string;
-  status_id: number;
-  status: string;
-  nomor_rekening: string;
-  nama_pemilik_rekening: string;
-  nama_bank: string;
-  nama_ibu_kandung: string;
-  kabupaten_cabang_bank: string | null;
-  ktp: string | File;
-  npwp: string | File;
-  swa_photo: string | File;
-  slip_gaji: string | File;
-  kartu_keluarga: string | File;
-  nama_rekening_custodian: string;
-  nomor_rekening_custodian: string;
-  telp_kontak_darurat: string;
-  nama_kontak_darurat: string;
-}
+const citizenshipOptions = [
+  { code: "1", name: "WNI TINGGAL DI INDONESIA" },
+  { code: "2", name: "WNI TINGGAL DI LUAR NEGERI" },
+  { code: "3", name: "WNA TINGGAL DI INDONESIA" },
+];
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  email_verified_at: string;
-  created_at: string;
-  updated_at: string;
-  user_type: string;
-  pemodal_id: number;
-  pemodal_status: number;
-  pemodal_status_description: string;
-  profile: Profile[];
-}
+const religionOptions = [
+  { code: "1", name: "Islam" },
+  { code: "2", name: "Kristen" },
+  { code: "3", name: "Katolik" },
+  { code: "4", name: "Hindu" },
+  { code: "5", name: "Budha" },
+  { code: "6", name: "Konghucu" },
+];
 
 const ProfileTabs: React.FC = () => {
   const { user, updateUser } = useUser();
@@ -89,11 +41,12 @@ const ProfileTabs: React.FC = () => {
     Partial<Profile> | undefined
   >(user?.profile);
   const [isSameAsKTP, setIsSameAsKTP] = useState(false);
-
+  const [originalDomisiliValues, setOriginalDomisiliValues] = useState({});
   const token = Cookies.get("authToken");
   const {
     provinces,
     profession,
+    educations,
     industries,
     salaries,
     cities,
@@ -162,7 +115,18 @@ const ProfileTabs: React.FC = () => {
     setIsSameAsKTP(checked);
 
     if (checked) {
-      // Salin data dari KTP ke domisili
+      // Store current domisili values before overwriting
+      setOriginalDomisiliValues({
+        alamat_domisili: formData?.alamat_domisili || "",
+        provinsi_domisili: formData?.provinsi_domisili || "",
+        kabupaten_domisili: formData?.kabupaten_domisili || "",
+        kecamatan_domisili: formData?.kecamatan_domisili || "",
+        kelurahan_domisili: formData?.kelurahan_domisili || "",
+        kodepos_domisili: formData?.kodepos_domisili || "",
+        rt_rw_domisili: formData?.rt_rw_domisili || "",
+      });
+
+      // Copy data from KTP to domisili
       setFormData((prev) => ({
         ...(prev ?? {}),
         alamat_domisili: prev?.alamat_ktp || "",
@@ -174,34 +138,186 @@ const ProfileTabs: React.FC = () => {
         rt_rw_domisili: prev?.rt_rw_ktp || "",
       }));
     } else {
-      // Kosongkan data domisili jika checkbox di-uncheck
+      // Restore original domisili values
       setFormData((prev) => ({
         ...(prev ?? {}),
-        alamat_domisili: prev?.alamat_domisili || prev?.alamat_ktp || "",
-        provinsi_domisili: prev?.provinsi_domisili || prev?.provinsi_ktp || "",
-        kabupaten_domisili:
-          prev?.kabupaten_domisili || prev?.kabupaten_ktp || "",
-        kecamatan_domisili:
-          prev?.kecamatan_domisili || prev?.kecamatan_ktp || "",
-        kelurahan_domisili:
-          prev?.kelurahan_domisili || prev?.kelurahan_ktp || "",
-        kodepos_domisili: prev?.kodepos_domisili || prev?.kodepos_ktp || "",
-        rt_rw_domisili: prev?.rt_rw_domisili || prev?.rt_rw_ktp || "",
+        ...originalDomisiliValues,
       }));
     }
   };
 
+  // Use this effect to update originalDomisiliValues when formData changes
+  useEffect(() => {
+    if (!isSameAsKTP) {
+      setOriginalDomisiliValues({
+        alamat_domisili: formData?.alamat_domisili || "",
+        provinsi_domisili: formData?.provinsi_domisili || "",
+        kabupaten_domisili: formData?.kabupaten_domisili || "",
+        kecamatan_domisili: formData?.kecamatan_domisili || "",
+        kelurahan_domisili: formData?.kelurahan_domisili || "",
+        kodepos_domisili: formData?.kodepos_domisili || "",
+        rt_rw_domisili: formData?.rt_rw_domisili || "",
+      });
+    }
+  }, [formData, isSameAsKTP]);
+
+  useEffect(() => {
+    if (formData?.kewarganegaraan) {
+      const selectedCitizenship = citizenshipOptions.find(
+        (option) => option.name.toLowerCase() === formData.kewarganegaraan
+      );
+      if (selectedCitizenship) {
+        setFormData((prev) => ({
+          ...prev,
+          kewarganegaraan: selectedCitizenship.code,
+        }));
+      }
+    }
+  }, [formData?.kewarganegaraan, citizenshipOptions]);
+
+  useEffect(() => {
+    if (formData?.agama) {
+      const selectedReligion = religionOptions.find(
+        (religion) => religion.name === formData.agama
+      );
+      if (selectedReligion) {
+        setFormData((prev) => ({
+          ...prev,
+          agama: selectedReligion.code,
+        }));
+      }
+    }
+  }, [formData?.agama, religionOptions]);
+
+  useEffect(() => {
+    if (formData?.pendidikan) {
+      const selectedEducation = educations.find(
+        (education) => education.pendidikan === formData.pendidikan
+      );
+      if (selectedEducation) {
+        setFormData((prev) => ({
+          ...prev,
+          pendidikan: String(selectedEducation.id),
+        }));
+      }
+    }
+  }, [formData?.pendidikan, educations]);
+
+  useEffect(() => {
+    if (formData?.pekerjaan) {
+      const selectedJob = profession.find(
+        (job) => job.pekerjaan === formData.pekerjaan
+      );
+      if (selectedJob) {
+        setFormData((prev) => ({
+          ...prev,
+          pekerjaan: String(selectedJob.id),
+        }));
+      }
+    }
+  }, [formData?.pekerjaan, profession]);
+
+  useEffect(() => {
+    if (formData?.pendapatan) {
+      const selectedIncome = salaries.find(
+        (income) => income.pendapatan === formData.pendapatan
+      );
+      if (selectedIncome) {
+        setFormData((prev) => ({
+          ...prev,
+          pendapatan: String(selectedIncome.id),
+        }));
+      }
+    }
+  }, [formData?.pendapatan, salaries]);
+
+  useEffect(() => {
+    if (formData?.industri_pekerjaan) {
+      const selectedIndustry = industries.find(
+        (industry) =>
+          industry.industri_pekerjaan === formData.industri_pekerjaan
+      );
+      if (selectedIndustry) {
+        setFormData((prev) => ({
+          ...prev,
+          industri_pekerjaan: String(selectedIndustry.id),
+        }));
+      }
+    }
+  }, [formData?.industri_pekerjaan, industries]);
+
+  // Convert province name to province_code
+  useEffect(() => {
+    if (formData?.provinsi_ktp) {
+      const selectedProvince = provinces.find(
+        (prov) => prov.province === formData.provinsi_ktp
+      );
+      if (selectedProvince) {
+        setFormData((prev) => ({
+          ...prev,
+          provinsi_ktp: selectedProvince.province_code,
+        }));
+      }
+    }
+  }, [formData?.provinsi_ktp, provinces]);
+
+  // Fetch cities when province code is selected
   useEffect(() => {
     if (formData?.provinsi_ktp) {
       fetchCities(formData.provinsi_ktp);
     }
   }, [formData?.provinsi_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Convert city name to city_code
+  useEffect(() => {
+    if (formData?.kabupaten_ktp) {
+      const selectedCity = cities.find(
+        (city) => city.city === formData.kabupaten_ktp
+      );
+      if (selectedCity) {
+        setFormData((prev) => ({
+          ...prev,
+          kabupaten_ktp: selectedCity.city_code,
+        }));
+      }
+    }
+  }, [formData?.kabupaten_ktp, cities]);
+
+  // Fetch districts when city code is selected
   useEffect(() => {
     if (formData?.kabupaten_ktp) {
       fetchDistricts(formData.kabupaten_ktp);
     }
   }, [formData?.kabupaten_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Convert district name to district_code
+  useEffect(() => {
+    if (formData?.kecamatan_ktp) {
+      const selectedDistrict = districts.find(
+        (district) => district.district === formData.kecamatan_ktp
+      );
+      if (selectedDistrict) {
+        setFormData((prev) => ({
+          ...prev,
+          kecamatan_ktp: selectedDistrict.district_code,
+        }));
+      }
+    }
+  }, [formData?.kecamatan_ktp, districts]);
+
+  useEffect(() => {
+    if (formData?.kelurahan_ktp) {
+      const selectedSubDistrict = subdistricts.find(
+        (subdistrict) => subdistrict.sub_district === formData.kelurahan_ktp
+      );
+      if (selectedSubDistrict) {
+        setFormData((prev) => ({
+          ...prev,
+          kelurahan_ktp: selectedSubDistrict.sub_district_code,
+        }));
+      }
+    }
+  }, [formData?.kelurahan_ktp, subdistricts]);
 
   useEffect(() => {
     if (formData?.kecamatan_ktp) {
@@ -210,17 +326,78 @@ const ProfileTabs: React.FC = () => {
     }
   }, [formData?.kecamatan_ktp]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Convert province name to province_code for domisili
+  useEffect(() => {
+    if (formData?.provinsi_domisili) {
+      const selectedProvince = provinces.find(
+        (prov) => prov.province === formData.provinsi_domisili
+      );
+      if (selectedProvince) {
+        setFormData((prev) => ({
+          ...prev,
+          provinsi_domisili: selectedProvince.province_code,
+        }));
+      }
+    }
+  }, [formData?.provinsi_domisili, provinces]);
+
   useEffect(() => {
     if (formData?.provinsi_domisili) {
       fetchDomisiliCities(formData?.provinsi_domisili);
     }
   }, [formData?.provinsi_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
 
+  // Convert city name to city_code for domisili
+  useEffect(() => {
+    if (formData?.kabupaten_domisili) {
+      const selectedCity = domisiliCities.find(
+        (city) => city.city === formData.kabupaten_domisili
+      );
+      if (selectedCity) {
+        setFormData((prev) => ({
+          ...prev,
+          kabupaten_domisili: selectedCity.city_code,
+        }));
+      }
+    }
+  }, [formData?.kabupaten_domisili, cities]);
+
   useEffect(() => {
     if (formData?.kabupaten_domisili) {
       fetchDomisiliDistricts(formData?.kabupaten_domisili);
     }
   }, [formData?.kabupaten_domisili]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Convert district name to district_code for domisili
+  useEffect(() => {
+    if (formData?.kecamatan_domisili) {
+      const selectedDistrict = domisiliDistricts.find(
+        (district) => district.district === formData.kecamatan_domisili
+      );
+      if (selectedDistrict) {
+        setFormData((prev) => ({
+          ...prev,
+          kecamatan_domisili: selectedDistrict.district_code,
+        }));
+      }
+    }
+  }, [formData?.kecamatan_domisili, districts]);
+
+  // Convert sub-district name to sub_district_code for domisili
+  useEffect(() => {
+    if (formData?.kelurahan_domisili) {
+      const selectedSubDistrict = domisiliSubdistricts.find(
+        (subdistrict) =>
+          subdistrict.sub_district === formData.kelurahan_domisili
+      );
+      if (selectedSubDistrict) {
+        setFormData((prev) => ({
+          ...prev,
+          kelurahan_domisili: selectedSubDistrict.sub_district_code,
+        }));
+      }
+    }
+  }, [formData?.kelurahan_domisili, subdistricts]);
 
   useEffect(() => {
     if (formData?.kecamatan_domisili) {
@@ -298,6 +475,74 @@ const ProfileTabs: React.FC = () => {
     return "/images/profile-placeholder.jpg";
   };
 
+  const renderActiveTab = useCallback(() => {
+    const commonProps = {
+      user,
+      isEditing,
+      formData,
+      handleEditClick,
+      handleInputChange,
+      handleSelectChange,
+      handleFormSubmit,
+      setIsEditing,
+    };
+
+    switch (activeTab) {
+      case 0:
+        return <ProfileInfoTab {...commonProps} />;
+      case 1:
+        return (
+          <AddressTab
+            {...commonProps}
+            provinces={provinces}
+            cities={cities}
+            districts={districts}
+            subdistricts={subdistricts}
+            postalCodes={postalCodes}
+            domisiliCities={domisiliCities}
+            domisiliDistricts={domisiliDistricts}
+            domisiliSubdistricts={domisiliSubdistricts}
+            domisiliPostalCodes={domisiliPostalCodes}
+            isSameAsKTP={isSameAsKTP}
+            handleCheckboxChange={handleCheckboxChange}
+          />
+        );
+      case 2:
+        return (
+          <ProfessionTab
+            {...commonProps}
+            industries={industries}
+            profession={profession}
+            salaries={salaries}
+          />
+        );
+      case 3:
+        return (
+          <DocumentTab {...commonProps} handleFileUpload={handleFileUpload} />
+        );
+      case 4:
+        return <AccountTab {...commonProps} />;
+      default:
+        return null;
+    }
+  }, [
+    activeTab,
+    user,
+    isEditing,
+    formData,
+    handleEditClick,
+    handleInputChange,
+    handleSelectChange,
+    handleFormSubmit,
+    provinces,
+    isSameAsKTP,
+    handleCheckboxChange,
+    industries,
+    profession,
+    salaries,
+    handleFileUpload,
+  ]);
+
   return (
     <div className="w-full bg-white mx-auto p-8 border rounded-xl">
       <div className="flex flex-col md:flex-row items-center w-full gap-4 md:gap-8 my-4">
@@ -348,7 +593,9 @@ const ProfileTabs: React.FC = () => {
         )}
       </div>
       <div className="space-y-4 mt-4">
-        {activeTab === 0 && (
+        {renderActiveTab()}
+
+        {/* {activeTab === 0 && (
           <ProfileInfoTab
             user={user}
             isEditing={isEditing}
@@ -420,7 +667,7 @@ const ProfileTabs: React.FC = () => {
             handleFormSubmit={handleFormSubmit}
             setIsEditing={setIsEditing}
           />
-        )}
+        )} */}
       </div>
     </div>
   );

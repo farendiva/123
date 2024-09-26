@@ -92,7 +92,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
 }) => {
   return (
     <div className="my-8 divide-y-2">
-      {/* {isEditing ? (
+      {isEditing ? (
         <form onSubmit={handleFormSubmit}>
           <div className="flex justify-between items-center py-3">
             <div className="w-full">
@@ -115,9 +115,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                <option value="" disabled>
-                  Pilih Provinsi KTP
-                </option>
+                <option value="">Pilih Provinsi KTP</option>
                 {provinces.map((province: Province, index: number) => (
                   <option key={index} value={province.province_code}>
                     {province.province}
@@ -135,9 +133,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                <option value="" disabled>
-                  Pilih Kota/Kabupaten KTP
-                </option>
+                <option value="">Pilih Kota/Kabupaten KTP</option>
                 {cities.map((city: City, index: number) => (
                   <option key={index} value={city.city_code}>
                     {city.city}
@@ -155,9 +151,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                <option value="" disabled>
-                  Pilih Kecamatan KTP
-                </option>
+                <option value="">Pilih Kecamatan KTP</option>
                 {districts.map((district: District, index: number) => (
                   <option key={index} value={district.district_code}>
                     {district.district}
@@ -175,9 +169,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                <option value="" disabled>
-                  Pilih Kelurahan KTP
-                </option>
+                <option value="">Pilih Kelurahan KTP</option>
                 {subdistricts.map((subdistrict: Subdistrict, index: number) => (
                   <option key={index} value={subdistrict.sub_district_code}>
                     {subdistrict.sub_district}
@@ -195,9 +187,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                 onChange={handleSelectChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               >
-                <option value="" disabled>
-                  Pilih Kode Pos KTP
-                </option>
+                <option value="">Pilih Kode Pos KTP</option>
                 {postalCodes.map((postalCode: PostalCode, index: number) => (
                   <option key={index} value={postalCode.postal_code}>
                     {postalCode.postal_code}
@@ -255,9 +245,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
-                    <option value="" disabled>
-                      Pilih Provinsi Domisili
-                    </option>
+                    <option value="">Pilih Provinsi Domisili</option>
                     {provinces.map((province: Province, index: number) => (
                       <option key={index} value={province.province_code}>
                         {province.province}
@@ -276,9 +264,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
-                    <option value="" disabled>
-                      Pilih Kota/Kabupaten Domisili
-                    </option>
+                    <option value="">Pilih Kota/Kabupaten Domisili</option>
                     {domisiliCities.map((city: City, index: number) => (
                       <option key={index} value={city.city_code}>
                         {city.city}
@@ -296,9 +282,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
-                    <option value="" disabled>
-                      Pilih Kecamatan Domisili
-                    </option>
+                    <option value="">Pilih Kecamatan Domisili</option>
                     {domisiliDistricts.map(
                       (district: District, index: number) => (
                         <option key={index} value={district.district_code}>
@@ -318,9 +302,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
-                    <option value="" disabled>
-                      Pilih Kelurahan Domisili
-                    </option>
+                    <option value="">Pilih Kelurahan Domisili</option>
                     {domisiliSubdistricts.map(
                       (subdistrict: Subdistrict, index: number) => (
                         <option
@@ -343,9 +325,7 @@ const AddressTab: React.FC<AddressTabProps> = ({
                     onChange={handleSelectChange}
                     className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
                   >
-                    <option value="" disabled>
-                      Pilih Kode Pos Domisili
-                    </option>
+                    <option value="">Pilih Kode Pos Domisili</option>
                     {domisiliPostalCodes.map(
                       (postalCode: PostalCode, index: number) => (
                         <option key={index} value={postalCode.postal_code}>
@@ -391,80 +371,80 @@ const AddressTab: React.FC<AddressTabProps> = ({
             </button>
           </div>
         </form>
-      ) : ( */}
-      <>
-        <InfoItem
-          label="Alamat KTP"
-          value={user?.profile?.alamat_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Provinsi KTP"
-          value={user?.profile?.provinsi_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kota/Kabupaten KTP"
-          value={user?.profile?.kabupaten_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kecamatan KTP"
-          value={user?.profile?.kecamatan_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kelurahan KTP"
-          value={user?.profile?.kelurahan_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kode Pos KTP"
-          value={user?.profile?.kodepos_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="RT/RW Sesuai KTP (contoh: 001/001)"
-          value={user?.profile?.rt_rw_ktp}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Alamat Domisili"
-          value={user?.profile?.alamat_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Provinsi Domisili"
-          value={user?.profile?.provinsi_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kota/Kabupaten Domisili"
-          value={user?.profile?.kabupaten_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kecamatan Domisili"
-          value={user?.profile?.kecamatan_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kelurahan Domisili"
-          value={user?.profile?.kelurahan_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="Kode Pos Domisili"
-          value={user?.profile?.kodepos_domisili}
-          // onEditClick={handleEditClick}
-        />
-        <InfoItem
-          label="RT/RW Sesuai Domisili (contoh: 001/001)"
-          value={user?.profile?.rt_rw_domisili}
-          // onEditClick={handleEditClick}
-        />
-      </>
-      {/* )} */}
+      ) : (
+        <>
+          <InfoItem
+            label="Alamat KTP"
+            value={user?.profile?.alamat_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Provinsi KTP"
+            value={user?.profile?.provinsi_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kota/Kabupaten KTP"
+            value={user?.profile?.kabupaten_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kecamatan KTP"
+            value={user?.profile?.kecamatan_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kelurahan KTP"
+            value={user?.profile?.kelurahan_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kode Pos KTP"
+            value={user?.profile?.kodepos_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="RT/RW Sesuai KTP (contoh: 001/001)"
+            value={user?.profile?.rt_rw_ktp}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Alamat Domisili"
+            value={user?.profile?.alamat_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Provinsi Domisili"
+            value={user?.profile?.provinsi_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kota/Kabupaten Domisili"
+            value={user?.profile?.kabupaten_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kecamatan Domisili"
+            value={user?.profile?.kecamatan_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kelurahan Domisili"
+            value={user?.profile?.kelurahan_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="Kode Pos Domisili"
+            value={user?.profile?.kodepos_domisili}
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
+            label="RT/RW Sesuai Domisili (contoh: 001/001)"
+            value={user?.profile?.rt_rw_domisili}
+            onEditClick={handleEditClick}
+          />
+        </>
+      )}
     </div>
   );
 };
@@ -472,20 +452,20 @@ const AddressTab: React.FC<AddressTabProps> = ({
 interface InfoItemProps {
   label: string;
   value?: string;
-  // onEditClick: () => void;
+  onEditClick: () => void;
 }
 
-const InfoItem: React.FC<InfoItemProps> = ({ label, value }) => (
+const InfoItem: React.FC<InfoItemProps> = ({ label, value, onEditClick }) => (
   <div className="flex justify-between items-center py-3">
     <div>
       <label className="font-bold">{label}</label> <br />
       <span className="text-sm">{value}</span>
     </div>
-    {/* <SquarePen
+    <SquarePen
       strokeWidth={1.5}
       onClick={onEditClick}
       className="cursor-pointer"
-    /> */}
+    />
   </div>
 );
 

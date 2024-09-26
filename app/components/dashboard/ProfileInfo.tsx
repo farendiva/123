@@ -1,5 +1,6 @@
 import React from "react";
 import { SquarePen, CircleX } from "lucide-react";
+import usePreferences from "@/hooks/usePreferences";
 
 interface Profile {
   no_handphone?: string;
@@ -46,6 +47,7 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
   handleFormSubmit,
   setIsEditing,
 }) => {
+  const { educations } = usePreferences();
   return (
     <div className="my-8 divide-y-2">
       {isEditing ? (
@@ -80,6 +82,23 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
                 onChange={handleInputChange}
                 className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
               />
+            </div>
+          </div>
+          <div className="flex justify-between items-center py-3">
+            <div className="w-full">
+              <label className="font-bold">Pendidikan Terakhir</label> <br />
+              <select
+                name="pendidikan"
+                value={formData?.pendidikan || ""}
+                onChange={handleSelectChange}
+                className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
+              >
+                {educations.map((education) => (
+                  <option key={education.id} value={education.id}>
+                    {education.pendidikan}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
           <div className="flex justify-between items-center py-3">
@@ -178,8 +197,14 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
             onEditClick={handleEditClick}
           />
           <InfoItem
+            label="Pendidikan Terakhir"
+            value={user?.profile?.pendidikan}
+            editable
+            onEditClick={handleEditClick}
+          />
+          <InfoItem
             label="Kewarganegaraan"
-            value={user?.profile?.kewarganegaraan}
+            value={user?.profile?.kewarganegaraan?.toUpperCase()}
             editable
             onEditClick={handleEditClick}
           />

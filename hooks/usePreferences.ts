@@ -1,6 +1,18 @@
 import { useApi } from "@/lib/preferences";
 
 import { useState, useEffect } from "react";
+import {
+  Province,
+  City,
+  District,
+  Subdistrict,
+  PostalCode,
+  Profession,
+  Industry,
+  Salary,
+  Nationality,
+  Education,
+} from "@/lib/types";
 
 const usePreferences = () => {
   const {
@@ -17,21 +29,25 @@ const usePreferences = () => {
     getSubDistricts,
   } = useApi();
 
-  const [provinces, setProvinces] = useState([]);
-  const [nationalities, setNationalities] = useState([]);
+  const [provinces, setProvinces] = useState<Province[]>([]);
+  const [nationalities, setNationalities] = useState<Nationality[]>([]);
   const [religions, setReligions] = useState([]);
-  const [educations, setEducations] = useState([]);
-  const [cities, setCities] = useState([]);
-  const [districts, setDistricts] = useState([]);
-  const [subdistricts, setSubdistricts] = useState([]);
-  const [postalCodes, setPostalCodes] = useState([]);
-  const [domisiliCities, setDomisiliCities] = useState([]);
-  const [domisiliDistricts, setDomisiliDistricts] = useState([]);
-  const [domisiliSubdistricts, setDomisiliSubdistricts] = useState([]);
-  const [domisiliPostalCodes, setDomisiliPostalCodes] = useState([]);
-  const [profession, setProfession] = useState([]);
-  const [industries, setIndustries] = useState([]);
-  const [salaries, setSalaries] = useState([]);
+  const [educations, setEducations] = useState<Education[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [districts, setDistricts] = useState<District[]>([]);
+  const [subdistricts, setSubdistricts] = useState<Subdistrict[]>([]);
+  const [postalCodes, setPostalCodes] = useState<PostalCode[]>([]);
+  const [domisiliCities, setDomisiliCities] = useState<City[]>([]);
+  const [domisiliDistricts, setDomisiliDistricts] = useState<District[]>([]);
+  const [domisiliSubdistricts, setDomisiliSubdistricts] = useState<
+    Subdistrict[]
+  >([]);
+  const [domisiliPostalCodes, setDomisiliPostalCodes] = useState<PostalCode[]>(
+    []
+  );
+  const [profession, setProfession] = useState<Profession[]>([]);
+  const [industries, setIndustries] = useState<Industry[]>([]);
+  const [salaries, setSalaries] = useState<Salary[]>([]);
 
   useEffect(() => {
     const fetchProvinces = async () => {
