@@ -36,15 +36,25 @@ export default function SidebarLinks() {
           <Link
             key={link.name}
             href={link.href}
-            className={`group flex flex-col items-center justify-center md:flex-row md:justify-start gap-2 md:gap-4 md:space-x-2 rounded-full text-[#677AB9] hover:text-emerald font-medium py-0 px-1 md:py-1 md:px-1.5 lg:p-1.5
-            ${pathname === link.href ? "text-emerald " : ""}
+            className={`group flex flex-col items-center justify-center md:flex-row md:justify-start gap-2 md:gap-4 md:space-x-2 rounded-full text-[#677AB9] hover:text-emerald lg:hover:bg-emerald-light lg:hover:text-white font-medium py-0 px-1 md:py-1 md:px-1.5 lg:p-1.5
+            ${
+              pathname === link.href
+                ? "lg:bg-emerald-light lg:text-white text-emerald "
+                : ""
+            }
             `}
           >
             <LinkIcon
               size={25}
-              className={`group-hover:fill-emerald  group-hover:stroke-white`}
-              fill={`${pathname === link.href ? "#3DA834" : "#677AB9"}`}
-              color={`${pathname === link.href ? "white" : "white"}`}
+              className={`
+                lg:group-hover:fill-white lg:group-hover:stroke-emerald-light
+                group-hover:fill-emerald group-hover:stroke-white
+                ${
+                  pathname === link.href
+                    ? "fill-emerald stroke-white lg:fill-white lg:stroke-emerald"
+                    : "fill-[#677AB9] stroke-white"
+                }
+              `}
             />
             <p className="">{link.name}</p>
           </Link>

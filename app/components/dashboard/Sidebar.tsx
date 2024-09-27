@@ -56,7 +56,7 @@ export default function Sidebar() {
           </div>
         </div>
       ) : (
-        <div className="flex items-center space-x-4 pl-3 py-2">
+        <div className="flex items-center space-x-4 pl-3 py-2 lg:border-none">
           <Skeleton className="h-8 w-8 rounded-full" />
           <div className="space-y-2 py-2">
             <Skeleton className="h-4 w-48" />
