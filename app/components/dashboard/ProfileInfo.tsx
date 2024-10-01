@@ -84,7 +84,7 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
               />
             </div>
           </div>
-          <div className="flex justify-between items-center py-3">
+          {/* <div className="flex justify-between items-center py-3">
             <div className="w-full">
               <label className="font-bold">Pendidikan Terakhir</label> <br />
               <select
@@ -100,7 +100,7 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
                 ))}
               </select>
             </div>
-          </div>
+          </div> */}
           <div className="flex justify-between items-center py-3">
             <div className="w-full">
               <label className="font-bold">Kewarganegaraan</label> <br />
@@ -196,12 +196,12 @@ const ProfileInfoTab: React.FC<ProfileInfoTabProps> = ({
             editable
             onEditClick={handleEditClick}
           />
-          <InfoItem
+          {/* <InfoItem
             label="Pendidikan Terakhir"
             value={user?.profile?.pendidikan}
             editable
             onEditClick={handleEditClick}
-          />
+          /> */}
           <InfoItem
             label="Kewarganegaraan"
             value={user?.profile?.kewarganegaraan?.toUpperCase()}

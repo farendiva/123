@@ -106,7 +106,7 @@ const TransactionList: React.FC<TransactionCardProps> = ({
       </form>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-0">
           <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl max-w-md w-full mx-4 transform transition-all ease-in-out duration-300 scale-100 opacity-100">
             <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
               Filter Jenis Efek
@@ -127,7 +127,7 @@ const TransactionList: React.FC<TransactionCardProps> = ({
                   : "bg-gray-500 hover:bg-gray-600 text-white dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
               }`}
                 >
-                  {option}
+                  {option === "Sukuk" ? "Obligasi" : option}
                 </button>
               ))}
             </div>

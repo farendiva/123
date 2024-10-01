@@ -170,7 +170,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
     <>
       <div className="max-w-4xl mb-4 mx-auto bg-white rounded-lg shadow-sm overflow-hidden border border-gray-200 p-6 space-y-4">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-2 sm:space-y-0">
-          <div className="flex gap-2 items-start justify-between">
+          <div className="flex gap-2 items-center justify-between">
             <p
               className={`${
                 transaksi.tipe_efek === "Saham"
@@ -198,7 +198,7 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
             >
               Lihat Detil
             </button>
-            {transaksi.status === 0 ||
+            {/* {transaksi.status === 0 ||
               (transaksi.status === 1 && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -216,13 +216,17 @@ const TransactionCard: React.FC<TransactionCardProps> = ({ transaksi }) => {
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
-              ))}
+              ))} */}
           </div>
         </div>
         <h2 className="text-lg font-bold text-gray-800">
           {transaksi.nama_efek}
         </h2>
-        <div className="flex space-y-2 lg:space-y-0 flex-wrap text-xs text-[#595959] justify-between items-center">
+        <div
+          className={`flex space-y-2 lg:space-y-0 flex-wrap ${
+            transaksi.va_bank === "mandiri" ? "text-[13px]" : "text-sm"
+          } text-[#595959] justify-between items-center`}
+        >
           <div className="space-y-2 w-full sm:w-1/2 md:w-auto">
             <p className="font-bold">Kode Efek</p>
             <p className="font-medium">{transaksi.efek_id}</p>

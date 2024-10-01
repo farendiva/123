@@ -15,8 +15,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 export default function Sidebar() {
   const { user } = useUser();
   return (
-    <div className=" bg-white text-[#677AB9] flex flex-col-reverse h-full w-full lg:w-1/3 lg:flex-col px-3 py-3 md:px-2 lg:divide-y-2 rounded-t-xl">
-      <div className="flex lg:hidden justify-around w-full mx-auto my-2 border-b pb-4">
+    <div className="bg-white text-[#677AB9] flex flex-col-reverse h-full w-full lg:w-1/3 lg:flex-col px-3 py-3 md:px-2 lg:divide-y-2 rounded-t-xl">
+      <div className="flex lg:hidden justify-around w-full mx-auto my-2 border-b   pb-4">
         <div className="flex items-center gap-4 py-4">
           <Album size={35} fill="#677AB9" color="white" />
           <div className="w-full">
@@ -45,7 +45,7 @@ export default function Sidebar() {
             </Link>
           </div>
         </div>
-      ) : user?.pemodal_status === 1 ? (
+      ) : user?.pemodal_status === 1 || user?.pemodal_status === 2 ? (
         <div className="flex justify-around border-b lg:border-none items-center lg:justify-between px-3 py-4 my-2 lg:my-0">
           <Clock9 fill="#677AB9" color="white" />
           <div className="lg:w-4/5">
@@ -55,7 +55,7 @@ export default function Sidebar() {
             </p>
           </div>
         </div>
-      ) : (
+      ) : user?.pemodal_status === 3 ? null : (
         <div className="flex items-center space-x-4 pl-3 py-2 lg:border-none">
           <Skeleton className="h-8 w-8 rounded-full" />
           <div className="space-y-2 py-2">
@@ -66,7 +66,7 @@ export default function Sidebar() {
         </div>
       )}
 
-      <div>
+      <div className={`${user?.pemodal_status === 3 && "border-none"}`}>
         <div className="hidden lg:flex items-center justify-between px-3 py-4">
           <Album fill="#677AB9" color="white" />
           <div className="w-4/5">

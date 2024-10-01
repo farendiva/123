@@ -75,12 +75,14 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [filter, setFilter] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
   const handleFilterChange = (filter: string) => {
     setFilter(filter);
     setIsModalOpen(false);
   };
 
   const filteredData = data.filter((item) => {
+    if (!item.business) return false; // Skip items with null business
     const matchesSearchTerm = item.business.nama_efek
       .toLowerCase()
       .includes(searchTerm.toLowerCase());
@@ -126,7 +128,7 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
       </form>
 
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-sm">
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 backdrop-blur-0">
           <div className="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-xl max-w-sm w-full mx-4 transform transition-all duration-300 ease-out scale-100 opacity-100">
             <h2 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white">
               Filter Jenis Efek
@@ -142,7 +144,7 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
                 onClick={() => handleFilterChange("Sukuk")}
                 className="px-4 py-3 bg-[#FF1F00] hover:bg-red-600 text-white rounded-lg transition-colors duration-200 font-medium"
               >
-                Sukuk
+                Obligasi
               </button>
               <button
                 onClick={() => handleFilterChange("")}
@@ -161,10 +163,15 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
         </div>
       )}
       <section className="space-y-4">
-        {filteredData.map((item, index) => (
-          <PortfolioCard key={index} portfolio={item} />
-        ))}
+        {filteredData.map((item, index) =>
+          item.business ? <PortfolioCard key={index} portfolio={item} /> : null
+        )}
       </section>
+      {filteredData.length === 0 && (
+        <p className="text-center text-gray-500 mt-4">
+          Portfolio Tidak Ditemukan
+        </p>
+      )}
     </main>
   );
 };
