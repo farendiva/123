@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { AccountInfoTab } from "./AccountInfoTab";
 import { JobTab } from "./JobTab";
 import { BankTab } from "./BankTab";
+import { AddressTab } from "./AddressTab";
 
 const ProfileTabs = () => {
   return (
@@ -11,6 +12,7 @@ const ProfileTabs = () => {
       <TabsList>
         <TabsTrigger value="account-info">Account Info</TabsTrigger>
         <TabsTrigger value="job">Pekerjaan</TabsTrigger>
+        <TabsTrigger value="address">Address</TabsTrigger>
         <TabsTrigger value="bank">Bank</TabsTrigger>
       </TabsList>
       <TabsContent value="account-info">
@@ -18,6 +20,9 @@ const ProfileTabs = () => {
       </TabsContent>
       <TabsContent value="job">
         <JobTab />
+      </TabsContent>
+      <TabsContent value="address">
+        <AddressTab />
       </TabsContent>
       <TabsContent value="bank">
         <BankTab />

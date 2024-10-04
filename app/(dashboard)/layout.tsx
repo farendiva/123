@@ -21,30 +21,32 @@ export default async function DashboardLayout({
 
   return (
     <html lang="en">
-      <body className={` w-full mx-auto min-h-screen bg-[#F4F7FE]`}>
-        <UserProvider initialUser={userData.data}>
-          <header className="sticky z-50 top-0 shadow-md bg-white">
-            <Nav />
-          </header>
-          <main className="w-11/12 md:w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-0 lg:gap-6">
-            <>
-              <Sidebar />
-            </>
-            <div className="block lg:hidden">
-              <SidebarLinks />
-            </div>
-            <div className="w-full mx-auto rounded-xl">
-              {userData.data ? (
-                children
-              ) : (
-                <div className="flex items-center justify-center h-full w-full">
-                  <div className="h-24 w-24 border-8 border-emerald border-t-transparent rounded-full animate-spin"></div>
-                </div>
-              )}
-            </div>
-          </main>
-        </UserProvider>
-        <Toaster />
+      <body>
+        <div className={` w-full mx-auto min-h-screen bg-[#F4F7FE]`}>
+          <UserProvider initialUser={userData.data}>
+            <header className="sticky z-50 top-0 shadow-md bg-white">
+              <Nav />
+            </header>
+            <main className="w-11/12 md:w-4/5 mx-auto my-4 flex flex-col lg:flex-row gap-0 lg:gap-6">
+              <>
+                <Sidebar />
+              </>
+              <div className="block lg:hidden">
+                <SidebarLinks />
+              </div>
+              <div className="w-full mx-auto rounded-xl">
+                {userData.data ? (
+                  children
+                ) : (
+                  <div className="flex items-center justify-center h-full w-full">
+                    <div className="h-24 w-24 border-8 border-emerald border-t-transparent rounded-full animate-spin"></div>
+                  </div>
+                )}
+              </div>
+            </main>
+          </UserProvider>
+          <Toaster />
+        </div>
       </body>
     </html>
   );

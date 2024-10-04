@@ -1,544 +1,596 @@
-import React from "react";
-import { SquarePen, CircleX } from "lucide-react";
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useUser } from "@/context/UserContext";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { toast } from "@/components/ui/use-toast";
+import Cookies from "js-cookie";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import usePreferences from "@/hooks/usePreferences";
+import provinces from "@/app/data/provinces.json";
+import { City, District, PostalCode, Subdistrict } from "@/lib/types";
+import { Checkbox } from "@/components/ui/checkbox";
 
-interface Province {
-  province_code: string;
-  province: string;
-}
+const addressSchema = z.object({
+  alamat_ktp: z.string().min(1, "Address is required"),
+  provinsi_ktp: z.string().min(1, "Province is required"),
+  kabupaten_ktp: z.string().min(1, "City is required"),
+  kecamatan_ktp: z.string().min(1, "District is required"),
+  kelurahan_ktp: z.string().min(1, "Subdistrict is required"),
+  kodepos_ktp: z.string().min(1, "Postal code is required"),
+  rt_rw_ktp: z.string().min(1, "RT/RW is required"),
+  sama_dengan_ktp: z.boolean(),
+  alamat_domisili: z.string().min(1, "Address is required"),
+  provinsi_domisili: z.string().min(1, "Province is required"),
+  kabupaten_domisili: z.string().min(1, "City is required"),
+  kecamatan_domisili: z.string().min(1, "District is required"),
+  kelurahan_domisili: z.string().min(1, "Subdistrict is required"),
+  kodepos_domisili: z.string().min(1, "Postal code is required"),
+  rt_rw_domisili: z.string().min(1, "RT/RW is required"),
+});
 
-interface City {
-  city_code: string;
-  city: string;
-}
-
-interface District {
-  district_code: string;
-  district: string;
-}
-
-interface Subdistrict {
-  sub_district_code: string;
-  sub_district: string;
-}
-
-interface PostalCode {
-  postal_code: string;
-}
-
-interface Profile {
-  alamat_ktp?: string;
-  provinsi_ktp?: string;
-  kabupaten_ktp?: string;
-  kecamatan_ktp?: string;
-  kelurahan_ktp?: string;
-  kodepos_ktp?: string;
-  kodepos_domisili?: string;
-  rt_rw_ktp?: string;
-  rt_rw_domisili?: string;
-  alamat_domisili?: string;
-  kelurahan_domisili?: string;
-  kecamatan_domisili?: string;
-  kabupaten_domisili?: string;
-  provinsi_domisili?: string;
-  [key: string]: any; // For other possible profile fields
-}
-
-interface User {
-  profile?: Profile;
-}
-
-interface AddressTabProps {
-  user: User | null;
-  isEditing: boolean;
-  formData: Partial<Profile> | undefined;
-  handleEditClick: () => void;
-  handleInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSelectChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  handleFormSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
-  setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
-  provinces: Province[];
-  cities: City[];
-  districts: District[];
-  subdistricts: Subdistrict[];
-  postalCodes: PostalCode[];
-  domisiliCities: City[];
-  domisiliDistricts: District[];
-  domisiliSubdistricts: Subdistrict[];
-  domisiliPostalCodes: PostalCode[];
-  isSameAsKTP: boolean;
-  handleCheckboxChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-const AddressTab: React.FC<AddressTabProps> = ({
-  user,
-  isEditing,
-  formData,
-  handleEditClick,
-  handleInputChange,
-  handleSelectChange,
-  handleFormSubmit,
-  setIsEditing,
-  provinces,
-  cities,
-  districts,
-  subdistricts,
-  postalCodes,
-  domisiliCities,
-  domisiliDistricts,
-  domisiliSubdistricts,
-  domisiliPostalCodes,
-  isSameAsKTP,
-  handleCheckboxChange,
-}) => {
-  return (
-    <div className="my-8 divide-y-2">
-      {isEditing ? (
-        // <form onSubmit={handleFormSubmit}>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Alamat KTP</label> <br />
-        //       <input
-        //         type="text"
-        //         name="alamat_ktp"
-        //         value={formData?.alamat_ktp}
-        //         onChange={handleInputChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       />
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Provinsi KTP</label> <br />
-        //       <select
-        //         name="provinsi_ktp"
-        //         value={formData?.provinsi_ktp}
-        //         onChange={handleSelectChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       >
-        //         <option value="">Pilih Provinsi KTP</option>
-        //         {provinces.map((province: Province, index: number) => (
-        //           <option key={index} value={province.province_code}>
-        //             {province.province}
-        //           </option>
-        //         ))}
-        //       </select>
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Kota/Kabupaten KTP</label> <br />
-        //       <select
-        //         name="kabupaten_ktp"
-        //         value={formData?.kabupaten_ktp}
-        //         onChange={handleSelectChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       >
-        //         <option value="">Pilih Kota/Kabupaten KTP</option>
-        //         {cities.map((city: City, index: number) => (
-        //           <option key={index} value={city.city_code}>
-        //             {city.city}
-        //           </option>
-        //         ))}
-        //       </select>
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Kecamatan KTP</label> <br />
-        //       <select
-        //         name="kecamatan_ktp"
-        //         value={formData?.kecamatan_ktp}
-        //         onChange={handleSelectChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       >
-        //         <option value="">Pilih Kecamatan KTP</option>
-        //         {districts.map((district: District, index: number) => (
-        //           <option key={index} value={district.district_code}>
-        //             {district.district}
-        //           </option>
-        //         ))}
-        //       </select>
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Kelurahan KTP</label> <br />
-        //       <select
-        //         name="kelurahan_ktp"
-        //         value={formData?.kelurahan_ktp}
-        //         onChange={handleSelectChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       >
-        //         <option value="">Pilih Kelurahan KTP</option>
-        //         {subdistricts.map((subdistrict: Subdistrict, index: number) => (
-        //           <option key={index} value={subdistrict.sub_district_code}>
-        //             {subdistrict.sub_district}
-        //           </option>
-        //         ))}
-        //       </select>
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">Kode Pos KTP</label> <br />
-        //       <select
-        //         name="kodepos_ktp"
-        //         value={formData?.kodepos_ktp}
-        //         onChange={handleSelectChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       >
-        //         <option value="">Pilih Kode Pos KTP</option>
-        //         {postalCodes.map((postalCode: PostalCode, index: number) => (
-        //           <option key={index} value={postalCode.postal_code}>
-        //             {postalCode.postal_code}
-        //           </option>
-        //         ))}
-        //       </select>
-        //     </div>
-        //   </div>
-        //   <div className="flex justify-between items-center py-3">
-        //     <div className="w-full">
-        //       <label className="font-bold">
-        //         RT/RW Sesuai KTP (contoh: 001/001)
-        //       </label>{" "}
-        //       <br />
-        //       <input
-        //         type="text"
-        //         name="rt_rw_ktp"
-        //         value={formData?.rt_rw_ktp}
-        //         onChange={handleInputChange}
-        //         className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //       />
-        //     </div>
-        //   </div>
-        //   <div>
-        //     <label>
-        //       <input
-        //         className="w-4 h-4 mr-2 border-gray-300 rounded text-emerald-light bg-emerald-light checked:bg-emerald-light checked:border-emerald-light focus:ring-blue-500"
-        //         type="checkbox"
-        //         checked={isSameAsKTP}
-        //         onChange={handleCheckboxChange}
-        //       />
-        //       Alamat domisili sama dengan alamat KTP{" "}
-        //     </label>
-        //   </div>
-        //   {!isSameAsKTP && (
-        //     <>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Alamat Domisili</label> <br />
-        //           <input
-        //             type="text"
-        //             name="alamat_domisili"
-        //             value={formData?.alamat_domisili}
-        //             onChange={handleInputChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           />
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Provinsi Domisili</label> <br />
-        //           <select
-        //             name="provinsi_domisili"
-        //             value={formData?.provinsi_domisili}
-        //             onChange={handleSelectChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           >
-        //             <option value="">Pilih Provinsi Domisili</option>
-        //             {provinces.map((province: Province, index: number) => (
-        //               <option key={index} value={province.province_code}>
-        //                 {province.province}
-        //               </option>
-        //             ))}
-        //           </select>
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Kota/Kabupaten Domisili</label>{" "}
-        //           <br />
-        //           <select
-        //             name="kabupaten_domisili"
-        //             value={formData?.kabupaten_domisili}
-        //             onChange={handleSelectChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           >
-        //             <option value="">Pilih Kota/Kabupaten Domisili</option>
-        //             {domisiliCities.map((city: City, index: number) => (
-        //               <option key={index} value={city.city_code}>
-        //                 {city.city}
-        //               </option>
-        //             ))}
-        //           </select>
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Kecamatan Domisili</label> <br />
-        //           <select
-        //             name="kecamatan_domisili"
-        //             value={formData?.kecamatan_domisili}
-        //             onChange={handleSelectChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           >
-        //             <option value="">Pilih Kecamatan Domisili</option>
-        //             {domisiliDistricts.map(
-        //               (district: District, index: number) => (
-        //                 <option key={index} value={district.district_code}>
-        //                   {district.district}
-        //                 </option>
-        //               )
-        //             )}
-        //           </select>
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Kelurahan Domisili</label> <br />
-        //           <select
-        //             name="kelurahan_domisili"
-        //             value={formData?.kelurahan_domisili}
-        //             onChange={handleSelectChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           >
-        //             <option value="">Pilih Kelurahan Domisili</option>
-        //             {domisiliSubdistricts.map(
-        //               (subdistrict: Subdistrict, index: number) => (
-        //                 <option
-        //                   key={index}
-        //                   value={subdistrict.sub_district_code}
-        //                 >
-        //                   {subdistrict.sub_district}
-        //                 </option>
-        //               )
-        //             )}
-        //           </select>
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">Kode Pos Domisili</label> <br />
-        //           <select
-        //             name="kodepos_domisili"
-        //             value={formData?.kodepos_domisili}
-        //             onChange={handleSelectChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           >
-        //             <option value="">Pilih Kode Pos Domisili</option>
-        //             {domisiliPostalCodes.map(
-        //               (postalCode: PostalCode, index: number) => (
-        //                 <option key={index} value={postalCode.postal_code}>
-        //                   {postalCode.postal_code}
-        //                 </option>
-        //               )
-        //             )}
-        //           </select>
-        //         </div>
-        //       </div>
-        //       <div className="flex justify-between items-center py-3">
-        //         <div className="w-full">
-        //           <label className="font-bold">
-        //             RT/RW Sesuai Domisili (contoh: 001/001)
-        //           </label>{" "}
-        //           <br />
-        //           <input
-        //             type="text"
-        //             name="rt_rw_domisili"
-        //             value={formData?.rt_rw_domisili}
-        //             onChange={handleInputChange}
-        //             className="w-full text-sm border border-slate-400 focus:outline-none rounded p-2"
-        //           />
-        //         </div>
-        //       </div>
-        //     </>
-        //   )}
-        //   <div className="flex justify-end gap-2">
-        //     <button
-        //       type="button"
-        //       onClick={() => setIsEditing(false)}
-        //       className="px-6 py-3 flex items-center gap-2 rounded-xl bg-red-600 text-white"
-        //     >
-        //       <CircleX />
-        //       Batalkan
-        //     </button>
-        //     <button
-        //       type="submit"
-        //       className="px-6 py-3 flex items-center gap-2 rounded-xl bg-emerald-light text-white"
-        //     >
-        //       <img src="/icons/save.svg" alt="Save Icon" />
-        //       Simpan
-        //     </button>
-        //   </div>
-        // </form>
-        <>
-          <InfoItem
-            label="Alamat KTP"
-            value={user?.profile?.alamat_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi KTP"
-            value={user?.profile?.provinsi_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten KTP"
-            value={user?.profile?.kabupaten_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan KTP"
-            value={user?.profile?.kecamatan_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan KTP"
-            value={user?.profile?.kelurahan_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos KTP"
-            value={user?.profile?.kodepos_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai KTP (contoh: 001/001)"
-            value={user?.profile?.rt_rw_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Alamat Domisili"
-            value={user?.profile?.alamat_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi Domisili"
-            value={user?.profile?.provinsi_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten Domisili"
-            value={user?.profile?.kabupaten_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan Domisili"
-            value={user?.profile?.kecamatan_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan Domisili"
-            value={user?.profile?.kelurahan_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos Domisili"
-            value={user?.profile?.kodepos_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai Domisili (contoh: 001/001)"
-            value={user?.profile?.rt_rw_domisili}
-            // onEditClick={handleEditClick}
-          />
-        </>
-      ) : (
-        <>
-          <InfoItem
-            label="Alamat KTP"
-            value={user?.profile?.alamat_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi KTP"
-            value={user?.profile?.provinsi_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten KTP"
-            value={user?.profile?.kabupaten_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan KTP"
-            value={user?.profile?.kecamatan_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan KTP"
-            value={user?.profile?.kelurahan_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos KTP"
-            value={user?.profile?.kodepos_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai KTP (contoh: 001/001)"
-            value={user?.profile?.rt_rw_ktp}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Alamat Domisili"
-            value={user?.profile?.alamat_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Provinsi Domisili"
-            value={user?.profile?.provinsi_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kota/Kabupaten Domisili"
-            value={user?.profile?.kabupaten_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kecamatan Domisili"
-            value={user?.profile?.kecamatan_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kelurahan Domisili"
-            value={user?.profile?.kelurahan_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="Kode Pos Domisili"
-            value={user?.profile?.kodepos_domisili}
-            // onEditClick={handleEditClick}
-          />
-          <InfoItem
-            label="RT/RW Sesuai Domisili (contoh: 001/001)"
-            value={user?.profile?.rt_rw_domisili}
-            // onEditClick={handleEditClick}
-          />
-        </>
-      )}
-    </div>
-  );
+const getIdFromLabel = (
+  options: { value: string; label: string }[],
+  label: string
+) => {
+  const option = options.find((opt) => opt.label === label);
+  return option ? option.value : "";
 };
 
-interface InfoItemProps {
-  label: string;
-  value?: string;
-  // onEditClick: () => void;
-}
+const createMap = <T, K extends keyof T, V extends keyof T>(
+  array: T[],
+  keyProp: K,
+  valueProp: V
+): { [key: string]: T[V] } => {
+  return array.reduce((map, item) => {
+    map[item[keyProp] as string] = item[valueProp];
+    return map;
+  }, {} as { [key: string]: T[V] });
+};
 
-const InfoItem: React.FC<InfoItemProps> = ({ label, value }) => (
-  <div className="flex justify-between items-center py-3">
-    <div>
-      <label className="font-bold">{label}</label> <br />
-      <span className="text-sm">{value}</span>
-    </div>
-    {/* <SquarePen
-      strokeWidth={1.5}
-      onClick={onEditClick}
-      className="cursor-pointer"
-    /> */}
-  </div>
-);
+// Optimized functions
+export const getIdFromCity = (cities: City[], cityName: string): string => {
+  const cityMap = createMap(cities, "city", "city_code");
+  return cityMap[cityName] || "";
+};
 
-export default AddressTab;
+export const getDistrictCode = (
+  districts: District[],
+  districtName: string
+): string => {
+  const districtMap = createMap(districts, "district", "district_code");
+  return districtMap[districtName] || "";
+};
+
+export const getSubDistrictCode = (
+  subDistricts: Subdistrict[],
+  subDistrictName: string
+): string => {
+  const subDistrictMap = createMap(
+    subDistricts,
+    "sub_district",
+    "sub_district_code"
+  );
+  return subDistrictMap[subDistrictName] || "";
+};
+
+export const getPostalCode = (
+  postalCodes: PostalCode[],
+  postalCodeValue: string
+): string => {
+  const postalCodeMap = createMap(postalCodes, "postal_code", "postal_code");
+  return postalCodeMap[postalCodeValue] || "";
+};
+
+type AddressFormData = z.infer<typeof addressSchema>;
+
+export const AddressTab = () => {
+  const { user, updateUser } = useUser();
+  console.log(user?.profile);
+  const [isLoading, setIsLoading] = useState(false);
+  const [useSameAddress, setUseSameAddress] = useState(false);
+  const {
+    cities,
+    districts,
+    subdistricts,
+    postalCodes,
+    domisiliCities,
+    domisiliDistricts,
+    domisiliSubdistricts,
+    domisiliPostalCodes,
+    fetchCities,
+    fetchDistricts,
+    fetchSubDistricts,
+    fetchPostalCodes,
+    fetchDomisiliCities,
+    fetchDomisiliDistricts,
+    fetchDomisiliSubDistricts,
+    fetchDomisiliPostalCodes,
+  } = usePreferences();
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useForm<AddressFormData>({
+    resolver: zodResolver(addressSchema),
+    defaultValues: {
+      alamat_ktp: user?.profile?.alamat_ktp || "",
+      provinsi_ktp: getIdFromLabel(
+        provinces,
+        user?.profile?.provinsi_ktp || ""
+      ),
+      kabupaten_ktp: getIdFromCity(cities, user?.profile?.kabupaten_ktp || ""),
+      kecamatan_ktp: getDistrictCode(
+        districts,
+        user?.profile?.kecamatan_ktp || ""
+      ),
+      kelurahan_ktp: getSubDistrictCode(
+        subdistricts,
+        user?.profile?.kelurahan_ktp || ""
+      ),
+      kodepos_ktp: getPostalCode(postalCodes, user?.profile?.kodepos_ktp || ""),
+      rt_rw_ktp: user?.profile?.rt_rw_ktp || "",
+      sama_dengan_ktp: false,
+      alamat_domisili: user?.profile?.alamat_domisili || "",
+      provinsi_domisili: getIdFromLabel(
+        provinces,
+        user?.profile?.provinsi_domisili || ""
+      ),
+      kabupaten_domisili: getIdFromCity(
+        domisiliCities,
+        user?.profile?.kabupaten_domisili || ""
+      ),
+      kecamatan_domisili: getDistrictCode(
+        domisiliDistricts,
+        user?.profile?.kecamatan_domisili || ""
+      ),
+      kelurahan_domisili: getSubDistrictCode(
+        domisiliSubdistricts,
+        user?.profile?.kelurahan_domisili || ""
+      ),
+      kodepos_domisili: getPostalCode(
+        domisiliPostalCodes,
+        user?.profile?.kodepos_domisili || ""
+      ),
+      rt_rw_domisili: user?.profile?.rt_rw_domisili || "",
+    },
+  });
+
+  const handleSameAsKTPChange = (checked: boolean) => {
+    setValue("sama_dengan_ktp", checked);
+    if (checked) {
+      setValue("alamat_domisili", watch("alamat_ktp"));
+      setValue("provinsi_domisili", watch("provinsi_ktp"));
+      setValue("kabupaten_domisili", watch("kabupaten_ktp"));
+      setValue("kecamatan_domisili", watch("kecamatan_ktp"));
+      setValue("kelurahan_domisili", watch("kelurahan_ktp"));
+      setValue("kodepos_domisili", watch("kodepos_ktp"));
+      setValue("rt_rw_domisili", watch("rt_rw_ktp"));
+    }
+  };
+
+  const handleProvinceChange = (value: string) => {
+    setValue("provinsi_ktp", value);
+    fetchCities(value);
+  };
+
+  const handleCityChange = (value: string) => {
+    setValue("kabupaten_ktp", value);
+    fetchDistricts(value);
+  };
+
+  const handleDistrictChange = (value: string) => {
+    setValue("kecamatan_ktp", value);
+    fetchSubDistricts(value);
+    fetchPostalCodes(value);
+  };
+
+  const handleProvinceDomicileChange = (value: string) => {
+    setValue("provinsi_domisili", value);
+    fetchDomisiliCities(value);
+  };
+
+  const handleCityDomicileChange = (value: string) => {
+    setValue("kabupaten_domisili", value);
+    fetchDomisiliDistricts(value);
+  };
+
+  const handleDistrictDomicileChange = (value: string) => {
+    setValue("kecamatan_domisili", value);
+    fetchDomisiliSubDistricts(value);
+    fetchDomisiliPostalCodes(value);
+  };
+
+  // useEffect(() => {
+  //   if (selectedProvince) {
+  //     fetchCities(selectedProvince);
+  //   }
+  // }, [selectedProvince]);
+
+  // useEffect(() => {
+  //   if (selectedCity) {
+  //     fetchDistricts(selectedCity);
+  //   }
+  // }, [selectedCity]);
+
+  // useEffect(() => {
+  //   if (selectedDistrict) {
+  //     fetchSubDistricts(selectedDistrict);
+  //     fetchPostalCodes(selectedDistrict);
+  //   }
+  // }, [selectedDistrict]);
+
+  // useEffect(() => {
+  //   if (selectedProvinceDomicilie) {
+  //     fetchDomisiliCities(selectedProvinceDomicilie);
+  //   }
+  // }, [selectedProvinceDomicilie]);
+
+  // useEffect(() => {
+  //   if (selectedCityDomicile) {
+  //     fetchDomisiliDistricts(selectedCityDomicile);
+  //   }
+  // }, [selectedCityDomicile]);
+
+  // useEffect(() => {
+  //   if (selectedDistrictDomicile) {
+  //     fetchDomisiliSubDistricts(selectedDistrictDomicile);
+  //     fetchDomisiliPostalCodes(selectedDistrictDomicile);
+  //   }
+  // }, [selectedDistrictDomicile]);
+
+  const onSubmit = async (data: AddressFormData) => {
+    if (user) {
+      setIsLoading(true);
+      try {
+        const token = Cookies.get("authToken");
+        if (!token) {
+          throw new Error("No authentication token found");
+        }
+
+        const changedData = new FormData();
+        Object.entries(data).forEach(([key, value]) => {
+          changedData.append(key, value.toString());
+        });
+
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_API_ENDPOINT}/v1/pemodal/${user.pemodal_id}?_method=PUT`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: changedData,
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error("Failed to update address");
+        }
+
+        updateUser({
+          ...user,
+          profile: {
+            ...user.profile,
+            ...data,
+          },
+        });
+        toast({
+          title: "Address Updated",
+          description: "Your address has been successfully updated.",
+        });
+      } catch (error) {
+        console.error("Error updating address:", error);
+        toast({
+          title: "Error",
+          description: "Failed to update address. Please try again.",
+          variant: "destructive",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    }
+  };
+
+  const renderAddressFields = (prefix: "ktp" | "domisili") => (
+    <>
+      <Controller
+        name={`alamat_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`alamat_${prefix}`}>
+              Alamat {prefix.toUpperCase()}
+            </Label>
+            <Input {...field} value={field.value as string} />
+            {errors[`alamat_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {errors[`alamat_${prefix}` as keyof AddressFormData]?.message}
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`provinsi_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`provinsi_${prefix}`}>
+              Provinsi {prefix.toUpperCase()}
+            </Label>
+            <Select
+              onValueChange={
+                prefix === "ktp"
+                  ? handleProvinceChange
+                  : handleProvinceDomicileChange
+              }
+              value={field.value as string}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select province" />
+              </SelectTrigger>
+              <SelectContent>
+                {provinces.map((province) => (
+                  <SelectItem key={province.value} value={province.value}>
+                    {province.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors[`provinsi_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {errors[`provinsi_${prefix}` as keyof AddressFormData]?.message}
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`kabupaten_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`kabupaten_${prefix}`}>
+              Kota/Kabupaten {prefix.toUpperCase()}
+            </Label>
+            <Select
+              onValueChange={
+                prefix === "ktp" ? handleCityChange : handleCityDomicileChange
+              }
+              value={field.value as string}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select City" />
+              </SelectTrigger>
+              <SelectContent>
+                {(prefix === "ktp" ? cities : domisiliCities).map((city) => (
+                  <SelectItem key={city.city_code} value={city.city_code}>
+                    {city.city}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {errors[`kabupaten_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {
+                  errors[`kabupaten_${prefix}` as keyof AddressFormData]
+                    ?.message
+                }
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`kecamatan_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`kecamatan_${prefix}`}>
+              Kecamatan {prefix.toUpperCase()}
+            </Label>
+            <Select
+              onValueChange={
+                prefix === "ktp"
+                  ? handleDistrictChange
+                  : handleDistrictDomicileChange
+              }
+              value={field.value as string}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select District" />
+              </SelectTrigger>
+              <SelectContent>
+                {(prefix === "ktp" ? districts : domisiliDistricts).map(
+                  (district) => (
+                    <SelectItem
+                      key={district.district_code}
+                      value={district.district_code}
+                    >
+                      {district.district}
+                    </SelectItem>
+                  )
+                )}
+              </SelectContent>
+            </Select>
+            {errors[`kecamatan_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {
+                  errors[`kecamatan_${prefix}` as keyof AddressFormData]
+                    ?.message
+                }
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`kelurahan_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`kelurahan_${prefix}`}>
+              Kelurahan {prefix.toUpperCase()}
+            </Label>
+            <Select
+              onValueChange={field.onChange}
+              value={field.value as string}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Subdistricts" />
+              </SelectTrigger>
+              <SelectContent>
+                {(prefix === "ktp" ? subdistricts : domisiliSubdistricts).map(
+                  (subdistrict) => (
+                    <SelectItem
+                      key={subdistrict.sub_district_code}
+                      value={subdistrict.sub_district_code}
+                    >
+                      {subdistrict.sub_district}
+                    </SelectItem>
+                  )
+                )}
+              </SelectContent>
+            </Select>
+            {errors[`kelurahan_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {
+                  errors[`kelurahan_${prefix}` as keyof AddressFormData]
+                    ?.message
+                }
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`kodepos_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`kodepos_${prefix}`}>
+              kodepos {prefix.toUpperCase()}
+            </Label>
+            <Select
+              onValueChange={field.onChange}
+              value={field.value as string}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select Postal Codes" />
+              </SelectTrigger>
+              <SelectContent>
+                {(prefix === "ktp" ? postalCodes : domisiliPostalCodes).map(
+                  (postalcode) => (
+                    <SelectItem
+                      key={postalcode.postal_code}
+                      value={postalcode.postal_code}
+                    >
+                      {postalcode.postal_code}
+                    </SelectItem>
+                  )
+                )}
+              </SelectContent>
+            </Select>
+            {errors[`kodepos_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {errors[`kodepos_${prefix}` as keyof AddressFormData]?.message}
+              </p>
+            )}
+          </>
+        )}
+      />
+
+      <Controller
+        name={`rt_rw_${prefix}` as keyof AddressFormData}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Label htmlFor={`rt_rw_${prefix}`}>
+              RT/RW {prefix.toUpperCase()}
+            </Label>
+            <Input {...field} value={field.value as string} />
+            {errors[`rt_rw_${prefix}` as keyof AddressFormData] && (
+              <p className="text-red-500">
+                {errors[`rt_rw_${prefix}` as keyof AddressFormData]?.message}
+              </p>
+            )}
+          </>
+        )}
+      />
+    </>
+  );
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Address Information</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">KTP Address</h3>
+            {renderAddressFields("ktp")}
+
+            <div className="flex items-center space-x-2">
+              <Controller
+                name="sama_dengan_ktp"
+                control={control}
+                render={({ field }) => (
+                  <Checkbox
+                    id="sama_dengan_ktp"
+                    checked={field.value}
+                    onCheckedChange={(checked) => {
+                      field.onChange(checked);
+                      handleSameAsKTPChange(checked as boolean); // Call your handleSameAsKTPChange here
+                      setUseSameAddress(checked as boolean);
+                    }}
+                  />
+                )}
+              />
+              <Label htmlFor="sama_dengan_ktp">
+                Use same address for domicile
+              </Label>
+            </div>
+
+            {!useSameAddress && (
+              <>
+                <h3 className="text-lg font-semibold">Domicile Address</h3>
+                {renderAddressFields("domisili")}
+              </>
+            )}
+          </div>
+          <CardFooter>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? "Saving..." : "Save Changes"}
+            </Button>
+          </CardFooter>
+        </form>
+      </CardContent>
+    </Card>
+  );
+};

@@ -230,10 +230,13 @@ export const AccountInfoTab = () => {
               render={({ field }) => (
                 <>
                   <Label htmlFor="agama">Agama</Label>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || user?.profile?.agama || ""}
+                  >
                     <SelectTrigger>
                       <SelectValue>
-                        {field.value
+                        {field.value || user?.profile?.agama
                           ? getLabelFromId(agamaOptions, field.value)
                           : "Select religion"}
                       </SelectValue>
@@ -255,10 +258,13 @@ export const AccountInfoTab = () => {
               render={({ field }) => (
                 <>
                   <Label htmlFor="kewarganegaraan">Kewarganegaraan</Label>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || user?.profile?.kewarganegaraan || ""}
+                  >
                     <SelectTrigger>
                       <SelectValue>
-                        {field.value
+                        {field.value || user?.profile?.kewarganegaraan
                           ? getLabelFromId(kewarganegaraanOptions, field.value)
                           : "Select citizenship"}
                       </SelectValue>

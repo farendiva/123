@@ -15,6 +15,14 @@ import {
 import { toast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
 import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import Banks from "@/app/data/bank.json";
 
 const accountInfoSchema = z.object({
   nomor_rekening: z.string(),
@@ -167,7 +175,25 @@ export const BankTab = () => {
               render={({ field }) => (
                 <>
                   <Label htmlFor="nama_bank">Nama Bank</Label>
-                  <Input {...field} />
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || user?.profile?.nama_bank || ""}
+                  >
+                    <SelectTrigger>
+                      <SelectValue>
+                        {field.value || user?.profile?.nama_bank
+                          ? field.value || user?.profile?.nama_bank
+                          : "Select Bank"}
+                      </SelectValue>
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Banks.map((option) => (
+                        <SelectItem key={option.code} value={option.name}>
+                          {option.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </>
               )}
             />

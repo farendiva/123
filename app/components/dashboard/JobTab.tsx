@@ -230,7 +230,7 @@ export const JobTab = () => {
         }
 
         const changedData = new FormData();
-        changedData.append("pendapatan", data.pendapatan);
+        changedData.append("pendapatan_per_bulan", data.pendapatan);
         changedData.append("pekerjaan", data.pekerjaan);
         changedData.append("industri_pekerjaan", data.industri_pekerjaan);
 
