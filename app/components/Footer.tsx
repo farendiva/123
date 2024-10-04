@@ -94,7 +94,7 @@ const Footer = () => {
               <ul className="flex gap-4">
                 <li>
                   <a
-                    href="https://www.facebook.com/fulusme/"
+                    href="https://www.facebook.com/profile.php?id=61566054190488"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
