@@ -94,9 +94,9 @@ export default async function BeliSukuk({
               : "Saham"} */}
             {data.jenis_efek === "Sukuk"
               ? data.akad === 1
-                ? "Obligasi"
+                ? "Efek Bersifat Utang"
                 : data.akad === 2
-                ? "Obligasi"
+                ? "Efek Bersifat Utang"
                 : "Saham"
               : "Saham"}
           </button>

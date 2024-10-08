@@ -11,10 +11,9 @@ export default async function PortfolioPage() {
   const cookieStore = cookies();
   const token = cookieStore.get("authToken")?.value;
   const { data } = await getPortfolios(token as string);
-  console.log(data.data);
   return (
     <main className="w-full mx-auto rounded-xl">
-      <PortfolioList data={data.data} />
+      {/* <PortfolioList data={data.data} /> */}
     </main>
   );
 }

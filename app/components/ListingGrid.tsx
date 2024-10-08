@@ -164,7 +164,7 @@ const ListingGrid: React.FC<Props> = ({ listings }) => {
                 }`}
                 onClick={() => setTempFilter("Sukuk")}
               >
-                Sukuk
+                Efek Bersifat Utang
               </button>
             </div>
             <Button

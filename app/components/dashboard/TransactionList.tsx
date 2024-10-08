@@ -127,7 +127,7 @@ const TransactionList: React.FC<TransactionCardProps> = ({
                   : "bg-gray-500 hover:bg-gray-600 text-white dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
               }`}
                 >
-                  {option === "Sukuk" ? "Obligasi" : option}
+                  {option === "Sukuk" ? "Efek Bersifat Utang" : option}
                 </button>
               ))}
             </div>

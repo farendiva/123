@@ -68,13 +68,13 @@ const ImageSlider: React.FC<ImageSliderProps> = ({
               : "Saham"} */}
             {tipe === "Sukuk"
               ? akad === 1
-                ? "Obligasi"
+                ? "Efek Bersifat Utang"
                 : akad === 2
-                ? "Obligasi"
+                ? "Efek Bersifat Utang"
                 : "Saham"
               : "Saham"}
           </span>
-          <span className="relative bg-sky px-4 md:px-6 py-1.5 rounded-md z-0 -ml-2">
+          <span className="relative bg-sky pl-8 pr-4 md:pl-10 md:pr-6 py-1.5 rounded-5xl z-0 -ml-6">
             {status === 1
               ? "Segera Terbit"
               : status === 3 || status === 4 || status === 5

@@ -144,7 +144,7 @@ const PortfolioList: React.FC<Props> = ({ data }) => {
                 onClick={() => handleFilterChange("Sukuk")}
                 className="px-4 py-3 bg-[#FF1F00] hover:bg-red-600 text-white rounded-lg transition-colors duration-200 font-medium"
               >
-                Obligasi
+                Efek Bersifat Utang
               </button>
               <button
                 onClick={() => handleFilterChange("")}

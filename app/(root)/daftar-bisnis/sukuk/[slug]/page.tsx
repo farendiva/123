@@ -142,6 +142,21 @@ export default async function ProductDetailPageSukuk({
   const remainDay =
     data.periode_penawaran_efek - data.kampanye.penawaran_berjalan;
 
+  const tenorDisplay = (() => {
+    const months = Math.floor(data.tenor_efek / 30);
+    const days = data.tenor_efek % 30;
+
+    if (months === 0 && days > 0) {
+      return `${days} Hari`;
+    }
+
+    if (days === 0) {
+      return `${months} Bulan`;
+    }
+
+    return `${months} Bulan ${days} Hari`;
+  })();
+
   return (
     <>
       <Head>
@@ -207,7 +222,11 @@ export default async function ProductDetailPageSukuk({
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Jenis Akad</h3>
                 {/* <h3>{data.akad === 1 ? "Mudharabah" : "Musyarakah"}</h3> */}
-                <h3>{data.akad === 1 ? "Obligasi" : "Obligasi"}</h3>
+                <h3>
+                  {data.akad === 1
+                    ? "Efek Bersifat Utang"
+                    : "Efek Bersifat Utang"}
+                </h3>
               </section>
             </section>
             <section className="bg-white p-4 space-y-2 rounded-xl">
@@ -300,7 +319,7 @@ export default async function ProductDetailPageSukuk({
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">Tenor</h3>
-                <h3>{data.tenor_efek} Bulan</h3>
+                <h3>{tenorDisplay}</h3>
               </section>
               <section className="flex justify-between text-sm">
                 <h3 className="text-[#677AB9]">ROI (Proyeksi)</h3>

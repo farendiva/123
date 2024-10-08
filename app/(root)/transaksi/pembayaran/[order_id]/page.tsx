@@ -51,8 +51,8 @@ export default async function OrderDetail({ params }: OrderDetailProps) {
                   : "Saham"} */}
                 {data.tipe_efek === "Sukuk"
                   ? data.akad === 1
-                    ? "Obligasi"
-                    : "Obligasi"
+                    ? "Efek Bersifat Utang"
+                    : "Efek Bersifat Utang"
                   : "Saham"}
               </button>
               <div className="space-y-2">

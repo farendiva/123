@@ -95,8 +95,8 @@ const PortfolioCard: React.FC<PorfolioProps> = ({ portfolio }) => {
               : "Saham"} */}
             {portfolio.business.jenis_efek === "Sukuk"
               ? portfolio.business.akad === 1
-                ? "Obligasi"
-                : "Obligasi"
+                ? "Efek Bersifat Utang"
+                : "Efek Bersifat Utang"
               : "Saham"}
           </span>
         </div>

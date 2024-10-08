@@ -65,6 +65,21 @@ const formatTitleForUrl = (title: string) => {
 const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
   const formattedNamaEfek = formatTitleForUrl(project.nama_efek);
 
+  const tenorDisplay = (() => {
+    const months = Math.floor(project.tenor_dividen / 30);
+    const days = project.tenor_dividen % 30;
+
+    if (months === 0 && days > 0) {
+      return `${days} Hari`;
+    }
+
+    if (days === 0) {
+      return `${months} Bulan`;
+    }
+
+    return `${months} Bulan ${days} Hari`;
+  })();
+
   return (
     <Link
       href={`/daftar-bisnis/${project.jenis_efek.toLowerCase()}/${formattedNamaEfek}-${
@@ -127,8 +142,8 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
                 : "Saham"} */}
               {project.jenis_efek === "Sukuk"
                 ? project.akad === 1
-                  ? "Obligasi"
-                  : "Obligasi"
+                  ? "Efek Bersifat Utang"
+                  : "Efek Bersifat Utang"
                 : "Saham"}
             </button>
             <button className="bg-sky -ml-6 px-5 py-1 rounded-5xl text-white">
@@ -208,7 +223,11 @@ const ListingCard: React.FC<ListingCardProps> = ({ project }) => {
                 ? "Jangka Waktu"
                 : "Periode Dividen"}
             </h3>
-            <h4 className="">{project.tenor_dividen} Bulan</h4>
+            <h4 className="">
+              {project.jenis_efek === "Sukuk"
+                ? `${tenorDisplay}`
+                : `${project.tenor_dividen} Bulan`}
+            </h4>
           </section>
           <section className="w-11/12 mx-auto flex text-xs  justify-between items-center">
             <h3>Proyeksi ROI</h3>
