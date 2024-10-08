@@ -46,10 +46,10 @@ interface Profile {
   nama_bank: string;
   kabupaten_cabang_bank: string;
   nama_ibu_kandung: string;
-  ktp: string;
+  ktp: string | File;
   npwp: string;
   swa_photo: string;
-  slip_gaji: string;
+  slip_gaji: string | File;
   kartu_keluarga: string;
   nama_rekening_custodian: string;
   nomor_rekening_custodian: string;
