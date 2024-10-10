@@ -183,7 +183,9 @@ const getIdFromLabel = (
   options: { value: string; label: string }[],
   label: string
 ) => {
-  const option = options.find((opt) => opt.label === label);
+  const option = options.find(
+    (opt) => opt.label.toLowerCase() === label.toLowerCase()
+  );
   return option ? option.value : "";
 };
 
@@ -253,9 +255,12 @@ export const JobTab = () => {
           ...user,
           profile: {
             ...user.profile,
-            pendapatan: data.pendapatan,
-            pekerjaan: data.pekerjaan,
-            industri_pekerjaan: data.industri_pekerjaan,
+            pendapatan: getLabelFromId(pendapatanOptions, data.pendapatan),
+            pekerjaan: getLabelFromId(pekerjaanOptions, data.pekerjaan),
+            industri_pekerjaan: getLabelFromId(
+              industriPekerjaanOptions,
+              data.industri_pekerjaan
+            ),
           },
         });
         toast({
@@ -276,10 +281,7 @@ export const JobTab = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>job Information</CardTitle>
-      </CardHeader>
+    <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">

@@ -220,44 +220,6 @@ export const AddressTab = () => {
     fetchDomisiliPostalCodes(value);
   };
 
-  // useEffect(() => {
-  //   if (selectedProvince) {
-  //     fetchCities(selectedProvince);
-  //   }
-  // }, [selectedProvince]);
-
-  // useEffect(() => {
-  //   if (selectedCity) {
-  //     fetchDistricts(selectedCity);
-  //   }
-  // }, [selectedCity]);
-
-  // useEffect(() => {
-  //   if (selectedDistrict) {
-  //     fetchSubDistricts(selectedDistrict);
-  //     fetchPostalCodes(selectedDistrict);
-  //   }
-  // }, [selectedDistrict]);
-
-  // useEffect(() => {
-  //   if (selectedProvinceDomicilie) {
-  //     fetchDomisiliCities(selectedProvinceDomicilie);
-  //   }
-  // }, [selectedProvinceDomicilie]);
-
-  // useEffect(() => {
-  //   if (selectedCityDomicile) {
-  //     fetchDomisiliDistricts(selectedCityDomicile);
-  //   }
-  // }, [selectedCityDomicile]);
-
-  // useEffect(() => {
-  //   if (selectedDistrictDomicile) {
-  //     fetchDomisiliSubDistricts(selectedDistrictDomicile);
-  //     fetchDomisiliPostalCodes(selectedDistrictDomicile);
-  //   }
-  // }, [selectedDistrictDomicile]);
-
   const onSubmit = async (data: AddressFormData) => {
     if (user) {
       setIsLoading(true);
@@ -546,14 +508,10 @@ export const AddressTab = () => {
   );
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Address Information</CardTitle>
-      </CardHeader>
+    <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">KTP Address</h3>
             {renderAddressFields("ktp")}
 
             <div className="flex items-center space-x-2">
@@ -577,12 +535,7 @@ export const AddressTab = () => {
               </Label>
             </div>
 
-            {!useSameAddress && (
-              <>
-                <h3 className="text-lg font-semibold">Domicile Address</h3>
-                {renderAddressFields("domisili")}
-              </>
-            )}
+            {!useSameAddress && <>{renderAddressFields("domisili")}</>}
           </div>
           <CardFooter>
             <Button type="submit" disabled={isLoading}>

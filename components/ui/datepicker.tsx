@@ -17,9 +17,14 @@ import {
 interface DatePickerProps {
   value: string | undefined; // Change type to string to hold formatted date
   onChange: (date: string | undefined) => void;
+  bgColor?: string; // Optional bgColor prop
 }
 
-export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
+export const DatePicker: React.FC<DatePickerProps> = ({
+  value,
+  onChange,
+  bgColor,
+}) => {
   const [date, setDate] = React.useState<string | undefined>(value);
 
   const handleDateChange = (selectedDate: Date | undefined) => {
@@ -39,8 +44,9 @@ export const DatePicker: React.FC<DatePickerProps> = ({ value, onChange }) => {
         <Button
           variant={"outline"}
           className={cn(
-            "w-full bg-slate-100 px-3 py-6 border-none justify-start text-left font-normal",
-            !date && "text-muted-foreground"
+            "w-full px-3 py-6 border-none justify-start text-left font-normal",
+            !date && "text-muted-foreground",
+            bgColor || "bg-slate-100" // Use optional bgColor or fallback to bg-slate-100
           )}
         >
           <CalendarIcon className="mr-2 h-4 w-4" />

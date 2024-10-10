@@ -55,7 +55,9 @@ const getIdFromLabel = (
   options: { value: string; label: string }[],
   label: string
 ) => {
-  const option = options.find((opt) => opt.label === label);
+  const option = options.find(
+    (opt) => opt.label.toLowerCase() === label.toLowerCase()
+  );
   return option ? option.value : "";
 };
 
@@ -128,8 +130,11 @@ export const AccountInfoTab = () => {
             ...user.profile,
             tanggal_lahir: data.tanggal_lahir,
             nama_kontak_darurat: data.nama_kontak_darurat,
-            agama: data.agama,
-            kewarganegaraan: data.kewarganegaraan,
+            agama: getLabelFromId(agamaOptions, data.agama),
+            kewarganegaraan: getLabelFromId(
+              kewarganegaraanOptions,
+              data.kewarganegaraan
+            ),
           },
         });
         toast({
@@ -150,13 +155,10 @@ export const AccountInfoTab = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Account Information</CardTitle>
-      </CardHeader>
+    <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
+          <div className="space-y-1">
             {/* Existing fields */}
             <Controller
               name="email"
@@ -198,6 +200,7 @@ export const AccountInfoTab = () => {
                   <DatePicker
                     value={field.value}
                     onChange={(date) => field.onChange(date)}
+                    bgColor="bg-white"
                   />
                 </>
               )}

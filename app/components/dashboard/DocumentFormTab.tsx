@@ -96,10 +96,7 @@ export const DocumentFormTab = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Document Upload</CardTitle>
-      </CardHeader>
+    <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">

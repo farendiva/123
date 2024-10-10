@@ -140,10 +140,7 @@ export const BankTab = () => {
   };
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Bank Information</CardTitle>
-      </CardHeader>
+    <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="space-y-4">
