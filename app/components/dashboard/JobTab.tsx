@@ -4,13 +4,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/context/UserContext";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
 import { Label } from "@/components/ui/label";
@@ -21,14 +15,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CircleX, SquarePen } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const jobSchema = z.object({
-  pekerjaan: z.string(),
-  pendapatan: z.string(),
-  industri_pekerjaan: z.string(),
+  pekerjaan: z.string().min(1, "Pekerjaan Harus Diisi."),
+  pendapatan: z.string().min(1, "Pendapatan Harus Diisi."),
+  industri_pekerjaan: z.string().min(1, "Industri Pekerjaan Harus Diisi."),
 });
 
-type AccountInfoFormData = z.infer<typeof jobSchema>;
+type JobFormData = z.infer<typeof jobSchema>;
 
 const pekerjaanOptions = [
   {
@@ -200,11 +196,14 @@ const getLabelFromId = (
 export const JobTab = () => {
   const { user, updateUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<AccountInfoFormData>({
+    reset,
+  } = useForm<JobFormData>({
     resolver: zodResolver(jobSchema),
     defaultValues: {
       pekerjaan: getIdFromLabel(
@@ -222,7 +221,7 @@ export const JobTab = () => {
     },
   });
 
-  const onSubmit = async (data: AccountInfoFormData) => {
+  const onSubmit = async (data: JobFormData) => {
     if (user) {
       setIsLoading(true);
       try {
@@ -264,120 +263,123 @@ export const JobTab = () => {
           },
         });
         toast({
-          title: "Profile Updated",
-          description: "Your profile has been successfully updated.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "success",
+          title: "Berhasil Edit Profile",
+          description: "Anda Berhasil Edit Profile.",
         });
       } catch (error) {
         console.error("Error updating profile:", error);
         toast({
-          title: "Error",
-          description: "Failed to update profile. Please try again.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
           variant: "destructive",
+          title: "Terjadi Kesalahan dalam Edit Profile",
+          description: "Silakan coba lagi.",
         });
       } finally {
         setIsLoading(false);
       }
     }
+    setIsEditMode(false);
   };
+
+  const toggleEditMode = () => {
+    if (isEditMode) {
+      reset();
+    }
+    setIsEditMode(!isEditMode);
+  };
+
+  const renderField = (
+    name: keyof JobFormData,
+    label: string,
+    options: any[]
+  ) => (
+    <div className="space-y-1 pt-1 relative">
+      <Label htmlFor={name}>{label}</Label>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Select
+              onValueChange={field.onChange}
+              value={field.value}
+              disabled={!isEditMode}
+            >
+              <SelectTrigger
+                className={`!cursor-auto !opacity-100 ${
+                  isEditMode ? "border border-input" : "!border-none"
+                }`}
+                disabled={!isEditMode}
+              >
+                <SelectValue>
+                  {field.value
+                    ? getLabelFromId(options, field.value)
+                    : `Pilih ${label}`}
+                </SelectValue>
+              </SelectTrigger>
+              <SelectContent>
+                {options.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {!isEditMode && (
+              <SquarePen
+                className="absolute right-2 top-9 h-5 w-5 cursor-pointer"
+                onClick={toggleEditMode}
+              />
+            )}
+          </>
+        )}
+      />
+      {errors[name] && <p className="text-red-500">{errors[name]?.message}</p>}
+    </div>
+  );
 
   return (
     <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
-            <Controller
-              name="pekerjaan"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="pekerjaan">pekerjaan</Label>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue>
-                        {field.value
-                          ? getLabelFromId(pekerjaanOptions, field.value)
-                          : "Select Pekerjaan"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {pekerjaanOptions.map((option) => (
-                        <SelectItem
-                          key={option.value}
-                          value={String(option.value)}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
-              )}
-            />
-            <Controller
-              name="industri_pekerjaan"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="industri_pekerjaan">industri_pekerjaan</Label>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue>
-                        {field.value
-                          ? getLabelFromId(
-                              industriPekerjaanOptions,
-                              field.value
-                            )
-                          : "Select Industries"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {industriPekerjaanOptions.map((option) => (
-                        <SelectItem
-                          key={option.value}
-                          value={String(option.value)}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
-              )}
-            />
-            <Controller
-              name="pendapatan"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="pendapatan">pendapatan</Label>
-                  <Select onValueChange={field.onChange} value={field.value}>
-                    <SelectTrigger>
-                      <SelectValue>
-                        {field.value
-                          ? getLabelFromId(pendapatanOptions, field.value)
-                          : "Select citizenship"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {pendapatanOptions.map((option) => (
-                        <SelectItem
-                          key={option.value}
-                          value={String(option.value)}
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
-              )}
-            />
+          <div className="space-y-2 divide-y divide-gray-300">
+            {renderField("pekerjaan", "Pekerjaan", pekerjaanOptions)}
+            {renderField(
+              "industri_pekerjaan",
+              "Industri Pekerjaan",
+              industriPekerjaanOptions
+            )}
+            {renderField("pendapatan", "Pendapatan", pendapatanOptions)}
           </div>
-          <CardFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </CardFooter>
+          {isEditMode && (
+            <CardFooter className="flex justify-end space-x-2 mt-4 p-0 ">
+              <Button
+                className="bg-red-600 hover:bg-red-700 rounded-xl"
+                type="button"
+                onClick={toggleEditMode}
+              >
+                <CircleX size={18} className="mr-1" /> Batalkan
+              </Button>
+              <Button
+                className="bg-emerald hover:bg-emerald-700 rounded-xl "
+                type="submit"
+                disabled={isLoading}
+              >
+                <img
+                  className="scale-75"
+                  src="/icons/save.svg"
+                  alt="Save Icon"
+                />{" "}
+                {isLoading ? "Menyimpan..." : "Simpan"}
+              </Button>
+            </CardFooter>
+          )}
         </form>
       </CardContent>
     </Card>

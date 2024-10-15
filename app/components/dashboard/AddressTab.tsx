@@ -1,17 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/context/UserContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
 import { Label } from "@/components/ui/label";
@@ -22,28 +16,50 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 import usePreferences from "@/hooks/usePreferences";
 import provinces from "@/app/data/provinces.json";
 import { City, District, PostalCode, Subdistrict } from "@/lib/types";
-import { Checkbox } from "@/components/ui/checkbox";
+import { CircleX, SquarePen } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const addressSchema = z.object({
-  alamat_ktp: z.string().min(1, "Address is required"),
-  provinsi_ktp: z.string().min(1, "Province is required"),
-  kabupaten_ktp: z.string().min(1, "City is required"),
-  kecamatan_ktp: z.string().min(1, "District is required"),
-  kelurahan_ktp: z.string().min(1, "Subdistrict is required"),
-  kodepos_ktp: z.string().min(1, "Postal code is required"),
-  rt_rw_ktp: z.string().min(1, "RT/RW is required"),
+  alamat_ktp: z.string().min(1, "Alamat Harus Diisi."),
+  provinsi_ktp: z.string().min(1, "Provinsi Harus Diisi."),
+  kabupaten_ktp: z.string().min(1, "Kota/Kabupaten Harus Diisi."),
+  kecamatan_ktp: z.string().min(1, "Kecamatan Harus Diisi."),
+  kelurahan_ktp: z.string().min(1, "Kelurahan Harus Diisi."),
+  kodepos_ktp: z
+    .string()
+    .min(5, "Kode Pos harus terdiri dari 5 digit.")
+    .regex(/^[0-9]+$/, "Kode Pos harus berupa angka."),
+  rt_rw_ktp: z
+    .string()
+    .min(1, "RT/RW KTP Harus Diisi")
+    .regex(
+      /^\d{1,3}\/\d{1,3}$/,
+      "Format harus dalam bentuk RT/RW dan hanya boleh berisi angka, contoh: 001/001"
+    ),
   sama_dengan_ktp: z.boolean(),
-  alamat_domisili: z.string().min(1, "Address is required"),
-  provinsi_domisili: z.string().min(1, "Province is required"),
-  kabupaten_domisili: z.string().min(1, "City is required"),
-  kecamatan_domisili: z.string().min(1, "District is required"),
-  kelurahan_domisili: z.string().min(1, "Subdistrict is required"),
-  kodepos_domisili: z.string().min(1, "Postal code is required"),
-  rt_rw_domisili: z.string().min(1, "RT/RW is required"),
+  alamat_domisili: z.string().min(1, "Alamat Harus Diisi."),
+  provinsi_domisili: z.string().min(1, "Provinsi Harus Diisi."),
+  kabupaten_domisili: z.string().min(1, "Kota/Kabupaten Harus Diisi."),
+  kecamatan_domisili: z.string().min(1, "Kecamatan Harus Diisi."),
+  kelurahan_domisili: z.string().min(1, "Kelurahan Harus Diisi."),
+  kodepos_domisili: z
+    .string()
+    .min(5, "Kode Pos harus terdiri dari 5 digit.")
+    .regex(/^[0-9]+$/, "Kode Pos harus berupa angka."),
+  rt_rw_domisili: z
+    .string()
+    .min(1, "RT/RW Domisili Harus Diisi")
+    .regex(
+      /^\d{1,3}\/\d{1,3}$/,
+      "Format harus dalam bentuk RT/RW dan hanya boleh berisi angka, contoh: 001/001"
+    ),
 });
+
+type AddressFormData = z.infer<typeof addressSchema>;
 
 const getIdFromLabel = (
   options: { value: string; label: string }[],
@@ -98,12 +114,10 @@ export const getPostalCode = (
   return postalCodeMap[postalCodeValue] || "";
 };
 
-type AddressFormData = z.infer<typeof addressSchema>;
-
 export const AddressTab = () => {
   const { user, updateUser } = useUser();
-  console.log(user?.profile);
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
   const [useSameAddress, setUseSameAddress] = useState(false);
   const {
     cities,
@@ -130,50 +144,38 @@ export const AddressTab = () => {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = useForm<AddressFormData>({
     resolver: zodResolver(addressSchema),
     defaultValues: {
       alamat_ktp: user?.profile?.alamat_ktp || "",
-      provinsi_ktp: getIdFromLabel(
-        provinces,
-        user?.profile?.provinsi_ktp || ""
-      ),
-      kabupaten_ktp: getIdFromCity(cities, user?.profile?.kabupaten_ktp || ""),
-      kecamatan_ktp: getDistrictCode(
-        districts,
-        user?.profile?.kecamatan_ktp || ""
-      ),
-      kelurahan_ktp: getSubDistrictCode(
-        subdistricts,
-        user?.profile?.kelurahan_ktp || ""
-      ),
-      kodepos_ktp: getPostalCode(postalCodes, user?.profile?.kodepos_ktp || ""),
+      provinsi_ktp: user?.profile?.provinsi_ktp || "",
+      kabupaten_ktp: user?.profile?.kabupaten_ktp || "",
+      kecamatan_ktp: user?.profile?.kecamatan_ktp || "",
+      kelurahan_ktp: user?.profile?.kelurahan_ktp || "",
+      kodepos_ktp: user?.profile?.kodepos_ktp || "",
       rt_rw_ktp: user?.profile?.rt_rw_ktp || "",
       sama_dengan_ktp: false,
       alamat_domisili: user?.profile?.alamat_domisili || "",
-      provinsi_domisili: getIdFromLabel(
-        provinces,
-        user?.profile?.provinsi_domisili || ""
-      ),
-      kabupaten_domisili: getIdFromCity(
-        domisiliCities,
-        user?.profile?.kabupaten_domisili || ""
-      ),
-      kecamatan_domisili: getDistrictCode(
-        domisiliDistricts,
-        user?.profile?.kecamatan_domisili || ""
-      ),
-      kelurahan_domisili: getSubDistrictCode(
-        domisiliSubdistricts,
-        user?.profile?.kelurahan_domisili || ""
-      ),
-      kodepos_domisili: getPostalCode(
-        domisiliPostalCodes,
-        user?.profile?.kodepos_domisili || ""
-      ),
+      provinsi_domisili: user?.profile?.provinsi_domisili || "",
+      kabupaten_domisili: user?.profile?.kabupaten_domisili || "",
+      kecamatan_domisili: user?.profile?.kecamatan_domisili || "",
+      kelurahan_domisili: user?.profile?.kelurahan_domisili || "",
+      kodepos_domisili: user?.profile?.kodepos_domisili || "",
       rt_rw_domisili: user?.profile?.rt_rw_domisili || "",
     },
   });
+
+  const mapToSelectOptions = <T extends { [key: string]: any }>(
+    data: T[],
+    valueKey: keyof T,
+    labelKey?: keyof T
+  ): { value: string; label: string }[] => {
+    return data.map((item) => ({
+      value: String(item[valueKey]),
+      label: labelKey ? String(item[labelKey]) : String(item[valueKey]),
+    }));
+  };
 
   const handleSameAsKTPChange = (checked: boolean) => {
     setValue("sama_dengan_ktp", checked);
@@ -257,253 +259,144 @@ export const AddressTab = () => {
           },
         });
         toast({
-          title: "Address Updated",
-          description: "Your address has been successfully updated.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "success",
+          title: "Berhasil Edit Alamat",
+          description: "Anda Berhasil Edit Alamat.",
         });
       } catch (error) {
         console.error("Error updating address:", error);
         toast({
-          title: "Error",
-          description: "Failed to update address. Please try again.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
           variant: "destructive",
+          title: "Terjadi Kesalahan dalam Edit Alamat",
+          description: "Silakan coba lagi.",
         });
       } finally {
         setIsLoading(false);
       }
     }
+    setIsEditMode(false);
   };
+
+  const toggleEditMode = () => {
+    if (isEditMode) {
+      reset();
+    }
+    setIsEditMode(!isEditMode);
+  };
+
+  const renderField = (
+    name: keyof AddressFormData,
+    label: string,
+    options?: { value: string; label: string }[],
+    onChangeHandler?: (value: string) => void
+  ) => (
+    <div className="space-y-1 pt-1 relative">
+      <Label htmlFor={name}>{label}</Label>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <>
+            {isEditMode && options ? (
+              <Select
+                onValueChange={(value) => {
+                  field.onChange(value);
+                  if (onChangeHandler) onChangeHandler(value);
+                }}
+                value={field.value as string}
+                disabled={!isEditMode}
+              >
+                <SelectTrigger
+                  className={`!cursor-auto !opacity-100 ${
+                    isEditMode ? "border border-input" : "!border-none"
+                  }`}
+                >
+                  <SelectValue placeholder={`Select ${label}`} />
+                </SelectTrigger>
+                <SelectContent>
+                  {options.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            ) : (
+              <Input
+                {...field}
+                value={field.value as string}
+                disabled={!isEditMode}
+                className={`!cursor-auto !opacity-100 ${
+                  isEditMode ? "border border-input" : "!border-none"
+                }`}
+              />
+            )}
+            {!isEditMode && (
+              <SquarePen
+                className="absolute right-2 top-9 h-5 w-5 cursor-pointer"
+                onClick={toggleEditMode}
+              />
+            )}
+          </>
+        )}
+      />
+      {errors[name] && <p className="text-red-500">{errors[name]?.message}</p>}
+    </div>
+  );
 
   const renderAddressFields = (prefix: "ktp" | "domisili") => (
     <>
-      <Controller
-        name={`alamat_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`alamat_${prefix}`}>
-              Alamat {prefix.toUpperCase()}
-            </Label>
-            <Input {...field} value={field.value as string} />
-            {errors[`alamat_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {errors[`alamat_${prefix}` as keyof AddressFormData]?.message}
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`provinsi_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`provinsi_${prefix}`}>
-              Provinsi {prefix.toUpperCase()}
-            </Label>
-            <Select
-              onValueChange={
-                prefix === "ktp"
-                  ? handleProvinceChange
-                  : handleProvinceDomicileChange
-              }
-              value={field.value as string}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select province" />
-              </SelectTrigger>
-              <SelectContent>
-                {provinces.map((province) => (
-                  <SelectItem key={province.value} value={province.value}>
-                    {province.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors[`provinsi_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {errors[`provinsi_${prefix}` as keyof AddressFormData]?.message}
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`kabupaten_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`kabupaten_${prefix}`}>
-              Kota/Kabupaten {prefix.toUpperCase()}
-            </Label>
-            <Select
-              onValueChange={
-                prefix === "ktp" ? handleCityChange : handleCityDomicileChange
-              }
-              value={field.value as string}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select City" />
-              </SelectTrigger>
-              <SelectContent>
-                {(prefix === "ktp" ? cities : domisiliCities).map((city) => (
-                  <SelectItem key={city.city_code} value={city.city_code}>
-                    {city.city}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            {errors[`kabupaten_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {
-                  errors[`kabupaten_${prefix}` as keyof AddressFormData]
-                    ?.message
-                }
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`kecamatan_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`kecamatan_${prefix}`}>
-              Kecamatan {prefix.toUpperCase()}
-            </Label>
-            <Select
-              onValueChange={
-                prefix === "ktp"
-                  ? handleDistrictChange
-                  : handleDistrictDomicileChange
-              }
-              value={field.value as string}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select District" />
-              </SelectTrigger>
-              <SelectContent>
-                {(prefix === "ktp" ? districts : domisiliDistricts).map(
-                  (district) => (
-                    <SelectItem
-                      key={district.district_code}
-                      value={district.district_code}
-                    >
-                      {district.district}
-                    </SelectItem>
-                  )
-                )}
-              </SelectContent>
-            </Select>
-            {errors[`kecamatan_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {
-                  errors[`kecamatan_${prefix}` as keyof AddressFormData]
-                    ?.message
-                }
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`kelurahan_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`kelurahan_${prefix}`}>
-              Kelurahan {prefix.toUpperCase()}
-            </Label>
-            <Select
-              onValueChange={field.onChange}
-              value={field.value as string}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select Subdistricts" />
-              </SelectTrigger>
-              <SelectContent>
-                {(prefix === "ktp" ? subdistricts : domisiliSubdistricts).map(
-                  (subdistrict) => (
-                    <SelectItem
-                      key={subdistrict.sub_district_code}
-                      value={subdistrict.sub_district_code}
-                    >
-                      {subdistrict.sub_district}
-                    </SelectItem>
-                  )
-                )}
-              </SelectContent>
-            </Select>
-            {errors[`kelurahan_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {
-                  errors[`kelurahan_${prefix}` as keyof AddressFormData]
-                    ?.message
-                }
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`kodepos_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`kodepos_${prefix}`}>
-              kodepos {prefix.toUpperCase()}
-            </Label>
-            <Select
-              onValueChange={field.onChange}
-              value={field.value as string}
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select Postal Codes" />
-              </SelectTrigger>
-              <SelectContent>
-                {(prefix === "ktp" ? postalCodes : domisiliPostalCodes).map(
-                  (postalcode) => (
-                    <SelectItem
-                      key={postalcode.postal_code}
-                      value={postalcode.postal_code}
-                    >
-                      {postalcode.postal_code}
-                    </SelectItem>
-                  )
-                )}
-              </SelectContent>
-            </Select>
-            {errors[`kodepos_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {errors[`kodepos_${prefix}` as keyof AddressFormData]?.message}
-              </p>
-            )}
-          </>
-        )}
-      />
-
-      <Controller
-        name={`rt_rw_${prefix}` as keyof AddressFormData}
-        control={control}
-        render={({ field }) => (
-          <>
-            <Label htmlFor={`rt_rw_${prefix}`}>
-              RT/RW {prefix.toUpperCase()}
-            </Label>
-            <Input {...field} value={field.value as string} />
-            {errors[`rt_rw_${prefix}` as keyof AddressFormData] && (
-              <p className="text-red-500">
-                {errors[`rt_rw_${prefix}` as keyof AddressFormData]?.message}
-              </p>
-            )}
-          </>
-        )}
-      />
+      {renderField(`alamat_${prefix}`, `Alamat ${prefix.toUpperCase()}`)}
+      {renderField(
+        `provinsi_${prefix}`,
+        `Provinsi ${prefix.toUpperCase()}`,
+        provinces,
+        prefix === "ktp" ? handleProvinceChange : handleProvinceDomicileChange
+      )}
+      {renderField(
+        `kabupaten_${prefix}`,
+        `Kota/Kabupaten ${prefix.toUpperCase()}`,
+        mapToSelectOptions(
+          prefix === "ktp" ? cities : domisiliCities,
+          "city_code",
+          "city"
+        ),
+        prefix === "ktp" ? handleCityChange : handleCityDomicileChange
+      )}
+      {renderField(
+        `kecamatan_${prefix}`,
+        `Kecamatan ${prefix.toUpperCase()}`,
+        mapToSelectOptions(
+          prefix === "ktp" ? districts : domisiliDistricts,
+          "district_code",
+          "district"
+        ),
+        prefix === "ktp" ? handleDistrictChange : handleDistrictDomicileChange
+      )}
+      {renderField(
+        `kelurahan_${prefix}`,
+        `Kelurahan ${prefix.toUpperCase()}`,
+        mapToSelectOptions(
+          prefix === "ktp" ? subdistricts : domisiliSubdistricts,
+          "sub_district_code",
+          "sub_district"
+        )
+      )}
+      {renderField(
+        `kodepos_${prefix}`,
+        `Kode Pos ${prefix.toUpperCase()}`,
+        mapToSelectOptions(
+          prefix === "ktp" ? postalCodes : domisiliPostalCodes,
+          "postal_code"
+        )
+      )}
+      {renderField(`rt_rw_${prefix}`, `RT/RW ${prefix.toUpperCase()}`)}
     </>
   );
 
@@ -511,37 +404,58 @@ export const AddressTab = () => {
     <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-4">
+          <div className="space-y-2 divide-y divide-gray-300">
             {renderAddressFields("ktp")}
 
-            <div className="flex items-center space-x-2">
-              <Controller
-                name="sama_dengan_ktp"
-                control={control}
-                render={({ field }) => (
-                  <Checkbox
-                    id="sama_dengan_ktp"
-                    checked={field.value}
-                    onCheckedChange={(checked) => {
-                      field.onChange(checked);
-                      handleSameAsKTPChange(checked as boolean); // Call your handleSameAsKTPChange here
-                      setUseSameAddress(checked as boolean);
-                    }}
-                  />
-                )}
-              />
-              <Label htmlFor="sama_dengan_ktp">
-                Use same address for domicile
-              </Label>
-            </div>
+            {isEditMode && (
+              <div className="flex items-center space-x-2 py-4">
+                <Controller
+                  name="sama_dengan_ktp"
+                  control={control}
+                  render={({ field }) => (
+                    <Checkbox
+                      id="sama_dengan_ktp"
+                      checked={field.value}
+                      onCheckedChange={(checked) => {
+                        field.onChange(checked);
+                        handleSameAsKTPChange(checked as boolean);
+                        setUseSameAddress(checked as boolean);
+                      }}
+                      disabled={!isEditMode}
+                    />
+                  )}
+                />
+                <Label htmlFor="sama_dengan_ktp">
+                  Use same address for domicile
+                </Label>
+              </div>
+            )}
 
-            {!useSameAddress && <>{renderAddressFields("domisili")}</>}
+            {!useSameAddress && renderAddressFields("domisili")}
           </div>
-          <CardFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </CardFooter>
+          {isEditMode && (
+            <CardFooter className="flex justify-end space-x-2 mt-4 p-0">
+              <Button
+                className="bg-red-600 hover:bg-red-700 rounded-xl"
+                type="button"
+                onClick={toggleEditMode}
+              >
+                <CircleX size={18} className="mr-1" /> Batalkan
+              </Button>
+              <Button
+                className="bg-emerald hover:bg-emerald-700 rounded-xl"
+                type="submit"
+                disabled={isLoading}
+              >
+                <img
+                  className="scale-75"
+                  src="/icons/save.svg"
+                  alt="Save Icon"
+                />{" "}
+                {isLoading ? "Menyimpan..." : "Simpan"}
+              </Button>
+            </CardFooter>
+          )}
         </form>
       </CardContent>
     </Card>

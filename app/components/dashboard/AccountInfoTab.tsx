@@ -5,13 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUser } from "@/context/UserContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { toast } from "@/components/ui/use-toast";
 import Cookies from "js-cookie";
 import { Label } from "@/components/ui/label";
@@ -23,15 +17,17 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { CircleX, SquarePen } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const accountInfoSchema = z.object({
   email: z.string().email().optional(),
   no_handphone: z.string().optional(),
   no_ktp: z.string().optional(),
-  tanggal_lahir: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Invalid date format"),
-  nama_kontak_darurat: z.string().min(2, "Name must be at least 2 characters"),
-  agama: z.string(),
-  kewarganegaraan: z.string(),
+  tanggal_lahir: z.string().min(2, "Tanggal Lahir Harus Diisi."),
+  nama_kontak_darurat: z.string().min(2, "Ahli waris Harus Diisi."),
+  agama: z.string().min(1, "Agama Harus Diisi."),
+  kewarganegaraan: z.string().min(1, "Kewarganegaraan Harus Diisi."),
 });
 
 type AccountInfoFormData = z.infer<typeof accountInfoSchema>;
@@ -72,10 +68,13 @@ const getLabelFromId = (
 export const AccountInfoTab = () => {
   const { user, updateUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<AccountInfoFormData>({
     resolver: zodResolver(accountInfoSchema),
     defaultValues: {
@@ -84,7 +83,6 @@ export const AccountInfoTab = () => {
       no_ktp: user?.profile?.no_ktp || "",
       tanggal_lahir: user?.profile?.tanggal_lahir || "",
       nama_kontak_darurat: user?.profile?.nama_kontak_darurat || "",
-      // Convert label from backend into value
       agama: getIdFromLabel(agamaOptions, user?.profile?.agama || ""),
       kewarganegaraan: getIdFromLabel(
         kewarganegaraanOptions,
@@ -138,157 +136,228 @@ export const AccountInfoTab = () => {
           },
         });
         toast({
-          title: "Profile Updated",
-          description: "Your profile has been successfully updated.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
+          variant: "success",
+          title: "Berhasil Edit Profile",
+          description: "Anda Berhasil Edit Profile.",
         });
       } catch (error) {
         console.error("Error updating profile:", error);
         toast({
-          title: "Error",
-          description: "Failed to update profile. Please try again.",
+          className: cn(
+            "lg:top-0 lg:right-0 lg:flex lg:fixed lg:max-w-[420px] lg:top-4 lg:right-4"
+          ),
           variant: "destructive",
+          title: "Terjadi Kesalahan dalam Edit Profile",
+          description: "Silakan coba lagi.",
         });
       } finally {
         setIsLoading(false);
       }
     }
+    setIsEditMode(false);
   };
+
+  const toggleEditMode = () => {
+    if (isEditMode) {
+      // If cancelling, reset form to original values
+      reset();
+    }
+    setIsEditMode(!isEditMode);
+  };
+
+  const renderField = (
+    name: keyof AccountInfoFormData,
+    label: string,
+    isEditable: boolean
+  ) => (
+    <div className="space-y-1 pt-1 relative">
+      <Label htmlFor={name}>{label}</Label>
+      <Controller
+        name={name}
+        control={control}
+        render={({ field }) => (
+          <>
+            <Input
+              {...field}
+              disabled={!isEditMode || !isEditable}
+              className={`!cursor-auto !opacity-100 ${
+                isEditMode && isEditable
+                  ? "border border-input"
+                  : "!border-none"
+              }`}
+            />
+            {isEditable && !isEditMode && (
+              <SquarePen
+                className="absolute right-2 top-9 h-5 w-5  cursor-pointer"
+                onClick={toggleEditMode}
+              />
+            )}
+          </>
+        )}
+      />
+      {errors[name] && <p className="text-red-500">{errors[name]?.message}</p>}
+    </div>
+  );
 
   return (
     <Card className="border-none shadow-none">
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="space-y-1">
-            {/* Existing fields */}
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="email">Email</Label>
-                  <Input {...field} disabled />
-                </>
-              )}
-            />
-            <Controller
-              name="no_handphone"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="no_handphone">Nomor Handphone</Label>
-                  <Input {...field} disabled />
-                </>
-              )}
-            />
-            <Controller
-              name="no_ktp"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="no_ktp">Nomor KTP</Label>
-                  <Input {...field} disabled />
-                </>
-              )}
-            />
-            <Controller
-              name="tanggal_lahir"
-              control={control}
-              rules={{ required: "Tanggal lahir diperlukan." }}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="tanggal_lahir">Tanggal Lahir</Label>
-                  <DatePicker
-                    value={field.value}
-                    onChange={(date) => field.onChange(date)}
-                    bgColor="bg-white"
-                  />
-                </>
-              )}
-            />
-            {errors.tanggal_lahir && (
-              <p className="text-red-500">{errors.tanggal_lahir.message}</p>
-            )}
-            <Controller
-              name="nama_kontak_darurat"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="nama_kontak_darurat">
-                    Nama Kontak Darurat
-                  </Label>
-                  <Input {...field} />
-                </>
-              )}
-            />
-            {errors.nama_kontak_darurat && (
-              <p className="text-red-500">
-                {errors.nama_kontak_darurat.message}
-              </p>
-            )}
+          <div className={`space-y-2 divide-y divide-gray-300`}>
+            {renderField("email", "Email", false)}
+            {renderField("no_handphone", "Nomor Handphone", false)}
+            {renderField("no_ktp", "Nomor KTP", false)}
 
-            {/* Updated fields */}
-            <Controller
-              name="agama"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="agama">Agama</Label>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || user?.profile?.agama || ""}
-                  >
-                    <SelectTrigger>
-                      <SelectValue>
-                        {field.value || user?.profile?.agama
-                          ? getLabelFromId(agamaOptions, field.value)
-                          : "Select religion"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {agamaOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
+            <div className="space-y-1 pt-1 relative">
+              <Label htmlFor="tanggal_lahir">Tanggal Lahir</Label>
+              <Controller
+                name="tanggal_lahir"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => field.onChange(date)}
+                      bgColor={`bg-white !py-4 !cursor-auto !opacity-100 ${
+                        isEditMode ? "!border !border-input" : "!border-none"
+                      }`}
+                      disabled={!isEditMode}
+                    />
+                    {!isEditMode && (
+                      <SquarePen
+                        className="absolute right-2 top-9 h-5 w-5  cursor-pointer"
+                        onClick={toggleEditMode}
+                      />
+                    )}
+                  </>
+                )}
+              />
+              {errors.tanggal_lahir && (
+                <p className="text-red-500">{errors.tanggal_lahir.message}</p>
               )}
-            />
-            <Controller
-              name="kewarganegaraan"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <Label htmlFor="kewarganegaraan">Kewarganegaraan</Label>
-                  <Select
-                    onValueChange={field.onChange}
-                    value={field.value || user?.profile?.kewarganegaraan || ""}
-                  >
-                    <SelectTrigger>
-                      <SelectValue>
-                        {field.value || user?.profile?.kewarganegaraan
-                          ? getLabelFromId(kewarganegaraanOptions, field.value)
-                          : "Select citizenship"}
-                      </SelectValue>
-                    </SelectTrigger>
-                    <SelectContent>
-                      {kewarganegaraanOptions.map((option) => (
-                        <SelectItem key={option.value} value={option.value}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </>
-              )}
-            />
+            </div>
+
+            {renderField("nama_kontak_darurat", "Nama Kontak Darurat", true)}
+
+            <div className="space-y-1 pt-1 relative">
+              <Label htmlFor="agama">Agama</Label>
+              <Controller
+                name="agama"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || user?.profile?.agama || ""}
+                      disabled={!isEditMode}
+                    >
+                      <SelectTrigger
+                        className={`!cursor-auto !opacity-100 ${
+                          isEditMode ? "border border-input" : "!border-none"
+                        }`}
+                        disabled={!isEditMode}
+                      >
+                        {" "}
+                        <SelectValue>
+                          {field.value || user?.profile?.agama
+                            ? getLabelFromId(agamaOptions, field.value)
+                            : "Pilih Agama"}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {agamaOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {!isEditMode && (
+                      <SquarePen
+                        className="absolute right-2 top-9 h-5 w-5  cursor-pointer"
+                        onClick={toggleEditMode}
+                      />
+                    )}
+                  </>
+                )}
+              />
+            </div>
+
+            <div className="space-y-1 pt-1 relative">
+              <Label htmlFor="kewarganegaraan">Kewarganegaraan</Label>
+              <Controller
+                name="kewarganegaraan"
+                control={control}
+                render={({ field }) => (
+                  <>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={
+                        field.value || user?.profile?.kewarganegaraan || ""
+                      }
+                      disabled={!isEditMode}
+                    >
+                      <SelectTrigger
+                        className={`!cursor-auto !opacity-100 ${
+                          isEditMode ? "border border-input" : "!border-none"
+                        }`}
+                        disabled={!isEditMode}
+                      >
+                        {" "}
+                        <SelectValue>
+                          {field.value || user?.profile?.kewarganegaraan
+                            ? getLabelFromId(
+                                kewarganegaraanOptions,
+                                field.value
+                              )
+                            : "Pilih Kewarganegaraan"}
+                        </SelectValue>
+                      </SelectTrigger>
+                      <SelectContent>
+                        {kewarganegaraanOptions.map((option) => (
+                          <SelectItem key={option.value} value={option.value}>
+                            {option.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    {!isEditMode && (
+                      <SquarePen
+                        className="absolute right-2 top-9 h-5 w-5  cursor-pointer"
+                        onClick={toggleEditMode}
+                      />
+                    )}
+                  </>
+                )}
+              />
+            </div>
           </div>
-          <CardFooter>
-            <Button type="submit" disabled={isLoading}>
-              {isLoading ? "Saving..." : "Save Changes"}
-            </Button>
-          </CardFooter>
+          {isEditMode && (
+            <CardFooter className="flex justify-end space-x-2 mt-4 p-0">
+              <Button
+                className="bg-red-600  hover:bg-red-700 rounded-xl"
+                type="button"
+                onClick={toggleEditMode}
+              >
+                <CircleX size={18} className="mr-1" /> Batalkan
+              </Button>
+              <Button
+                className="bg-emerald hover:bg-emerald-700 rounded-xl"
+                type="submit"
+                disabled={isLoading}
+              >
+                <img
+                  className="scale-75"
+                  src="/icons/save.svg"
+                  alt="Save Icon"
+                />{" "}
+                {isLoading ? "Menyimpan..." : "Simpan"}
+              </Button>
+            </CardFooter>
+          )}
         </form>
       </CardContent>
     </Card>

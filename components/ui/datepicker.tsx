@@ -18,12 +18,14 @@ interface DatePickerProps {
   value: string | undefined; // Change type to string to hold formatted date
   onChange: (date: string | undefined) => void;
   bgColor?: string; // Optional bgColor prop
+  disabled?: boolean; // New optional disabled prop
 }
 
 export const DatePicker: React.FC<DatePickerProps> = ({
   value,
   onChange,
   bgColor,
+  disabled = false, // Default to false if not provided
 }) => {
   const [date, setDate] = React.useState<string | undefined>(value);
 
@@ -44,20 +46,22 @@ export const DatePicker: React.FC<DatePickerProps> = ({
         <Button
           variant={"outline"}
           className={cn(
-            "w-full px-3 py-6 border-none justify-start text-left font-normal",
+            "w-full px-3 py-6 border justify-start text-left font-normal",
             !date && "text-muted-foreground",
-            bgColor || "bg-slate-100" // Use optional bgColor or fallback to bg-slate-100
+            bgColor || "bg-slate-100",
+            disabled && "opacity-50 cursor-not-allowed" // Add styles for disabled state
           )}
+          disabled={disabled} // Apply disabled attribute to button
         >
           <CalendarIcon className="mr-2 h-4 w-4" />
           {date ? (
-            format(date, "d MMMM yyyy", { locale: id }) // Format date in Indonesian
+            format(new Date(date), "d MMMM yyyy", { locale: id })
           ) : (
             <span>Pilih Tanggal Lahir</span>
           )}{" "}
         </Button>
       </PopoverTrigger>
-      <PopoverContent align="start" className=" w-auto p-0">
+      <PopoverContent align="start" className="w-auto p-0">
         <Calendar
           mode="single"
           captionLayout="dropdown-buttons"
@@ -65,6 +69,7 @@ export const DatePicker: React.FC<DatePickerProps> = ({
           onSelect={handleDateChange}
           fromYear={1920}
           toYear={2030}
+          disabled={disabled} // Apply disabled to Calendar component
         />
       </PopoverContent>
     </Popover>
