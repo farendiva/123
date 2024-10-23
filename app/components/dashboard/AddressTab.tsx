@@ -61,59 +61,6 @@ const addressSchema = z.object({
 
 type AddressFormData = z.infer<typeof addressSchema>;
 
-const getIdFromLabel = (
-  options: { value: string; label: string }[],
-  label: string
-) => {
-  const option = options.find((opt) => opt.label === label);
-  return option ? option.value : "";
-};
-
-const createMap = <T, K extends keyof T, V extends keyof T>(
-  array: T[],
-  keyProp: K,
-  valueProp: V
-): { [key: string]: T[V] } => {
-  return array.reduce((map, item) => {
-    map[item[keyProp] as string] = item[valueProp];
-    return map;
-  }, {} as { [key: string]: T[V] });
-};
-
-// Optimized functions
-export const getIdFromCity = (cities: City[], cityName: string): string => {
-  const cityMap = createMap(cities, "city", "city_code");
-  return cityMap[cityName] || "";
-};
-
-export const getDistrictCode = (
-  districts: District[],
-  districtName: string
-): string => {
-  const districtMap = createMap(districts, "district", "district_code");
-  return districtMap[districtName] || "";
-};
-
-export const getSubDistrictCode = (
-  subDistricts: Subdistrict[],
-  subDistrictName: string
-): string => {
-  const subDistrictMap = createMap(
-    subDistricts,
-    "sub_district",
-    "sub_district_code"
-  );
-  return subDistrictMap[subDistrictName] || "";
-};
-
-export const getPostalCode = (
-  postalCodes: PostalCode[],
-  postalCodeValue: string
-): string => {
-  const postalCodeMap = createMap(postalCodes, "postal_code", "postal_code");
-  return postalCodeMap[postalCodeValue] || "";
-};
-
 export const AddressTab = () => {
   const { user, updateUser } = useUser();
   const [isLoading, setIsLoading] = useState(false);

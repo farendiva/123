@@ -55,11 +55,11 @@ const Nav = () => {
         {pathname === "/" || pathname === "/tentang" ? (
           <img
             className="scale-75 lg:scale-100"
-            src="/images/fulusme-white.png"
-            alt="Fulusme Icon"
+            src="/images/fulusmse-white.png"
+            alt=" Icon"
           />
         ) : (
-          <img src="/icons/fulusme.svg" alt="Fulusme Icon" />
+          <img src="/icons/fulusmse.svg" alt=" Icon" />
         )}
       </Link>
       <button
